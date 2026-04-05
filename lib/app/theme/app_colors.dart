@@ -13,4 +13,5 @@ class AppColors {
   static const Color cardGray = Color(0xFFEEEEEE);
   static const Color softShadow = Color(0x14000000);
   static const Color borderGray = Color(0xFFEEEEEE);
+  
 }

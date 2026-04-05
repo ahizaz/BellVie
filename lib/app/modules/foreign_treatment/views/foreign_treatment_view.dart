@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../home/controllers/home_controller.dart';
+import '../../../services/auth_service.dart';
 
 /// ===============================
 /// FOREIGN TREATMENT (MAIN) PAGE
@@ -73,6 +74,10 @@ class _ForeignTreatmentHome extends StatelessWidget {
   ];
 
   void _openCountry(String title) {
+    if (!AuthService.to.requireLogin()) {
+      return;
+    }
+
     switch (title) {
       case 'India':
         Get.to(() => const IndiaHospitalsView());
@@ -835,7 +840,7 @@ class _HomeTopBarClone extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  'বাংলা',
+                  'EN',
                   style: TextStyle(
                     fontSize: isSmall ? 11.5 : 12,
                     fontWeight: FontWeight.w600,

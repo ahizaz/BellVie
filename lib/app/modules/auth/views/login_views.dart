@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
 import '../../../theme/responsive.dart';
 
-class LoginView extends GetView<LoginController> {
+class LoginView extends GetView<AuthController> {
   const LoginView({super.key});
 
   @override
@@ -21,11 +21,9 @@ class LoginView extends GetView<LoginController> {
               children: [
                 CircleAvatar(
                   radius: context.w(compact ? 34 : 40),
-                  backgroundColor: const Color(0xFF2F6FED),
-                  child: Icon(
-                    Icons.local_hospital,
-                    color: Colors.white,
-                    size: context.w(compact ? 34 : 40),
+                  // backgroundColor: const Color(0xFF2F6FED),
+                  backgroundImage: const AssetImage(
+                    'assets/images/banners/appicon.png',
                   ),
                 ),
                 SizedBox(height: context.h(20)),
@@ -39,10 +37,10 @@ class LoginView extends GetView<LoginController> {
                 ),
                 SizedBox(height: context.h(28)),
                 TextField(
-                  controller: controller.emailController,
+                  controller: controller.phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Email or phone number',
+                    labelText: 'Phone number',
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
+import '../../../services/auth_service.dart';
 import '../../foreign_treatment/views/foreign_treatment_view.dart';
 import '../../../theme/responsive.dart';
 
@@ -26,7 +27,9 @@ class HomeView extends GetView<HomeController> {
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: controller.tabIndex.value,
-          onTap: controller.changeTab,
+          onTap: (index) {
+            controller.changeTab(index);
+          },
           selectedItemColor: const Color(0xFF2F6FED),
           unselectedItemColor: const Color(0xFF7A7A7A),
           showUnselectedLabels: true,
@@ -375,6 +378,9 @@ class _ServiceCard extends StatelessWidget {
 
   void _handleTap() {
     if (item.title == 'Specialist Doctors') {
+      if (!AuthService.to.requireLogin()) {
+        return;
+      }
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
     }
   }
@@ -820,6 +826,10 @@ class _ForeignTreatmentCard extends StatelessWidget {
   const _ForeignTreatmentCard({required this.item});
 
   void _handleTap() {
+    if (!AuthService.to.requireLogin()) {
+      return;
+    }
+
     switch (item.title) {
       case 'Hospitals in India':
         Get.to(() => const IndiaHospitalsView());

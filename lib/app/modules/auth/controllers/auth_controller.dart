@@ -2,26 +2,28 @@ import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import '../../../services/auth_service.dart';
 
-class LoginController extends GetxController {
-  final TextEditingController emailController = TextEditingController();
+class AuthController extends GetxController {
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  void login() {
-    final email = emailController.text.trim();
+  Future<void> login() async {
+    final email = phoneController.text.trim();
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      EasyLoading.showError('Please enter email or phone number and password.');
+      EasyLoading.showError('Please enter phone number and password.');
       return;
     }
 
+    await AuthService.to.login();
     Get.offAllNamed(Routes.HOME);
   }
 
   @override
   void onClose() {
-    emailController.dispose();
+    phoneController.dispose();
     passwordController.dispose();
     super.onClose();
   }

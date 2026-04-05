@@ -15,6 +15,7 @@ import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
 
+import 'auth_middleware.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -40,11 +41,13 @@ class AppPages {
       name: Routes.FOREIGN_TREATMENT,
       page: () => const ForeignTreatmentView(),
       binding: ForeignTreatmentBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.SPECIALIST_DOCTORS,
       page: () => const SpecialistDoctorsView(),
       binding: SpecialistDoctorsBinding(),
+      middlewares: [AuthMiddleware()],
     ),
   ];
 }

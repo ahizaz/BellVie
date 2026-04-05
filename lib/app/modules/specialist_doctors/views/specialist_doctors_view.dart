@@ -28,8 +28,9 @@ class SpecialistDoctorsView extends GetView<HomeController> {
           type: BottomNavigationBarType.fixed,
           currentIndex: controller.tabIndex.value,
           onTap: (i) {
-            controller.changeTab(i);
-            Get.offAllNamed(Routes.HOME);
+            if (controller.changeTab(i)) {
+              Get.offAllNamed(Routes.HOME);
+            }
           },
           selectedItemColor: const Color(0xFF2F6FED),
           unselectedItemColor: const Color(0xFF7A7A7A),
