@@ -4,4 +4,5 @@ abstract class Routes {
   static const HOME = '/home';
   static const FOREIGN_TREATMENT = '/foreign-treatment';
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
+  static const REGISTER = '/register';
 }

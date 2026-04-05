@@ -1,3 +1,4 @@
+import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -74,6 +75,33 @@ class LoginView extends GetView<AuthController> {
                     child: const Text('Sign In'),
                   ),
                 ),
+                SizedBox(
+                  height: context.h(15),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Don't have an account? "),
+                    TextButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.REGISTER);
+                      },
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        foregroundColor: const Color(0xFF2F6FED),
+                      ),
+                      child: const Text(
+                        'Registration',
+                        style: TextStyle(
+                          color: Color(0xFF2F6FED),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:bellevie/app/modules/auth/views/regester_views.dart';
 import 'package:get/get.dart';
 
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -48,6 +49,11 @@ class AppPages {
       page: () => const SpecialistDoctorsView(),
       binding: SpecialistDoctorsBinding(),
       middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.REGISTER,
+      page: () => const RegisterView(),
+      binding: AuthBinding(),
     ),
   ];
 }
