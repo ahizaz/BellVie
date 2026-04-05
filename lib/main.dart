@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'app/routes/app_pages.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class BelleVieApp extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       title: 'Belle vie',
+      builder: EasyLoading.init(),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../controllers/splash_screen_controller.dart';
+import '../../../theme/responsive.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
   const SplashScreenView({super.key});
@@ -10,6 +11,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
   Widget build(BuildContext context) {
     // Ensure controller is touched (extra safety)
     controller;
+    final logoSize = context.w(210).clamp(150.0, 240.0).toDouble();
 
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -19,13 +21,13 @@ class SplashScreenView extends GetView<SplashScreenController> {
       ),
     );
 
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Color(0xFFD9F7E8),
       body: Center(
         child: Image(
-          image: AssetImage('assets/images/Belle Vie Logo.png'),
-          width: 210,
-          height: 210,
+          image: const AssetImage('assets/images/Belle Vie Logo.png'),
+          width: logoSize,
+          height: logoSize,
           fit: BoxFit.contain,
         ),
       ),

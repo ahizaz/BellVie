@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
 import '../../foreign_treatment/views/foreign_treatment_view.dart';
+import '../../../theme/responsive.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
@@ -85,8 +86,16 @@ class _HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = context.w(12);
+    final topPadding = context.h(12);
+    final bottomPadding = context.h(20);
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
+      padding: EdgeInsets.fromLTRB(
+        horizontalPadding,
+        topPadding,
+        horizontalPadding,
+        bottomPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: const [
@@ -116,16 +125,24 @@ class _EmergencyServicesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardRadius = context.w(18).clamp(16.0, 20.0);
+    final iconSize = context.w(54).clamp(46.0, 58.0);
+    final gap = context.w(12).clamp(10.0, 14.0);
     return InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(cardRadius),
       onTap: () {
         // Get.toNamed(Routes.EMERGENCY_SERVICES);
       },
       child: Container(
-        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+        padding: EdgeInsets.fromLTRB(
+          context.w(12),
+          context.w(12),
+          context.w(12),
+          context.w(12),
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFFFFD6D6),
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(cardRadius),
           border: Border.all(color: const Color(0xFFFFB3B3)),
           boxShadow: const [
             BoxShadow(
@@ -138,19 +155,19 @@ class _EmergencyServicesTab extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 54,
-              height: 54,
+              width: iconSize,
+              height: iconSize,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(context.w(8)),
               child: Image.asset(
                 'assets/images/Emergency.png',
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: gap),
             const Expanded(
               child: Text(
                 'Emergency Services',
@@ -176,6 +193,8 @@ class _ContactUsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardHeight = context.h(70).clamp(62.0, 78.0);
+    final iconSize = context.w(50).clamp(44.0, 54.0);
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
@@ -183,11 +202,11 @@ class _ContactUsTab extends StatelessWidget {
         // Get.toNamed(Routes.CONTACT_US);
       },
       child: Container(
-        height: 70,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        height: cardHeight,
+        padding: EdgeInsets.symmetric(horizontal: context.w(14)),
         decoration: BoxDecoration(
           color: const Color(0xFFCDEFF2),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(context.w(16)),
           border: Border.all(color: const Color.fromARGB(255, 160, 212, 208)),
           boxShadow: const [
             BoxShadow(
@@ -200,14 +219,14 @@ class _ContactUsTab extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-              width: 50,
-              height: 50,
+              width: iconSize,
+              height: iconSize,
               child: Image.asset(
                 'assets/images/Contact Us.png',
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(width: 14),
+            SizedBox(width: context.w(14)),
             const Expanded(
               child: Text(
                 'Contact Us',
@@ -327,7 +346,7 @@ class _PopularServicesSection extends StatelessWidget {
                     foregroundColor: Colors.black87,
                     padding: const EdgeInsets.symmetric(horizontal: 22),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(context.w(16)),
                     ),
                   ),
                   child: const Text(

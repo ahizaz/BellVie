@@ -3,12 +3,16 @@ import 'package:get/get.dart';
 
 import '../../home/controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
+import '../../../theme/responsive.dart';
 
 class SpecialistDoctorsView extends GetView<HomeController> {
   const SpecialistDoctorsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final sidePadding = context.w(12);
+    final topPadding = context.h(14);
+    final bottomPadding = context.h(18);
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: SafeArea(
@@ -110,8 +114,17 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sidePadding = context.w(12);
+    final topPadding = context.h(14);
+    final bottomPadding = context.h(18);
+    final crossAxisSpacing = context.w(8).clamp(6.0, 10.0);
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(12, 14, 12, 18),
+      padding: EdgeInsets.fromLTRB(
+        sidePadding,
+        topPadding,
+        sidePadding,
+        bottomPadding,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -142,10 +155,10 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _items.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
+                crossAxisSpacing: crossAxisSpacing,
+                mainAxisSpacing: crossAxisSpacing,
                 childAspectRatio: 1.2,
               ),
               itemBuilder: (context, index) {
@@ -178,13 +191,20 @@ class _SpecialistServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardPadding = context.w(10).clamp(8.0, 12.0);
+    final thumbSize = context.w(50).clamp(44.0, 56.0);
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
         // later navigation add korba
       },
       child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+        padding: EdgeInsets.fromLTRB(
+          cardPadding,
+          cardPadding,
+          cardPadding,
+          context.w(8).clamp(6.0, 10.0),
+        ),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 215, 240, 237),
           borderRadius: BorderRadius.circular(16),
@@ -203,8 +223,8 @@ class _SpecialistServiceCard extends StatelessWidget {
             Expanded(
               child: Center(
                 child: SizedBox(
-                  height: 50,
-                  width: 50,
+                  height: thumbSize,
+                  width: thumbSize,
                   child: Image.asset(
                     item.assetPath,
                     fit: BoxFit.contain,
