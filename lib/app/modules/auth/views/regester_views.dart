@@ -81,6 +81,7 @@ class RegisterView extends GetView<AuthController> {
                       ? null
                       : controller.selectedDistrict.value,
                   isExpanded: true,
+                  menuMaxHeight: context.h(100),
                   decoration: InputDecoration(
                     labelText: 'District',
                     border: const OutlineInputBorder(),
