@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
 import 'home_carousels.dart';
 import 'home_sections.dart';
@@ -14,13 +15,13 @@ class HomeTabBody extends StatelessWidget {
       case 0:
         return const HomeScrollContent();
       case 1:
-        return const _PlaceholderScreen(title: 'My Appointments');
+        return _PlaceholderScreen(title: 'my_appointments');
       case 2:
-        return const _PlaceholderScreen(title: 'My Health');
+        return _PlaceholderScreen(title: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'Cart');
+        return _PlaceholderScreen(title: 'cart');
       case 4:
-        return const _PlaceholderScreen(title: 'Menu');
+        return _PlaceholderScreen(title: 'menu');
       default:
         return const SizedBox.shrink();
     }
@@ -75,7 +76,7 @@ class _PlaceholderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        title,
+        title.tr,
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,

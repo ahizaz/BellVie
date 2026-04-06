@@ -28,8 +28,8 @@ class LoginView extends GetView<AuthController> {
                   ),
                 ),
                 SizedBox(height: context.h(20)),
-                const Text(
-                  'Login',
+                Text(
+                  'login'.tr,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
@@ -41,7 +41,7 @@ class LoginView extends GetView<AuthController> {
                   controller: controller.phoneController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Phone number',
+                    labelText: 'phone_number'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
@@ -54,7 +54,7 @@ class LoginView extends GetView<AuthController> {
                   controller: controller.passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'password'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
@@ -72,7 +72,7 @@ class LoginView extends GetView<AuthController> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: context.h(14)),
                     ),
-                    child: const Text('Sign In'),
+                    child: Text('sign_in'.tr),
                   ),
                 ),
                 SizedBox(
@@ -81,7 +81,7 @@ class LoginView extends GetView<AuthController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account? "),
+                    Text('${'dont_have_account'.tr} '),
                     TextButton(
                       onPressed: () {
                         Get.toNamed(Routes.REGISTER);
@@ -92,8 +92,8 @@ class LoginView extends GetView<AuthController> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         foregroundColor: const Color(0xFF2F6FED),
                       ),
-                      child: const Text(
-                        'Registration',
+                      child: Text(
+                        'registration'.tr,
                         style: TextStyle(
                           color: Color(0xFF2F6FED),
                           fontWeight: FontWeight.w600,

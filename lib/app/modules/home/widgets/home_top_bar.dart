@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../controllers/home_controller.dart';
 
 class HomeTopBar extends StatelessWidget {
   const HomeTopBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.find<HomeController>();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isSmall = constraints.maxWidth < 380;
@@ -57,7 +62,7 @@ class HomeTopBar extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'BelleVie Global Health Services',
+                  'app_title'.tr,
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                   softWrap: true,
@@ -70,22 +75,43 @@ class HomeTopBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: chipHPad,
-                  vertical: chipVPad,
+              PopupMenuButton<Locale>(
+                onSelected: homeController.changeLanguage,
+                offset: const Offset(0, 42),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFBFEFE2),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Text(
-                  'EN',
-                  style: TextStyle(
-                    fontSize: isSmall ? 11.5 : 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: const Locale('en', 'US'),
+                    child: Text('english'.tr),
                   ),
+                  PopupMenuItem(
+                    value: const Locale('bn', 'BD'),
+                    child: Text('bangla'.tr),
+                  ),
+                ],
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: chipHPad,
+                    vertical: chipVPad,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFBFEFE2),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Obx(() {
+                    final isBangla =
+                        homeController.currentLocale.value.languageCode == 'bn';
+                    return Text(
+                      isBangla ? 'bangla'.tr : 'english'.tr,
+                      style: TextStyle(
+                        fontSize: isSmall ? 11.5 : 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    );
+                  }),
                 ),
               ),
               const SizedBox(width: 6),

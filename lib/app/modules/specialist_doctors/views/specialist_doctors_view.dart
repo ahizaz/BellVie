@@ -35,26 +35,26 @@ class SpecialistDoctorsView extends GetView<HomeController> {
           selectedItemColor: const Color(0xFF2F6FED),
           unselectedItemColor: const Color(0xFF7A7A7A),
           showUnselectedLabels: true,
-          items: const [
+          items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_filled),
-              label: 'Home',
+              label: 'home'.tr,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.event_note),
-              label: 'My Appointments',
+              label: 'my_appointments'.tr,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
-              label: 'My Health',
+              label: 'my_health'.tr,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart),
-              label: 'Cart',
+              label: 'cart'.tr,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu),
-              label: 'Menu',
+              label: 'menu'.tr,
             ),
           ],
         ),
@@ -68,47 +68,47 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
 
   static const List<_SpecialistCategoryItem> _items = [
     _SpecialistCategoryItem(
-      title: 'Internal Medicine',
+      titleKey: 'internal_medicine',
       assetPath: 'assets/images/Internal Medicine.png',
     ),
     _SpecialistCategoryItem(
-      title: 'General Physician',
+      titleKey: 'general_physician',
       assetPath: 'assets/images/special doctors/3.General Physician.png',
     ),
     _SpecialistCategoryItem(
-      title: 'Neuromedicine',
+      titleKey: 'neuromedicine',
       assetPath: 'assets/images/special doctors/4.Neuromedicine.png',
     ),
     _SpecialistCategoryItem(
-      title: 'Gastroenterology',
+      titleKey: 'gastroenterology',
       assetPath: 'assets/images/special doctors/Gastroenterology.png',
     ),
     _SpecialistCategoryItem(
-      title: 'Urology',
+      titleKey: 'urology',
       assetPath: 'assets/images/special doctors/6.urology .png',
     ),
     _SpecialistCategoryItem(
-      title: 'Oncology',
+      titleKey: 'oncology',
       assetPath: 'assets/images/special doctors/7.oncology.png',
     ),
     _SpecialistCategoryItem(
-      title: 'Rheumatology',
+      titleKey: 'rheumatology',
       assetPath: 'assets/images/special doctors/8.rheumatology .png',
     ),
     _SpecialistCategoryItem(
-      title: 'Family Medicine',
+      titleKey: 'family_medicine',
       assetPath: 'assets/images/special doctors/9.family medicine.png',
     ),
     _SpecialistCategoryItem(
-      title: 'Cardiology',
+      titleKey: 'cardiology',
       assetPath: 'assets/images/special doctors/10.Cardiology .png',
     ),
     _SpecialistCategoryItem(
-      title: 'Endocrinology',
+      titleKey: 'endocrinology',
       assetPath: 'assets/images/special doctors/11.Endocrinology.png',
     ),
     _SpecialistCategoryItem(
-        title: 'Gynaecology and Obstetrics',
+        titleKey: 'gynaecology_and_obstetrics',
         assetPath:
             'assets/images/special doctors/12.Gynaecology and Obstetric.png'),
   ];
@@ -129,8 +129,8 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Specialist Doctors',
+          Text(
+            'specialist_doctors_screen'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -174,11 +174,11 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
 }
 
 class _SpecialistCategoryItem {
-  final String title;
+  final String titleKey;
   final String assetPath;
 
   const _SpecialistCategoryItem({
-    required this.title,
+    required this.titleKey,
     required this.assetPath,
   });
 }
@@ -235,7 +235,7 @@ class _SpecialistServiceCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              item.title,
+              item.titleKey.tr,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -312,7 +312,7 @@ class _HomeTopBar extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'BelleVie Global Health Services',
+                  'app_title'.tr,
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                   softWrap: true,
@@ -335,7 +335,7 @@ class _HomeTopBar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  'বাংলা',
+                  'bangla'.tr,
                   style: TextStyle(
                     fontSize: isSmall ? 11.5 : 12,
                     fontWeight: FontWeight.w600,

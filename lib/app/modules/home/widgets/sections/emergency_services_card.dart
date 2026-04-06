@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class EmergencyServicesCard extends StatelessWidget {
   const EmergencyServicesCard({super.key});
@@ -41,9 +42,9 @@ class EmergencyServicesCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Emergency Services',
+                'emergency_services'.tr,
                 style: TextStyle(
                   fontSize: 14.5,
                   fontWeight: FontWeight.w700,

@@ -25,8 +25,8 @@ class RegisterView extends GetView<AuthController> {
                 ),
               ),
               SizedBox(height: context.h(20)),
-              const Text(
-                'Registration',
+              Text(
+                'registration'.tr,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -38,7 +38,7 @@ class RegisterView extends GetView<AuthController> {
                 controller: controller.registerNameController,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'name'.tr,
                   border: const OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: context.w(16),
@@ -52,7 +52,7 @@ class RegisterView extends GetView<AuthController> {
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: 'Email (optional)',
+                  labelText: 'email_optional'.tr,
                   border: const OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: context.w(16),
@@ -66,7 +66,7 @@ class RegisterView extends GetView<AuthController> {
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: 'Phone number',
+                  labelText: 'phone_number'.tr,
                   border: const OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: context.w(16),
@@ -83,7 +83,7 @@ class RegisterView extends GetView<AuthController> {
                   isExpanded: true,
                   menuMaxHeight: context.h(100),
                   decoration: InputDecoration(
-                    labelText: 'District',
+                    labelText: 'district'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
@@ -109,7 +109,7 @@ class RegisterView extends GetView<AuthController> {
                 obscureText: true,
                 textInputAction: TextInputAction.next,
                 decoration: InputDecoration(
-                  labelText: 'Password',
+                  labelText: 'password'.tr,
                   border: const OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: context.w(16),
@@ -123,7 +123,7 @@ class RegisterView extends GetView<AuthController> {
                 obscureText: true,
                 textInputAction: TextInputAction.done,
                 decoration: InputDecoration(
-                  labelText: 'Confirm password',
+                  labelText: 'confirm_password'.tr,
                   border: const OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: context.w(16),
@@ -141,14 +141,14 @@ class RegisterView extends GetView<AuthController> {
                     foregroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: context.h(14)),
                   ),
-                  child: const Text('Register'),
+                  child: Text('register'.tr),
                 ),
               ),
               SizedBox(height: context.h(15)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account? '),
+                  Text('${'already_have_account'.tr} '),
                   TextButton(
                     onPressed: () => Get.offNamed(Routes.LOGIN),
                     style: TextButton.styleFrom(
@@ -157,8 +157,8 @@ class RegisterView extends GetView<AuthController> {
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       foregroundColor: const Color(0xFF2F6FED),
                     ),
-                    child: const Text(
-                      'Login',
+                    child: Text(
+                      'login'.tr,
                       style: TextStyle(
                         color: Color(0xFF2F6FED),
                         fontWeight: FontWeight.w600,

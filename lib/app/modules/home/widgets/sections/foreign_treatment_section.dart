@@ -8,15 +8,15 @@ class ForeignTreatmentSection extends StatelessWidget {
 
   static const _countries = <_ForeignTreatmentItem>[
     _ForeignTreatmentItem(
-        'Hospitals in India', 'assets/images/Flag_of_India.png'),
-    _ForeignTreatmentItem('Hospitals in Chaina', 'assets/images/Chaina.png'),
+        'hospitals_in_india', 'assets/images/Flag_of_India.png'),
+    _ForeignTreatmentItem('hospitals_in_china', 'assets/images/Chaina.png'),
     _ForeignTreatmentItem(
-        'Hospitals in Thailand', 'assets/images/Thailand.jpg'),
-    _ForeignTreatmentItem('Hospitals in Turkey', 'assets/images/Turkey.jpg'),
+        'hospitals_in_thailand', 'assets/images/Thailand.jpg'),
+    _ForeignTreatmentItem('hospitals_in_turkey', 'assets/images/Turkey.jpg'),
     _ForeignTreatmentItem(
-        'Hospitals in Singapore', 'assets/images/Singapore.jpg'),
+        'hospitals_in_singapore', 'assets/images/Singapore.jpg'),
     _ForeignTreatmentItem(
-        'Hospitals in Malaysia', 'assets/images/Malaysia.jpg'),
+        'hospitals_in_malaysia', 'assets/images/Malaysia.jpg'),
   ];
 
   @override
@@ -24,8 +24,8 @@ class ForeignTreatmentSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Foreign Treatment',
+        Text(
+          'foreign_treatment'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -54,9 +54,9 @@ class ForeignTreatmentSection extends StatelessWidget {
 }
 
 class _ForeignTreatmentItem {
-  final String title;
+  final String titleKey;
   final String assetPath;
-  const _ForeignTreatmentItem(this.title, this.assetPath);
+  const _ForeignTreatmentItem(this.titleKey, this.assetPath);
 }
 
 class _ForeignTreatmentCard extends StatelessWidget {
@@ -66,23 +66,23 @@ class _ForeignTreatmentCard extends StatelessWidget {
   void _handleTap() {
     if (!AuthService.to.requireLogin()) return;
 
-    switch (item.title) {
-      case 'Hospitals in India':
+    switch (item.titleKey) {
+      case 'hospitals_in_india':
         Get.to(() => const IndiaHospitalsView());
         break;
-      case 'Hospitals in Chaina':
+      case 'hospitals_in_china':
         Get.to(() => const ChainaHospitalsView());
         break;
-      case 'Hospitals in Thailand':
+      case 'hospitals_in_thailand':
         Get.to(() => const ThailandHospitalsView());
         break;
-      case 'Hospitals in Turkey':
+      case 'hospitals_in_turkey':
         Get.to(() => const TurkeyHospitalsView());
         break;
-      case 'Hospitals in Singapore':
+      case 'hospitals_in_singapore':
         Get.to(() => const SingaporeHospitalsView());
         break;
-      case 'Hospitals in Malaysia':
+      case 'hospitals_in_malaysia':
         Get.to(() => const MalaysiaHospitalsView());
         break;
     }
@@ -116,7 +116,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              item.title,
+              item.titleKey.tr,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

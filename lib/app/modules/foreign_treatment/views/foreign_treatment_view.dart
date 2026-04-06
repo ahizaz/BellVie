@@ -42,13 +42,13 @@ class _ForeignTreatmentTabBody extends StatelessWidget {
       case 0:
         return const _ForeignTreatmentHome();
       case 1:
-        return const _PlaceholderScreen(title: 'My Appointments');
+        return _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
-        return const _PlaceholderScreen(title: 'My Health');
+        return _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'Cart');
+        return _PlaceholderScreen(titleKey: 'cart');
       case 4:
-        return const _PlaceholderScreen(title: 'Menu');
+        return _PlaceholderScreen(titleKey: 'menu');
       default:
         return const SizedBox.shrink();
     }
@@ -60,15 +60,15 @@ class _ForeignTreatmentHome extends StatelessWidget {
 
   static const _countries = <_CountryCardData>[
     _CountryCardData(
-      title: 'India',
+      titleKey: 'india',
       assetPath: 'assets/images/Flag_of_India.png',
     ),
     _CountryCardData(
-      title: 'Thailand',
+      titleKey: 'thailand',
       assetPath: 'assets/images/Thailand.jpg',
     ),
     _CountryCardData(
-      title: 'Turkey',
+      titleKey: 'turkey',
       assetPath: 'assets/images/Turkey.jpg',
     ),
   ];
@@ -79,13 +79,13 @@ class _ForeignTreatmentHome extends StatelessWidget {
     }
 
     switch (title) {
-      case 'India':
+      case 'india':
         Get.to(() => const IndiaHospitalsView());
         break;
-      case 'Thailand':
+      case 'thailand':
         Get.to(() => const ThailandHospitalsView());
         break;
-      case 'Turkey':
+      case 'turkey':
         Get.to(() => const TurkeyHospitalsView());
         break;
     }
@@ -98,8 +98,8 @@ class _ForeignTreatmentHome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Foreign Treatment',
+          Text(
+            'foreign_treatment'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -122,7 +122,7 @@ class _ForeignTreatmentHome extends StatelessWidget {
               final item = _countries[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(12),
-                onTap: () => _openCountry(item.title),
+                onTap: () => _openCountry(item.titleKey),
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
                   decoration: BoxDecoration(
@@ -149,7 +149,7 @@ class _ForeignTreatmentHome extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        item.title,
+                        item.titleKey.tr,
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -175,9 +175,9 @@ class _ForeignTreatmentHome extends StatelessWidget {
 }
 
 class _CountryCardData {
-  final String title;
+  final String titleKey;
   final String assetPath;
-  const _CountryCardData({required this.title, required this.assetPath});
+  const _CountryCardData({required this.titleKey, required this.assetPath});
 }
 
 /// ===============================
@@ -217,13 +217,13 @@ class _IndiaHospitalsTabBody extends StatelessWidget {
       case 0:
         return const _IndiaHospitalsHome();
       case 1:
-        return const _PlaceholderScreen(title: 'My Appointments');
+        return _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
-        return const _PlaceholderScreen(title: 'My Health');
+        return _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'Cart');
+        return _PlaceholderScreen(titleKey: 'cart');
       case 4:
-        return const _PlaceholderScreen(title: 'Menu');
+        return _PlaceholderScreen(titleKey: 'menu');
       default:
         return const SizedBox.shrink();
     }
@@ -240,8 +240,8 @@ class _IndiaHospitalsHome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'India Hospitals',
+          Text(
+            'india_hospitals'.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
@@ -255,128 +255,129 @@ class _IndiaHospitalsHome extends StatelessWidget {
               children: const [
                 _HospitalTile(
                   hospital: 'Jaslok (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Nanavati Max (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: 'Max Healthcare: 22',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Apollo pan India (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '71',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'HCG pan India (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '22',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'KIMS (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '25',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Fortis pan India (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '~28',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Fortis Raheja (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Rainbow child Hospital (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '10',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Manipal Whitefield Bangalore (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '33',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Rela (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Gangaram Delhi (All India)',
-                  status: 'Through Doctor',
+                  statusKey: 'status_through_doctor',
                   countText: '1*',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Wockhardt (All India)',
-                  status: 'pending',
+                  statusKey: 'status_pending',
                   countText: '4',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Lokmanya Pune (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Birla IVF (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '52',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Artemis (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Medanta (All India)',
-                  status: 'WIP',
+                  statusKey: 'status_wip',
                   countText: '10',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Neurogeon. Stem cell (All India)',
-                  status: 'WIP',
+                  statusKey: 'status_wip',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Stem RX stem cell (All India)',
-                  status: 'WIP',
+                  statusKey: 'status_wip',
                   countText: '1',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Narayana Hrudayalaya (All India)',
-                  status: 'WIP',
+                  statusKey: 'status_wip',
                   countText: '23',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Surya pan India (All India)',
-                  status: 'Done',
+                  statusKey: 'status_done',
                   countText: '4',
                 ),
                 SizedBox(height: 10),
                 _HospitalTile(
                   hospital: 'Hiranandani (All India)',
-                  status: 'Done',
-                  countText: 'Not publicly aggregated',
+                  statusKey: 'status_done',
+                  countTextKey: 'status_not_publicly_aggregated',
+                  countText: '',
                 ),
               ],
             ),
@@ -389,13 +390,15 @@ class _IndiaHospitalsHome extends StatelessWidget {
 
 class _HospitalTile extends StatelessWidget {
   final String hospital;
-  final String status;
+  final String statusKey;
   final String countText;
+  final String? countTextKey;
 
   const _HospitalTile({
     required this.hospital,
-    required this.status,
+    required this.statusKey,
     required this.countText,
+    this.countTextKey,
   });
 
   @override
@@ -439,7 +442,7 @@ class _HospitalTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Agreement Status: $status',
+                  'agreement_status'.trParams({'status': statusKey.tr}),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -448,7 +451,9 @@ class _HospitalTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Public Number of Hospitals: $countText',
+                  'public_number_of_hospitals'.trParams({
+                    'countText': countTextKey?.tr ?? countText,
+                  }),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -547,13 +552,13 @@ class _HospitalListTabBody extends StatelessWidget {
       case 0:
         return _HospitalListHome(hospitals: hospitals);
       case 1:
-        return const _PlaceholderScreen(title: 'My Appointments');
+        return _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
-        return const _PlaceholderScreen(title: 'My Health');
+        return _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'Cart');
+        return _PlaceholderScreen(titleKey: 'cart');
       case 4:
-        return const _PlaceholderScreen(title: 'Menu');
+        return _PlaceholderScreen(titleKey: 'menu');
       default:
         return const SizedBox.shrink();
     }
@@ -710,13 +715,13 @@ class _BlankCountryTabBody extends StatelessWidget {
       case 0:
         return const SizedBox.shrink();
       case 1:
-        return const _PlaceholderScreen(title: 'My Appointments');
+        return _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
-        return const _PlaceholderScreen(title: 'My Health');
+        return _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'Cart');
+        return _PlaceholderScreen(titleKey: 'cart');
       case 4:
-        return const _PlaceholderScreen(title: 'Menu');
+        return _PlaceholderScreen(titleKey: 'menu');
       default:
         return const SizedBox.shrink();
     }
@@ -739,29 +744,32 @@ class _MainBottomNav extends StatelessWidget {
       selectedItemColor: const Color(0xFF2F6FED),
       unselectedItemColor: const Color(0xFF7A7A7A),
       showUnselectedLabels: true,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: 'Home'),
+      items: [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.home_filled), label: 'home'.tr),
         BottomNavigationBarItem(
           icon: Icon(Icons.event_note),
-          label: 'My Appointments',
+          label: 'my_appointments'.tr,
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'My Health'),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
-        BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.favorite), label: 'my_health'.tr),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart), label: 'cart'.tr),
+        BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'menu'.tr),
       ],
     );
   }
 }
 
 class _PlaceholderScreen extends StatelessWidget {
-  final String title;
-  const _PlaceholderScreen({required this.title});
+  final String titleKey;
+  const _PlaceholderScreen({required this.titleKey});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        title,
+        titleKey.tr,
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
       ),
     );
@@ -817,7 +825,7 @@ class _HomeTopBarClone extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  'BelleVie Global Health Services',
+                  'app_title'.tr,
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                   softWrap: true,
@@ -840,7 +848,7 @@ class _HomeTopBarClone extends StatelessWidget {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
-                  'EN',
+                  'english'.tr,
                   style: TextStyle(
                     fontSize: isSmall ? 11.5 : 12,
                     fontWeight: FontWeight.w600,

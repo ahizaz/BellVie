@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -19,26 +20,26 @@ class HomeBottomNav extends StatelessWidget {
       selectedItemColor: const Color(0xFF2F6FED),
       unselectedItemColor: const Color(0xFF7A7A7A),
       showUnselectedLabels: true,
-      items: const [
+      items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_filled),
-          label: 'Home',
+          label: 'home'.tr,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.event_note),
-          label: 'My Appointments',
+          label: 'my_appointments'.tr,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
-          label: 'My Health',
+          label: 'my_health'.tr,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
-          label: 'Cart',
+          label: 'cart'.tr,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.menu),
-          label: 'Menu',
+          label: 'menu'.tr,
         ),
       ],
     );

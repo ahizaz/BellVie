@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CoreFourSection extends StatelessWidget {
   const CoreFourSection({super.key});
 
   static const _items = <_CoreFourItemData>[
     _CoreFourItemData(
-      title: 'Telemedicine /\nVideo Consultancy',
+      titleKey: 'telemedicine_video_consultancy',
       assetPath: 'assets/images/core_four/telemedicine_video.png',
       bgColor: Color(0xFFCFEDEA),
     ),
     _CoreFourItemData(
-      title: 'ENT Doctor Services',
+      titleKey: 'ent_doctor_services',
       assetPath: 'assets/images/core_four/ent_doctor.png',
       bgColor: Color.fromARGB(255, 175, 204, 238),
     ),
     _CoreFourItemData(
-      title: 'Diagnostic Services',
+      titleKey: 'diagnostic_services',
       assetPath: 'assets/images/core_four/Diagnostic Services.png',
       bgColor: Color.fromARGB(255, 175, 204, 238),
     ),
     _CoreFourItemData(
-      title: 'Doctors Services',
+      titleKey: 'doctors_services',
       assetPath: 'assets/images/core_four/Doctor Services.png',
       bgColor: Color(0xFFCFEDEA),
     ),
   ];
 
-  Widget _otherMedicalTile(String title, String assetPath,
+  Widget _otherMedicalTile(String titleKey, String assetPath,
       {VoidCallback? onTap}) {
     return Material(
       color: Colors.transparent,
@@ -57,7 +58,7 @@ class CoreFourSection extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  title,
+                  titleKey.tr,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
@@ -78,10 +79,10 @@ class CoreFourSection extends StatelessWidget {
 
   Widget _bottomTabsRow() {
     final items = const [
-      _BottomTabItem('Air\nAmbulance', 'assets/images/air_ambulance_logo.png'),
-      _BottomTabItem('Palliative\nCare Services',
+      _BottomTabItem('air_ambulance', 'assets/images/air_ambulance_logo.png'),
+      _BottomTabItem('palliative_care_services',
           'assets/images/palliative care services.png'),
-      _BottomTabItem('Geriatric Health\nServices',
+      _BottomTabItem('geriatric_health_services',
           'assets/images/geriatric_health_logo.png'),
     ];
 
@@ -129,7 +130,7 @@ class CoreFourSection extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: Text(
-                            it.title,
+                            it.titleKey.tr,
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -158,8 +159,8 @@ class CoreFourSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Core Four',
+        Text(
+          'core_four'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -195,8 +196,8 @@ class CoreFourSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const Text(
-          'Other Medical Services',
+        Text(
+          'other_medical_services'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -227,17 +228,17 @@ class CoreFourSection extends StatelessWidget {
             childAspectRatio: 1.9,
             children: [
               _otherMedicalTile(
-                  'Psychiatrist', 'assets/images/Psychiatrist.png'),
-              _otherMedicalTile('Counseling Psychologist',
+                  'psychiatrist', 'assets/images/Psychiatrist.png'),
+              _otherMedicalTile('counseling_psychologist',
                   'assets/images/Counselling Psychologist.png'),
-              _otherMedicalTile('Dentists', 'assets/images/Dentists.png'),
+              _otherMedicalTile('dentists', 'assets/images/Dentists.png'),
               _otherMedicalTile(
-                  'Stem Therapy', 'assets/images/Stem Therapy.png'),
+                  'stem_therapy', 'assets/images/Stem Therapy.png'),
               _otherMedicalTile(
-                  'Caregiver Services', 'assets/images/Caregiver Services.png'),
+                  'caregiver_services', 'assets/images/Caregiver Services.png'),
               _otherMedicalTile(
-                  'Physiotherapist', 'assets/images/Physiotherapist.png'),
-              _otherMedicalTile('Chiropractic Services',
+                  'physiotherapist', 'assets/images/Physiotherapist.png'),
+              _otherMedicalTile('chiropractic_services',
                   'assets/images/Chiropractic Sertvices.png'),
             ],
           ),
@@ -250,12 +251,12 @@ class CoreFourSection extends StatelessWidget {
 }
 
 class _CoreFourItemData {
-  final String title;
+  final String titleKey;
   final String assetPath;
   final Color bgColor;
 
   const _CoreFourItemData({
-    required this.title,
+    required this.titleKey,
     required this.assetPath,
     required this.bgColor,
   });
@@ -300,7 +301,7 @@ class _CoreFourCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              item.title,
+              item.titleKey.tr,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
@@ -319,7 +320,7 @@ class _CoreFourCard extends StatelessWidget {
 }
 
 class _BottomTabItem {
-  final String title;
+  final String titleKey;
   final String assetPath;
-  const _BottomTabItem(this.title, this.assetPath);
+  const _BottomTabItem(this.titleKey, this.assetPath);
 }

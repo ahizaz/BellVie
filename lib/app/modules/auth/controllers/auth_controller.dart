@@ -88,7 +88,7 @@ class AuthController extends GetxController {
     final password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      EasyLoading.showError('Please enter phone number and password.');
+      EasyLoading.showError('please_enter_phone_password'.tr);
       return;
     }
 
@@ -104,21 +104,21 @@ class AuthController extends GetxController {
     final confirmPassword = registerConfirmPasswordController.text.trim();
 
     if (name.isEmpty || phone.isEmpty || selectedDistrict.value.isEmpty) {
-      EasyLoading.showError('Please fill all required fields.');
+      EasyLoading.showError('please_fill_required_fields'.tr);
       return;
     }
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      EasyLoading.showError('Please enter password and confirm password.');
+      EasyLoading.showError('please_enter_password_confirm_password'.tr);
       return;
     }
 
     if (password != confirmPassword) {
-      EasyLoading.showError('Passwords do not match.');
+      EasyLoading.showError('passwords_do_not_match'.tr);
       return;
     }
 
-    EasyLoading.showSuccess('Registration successful.');
+    EasyLoading.showSuccess('registration_successful'.tr);
     Get.offNamed(Routes.LOGIN);
   }
 

@@ -7,17 +7,17 @@ class PopularServicesSection extends StatelessWidget {
   const PopularServicesSection({super.key});
 
   static const _services = <_ServiceItem>[
-    _ServiceItem('Specialist Doctors', 'assets/images/Doctor Services.png'),
-    _ServiceItem('Hospitals Booking', 'assets/images/Hospitals Booking.png'),
-    _ServiceItem('Telemedicine', 'assets/images/Telemedicine.png'),
-    _ServiceItem('Pharmacy', 'assets/images/Pharmacy.png'),
-    _ServiceItem('Video Consultancy', 'assets/images/Video Consultancy.png'),
-    _ServiceItem('Ambulance Services', 'assets/images/Ambulance.png'),
+    _ServiceItem('specialist_doctors', 'assets/images/Doctor Services.png'),
+    _ServiceItem('hospitals_booking', 'assets/images/Hospitals Booking.png'),
+    _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
+    _ServiceItem('pharmacy', 'assets/images/Pharmacy.png'),
+    _ServiceItem('video_consultancy', 'assets/images/Video Consultancy.png'),
+    _ServiceItem('ambulance_services', 'assets/images/Ambulance.png'),
     _ServiceItem(
-        'Community Health Care', 'assets/images/Community health Care.png'),
-    _ServiceItem('Hospital Support Services',
+        'community_health_care', 'assets/images/Community health Care.png'),
+    _ServiceItem('hospital_support_services',
         'assets/images/Hopital Support Services.png'),
-    _ServiceItem('Health Insurance', 'assets/images/Health Insurance.png'),
+    _ServiceItem('health_insurance', 'assets/images/Health Insurance.png'),
   ];
 
   @override
@@ -25,8 +25,8 @@ class PopularServicesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Popular Services',
+        Text(
+          'popular_services'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -76,8 +76,8 @@ class PopularServicesSection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text(
-                    'View All',
+                  child: Text(
+                    'view_all'.tr,
                     style: TextStyle(fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -91,9 +91,9 @@ class PopularServicesSection extends StatelessWidget {
 }
 
 class _ServiceItem {
-  final String title;
+  final String titleKey;
   final String assetPath;
-  const _ServiceItem(this.title, this.assetPath);
+  const _ServiceItem(this.titleKey, this.assetPath);
 }
 
 class _ServiceCard extends StatelessWidget {
@@ -101,7 +101,7 @@ class _ServiceCard extends StatelessWidget {
   const _ServiceCard({required this.item});
 
   void _handleTap() {
-    if (item.title == 'Specialist Doctors') {
+    if (item.titleKey == 'specialist_doctors') {
       if (!AuthService.to.requireLogin()) return;
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
     }
@@ -140,7 +140,7 @@ class _ServiceCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              item.title,
+              item.titleKey.tr,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

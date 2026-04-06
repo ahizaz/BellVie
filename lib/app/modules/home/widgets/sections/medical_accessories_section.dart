@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MedicalAccessoriesSection extends StatelessWidget {
   const MedicalAccessoriesSection({super.key});
 
   static const _items = <_MedicalAccessoryItem>[
     _MedicalAccessoryItem(
-        'Diagnostic\nDevices', 'assets/images/Diagnostic devices.png'),
-    _MedicalAccessoryItem(
-        'Home Care/\nFurniture', 'assets/images/Home Care.png'),
-    _MedicalAccessoryItem('Wound Care &\nPersonal Care',
+        'diagnostic_devices', 'assets/images/Diagnostic devices.png'),
+    _MedicalAccessoryItem('home_care_furniture', 'assets/images/Home Care.png'),
+    _MedicalAccessoryItem('wound_care_personal_care',
         'assets/images/Wound Care & Personal Care.png'),
     _MedicalAccessoryItem(
-        'First Aid\nSupplies', 'assets/images/First Aid  Supplies.png'),
+        'first_aid_supplies', 'assets/images/First Aid  Supplies.png'),
     _MedicalAccessoryItem(
-        'Face Masks and Gloves', 'assets/images/Face Masks and Gloves.png'),
-    _MedicalAccessoryItem('Mobility Aids', 'assets/images/Mobility Aids.png'),
+        'face_masks_and_gloves', 'assets/images/Face Masks and Gloves.png'),
+    _MedicalAccessoryItem('mobility_aids', 'assets/images/Mobility Aids.png'),
     _MedicalAccessoryItem(
-        'Respiratory Units', 'assets/images/Respiratory Units.png'),
-    _MedicalAccessoryItem('Bed Wedges', 'assets/images/Bed Wedges.png'),
+        'respiratory_units', 'assets/images/Respiratory Units.png'),
+    _MedicalAccessoryItem('bed_wedges', 'assets/images/Bed Wedges.png'),
   ];
 
   @override
@@ -25,8 +25,8 @@ class MedicalAccessoriesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Medical accessories',
+        Text(
+          'medical_accessories'.tr,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -69,9 +69,9 @@ class MedicalAccessoriesSection extends StatelessWidget {
 }
 
 class _MedicalAccessoryItem {
-  final String title;
+  final String titleKey;
   final String assetPath;
-  const _MedicalAccessoryItem(this.title, this.assetPath);
+  const _MedicalAccessoryItem(this.titleKey, this.assetPath);
 }
 
 class _MedicalAccessoryCard extends StatelessWidget {
@@ -109,7 +109,7 @@ class _MedicalAccessoryCard extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                item.title,
+                item.titleKey.tr,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(

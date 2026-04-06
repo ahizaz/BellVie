@@ -11,6 +11,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      controller.currentLocale.value;
       return Scaffold(
         backgroundColor: const Color(0xFFF2F2F2),
         body: SafeArea(

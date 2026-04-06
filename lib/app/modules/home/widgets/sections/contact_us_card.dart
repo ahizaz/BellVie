@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ContactUsCard extends StatelessWidget {
   const ContactUsCard({super.key});
@@ -37,9 +38,9 @@ class ContactUsCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 14),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Contact Us',
+                'contact_us'.tr,
                 style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w700,
