@@ -98,7 +98,6 @@ class AuthController extends GetxController {
 
   Future<void> register() async {
     final name = registerNameController.text.trim();
-    final email = registerEmailController.text.trim();
     final phone = registerPhoneController.text.trim();
     final password = registerPasswordController.text.trim();
     final confirmPassword = registerConfirmPasswordController.text.trim();

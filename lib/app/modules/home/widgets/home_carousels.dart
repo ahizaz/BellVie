@@ -44,6 +44,10 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final bannerWidthPx =
+        (MediaQuery.sizeOf(context).width * dpr).round().clamp(1, 4096);
+    final bannerHeightPx = (165 * dpr).round().clamp(1, 4096);
     return Column(
       children: [
         SizedBox(
@@ -59,6 +63,8 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                   _banners[i],
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  cacheWidth: bannerWidthPx,
+                  cacheHeight: bannerHeightPx,
                 );
               },
             ),
@@ -130,6 +136,10 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final bannerWidthPx =
+        (MediaQuery.sizeOf(context).width * dpr).round().clamp(1, 4096);
+    final bannerHeightPx = (150 * dpr).round().clamp(1, 4096);
     return Column(
       children: [
         SizedBox(
@@ -145,6 +155,8 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
                   _banners[i],
                   fit: BoxFit.cover,
                   width: double.infinity,
+                  cacheWidth: bannerWidthPx,
+                  cacheHeight: bannerHeightPx,
                 );
               },
             ),

@@ -10,9 +10,6 @@ class SpecialistDoctorsView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final sidePadding = context.w(12);
-    final topPadding = context.h(14);
-    final bottomPadding = context.h(18);
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       body: SafeArea(
@@ -194,6 +191,8 @@ class _SpecialistServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cardPadding = context.w(10).clamp(8.0, 12.0);
     final thumbSize = context.w(50).clamp(44.0, 56.0);
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final thumbPx = (thumbSize * dpr).round().clamp(1, 1024);
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
@@ -229,6 +228,8 @@ class _SpecialistServiceCard extends StatelessWidget {
                   child: Image.asset(
                     item.assetPath,
                     fit: BoxFit.contain,
+                    cacheWidth: thumbPx,
+                    cacheHeight: thumbPx,
                   ),
                 ),
               ),
