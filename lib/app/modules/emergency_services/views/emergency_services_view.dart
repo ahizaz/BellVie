@@ -1,0 +1,245 @@
+import 'package:flutter/material.dart';
+
+class EmergencyServicesView extends StatelessWidget {
+  const EmergencyServicesView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFFD6D6),
+        foregroundColor: Colors.black87,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Emergency Services',
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE1E1),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFFFB3B3)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x14000000),
+                    blurRadius: 8,
+                    offset: Offset(0, 8),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 68,
+                    height: 68,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.local_hospital_rounded,
+                      size: 32,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Fast response, 24/7',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 6),
+                        Text(
+                          'Choose the right emergency transport service when every minute matters.',
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            height: 1.35,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            const Text(
+              'Available Services',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const _EmergencyServiceTile(
+              icon: Icons.local_taxi_rounded,
+              title: 'Ambulance',
+              subtitle: 'Basic emergency transport with rapid dispatch.',
+            ),
+            const SizedBox(height: 10),
+            const _EmergencyServiceTile(
+              icon: Icons.flight_takeoff_rounded,
+              title: 'Air Ambulance',
+              subtitle: 'Critical transfer support for long-distance cases.',
+            ),
+            const SizedBox(height: 10),
+            const _EmergencyServiceTile(
+              icon: Icons.monitor_heart_rounded,
+              title: 'ICU Ambulance',
+              subtitle: 'Advanced care transport with monitoring support.',
+            ),
+            const SizedBox(height: 10),
+            const _EmergencyServiceTile(
+              icon: Icons.person_pin_circle_rounded,
+              title: 'Patient Transfer',
+              subtitle: 'Safe movement between hospital and home or clinic.',
+            ),
+            const SizedBox(height: 18),
+            const Text(
+              'Need immediate help?',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE5E5E5)),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x0F000000),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Contact the BelleVie support team immediately for guidance and booking.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Call the numbers listed on the Contact Us page if this is an urgent case.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EmergencyServiceTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+
+  const _EmergencyServiceTile({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE5E5E5)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0F000000),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: const BoxDecoration(
+              color: Color(0xFFFFD6D6),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              size: 22,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    height: 1.35,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

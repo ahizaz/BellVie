@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+
 class EmergencyServicesCard extends StatelessWidget {
   const EmergencyServicesCard({super.key});
 
@@ -11,7 +13,7 @@ class EmergencyServicesCard extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(cardRadius),
-      onTap: () {},
+      onTap: () => Get.toNamed(Routes.EMERGENCY_SERVICES),
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
