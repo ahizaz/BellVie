@@ -62,26 +62,6 @@ class PopularServicesSection extends StatelessWidget {
                 ),
                 itemBuilder: (context, i) => _ServiceCard(item: _services[i]),
               ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 40,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: const Color(0xFFDADADA),
-                    foregroundColor: Colors.black87,
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Text(
-                    'view_all'.tr,
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
             ],
           ),
         ),

@@ -9,6 +9,7 @@ import '../modules/auth/views/login_views.dart';
 
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/contact_us/views/contact_us_view.dart';
 
 import '../modules/foreign_treatment/bindings/foreign_treatment_binding.dart';
 import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
@@ -37,6 +38,10 @@ class AppPages {
       name: Routes.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+    ),
+    GetPage(
+      name: Routes.CONTACT_US,
+      page: () => const ContactUsView(),
     ),
     GetPage(
       name: Routes.FOREIGN_TREATMENT,

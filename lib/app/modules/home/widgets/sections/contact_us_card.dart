@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../routes/app_routes.dart';
 
 class ContactUsCard extends StatelessWidget {
   const ContactUsCard({super.key});
@@ -11,7 +12,7 @@ class ContactUsCard extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () {},
+      onTap: () => Get.toNamed(Routes.CONTACT_US),
       child: Container(
         height: cardHeight,
         padding: const EdgeInsets.symmetric(horizontal: 14),
