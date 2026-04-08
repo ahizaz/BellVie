@@ -99,6 +99,7 @@ class AuthController extends GetxController {
   Future<void> register() async {
     final name = registerNameController.text.trim();
     final phone = registerPhoneController.text.trim();
+    final email = registerEmailController.text.trim();
     final password = registerPasswordController.text.trim();
     final confirmPassword = registerConfirmPasswordController.text.trim();
 
@@ -116,6 +117,12 @@ class AuthController extends GetxController {
       EasyLoading.showError('passwords_do_not_match'.tr);
       return;
     }
+
+    await AuthService.to.updateProfile(
+      name: name,
+      phone: phone,
+      email: email,
+    );
 
     EasyLoading.showSuccess('registration_successful'.tr);
     Get.offNamed(Routes.LOGIN);

@@ -6,5 +6,6 @@ abstract class Routes {
   static const EMERGENCY_SERVICES = '/emergency-services';
   static const FOREIGN_TREATMENT = '/foreign-treatment';
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
+  static const PROFILE = '/profile';
   static const REGISTER = '/register';
 }

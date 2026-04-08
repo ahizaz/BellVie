@@ -11,6 +11,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/contact_us/views/contact_us_view.dart';
 import '../modules/emergency_services/views/emergency_services_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
 
 import '../modules/foreign_treatment/bindings/foreign_treatment_binding.dart';
 import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
@@ -47,6 +49,11 @@ class AppPages {
     GetPage(
       name: Routes.EMERGENCY_SERVICES,
       page: () => const EmergencyServicesView(),
+    ),
+    GetPage(
+      name: Routes.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
     ),
     GetPage(
       name: Routes.FOREIGN_TREATMENT,

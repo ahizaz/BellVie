@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
+import '../../../routes/app_routes.dart';
 
 class HomeTopBar extends StatelessWidget {
   const HomeTopBar({super.key});
@@ -118,17 +119,24 @@ class HomeTopBar extends StatelessWidget {
               iconBtn(Icons.search),
               iconBtn(Icons.notifications_none),
               const SizedBox(width: 6),
-              Container(
-                width: isSmall ? 32 : 34,
-                height: isSmall ? 32 : 34,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFEFEFEF),
-                ),
-                child: Icon(
-                  Icons.person,
-                  size: isSmall ? 18 : 20,
-                  color: Colors.black54,
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.PROFILE),
+                  customBorder: const CircleBorder(),
+                  child: Container(
+                    width: isSmall ? 32 : 34,
+                    height: isSmall ? 32 : 34,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFEFEFEF),
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      size: isSmall ? 18 : 20,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
               ),
             ],
