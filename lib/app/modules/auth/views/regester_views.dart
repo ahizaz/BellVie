@@ -77,7 +77,7 @@ class RegisterView extends GetView<AuthController> {
               SizedBox(height: context.h(14)),
               Obx(
                 () => DropdownButtonFormField<String>(
-                  value: controller.selectedDistrict.value.isEmpty
+                  initialValue: controller.selectedDistrict.value.isEmpty
                       ? null
                       : controller.selectedDistrict.value,
                   isExpanded: true,
