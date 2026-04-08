@@ -25,6 +25,27 @@ class AppTranslation extends Translations {
           'english': 'English',
           'bangla': 'Bangla',
           'emergency_services': 'Emergency Services',
+          'emergency_services_screen': 'Emergency Services',
+          'emergency_fast_response': 'Fast response, 24/7',
+          'emergency_subtitle':
+              'Choose the right emergency transport service when every minute matters.',
+          'available_services': 'Available Services',
+          'ambulance': 'Ambulance',
+          'ambulance_subtitle':
+              'Basic emergency transport with rapid dispatch.',
+          'air_ambulance_subtitle':
+              'Critical transfer support for long-distance cases.',
+          'icu_ambulance': 'ICU Ambulance',
+          'icu_ambulance_subtitle':
+              'Advanced care transport with monitoring support.',
+          'patient_transfer': 'Patient Transfer',
+          'patient_transfer_subtitle':
+              'Safe movement between hospital and home or clinic.',
+          'need_immediate_help': 'Need immediate help?',
+          'emergency_contact_guidance':
+              'Contact the BelleVie support team immediately for guidance and booking.',
+          'emergency_call_instruction':
+              'Call the numbers listed on the Contact Us page if this is an urgent case.',
           'contact_us': 'Contact Us',
           'popular_services': 'Popular Services',
           'view_all': 'View All',
@@ -126,6 +147,25 @@ class AppTranslation extends Translations {
           'english': 'ইংরেজি',
           'bangla': 'বাংলা',
           'emergency_services': 'জরুরি সেবা',
+          'emergency_services_screen': 'জরুরি সেবা',
+          'emergency_fast_response': 'দ্রুত সাড়া, ২৪/৭',
+          'emergency_subtitle':
+              'প্রতি মিনিট গুরুত্বপূর্ণ হলে সঠিক জরুরি পরিবহন সেবা বেছে নিন।',
+          'available_services': 'উপলব্ধ সেবা',
+          'ambulance': 'অ্যাম্বুলেন্স',
+          'ambulance_subtitle': 'দ্রুত প্রেরণসহ প্রাথমিক জরুরি পরিবহন।',
+          'air_ambulance_subtitle':
+              'দূরপাল্লার ক্ষেত্রে জরুরি স্থানান্তরের সহায়তা।',
+          'icu_ambulance': 'আইসিইউ অ্যাম্বুলেন্স',
+          'icu_ambulance_subtitle': 'মনিটরিং সহ উন্নত চিকিৎসা পরিবহন।',
+          'patient_transfer': 'রোগী স্থানান্তর',
+          'patient_transfer_subtitle':
+              'হাসপাতাল, বাড়ি বা ক্লিনিকের মধ্যে নিরাপদ স্থানান্তর।',
+          'need_immediate_help': 'তাৎক্ষণিক সাহায্য দরকার?',
+          'emergency_contact_guidance':
+              'নির্দেশনা ও বুকিংয়ের জন্য সঙ্গে সঙ্গে BelleVie সাপোর্ট টিমের সাথে যোগাযোগ করুন।',
+          'emergency_call_instruction':
+              'এটি জরুরি হলে Contact Us পেজে দেওয়া নম্বরে কল করুন।',
           'contact_us': 'যোগাযোগ করুন',
           'popular_services': 'জনপ্রিয় সেবা',
           'view_all': 'সব দেখুন',

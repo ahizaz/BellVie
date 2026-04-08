@@ -2,7 +2,7 @@ import 'package:bellevie/app/modules/auth/controllers/auth_controller.dart';
 import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:bellevie/app/theme/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:get/get.dart';
 
 class RegisterView extends GetView<AuthController> {

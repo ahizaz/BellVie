@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ContactUsView extends StatelessWidget {
   const ContactUsView({super.key});
