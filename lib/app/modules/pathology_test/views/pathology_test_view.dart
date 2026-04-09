@@ -16,7 +16,7 @@ class PathologyTestView extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'pathology_test_screen'.tr,
+          'diagnostic_services'.tr,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             color: Colors.black87,

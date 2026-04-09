@@ -10,12 +10,6 @@ class PopularServicesSection extends StatelessWidget {
     _ServiceItem('specialist_doctors', 'assets/images/Doctor Services.png'),
     _ServiceItem('hospitals_booking', 'assets/images/Hospitals Booking.png'),
     _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
-    _ServiceItem(
-      'pathology_test',
-      'assets/images/pathologytest.png',
-      displayTitle: 'Pathology Test',
-      whiteIconBackground: true,
-    ),
     _ServiceItem('pharmacy', 'assets/images/Pharmacy.png'),
     _ServiceItem('video_consultancy', 'assets/images/Video Consultancy.png'),
     _ServiceItem('ambulance_services', 'assets/images/Ambulance.png'),
@@ -79,13 +73,11 @@ class PopularServicesSection extends StatelessWidget {
 class _ServiceItem {
   final String titleKey;
   final String assetPath;
-  final String? displayTitle;
   final bool whiteIconBackground;
 
   const _ServiceItem(
     this.titleKey,
     this.assetPath, {
-    this.displayTitle,
     this.whiteIconBackground = false,
   });
 }
@@ -100,10 +92,6 @@ class _ServiceCard extends StatelessWidget {
     if (item.titleKey == 'specialist_doctors') {
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
       return;
-    }
-
-    if (item.titleKey == 'pathology_test') {
-      Get.toNamed(Routes.PATHOLOGY_TEST);
     }
   }
 
@@ -147,7 +135,7 @@ class _ServiceCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              item.displayTitle ?? item.titleKey.tr,
+              item.titleKey.tr,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

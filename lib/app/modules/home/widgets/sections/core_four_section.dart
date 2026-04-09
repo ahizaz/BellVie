@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../routes/app_routes.dart';
 
 class CoreFourSection extends StatelessWidget {
   const CoreFourSection({super.key});
@@ -268,11 +269,17 @@ class _CoreFourCard extends StatelessWidget {
   final _CoreFourItemData item;
   const _CoreFourCard({required this.item});
 
+  void _handleTap() {
+    if (item.titleKey == 'diagnostic_services') {
+      Get.toNamed(Routes.PATHOLOGY_TEST);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () {},
+      onTap: _handleTap,
       child: Container(
         padding: const EdgeInsets.fromLTRB(10, 12, 10, 10),
         decoration: BoxDecoration(

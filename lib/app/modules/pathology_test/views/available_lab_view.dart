@@ -5,14 +5,14 @@ class AvailableLabView extends StatelessWidget {
   const AvailableLabView({super.key});
 
   static const _labs = <_LabItem>[
-    _LabItem('Birdem', 'assets/images/birdem.jpeg'),
-    _LabItem('Ibn Sina', 'assets/images/ibnsina.png'),
-    _LabItem('Popular', 'assets/images/popular.png'),
-    _LabItem('Thyrocare', 'assets/images/thyrocare.jpg'),
-    _LabItem('Continental Hospital', 'assets/images/continentalhospital.png'),
-    _LabItem('Islami Hospital', 'assets/images/lslamihospital.png'),
-    _LabItem('Medinova', 'assets/images/medinova.jpeg'),
-    _LabItem('Oncosmolbiol', 'assets/images/oncosmolbiol.png'),
+    _LabItem('birdem', 'assets/images/birdem.jpeg'),
+    _LabItem('ibn_sina', 'assets/images/ibnsina.png'),
+    _LabItem('popular_lab', 'assets/images/popular.png'),
+    _LabItem('thyrocare', 'assets/images/thyrocare.jpg'),
+    _LabItem('continental_hospital', 'assets/images/continentalhospital.png'),
+    _LabItem('islami_hospital', 'assets/images/lslamihospital.png'),
+    _LabItem('medinova', 'assets/images/medinova.jpeg'),
+    _LabItem('oncosmolbiol', 'assets/images/oncosmolbiol.png'),
   ];
 
   @override
@@ -95,7 +95,7 @@ class _LabCard extends StatelessWidget {
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
-                  item.title,
+                  item.title.tr,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
