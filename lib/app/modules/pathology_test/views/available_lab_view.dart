@@ -8,6 +8,11 @@ class AvailableLabView extends StatelessWidget {
     _LabItem('Birdem', 'assets/images/birdem.jpeg'),
     _LabItem('Ibn Sina', 'assets/images/ibnsina.png'),
     _LabItem('Popular', 'assets/images/popular.png'),
+    _LabItem('Thyrocare', 'assets/images/thyrocare.jpg'),
+    _LabItem('Continental Hospital', 'assets/images/continentalhospital.png'),
+    _LabItem('Islami Hospital', 'assets/images/lslamihospital.png'),
+    _LabItem('Medinova', 'assets/images/medinova.jpeg'),
+    _LabItem('Oncosmolbiol', 'assets/images/oncosmolbiol.png'),
   ];
 
   @override
