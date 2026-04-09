@@ -5,6 +5,7 @@ abstract class Routes {
   static const CONTACT_US = '/contact-us';
   static const EMERGENCY_SERVICES = '/emergency-services';
   static const PATHOLOGY_TEST = '/pathology-test';
+  static const AMAR_LAB = '/amar-lab';
   static const FOREIGN_TREATMENT = '/foreign-treatment';
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
   static const PROFILE = '/profile';

@@ -12,6 +12,7 @@ import '../modules/home/views/home_view.dart';
 import '../modules/contact_us/views/contact_us_view.dart';
 import '../modules/emergency_services/views/emergency_services_view.dart';
 import '../modules/pathology_test/views/pathology_test_view.dart';
+import '../modules/pathology_test/views/available_lab_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 
@@ -56,6 +57,11 @@ class AppPages {
     GetPage(
       name: Routes.PATHOLOGY_TEST,
       page: () => const PathologyTestView(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.AMAR_LAB,
+      page: () => const AvailableLabView(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
