@@ -53,6 +53,11 @@ class AppTranslation extends Translations {
           'hospitals_booking': 'Hospitals Booking',
           'telemedicine': 'Telemedicine',
           'pathology_test': 'Pathology Test',
+          'pathology_test_screen': 'Pathology Test',
+          'amar_lab': 'Amar Lab',
+          'pathology_test_card_subtitle':
+              'Pathology test collection and reports',
+          'available_lab': 'Available Lab',
           'pharmacy': 'Pharmacy',
           'video_consultancy': 'Video Consultancy',
           'ambulance_services': 'Ambulance Services',
@@ -175,6 +180,11 @@ class AppTranslation extends Translations {
           'hospitals_booking': 'হাসপাতাল বুকিং',
           'telemedicine': 'টেলিমেডিসিন',
           'pathology_test': 'Pathology Test',
+          'pathology_test_screen': 'Pathology Test',
+          'amar_lab': 'Amar Lab',
+          'pathology_test_card_subtitle':
+              'Pathology test collection and reports',
+          'available_lab': 'Available Lab',
           'pharmacy': 'ফার্মেসি',
           'video_consultancy': 'ভিডিও কনসালটেন্সি',
           'ambulance_services': 'অ্যাম্বুলেন্স সেবা',

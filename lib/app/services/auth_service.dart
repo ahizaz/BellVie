@@ -25,7 +25,9 @@ class AuthService extends GetxService {
 
   Future<AuthService> init() async {
     _prefs = await SharedPreferences.getInstance();
-    isLoggedIn.value = _prefs?.getBool(_loggedInKey) ?? false;
+    // Enforce login on every fresh app launch.
+    isLoggedIn.value = false;
+    await _prefs?.setBool(_loggedInKey, false);
     profileName.value = _prefs?.getString(_profileNameKey) ?? '';
     profilePhone.value = _prefs?.getString(_profilePhoneKey) ?? '';
     profileEmail.value = _prefs?.getString(_profileEmailKey) ?? '';
@@ -34,7 +36,6 @@ class AuthService extends GetxService {
 
   Future<void> login() async {
     isLoggedIn.value = true;
-    await _prefs?.setBool(_loggedInKey, true);
   }
 
   Future<void> logout() async {

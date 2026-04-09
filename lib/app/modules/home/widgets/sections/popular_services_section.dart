@@ -95,9 +95,15 @@ class _ServiceCard extends StatelessWidget {
   const _ServiceCard({required this.item});
 
   void _handleTap() {
+    if (!AuthService.to.requireLogin()) return;
+
     if (item.titleKey == 'specialist_doctors') {
-      if (!AuthService.to.requireLogin()) return;
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
+      return;
+    }
+
+    if (item.titleKey == 'pathology_test') {
+      Get.toNamed(Routes.PATHOLOGY_TEST);
     }
   }
 
