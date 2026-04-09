@@ -234,6 +234,8 @@ class CoreFourSection extends StatelessWidget {
               _otherMedicalTile('dentists', 'assets/images/Dentists.png'),
               _otherMedicalTile(
                   'stem_therapy', 'assets/images/Stem Therapy.png'),
+              _otherMedicalTile('regenerative_therapy',
+                  'assets/images/regenerative_therapy.jpeg'),
               _otherMedicalTile(
                   'caregiver_services', 'assets/images/Caregiver Services.png'),
               _otherMedicalTile(
