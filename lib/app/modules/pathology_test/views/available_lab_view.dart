@@ -25,7 +25,7 @@ class AvailableLabView extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          'available_lab'.tr,
+          'Available'.tr,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
             color: Colors.black87,
@@ -103,11 +103,11 @@ class _LabCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 16,
-                color: Colors.black45,
-              ),
+              // const Icon(
+              //   Icons.arrow_forward_ios_rounded,
+              //   size: 16,
+              //   color: Colors.black45,
+              // ),
             ],
           ),
         ),

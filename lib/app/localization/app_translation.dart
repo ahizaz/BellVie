@@ -192,7 +192,7 @@ class AppTranslation extends Translations {
           'amar_lab': 'আমার ল্যাব',
           'pathology_test_card_subtitle':
               'Pathology test collection and reports',
-          'available_lab': 'উপলব্ধ ল্যাব',
+          'available_lab': 'সহজলভ্য',
           'birdem': 'বারডেম',
           'ibn_sina': 'ইবনে সিনা',
           'popular_lab': 'পপুলার',
