@@ -9,6 +9,47 @@ import '../../../services/api_service.dart';
 class AuthController extends GetxController {
   final AppApiService _apiService = AppApiService();
 
+  String _extractApiErrorMessage(String responseBody, String fallbackMessage) {
+    try {
+      final decoded = jsonDecode(responseBody);
+
+      if (decoded is Map<String, dynamic>) {
+        final detail =
+            decoded['detail'] ?? decoded['message'] ?? decoded['error'];
+        if (detail is String && detail.trim().isNotEmpty) {
+          return detail.trim();
+        }
+
+        for (final entry in decoded.entries) {
+          final value = entry.value;
+          if (value is List && value.isNotEmpty) {
+            final first = value.first.toString().trim();
+            if (first.isNotEmpty) {
+              return '${entry.key}: $first';
+            }
+          }
+          if (value is String && value.trim().isNotEmpty) {
+            return '${entry.key}: ${value.trim()}';
+          }
+        }
+      }
+
+      if (decoded is List && decoded.isNotEmpty) {
+        final first = decoded.first.toString().trim();
+        if (first.isNotEmpty) {
+          return first;
+        }
+      }
+    } catch (_) {
+      final raw = responseBody.trim();
+      if (raw.isNotEmpty) {
+        return raw;
+      }
+    }
+
+    return fallbackMessage;
+  }
+
   static const List<String> districts = [
     'Bagerhat',
     'Bandarban',
@@ -226,24 +267,19 @@ class AuthController extends GetxController {
         return;
       }
 
-      String message = 'Registration failed. Please try again.';
-      try {
-        final decoded = jsonDecode(response.body);
-        if (decoded is Map<String, dynamic>) {
-          final detail = decoded['detail'] ?? decoded['message'];
-          if (detail is String && detail.trim().isNotEmpty) {
-            message = detail;
-          }
-        }
-      } catch (_) {
-        debugPrint('Register response is not valid JSON');
-      }
+      final message = _extractApiErrorMessage(
+        response.body,
+        'Registration failed. Please try again.',
+      );
 
       EasyLoading.showError(message);
     } catch (e) {
       debugPrint('Register error => $e');
+      final errorText = e.toString().trim();
       EasyLoading.showError(
-        'Registration failed. Check internet and try again.',
+        errorText.isNotEmpty
+            ? errorText
+            : 'Registration failed. Check internet and try again.',
       );
     } finally {
       if (EasyLoading.isShow) {
