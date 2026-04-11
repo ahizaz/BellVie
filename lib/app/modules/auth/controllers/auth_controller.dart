@@ -81,6 +81,7 @@ class AuthController extends GetxController {
   final RxString selectedLoginCountryCode = '+880'.obs;
   final RxString selectedRegisterCountryIso = 'BD'.obs;
   final RxString selectedRegisterCountryCode = '+880'.obs;
+  final RxBool showRegisterPasswordMismatch = false.obs;
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController registerNameController = TextEditingController();
@@ -90,6 +91,25 @@ class AuthController extends GetxController {
       TextEditingController();
   final TextEditingController registerConfirmPasswordController =
       TextEditingController();
+
+  void validateRegisterPasswordMatch() {
+    final password = registerPasswordController.text.trim();
+    final confirmPassword = registerConfirmPasswordController.text.trim();
+    showRegisterPasswordMismatch.value =
+        confirmPassword.isNotEmpty && password != confirmPassword;
+  }
+
+  void clearRegistrationForm() {
+    registerNameController.clear();
+    registerEmailController.clear();
+    registerPhoneController.clear();
+    registerPasswordController.clear();
+    registerConfirmPasswordController.clear();
+    selectedDistrict.value = '';
+    selectedRegisterCountryIso.value = 'BD';
+    selectedRegisterCountryCode.value = '+880';
+    showRegisterPasswordMismatch.value = false;
+  }
 
   Future<void> login() async {
     final phone = phoneController.text.trim();
@@ -169,6 +189,7 @@ class AuthController extends GetxController {
       return;
     }
 
+    validateRegisterPasswordMatch();
     if (password != confirmPassword) {
       EasyLoading.showError('passwords_do_not_match'.tr);
       return;
@@ -199,6 +220,7 @@ class AuthController extends GetxController {
           email: email,
         );
 
+        clearRegistrationForm();
         EasyLoading.showSuccess('registration_successful'.tr);
         Get.offNamed(Routes.LOGIN);
         return;

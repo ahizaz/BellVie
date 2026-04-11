@@ -178,30 +178,44 @@ class RegisterView extends GetView<AuthController> {
                   ),
                 ),
                 SizedBox(height: context.h(14)),
-                TextField(
-                  controller: controller.registerPasswordController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'password'.tr,
-                    border: const OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: context.w(16),
-                      vertical: context.h(16),
+                Obx(
+                  () => TextField(
+                    controller: controller.registerPasswordController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (_) =>
+                        controller.validateRegisterPasswordMatch(),
+                    decoration: InputDecoration(
+                      labelText: 'password'.tr,
+                      border: const OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: context.w(16),
+                        vertical: context.h(16),
+                      ),
+                      errorText: controller.showRegisterPasswordMismatch.value
+                          ? 'passwords_do_not_match'.tr
+                          : null,
                     ),
                   ),
                 ),
                 SizedBox(height: context.h(14)),
-                TextField(
-                  controller: controller.registerConfirmPasswordController,
-                  obscureText: true,
-                  textInputAction: TextInputAction.done,
-                  decoration: InputDecoration(
-                    labelText: 'confirm_password'.tr,
-                    border: const OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: context.w(16),
-                      vertical: context.h(16),
+                Obx(
+                  () => TextField(
+                    controller: controller.registerConfirmPasswordController,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    onChanged: (_) =>
+                        controller.validateRegisterPasswordMatch(),
+                    decoration: InputDecoration(
+                      labelText: 'confirm_password'.tr,
+                      border: const OutlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: context.w(16),
+                        vertical: context.h(16),
+                      ),
+                      errorText: controller.showRegisterPasswordMismatch.value
+                          ? 'passwords_do_not_match'.tr
+                          : null,
                     ),
                   ),
                 ),
