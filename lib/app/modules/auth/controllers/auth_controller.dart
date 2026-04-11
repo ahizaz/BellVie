@@ -2,9 +2,13 @@ import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'dart:convert';
 import '../../../services/auth_service.dart';
+import '../../../services/api_service.dart';
 
 class AuthController extends GetxController {
+  final AppApiService _apiService = AppApiService();
+
   static const List<String> districts = [
     'Bagerhat',
     'Bandarban',
@@ -73,6 +77,10 @@ class AuthController extends GetxController {
   ];
 
   final RxString selectedDistrict = ''.obs;
+  final RxString selectedLoginCountryIso = 'BD'.obs;
+  final RxString selectedLoginCountryCode = '+880'.obs;
+  final RxString selectedRegisterCountryIso = 'BD'.obs;
+  final RxString selectedRegisterCountryCode = '+880'.obs;
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController registerNameController = TextEditingController();
@@ -84,21 +92,69 @@ class AuthController extends GetxController {
       TextEditingController();
 
   Future<void> login() async {
-    final email = phoneController.text.trim();
+    final phone = phoneController.text.trim();
     final password = passwordController.text.trim();
+    final countryCode = selectedLoginCountryCode.value;
 
-    if (email.isEmpty || password.isEmpty) {
+    if (phone.isEmpty || password.isEmpty) {
       EasyLoading.showError('please_enter_phone_password'.tr);
       return;
     }
 
-    await AuthService.to.login();
-    Get.offAllNamed(Routes.HOME);
+    final requestBody = {
+      'phone_number': '$countryCode$phone',
+      'password': password,
+    };
+
+    EasyLoading.show(status: 'Please wait...');
+
+    try {
+      debugPrint('Login request body => $requestBody');
+
+      final response = await _apiService.post(
+        path: '/api/v1/auth/login/',
+        body: requestBody,
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        await AuthService.to.login();
+        await AuthService.to.updateProfile(
+          name: AuthService.to.profileName.value,
+          phone: '$countryCode$phone',
+          email: AuthService.to.profileEmail.value,
+        );
+        Get.offAllNamed(Routes.HOME);
+        return;
+      }
+
+      String message = 'Login failed. Please try again.';
+      try {
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map<String, dynamic>) {
+          final detail = decoded['detail'] ?? decoded['message'];
+          if (detail is String && detail.trim().isNotEmpty) {
+            message = detail;
+          }
+        }
+      } catch (_) {
+        debugPrint('Login response is not valid JSON');
+      }
+
+      EasyLoading.showError(message);
+    } catch (e) {
+      debugPrint('Login error => $e');
+      EasyLoading.showError('Login failed. Check internet and try again.');
+    } finally {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+    }
   }
 
   Future<void> register() async {
     final name = registerNameController.text.trim();
     final phone = registerPhoneController.text.trim();
+    final countryCode = selectedRegisterCountryCode.value;
     final email = registerEmailController.text.trim();
     final password = registerPasswordController.text.trim();
     final confirmPassword = registerConfirmPasswordController.text.trim();
@@ -118,14 +174,60 @@ class AuthController extends GetxController {
       return;
     }
 
-    await AuthService.to.updateProfile(
-      name: name,
-      phone: phone,
-      email: email,
-    );
+    final requestBody = {
+      'password': password,
+      'phone_number': '$countryCode$phone',
+      'name': name,
+      'email': email,
+      'district': selectedDistrict.value,
+    };
 
-    EasyLoading.showSuccess('registration_successful'.tr);
-    Get.offNamed(Routes.LOGIN);
+    EasyLoading.show(status: 'Please wait...');
+
+    try {
+      debugPrint('Register request body => $requestBody');
+
+      final response = await _apiService.post(
+        path: '/api/v1/auth/register/',
+        body: requestBody,
+      );
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        await AuthService.to.updateProfile(
+          name: name,
+          phone: '$countryCode$phone',
+          email: email,
+        );
+
+        EasyLoading.showSuccess('registration_successful'.tr);
+        Get.offNamed(Routes.LOGIN);
+        return;
+      }
+
+      String message = 'Registration failed. Please try again.';
+      try {
+        final decoded = jsonDecode(response.body);
+        if (decoded is Map<String, dynamic>) {
+          final detail = decoded['detail'] ?? decoded['message'];
+          if (detail is String && detail.trim().isNotEmpty) {
+            message = detail;
+          }
+        }
+      } catch (_) {
+        debugPrint('Register response is not valid JSON');
+      }
+
+      EasyLoading.showError(message);
+    } catch (e) {
+      debugPrint('Register error => $e');
+      EasyLoading.showError(
+        'Registration failed. Check internet and try again.',
+      );
+    } finally {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+    }
   }
 
   @override

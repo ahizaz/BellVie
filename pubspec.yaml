@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   get: ^4.6.6
   flutter_easyloading: ^3.0.5
+  http: ^1.2.2
+  country_picker: ^2.0.27
   shared_preferences: ^2.5.5
   image_picker: ^1.2.1
 
