@@ -132,6 +132,13 @@ class LoginView extends GetView<AuthController> {
                     ),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
+                    child: const Text('Forgot Password?'),
+                  ),
+                ),
                 SizedBox(height: context.h(20)),
                 SizedBox(
                   width: double.infinity,

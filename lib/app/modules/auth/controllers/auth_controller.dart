@@ -120,6 +120,8 @@ class AuthController extends GetxController {
   final RxString selectedDistrict = ''.obs;
   final RxString selectedLoginCountryIso = 'BD'.obs;
   final RxString selectedLoginCountryCode = '+880'.obs;
+  final RxString selectedForgotCountryIso = 'BD'.obs;
+  final RxString selectedForgotCountryCode = '+880'.obs;
   final RxString selectedRegisterCountryIso = 'BD'.obs;
   final RxString selectedRegisterCountryCode = '+880'.obs;
   final RxBool showRegisterPasswordMismatch = false.obs;
@@ -237,6 +239,81 @@ class AuthController extends GetxController {
       }
       debugPrint('Login error => $e');
       EasyLoading.showError('Login failed. Check internet and try again.');
+    }
+  }
+
+  Future<void> resetForgotPassword({
+    required String phoneNumber,
+    required String countryCode,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final rawPhone = phoneNumber.trim();
+    final selectedCountryCode = countryCode.trim();
+    final password = newPassword.trim();
+    final confirm = confirmPassword.trim();
+    final formattedPhone =
+        rawPhone.startsWith('+') ? rawPhone : '$selectedCountryCode$rawPhone';
+
+    if (rawPhone.isEmpty) {
+      EasyLoading.showError('Please enter your phone number.');
+      return;
+    }
+
+    if (password.isEmpty || confirm.isEmpty) {
+      EasyLoading.showError('Please enter new password and confirm password.');
+      return;
+    }
+
+    if (password != confirm) {
+      EasyLoading.showError('Passwords do not match.');
+      return;
+    }
+
+    final requestBody = {
+      'confirm_password': confirm,
+      'new_password': password,
+      'phone_number': formattedPhone,
+    };
+
+    EasyLoading.show(status: 'Please wait...');
+
+    try {
+      debugPrint('Reset password request body => $requestBody');
+
+      final response = await _apiService.post(
+        path: '/api/v1/auth/reset-password/',
+        body: requestBody,
+      );
+
+      debugPrint('Reset password response status => ${response.statusCode}');
+      debugPrint('Reset password response body => ${response.body}');
+
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        if (Get.isDialogOpen ?? false) {
+          Get.back();
+        }
+        EasyLoading.showSuccess('Password reset successful. Please login.');
+        Get.offAllNamed(Routes.LOGIN);
+        return;
+      }
+
+      final message = _extractApiErrorMessage(
+        response.body,
+        'Reset password failed. Please try again.',
+      );
+      EasyLoading.showError(message);
+    } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+      debugPrint('Reset password error => $e');
+      EasyLoading.showError(
+          'Reset password failed. Check internet and try again.');
     }
   }
 

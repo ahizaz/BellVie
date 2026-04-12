@@ -5,6 +5,7 @@ import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
+import '../modules/auth/views/forgot_password_view.dart';
 import '../modules/auth/views/login_views.dart';
 
 import '../modules/home/bindings/home_binding.dart';
@@ -37,6 +38,11 @@ class AppPages {
     GetPage(
       name: Routes.LOGIN,
       page: () => const LoginView(),
+      binding: AuthBinding(),
+    ),
+    GetPage(
+      name: Routes.FORGOT_PASSWORD,
+      page: () => const ForgotPasswordView(),
       binding: AuthBinding(),
     ),
     GetPage(

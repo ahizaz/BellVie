@@ -10,4 +10,5 @@ abstract class Routes {
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
   static const PROFILE = '/profile';
   static const REGISTER = '/register';
+  static const FORGOT_PASSWORD = '/forgot-password';
 }
