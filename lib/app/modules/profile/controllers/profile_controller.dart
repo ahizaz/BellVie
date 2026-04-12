@@ -22,14 +22,16 @@ class ProfileController extends GetxController {
     fetchProfile();
   }
 
-  Future<void> fetchProfile() async {
+  Future<void> fetchProfile({bool showLoader = true}) async {
     final token = authService.accessToken.value.trim();
     if (token.isEmpty) {
       debugPrint('Profile fetch skipped => access token is empty');
       return;
     }
 
-    EasyLoading.show(status: 'Loading profile...');
+    if (showLoader) {
+      EasyLoading.show(status: 'Loading profile...');
+    }
 
     try {
       final response = await _apiService.get(
@@ -42,7 +44,7 @@ class ProfileController extends GetxController {
       debugPrint('Profile response status => ${response.statusCode}');
       debugPrint('Profile response body => ${response.body}');
 
-      if (EasyLoading.isShow) {
+      if (showLoader && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
@@ -75,7 +77,7 @@ class ProfileController extends GetxController {
 
       EasyLoading.showError('Profile load failed. Please try again.');
     } catch (e) {
-      if (EasyLoading.isShow) {
+      if (showLoader && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       debugPrint('Profile fetch error => $e');
@@ -97,6 +99,50 @@ class ProfileController extends GetxController {
 
     final Uint8List avatarBytes = await pickedImage.readAsBytes();
     authService.updateProfileAvatar(avatarBytes);
+    await uploadProfilePicture(pickedImage);
+  }
+
+  Future<void> uploadProfilePicture(XFile imageFile) async {
+    final token = authService.accessToken.value.trim();
+    if (token.isEmpty) {
+      debugPrint('Profile picture upload skipped => access token is empty');
+      EasyLoading.showError('Please login again.');
+      return;
+    }
+
+    EasyLoading.show(status: 'Uploading profile picture...');
+
+    try {
+      final response = await _apiService.putMultipart(
+        path: '/api/v1/auth/profile/',
+        fileField: 'profile_picture',
+        filePath: imageFile.path,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      debugPrint('Profile picture upload status => ${response.statusCode}');
+      debugPrint('Profile picture upload body => ${response.body}');
+
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        await fetchProfile(showLoader: false);
+        EasyLoading.showSuccess('Profile picture updated');
+        return;
+      }
+
+      EasyLoading.showError('Upload failed. Please try again.');
+    } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+      debugPrint('Profile picture upload error => $e');
+      EasyLoading.showError('Upload failed. Check internet and try again.');
+    }
   }
 
   Future<void> logout() async {

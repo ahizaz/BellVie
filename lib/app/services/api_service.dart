@@ -66,4 +66,34 @@ class AppApiService {
 
     return response;
   }
+
+  Future<http.Response> putMultipart({
+    required String path,
+    required String fileField,
+    required String filePath,
+    Map<String, String>? headers,
+  }) async {
+    final uri = buildUrl(path);
+    final request = http.MultipartRequest('PUT', uri);
+
+    request.headers.addAll({
+      'Accept': 'application/json',
+      ...?headers,
+    });
+
+    request.files.add(await http.MultipartFile.fromPath(fileField, filePath));
+
+    debugPrint('PUT multipart => $uri');
+    debugPrint('PUT multipart headers => ${request.headers}');
+    debugPrint('PUT multipart file => $fileField: $filePath');
+
+    final streamedResponse =
+        await request.send().timeout(const Duration(seconds: 30));
+    final response = await http.Response.fromStream(streamedResponse);
+
+    debugPrint('PUT multipart status <= ${response.statusCode}');
+    debugPrint('PUT multipart response <= ${response.body}');
+
+    return response;
+  }
 }
