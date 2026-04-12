@@ -177,38 +177,66 @@ class AuthController extends GetxController {
         body: requestBody,
       );
 
+      debugPrint('Login response status => ${response.statusCode}');
+      debugPrint('Login response body => ${response.body}');
+
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        await AuthService.to.login();
+        final decoded = jsonDecode(response.body);
+        if (decoded is! Map<String, dynamic>) {
+          EasyLoading.showError('Login failed. Invalid response from server.');
+          return;
+        }
+
+        final access = (decoded['access'] ?? '').toString().trim();
+        final refresh = (decoded['refresh'] ?? '').toString().trim();
+
+        if (access.isEmpty) {
+          EasyLoading.showError('Login failed. Access token missing.');
+          return;
+        }
+
+        String name = '';
+        String userPhone = '$countryCode$phone';
+        String email = '';
+
+        final user = decoded['user'];
+        if (user is Map<String, dynamic>) {
+          name = (user['name'] ?? '').toString().trim();
+          final apiPhone = (user['phone_number'] ?? '').toString().trim();
+          if (apiPhone.isNotEmpty) {
+            userPhone = apiPhone;
+          }
+          email = (user['email'] ?? '').toString().trim();
+        }
+
+        await AuthService.to.login(access: access, refresh: refresh);
         await AuthService.to.updateProfile(
-          name: AuthService.to.profileName.value,
-          phone: '$countryCode$phone',
-          email: AuthService.to.profileEmail.value,
+          name: name,
+          phone: userPhone,
+          email: email,
         );
+
+        debugPrint('Login success => profile + tokens saved');
         Get.offAllNamed(Routes.HOME);
         return;
       }
 
-      String message = 'Login failed. Please try again.';
-      try {
-        final decoded = jsonDecode(response.body);
-        if (decoded is Map<String, dynamic>) {
-          final detail = decoded['detail'] ?? decoded['message'];
-          if (detail is String && detail.trim().isNotEmpty) {
-            message = detail;
-          }
-        }
-      } catch (_) {
-        debugPrint('Login response is not valid JSON');
-      }
+      final message = _extractApiErrorMessage(
+        response.body,
+        'Login failed. Please try again.',
+      );
 
       EasyLoading.showError(message);
     } catch (e) {
-      debugPrint('Login error => $e');
-      EasyLoading.showError('Login failed. Check internet and try again.');
-    } finally {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
+      debugPrint('Login error => $e');
+      EasyLoading.showError('Login failed. Check internet and try again.');
     }
   }
 
