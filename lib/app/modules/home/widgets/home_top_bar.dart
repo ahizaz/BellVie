@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
+import '../../../services/auth_service.dart';
 
 class HomeTopBar extends StatelessWidget {
   const HomeTopBar({super.key});
@@ -10,6 +11,7 @@ class HomeTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
+    final authService = AuthService.to;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -116,7 +118,7 @@ class HomeTopBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 6),
-              iconBtn(Icons.search),
+              // iconBtn(Icons.search),
               iconBtn(Icons.notifications_none),
               const SizedBox(width: 6),
               Material(
@@ -124,19 +126,43 @@ class HomeTopBar extends StatelessWidget {
                 child: InkWell(
                   onTap: () => Get.toNamed(Routes.PROFILE),
                   customBorder: const CircleBorder(),
-                  child: Container(
-                    width: isSmall ? 32 : 34,
-                    height: isSmall ? 32 : 34,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFEFEFEF),
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      size: isSmall ? 18 : 20,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  child: Obx(() {
+                    final avatarBytes = authService.profileAvatarBytes.value;
+                    final profilePictureUrl =
+                        authService.profilePictureUrl.value;
+
+                    return Container(
+                      width: isSmall ? 32 : 34,
+                      height: isSmall ? 32 : 34,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFEFEFEF),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: avatarBytes != null
+                          ? Image.memory(
+                              avatarBytes,
+                              fit: BoxFit.cover,
+                            )
+                          : profilePictureUrl.isNotEmpty
+                              ? Image.network(
+                                  profilePictureUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) {
+                                    return Icon(
+                                      Icons.person,
+                                      size: isSmall ? 18 : 20,
+                                      color: Colors.black54,
+                                    );
+                                  },
+                                )
+                              : Icon(
+                                  Icons.person,
+                                  size: isSmall ? 18 : 20,
+                                  color: Colors.black54,
+                                ),
+                    );
+                  }),
                 ),
               ),
             ],
