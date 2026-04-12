@@ -154,10 +154,14 @@ class AuthController extends GetxController {
     showRegisterPasswordMismatch.value = false;
   }
 
-  Future<void> login() async {
-    final phone = phoneController.text.trim();
-    final password = passwordController.text.trim();
-    final countryCode = selectedLoginCountryCode.value;
+  Future<void> login({
+    required String phoneNumber,
+    required String passwordText,
+    required String countryCode,
+  }) async {
+    final phone = phoneNumber.trim();
+    final password = passwordText.trim();
+    final selectedCountryCode = countryCode.trim();
 
     if (phone.isEmpty || password.isEmpty) {
       EasyLoading.showError('please_enter_phone_password'.tr);
@@ -165,7 +169,7 @@ class AuthController extends GetxController {
     }
 
     final requestBody = {
-      'phone_number': '$countryCode$phone',
+      'phone_number': '$selectedCountryCode$phone',
       'password': password,
     };
 
@@ -202,7 +206,7 @@ class AuthController extends GetxController {
         }
 
         String name = '';
-        String userPhone = '$countryCode$phone';
+        String userPhone = '$selectedCountryCode$phone';
         String email = '';
 
         final user = decoded['user'];

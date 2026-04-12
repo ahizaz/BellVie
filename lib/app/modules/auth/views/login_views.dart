@@ -6,8 +6,24 @@ import 'package:get/get.dart';
 
 import '../controllers/auth_controller.dart';
 
-class LoginView extends GetView<AuthController> {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  final AuthController controller = Get.find<AuthController>();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   String _countryLabel(String iso, String dialCode) {
     return '$iso $dialCode';
@@ -105,7 +121,7 @@ class LoginView extends GetView<AuthController> {
                     SizedBox(width: context.w(10)),
                     Expanded(
                       child: TextField(
-                        controller: controller.phoneController,
+                        controller: phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           labelText: 'phone_number'.tr,
@@ -121,7 +137,7 @@ class LoginView extends GetView<AuthController> {
                 ),
                 SizedBox(height: context.h(14)),
                 TextField(
-                  controller: controller.passwordController,
+                  controller: passwordController,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'password'.tr,
@@ -143,7 +159,11 @@ class LoginView extends GetView<AuthController> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: controller.login,
+                    onPressed: () => controller.login(
+                      phoneNumber: phoneController.text.trim(),
+                      passwordText: passwordController.text.trim(),
+                      countryCode: controller.selectedLoginCountryCode.value,
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2F6FED),
                       foregroundColor: Colors.white,
