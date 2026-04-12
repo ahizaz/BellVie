@@ -19,6 +19,7 @@ class ProfileView extends GetView<ProfileController> {
             final name = authService.profileName.value;
             final phone = authService.profilePhone.value;
             final email = authService.profileEmail.value;
+            final profilePictureUrl = authService.profilePictureUrl.value;
             final avatarBytes = authService.profileAvatarBytes.value;
 
             return SingleChildScrollView(
@@ -61,20 +62,36 @@ class ProfileView extends GetView<ProfileController> {
                               radius: 54,
                               backgroundColor:
                                   Colors.white.withValues(alpha: 0.22),
-                              child: avatarBytes == null
-                                  ? const Icon(
-                                      Icons.person,
-                                      size: 54,
-                                      color: Colors.white,
-                                    )
-                                  : ClipOval(
+                              child: avatarBytes != null
+                                  ? ClipOval(
                                       child: Image.memory(
                                         avatarBytes,
                                         width: 108,
                                         height: 108,
                                         fit: BoxFit.cover,
                                       ),
-                                    ),
+                                    )
+                                  : profilePictureUrl.isNotEmpty
+                                      ? ClipOval(
+                                          child: Image.network(
+                                            profilePictureUrl,
+                                            width: 108,
+                                            height: 108,
+                                            fit: BoxFit.cover,
+                                            errorBuilder: (_, __, ___) {
+                                              return const Icon(
+                                                Icons.person,
+                                                size: 54,
+                                                color: Colors.white,
+                                              );
+                                            },
+                                          ),
+                                        )
+                                      : const Icon(
+                                          Icons.person,
+                                          size: 54,
+                                          color: Colors.white,
+                                        ),
                             ),
                             Material(
                               color: Colors.white,

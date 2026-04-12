@@ -40,4 +40,30 @@ class AppApiService {
 
     return response;
   }
+
+  Future<http.Response> get({
+    required String path,
+    Map<String, String>? headers,
+  }) async {
+    final uri = buildUrl(path);
+    final requestHeaders = <String, String>{
+      'Accept': 'application/json',
+      ...?headers,
+    };
+
+    debugPrint('GET => $uri');
+    debugPrint('GET headers => $requestHeaders');
+
+    final response = await http
+        .get(
+          uri,
+          headers: requestHeaders,
+        )
+        .timeout(const Duration(seconds: 30));
+
+    debugPrint('GET status <= ${response.statusCode}');
+    debugPrint('GET response <= ${response.body}');
+
+    return response;
+  }
 }

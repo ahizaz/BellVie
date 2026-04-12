@@ -11,6 +11,8 @@ class AuthService extends GetxService {
   static const String _profileNameKey = 'profile_name';
   static const String _profilePhoneKey = 'profile_phone';
   static const String _profileEmailKey = 'profile_email';
+  static const String _profileDistrictKey = 'profile_district';
+  static const String _profilePictureUrlKey = 'profile_picture_url';
 
   final RxBool isLoggedIn = false.obs;
   final RxString accessToken = ''.obs;
@@ -18,6 +20,8 @@ class AuthService extends GetxService {
   final RxString profileName = ''.obs;
   final RxString profilePhone = ''.obs;
   final RxString profileEmail = ''.obs;
+  final RxString profileDistrict = ''.obs;
+  final RxString profilePictureUrl = ''.obs;
   final Rxn<Uint8List> profileAvatarBytes = Rxn<Uint8List>();
 
   SharedPreferences? _prefs;
@@ -34,6 +38,8 @@ class AuthService extends GetxService {
     profileName.value = _prefs?.getString(_profileNameKey) ?? '';
     profilePhone.value = _prefs?.getString(_profilePhoneKey) ?? '';
     profileEmail.value = _prefs?.getString(_profileEmailKey) ?? '';
+    profileDistrict.value = _prefs?.getString(_profileDistrictKey) ?? '';
+    profilePictureUrl.value = _prefs?.getString(_profilePictureUrlKey) ?? '';
 
     debugPrint(
       'Auth init => loggedIn: ${isLoggedIn.value}, hasAccess: ${accessToken.value.isNotEmpty}',
@@ -64,9 +70,13 @@ class AuthService extends GetxService {
     accessToken.value = '';
     refreshToken.value = '';
     profileAvatarBytes.value = null;
+    profileDistrict.value = '';
+    profilePictureUrl.value = '';
     await _prefs?.setBool(_loggedInKey, false);
     await _prefs?.remove(_accessTokenKey);
     await _prefs?.remove(_refreshTokenKey);
+    await _prefs?.remove(_profileDistrictKey);
+    await _prefs?.remove(_profilePictureUrlKey);
     debugPrint('Auth logout => tokens cleared, loggedIn false');
   }
 
@@ -74,14 +84,20 @@ class AuthService extends GetxService {
     required String name,
     required String phone,
     required String email,
+    String district = '',
+    String profilePictureUrl = '',
   }) async {
     profileName.value = name;
     profilePhone.value = phone;
     profileEmail.value = email;
+    profileDistrict.value = district;
+    this.profilePictureUrl.value = profilePictureUrl;
 
     await _prefs?.setString(_profileNameKey, name);
     await _prefs?.setString(_profilePhoneKey, phone);
     await _prefs?.setString(_profileEmailKey, email);
+    await _prefs?.setString(_profileDistrictKey, district);
+    await _prefs?.setString(_profilePictureUrlKey, profilePictureUrl);
   }
 
   void updateProfileAvatar(Uint8List? avatarBytes) {

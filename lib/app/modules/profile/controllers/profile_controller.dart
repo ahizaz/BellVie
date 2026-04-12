@@ -1,15 +1,88 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../routes/app_routes.dart';
+import '../../../services/api_service.dart';
 import '../../../services/auth_service.dart';
 
 class ProfileController extends GetxController {
   final AuthService authService = AuthService.to;
+  final AppApiService _apiService = AppApiService();
   final ImagePicker _imagePicker = ImagePicker();
+
+  @override
+  void onReady() {
+    super.onReady();
+    fetchProfile();
+  }
+
+  Future<void> fetchProfile() async {
+    final token = authService.accessToken.value.trim();
+    if (token.isEmpty) {
+      debugPrint('Profile fetch skipped => access token is empty');
+      return;
+    }
+
+    EasyLoading.show(status: 'Loading profile...');
+
+    try {
+      final response = await _apiService.get(
+        path: '/api/v1/auth/profile/',
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      debugPrint('Profile response status => ${response.statusCode}');
+      debugPrint('Profile response body => ${response.body}');
+
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final dynamic decoded = jsonDecode(response.body);
+        if (decoded is! Map<String, dynamic>) {
+          EasyLoading.showError(
+              'Profile load failed. Invalid server response.');
+          return;
+        }
+
+        final name = (decoded['name'] ?? '').toString().trim();
+        final phone = (decoded['phone_number'] ?? '').toString().trim();
+        final email = (decoded['email'] ?? '').toString().trim();
+        final district = (decoded['district'] ?? '').toString().trim();
+        final profilePicture =
+            (decoded['profile_picture'] ?? '').toString().trim();
+
+        await authService.updateProfile(
+          name: name,
+          phone: phone,
+          email: email,
+          district: district,
+          profilePictureUrl: profilePicture,
+        );
+
+        debugPrint('Profile fetch success => name: $name, phone: $phone');
+        return;
+      }
+
+      EasyLoading.showError('Profile load failed. Please try again.');
+    } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+      debugPrint('Profile fetch error => $e');
+      EasyLoading.showError(
+          'Profile load failed. Check internet and try again.');
+    }
+  }
 
   Future<void> pickAvatar() async {
     final XFile? pickedImage = await _imagePicker.pickImage(
