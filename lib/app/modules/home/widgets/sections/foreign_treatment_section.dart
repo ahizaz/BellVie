@@ -10,6 +10,8 @@ import '../../../foreign_treatment/views/foreign_treatment_view.dart';
 class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
 
+  static final RxInt countryCount = 6.obs;
+
   @override
   State<ForeignTreatmentSection> createState() =>
       _ForeignTreatmentSectionState();
@@ -54,6 +56,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   @override
   void initState() {
     super.initState();
+    ForeignTreatmentSection.countryCount.value = _countries.length;
     _fetchCountries();
   }
 
@@ -135,6 +138,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
       if (!mounted) return;
       if (mapped.isEmpty) {
+        ForeignTreatmentSection.countryCount.value = 0;
         EasyLoading.showError('No country found.');
         return;
       }
@@ -144,6 +148,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           ..clear()
           ..addAll(mapped);
       });
+      ForeignTreatmentSection.countryCount.value = _countries.length;
     } catch (e) {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();

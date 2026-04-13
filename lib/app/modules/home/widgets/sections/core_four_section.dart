@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
+import 'foreign_treatment_section.dart';
 
 class CoreFourSection extends StatelessWidget {
   const CoreFourSection({super.key});
@@ -160,6 +161,26 @@ class CoreFourSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Obx(() {
+          if (ForeignTreatmentSection.countryCount.value != 6) {
+            return const SizedBox.shrink();
+          }
+
+          return Column(
+            children: const [
+              Text(
+                'More',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          );
+        }),
         Text(
           'core_four'.tr,
           textAlign: TextAlign.center,
