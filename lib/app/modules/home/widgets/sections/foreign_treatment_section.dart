@@ -1,23 +1,158 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
+
+import '../../../../services/api_service.dart';
 import '../../../../services/auth_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
 
-class ForeignTreatmentSection extends StatelessWidget {
+class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
 
-  static const _countries = <_ForeignTreatmentItem>[
+  @override
+  State<ForeignTreatmentSection> createState() =>
+      _ForeignTreatmentSectionState();
+}
+
+class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
+  final AppApiService _apiService = AppApiService();
+
+  final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[
     _ForeignTreatmentItem(
-        'hospitals_in_india', 'assets/images/Flag_of_India.png'),
-    _ForeignTreatmentItem('hospitals_in_china', 'assets/images/Chaina.png'),
+      name: 'Hospitals in India',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Flag_of_India.png',
+    ),
     _ForeignTreatmentItem(
-        'hospitals_in_thailand', 'assets/images/Thailand.jpg'),
-    _ForeignTreatmentItem('hospitals_in_turkey', 'assets/images/Turkey.jpg'),
+      name: 'Hospitals in China',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Chaina.png',
+    ),
     _ForeignTreatmentItem(
-        'hospitals_in_singapore', 'assets/images/Singapore.jpg'),
+      name: 'Hospitals in Thailand',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Thailand.jpg',
+    ),
     _ForeignTreatmentItem(
-        'hospitals_in_malaysia', 'assets/images/Malaysia.jpg'),
+      name: 'Hospitals in Turkey',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Turkey.jpg',
+    ),
+    _ForeignTreatmentItem(
+      name: 'Hospitals in Singapore',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Singapore.jpg',
+    ),
+    _ForeignTreatmentItem(
+      name: 'Hospitals in Malaysia',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Malaysia.jpg',
+    ),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchCountries();
+  }
+
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+
+    return '${AppApiService.baseUrl}$value';
+  }
+
+  String _fallbackAssetByName(String name) {
+    final normalized = name.toLowerCase();
+    if (normalized.contains('india')) return 'assets/images/Flag_of_India.png';
+    if (normalized.contains('china')) return 'assets/images/Chaina.png';
+    if (normalized.contains('thailand')) return 'assets/images/Thailand.jpg';
+    if (normalized.contains('turkey')) return 'assets/images/Turkey.jpg';
+    if (normalized.contains('singapore')) return 'assets/images/Singapore.jpg';
+    if (normalized.contains('malaysia')) return 'assets/images/Malaysia.jpg';
+    return 'assets/images/Flag_of_India.png';
+  }
+
+  Future<void> _fetchCountries() async {
+    final token = AuthService.to.accessToken.value.trim();
+    if (token.isEmpty) {
+      debugPrint('Foreign countries fetch skipped => token empty');
+      EasyLoading.showError('Please login again.');
+      return;
+    }
+
+    EasyLoading.show(status: 'Loading countries...');
+
+    try {
+      final response = await _apiService.get(
+        path: '/api/v1/foreign-treatments/countries/',
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      debugPrint('Foreign countries status => ${response.statusCode}');
+      debugPrint('Foreign countries body => ${response.body}');
+
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        EasyLoading.showError('Country load failed. Please try again.');
+        return;
+      }
+
+      final dynamic decoded = jsonDecode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        EasyLoading.showError('Invalid country response.');
+        return;
+      }
+
+      final dynamic results = decoded['results'];
+      if (results is! List) {
+        EasyLoading.showError('Invalid country data.');
+        return;
+      }
+
+      final List<_ForeignTreatmentItem> mapped = results
+          .whereType<Map<String, dynamic>>()
+          .map(
+            (item) => _ForeignTreatmentItem(
+              name: (item['name'] ?? '').toString(),
+              flagUrl: _resolveImageUrl((item['flag'] ?? '').toString()),
+              fallbackAssetPath:
+                  _fallbackAssetByName((item['name'] ?? '').toString()),
+            ),
+          )
+          .where((item) => item.name.trim().isNotEmpty)
+          .toList();
+
+      if (!mounted) return;
+      if (mapped.isEmpty) {
+        EasyLoading.showError('No country found.');
+        return;
+      }
+
+      setState(() {
+        _countries
+          ..clear()
+          ..addAll(mapped);
+      });
+    } catch (e) {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+      debugPrint('Foreign countries fetch error => $e');
+      EasyLoading.showError(
+          'Country load failed. Check internet and try again.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +189,15 @@ class ForeignTreatmentSection extends StatelessWidget {
 }
 
 class _ForeignTreatmentItem {
-  final String titleKey;
-  final String assetPath;
-  const _ForeignTreatmentItem(this.titleKey, this.assetPath);
+  final String name;
+  final String flagUrl;
+  final String fallbackAssetPath;
+
+  const _ForeignTreatmentItem({
+    required this.name,
+    required this.flagUrl,
+    required this.fallbackAssetPath,
+  });
 }
 
 class _ForeignTreatmentCard extends StatelessWidget {
@@ -66,26 +207,33 @@ class _ForeignTreatmentCard extends StatelessWidget {
   void _handleTap() {
     if (!AuthService.to.requireLogin()) return;
 
-    switch (item.titleKey) {
-      case 'hospitals_in_india':
-        Get.to(() => const IndiaHospitalsView());
-        break;
-      case 'hospitals_in_china':
-        Get.to(() => const ChainaHospitalsView());
-        break;
-      case 'hospitals_in_thailand':
-        Get.to(() => const ThailandHospitalsView());
-        break;
-      case 'hospitals_in_turkey':
-        Get.to(() => const TurkeyHospitalsView());
-        break;
-      case 'hospitals_in_singapore':
-        Get.to(() => const SingaporeHospitalsView());
-        break;
-      case 'hospitals_in_malaysia':
-        Get.to(() => const MalaysiaHospitalsView());
-        break;
+    final name = item.name.toLowerCase();
+    if (name.contains('india')) {
+      Get.to(() => const IndiaHospitalsView());
+      return;
     }
+    if (name.contains('china')) {
+      Get.to(() => const ChainaHospitalsView());
+      return;
+    }
+    if (name.contains('thailand')) {
+      Get.to(() => const ThailandHospitalsView());
+      return;
+    }
+    if (name.contains('turkey')) {
+      Get.to(() => const TurkeyHospitalsView());
+      return;
+    }
+    if (name.contains('singapore')) {
+      Get.to(() => const SingaporeHospitalsView());
+      return;
+    }
+    if (name.contains('malaysia')) {
+      Get.to(() => const MalaysiaHospitalsView());
+      return;
+    }
+
+    debugPrint('Foreign country tap ignored => unsupported: ${item.name}');
   }
 
   @override
@@ -109,14 +257,26 @@ class _ForeignTreatmentCard extends StatelessWidget {
                   width: 72,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(2),
-                    child: Image.asset(item.assetPath, fit: BoxFit.cover),
+                    child: item.flagUrl.isNotEmpty
+                        ? Image.network(
+                            item.flagUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) {
+                              return Image.asset(
+                                item.fallbackAssetPath,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )
+                        : Image.asset(item.fallbackAssetPath,
+                            fit: BoxFit.cover),
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 6),
             Text(
-              item.titleKey.tr,
+              item.name,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
