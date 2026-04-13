@@ -329,7 +329,8 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
-      EasyLoading.showError('Banner load failed. Check internet and try again.');
+      EasyLoading.showError(
+          'Banner load failed. Check internet and try again.');
     }
   }
 

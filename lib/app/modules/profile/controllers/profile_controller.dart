@@ -14,7 +14,8 @@ import '../../../services/auth_service.dart';
 class ProfileController extends GetxController {
   final AuthService authService = AuthService.to;
   final AppApiService _apiService = AppApiService();
-  final ImagePicker _imagePicker = ImagePicker();
+  final ImagePicker _imagePicker = ImagePicker(); //
+  
 
   @override
   void onReady() {
