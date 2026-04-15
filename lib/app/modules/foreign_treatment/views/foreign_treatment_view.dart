@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'dart:convert';
 
 import '../../home/controllers/home_controller.dart';
+import '../../../services/api_service.dart';
 import '../../../services/auth_service.dart';
 
 part '../widgets/shared_widgets.dart';
@@ -64,7 +67,14 @@ class _ForeignTreatmentTabBody extends StatelessWidget {
 /// INDIA HOSPITALS PAGE
 /// ===============================
 class IndiaHospitalsView extends GetView<HomeController> {
-  const IndiaHospitalsView({super.key});
+  final int countryId;
+  final String countryTitle;
+
+  const IndiaHospitalsView({
+    super.key,
+    required this.countryId,
+    required this.countryTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +86,11 @@ class IndiaHospitalsView extends GetView<HomeController> {
             children: [
               if (controller.tabIndex.value == 0) const _HomeTopBarClone(),
               Expanded(
-                child: _IndiaHospitalsTabBody(index: controller.tabIndex.value),
+                child: _IndiaHospitalsTabBody(
+                  index: controller.tabIndex.value,
+                  countryId: countryId,
+                  countryTitle: countryTitle,
+                ),
               ),
             ],
           ),

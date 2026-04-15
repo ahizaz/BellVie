@@ -2,13 +2,23 @@ part of '../views/foreign_treatment_view.dart';
 
 class _IndiaHospitalsTabBody extends StatelessWidget {
   final int index;
-  const _IndiaHospitalsTabBody({required this.index});
+  final int countryId;
+  final String countryTitle;
+
+  const _IndiaHospitalsTabBody({
+    required this.index,
+    required this.countryId,
+    required this.countryTitle,
+  });
 
   @override
   Widget build(BuildContext context) {
     switch (index) {
       case 0:
-        return const _IndiaHospitalsHome();
+        return _IndiaHospitalsHome(
+          countryId: countryId,
+          countryTitle: countryTitle,
+        );
       case 1:
         return _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
@@ -23,8 +33,119 @@ class _IndiaHospitalsTabBody extends StatelessWidget {
   }
 }
 
-class _IndiaHospitalsHome extends StatelessWidget {
-  const _IndiaHospitalsHome();
+class _IndiaHospitalsHome extends StatefulWidget {
+  final int countryId;
+  final String countryTitle;
+
+  const _IndiaHospitalsHome({
+    required this.countryId,
+    required this.countryTitle,
+  });
+
+  @override
+  State<_IndiaHospitalsHome> createState() => _IndiaHospitalsHomeState();
+}
+
+class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
+  final AppApiService _apiService = AppApiService();
+  final List<_HospitalItem> _hospitals = <_HospitalItem>[];
+
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchHospitals();
+  }
+
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    return '${AppApiService.baseUrl}$value';
+  }
+
+  Future<void> _fetchHospitals() async {
+    final token = AuthService.to.accessToken.value.trim();
+    if (token.isEmpty) {
+      debugPrint('Hospital fetch skipped => token empty');
+      EasyLoading.showError('Please login again.');
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+      return;
+    }
+
+    EasyLoading.show(status: 'Loading hospitals...');
+
+    try {
+      final response = await _apiService.get(
+        path:
+            '/api/v1/foreign-treatments/countries/${widget.countryId}/hospitals/',
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      debugPrint('Hospital list status => ${response.statusCode}');
+      debugPrint('Hospital list body => ${response.body}');
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        EasyLoading.showError('Hospital load failed. Please try again.');
+        return;
+      }
+
+      final dynamic decoded = jsonDecode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        EasyLoading.showError('Invalid hospital response.');
+        return;
+      }
+
+      final dynamic results = decoded['results'];
+      if (results is! List) {
+        EasyLoading.showError('Invalid hospital data.');
+        return;
+      }
+
+      final mapped = results
+          .whereType<Map<String, dynamic>>()
+          .map(
+            (item) => _HospitalItem(
+              id: (item['id'] is int)
+                  ? item['id'] as int
+                  : int.tryParse((item['id'] ?? '').toString()) ?? 0,
+              name: (item['name'] ?? '').toString(),
+              iconUrl: _resolveImageUrl((item['icon'] ?? '').toString()),
+              agreementStatus: (item['agreement_status'] ?? 'N/A').toString(),
+              publicHospitalCountText: item['public_hospital_count'] == null
+                  ? 'N/A'
+                  : (item['public_hospital_count']).toString(),
+            ),
+          )
+          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
+          .toList();
+
+      if (!mounted) return;
+      setState(() {
+        _hospitals
+          ..clear()
+          ..addAll(mapped);
+      });
+    } catch (e) {
+      debugPrint('Hospital list fetch error => $e');
+      EasyLoading.showError(
+          'Hospital load failed. Check internet and try again.');
+    } finally {
+      if (EasyLoading.isShow) {
+        EasyLoading.dismiss();
+      }
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +155,9 @@ class _IndiaHospitalsHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'india_hospitals'.tr,
+            widget.countryTitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
               color: Colors.black87,
@@ -44,136 +165,32 @@ class _IndiaHospitalsHome extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Expanded(
-            child: ListView(
-              children: const [
-                _HospitalTile(
-                  hospital: 'Jaslok (All India)',
-                  statusKey: 'status_done',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Nanavati Max (All India)',
-                  statusKey: 'status_done',
-                  countText: 'Max Healthcare: 22',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Apollo pan India (All India)',
-                  statusKey: 'status_done',
-                  countText: '71',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'HCG pan India (All India)',
-                  statusKey: 'status_done',
-                  countText: '22',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'KIMS (All India)',
-                  statusKey: 'status_done',
-                  countText: '25',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Fortis pan India (All India)',
-                  statusKey: 'status_done',
-                  countText: '~28',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Fortis Raheja (All India)',
-                  statusKey: 'status_done',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Rainbow child Hospital (All India)',
-                  statusKey: 'status_done',
-                  countText: '10',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Manipal Whitefield Bangalore (All India)',
-                  statusKey: 'status_done',
-                  countText: '33',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Rela (All India)',
-                  statusKey: 'status_done',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Gangaram Delhi (All India)',
-                  statusKey: 'status_through_doctor',
-                  countText: '1*',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Wockhardt (All India)',
-                  statusKey: 'status_pending',
-                  countText: '4',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Lokmanya Pune (All India)',
-                  statusKey: 'status_done',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Birla IVF (All India)',
-                  statusKey: 'status_done',
-                  countText: '52',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Artemis (All India)',
-                  statusKey: 'status_done',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Medanta (All India)',
-                  statusKey: 'status_wip',
-                  countText: '10',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Neurogeon. Stem cell (All India)',
-                  statusKey: 'status_wip',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Stem RX stem cell (All India)',
-                  statusKey: 'status_wip',
-                  countText: '1',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Narayana Hrudayalaya (All India)',
-                  statusKey: 'status_wip',
-                  countText: '23',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Surya pan India (All India)',
-                  statusKey: 'status_done',
-                  countText: '4',
-                ),
-                SizedBox(height: 10),
-                _HospitalTile(
-                  hospital: 'Hiranandani (All India)',
-                  statusKey: 'status_done',
-                  countTextKey: 'status_not_publicly_aggregated',
-                  countText: '',
-                ),
-              ],
-            ),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _hospitals.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No hospitals found.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
+                          ),
+                        ),
+                      )
+                    : ListView.separated(
+                        itemCount: _hospitals.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final item = _hospitals[index];
+                          return _HospitalTile(
+                            hospital: item.name,
+                            statusText: item.agreementStatus,
+                            countText: item.publicHospitalCountText,
+                            iconUrl: item.iconUrl,
+                          );
+                        },
+                      ),
           ),
         ],
       ),
@@ -181,17 +198,33 @@ class _IndiaHospitalsHome extends StatelessWidget {
   }
 }
 
+class _HospitalItem {
+  final int id;
+  final String name;
+  final String iconUrl;
+  final String agreementStatus;
+  final String publicHospitalCountText;
+
+  const _HospitalItem({
+    required this.id,
+    required this.name,
+    required this.iconUrl,
+    required this.agreementStatus,
+    required this.publicHospitalCountText,
+  });
+}
+
 class _HospitalTile extends StatelessWidget {
   final String hospital;
-  final String statusKey;
+  final String statusText;
   final String countText;
-  final String? countTextKey;
+  final String iconUrl;
 
   const _HospitalTile({
     required this.hospital,
-    required this.statusKey,
+    required this.statusText,
     required this.countText,
-    this.countTextKey,
+    required this.iconUrl,
   });
 
   @override
@@ -218,7 +251,17 @@ class _HospitalTile extends StatelessWidget {
               shape: BoxShape.circle,
               color: Colors.white,
             ),
-            child: const Icon(Icons.local_hospital, color: Colors.black87),
+            child: ClipOval(
+              child: iconUrl.isNotEmpty
+                  ? Image.network(
+                      iconUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const Icon(
+                          Icons.local_hospital,
+                          color: Colors.black87),
+                    )
+                  : const Icon(Icons.local_hospital, color: Colors.black87),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -235,7 +278,7 @@ class _HospitalTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'agreement_status'.trParams({'status': statusKey.tr}),
+                  'Agreement Status: $statusText',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
@@ -244,9 +287,7 @@ class _HospitalTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'public_number_of_hospitals'.trParams({
-                    'countText': countTextKey?.tr ?? countText,
-                  }),
+                  'Public Number of Hospitals: $countText',
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

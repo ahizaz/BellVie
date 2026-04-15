@@ -20,38 +20,7 @@ class ForeignTreatmentSection extends StatefulWidget {
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   final AppApiService _apiService = AppApiService();
 
-  final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[
-    _ForeignTreatmentItem(
-      name: 'Hospitals in India',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Flag_of_India.png',
-    ),
-    _ForeignTreatmentItem(
-      name: 'Hospitals in China',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Chaina.png',
-    ),
-    _ForeignTreatmentItem(
-      name: 'Hospitals in Thailand',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Thailand.jpg',
-    ),
-    _ForeignTreatmentItem(
-      name: 'Hospitals in Turkey',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Turkey.jpg',
-    ),
-    _ForeignTreatmentItem(
-      name: 'Hospitals in Singapore',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Singapore.jpg',
-    ),
-    _ForeignTreatmentItem(
-      name: 'Hospitals in Malaysia',
-      flagUrl: '',
-      fallbackAssetPath: 'assets/images/Malaysia.jpg',
-    ),
-  ];
+  final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[];
 
   @override
   void initState() {
@@ -127,13 +96,16 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           .whereType<Map<String, dynamic>>()
           .map(
             (item) => _ForeignTreatmentItem(
+              id: (item['id'] is int)
+                  ? item['id'] as int
+                  : int.tryParse((item['id'] ?? '').toString()) ?? 0,
               name: (item['name'] ?? '').toString(),
               flagUrl: _resolveImageUrl((item['flag'] ?? '').toString()),
               fallbackAssetPath:
                   _fallbackAssetByName((item['name'] ?? '').toString()),
             ),
           )
-          .where((item) => item.name.trim().isNotEmpty)
+          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
           .toList();
 
       if (!mounted) return;
@@ -194,11 +166,13 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 }
 
 class _ForeignTreatmentItem {
+  final int id;
   final String name;
   final String flagUrl;
   final String fallbackAssetPath;
 
   const _ForeignTreatmentItem({
+    required this.id,
     required this.name,
     required this.flagUrl,
     required this.fallbackAssetPath,
@@ -212,33 +186,12 @@ class _ForeignTreatmentCard extends StatelessWidget {
   void _handleTap() {
     if (!AuthService.to.requireLogin()) return;
 
-    final name = item.name.toLowerCase();
-    if (name.contains('india')) {
-      Get.to(() => const IndiaHospitalsView());
-      return;
-    }
-    if (name.contains('china')) {
-      Get.to(() => const ChainaHospitalsView());
-      return;
-    }
-    if (name.contains('thailand')) {
-      Get.to(() => const ThailandHospitalsView());
-      return;
-    }
-    if (name.contains('turkey')) {
-      Get.to(() => const TurkeyHospitalsView());
-      return;
-    }
-    if (name.contains('singapore')) {
-      Get.to(() => const SingaporeHospitalsView());
-      return;
-    }
-    if (name.contains('malaysia')) {
-      Get.to(() => const MalaysiaHospitalsView());
-      return;
-    }
-
-    debugPrint('Foreign country tap ignored => unsupported: ${item.name}');
+    Get.to(
+      () => IndiaHospitalsView(
+        countryId: item.id,
+        countryTitle: item.name,
+      ),
+    );
   }
 
   @override
