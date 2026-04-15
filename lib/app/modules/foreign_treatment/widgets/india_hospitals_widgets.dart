@@ -51,11 +51,14 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
   final List<_HospitalItem> _hospitals = <_HospitalItem>[];
 
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMore = false;
+  int _currentPage = 1;
 
   @override
   void initState() {
     super.initState();
-    _fetchHospitals();
+    _fetchHospitals(page: 1);
   }
 
   String _resolveImageUrl(String raw) {
@@ -67,28 +70,37 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     return '${AppApiService.baseUrl}$value';
   }
 
-  Future<void> _fetchHospitals() async {
+  Future<void> _fetchHospitals({
+    required int page,
+    bool append = false,
+  }) async {
     final token = AuthService.to.accessToken.value.trim();
     if (token.isEmpty) {
       debugPrint('Hospital fetch skipped => token empty');
       EasyLoading.showError('Please login again.');
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() {
+          _isLoading = false;
+          _isLoadingMore = false;
+        });
       }
       return;
     }
 
-    EasyLoading.show(status: 'Loading hospitals...');
+    if (!append) {
+      EasyLoading.show(status: 'Loading hospitals...');
+    }
 
     try {
       final response = await _apiService.get(
         path:
-            '/api/v1/foreign-treatments/countries/${widget.countryId}/hospitals/',
+            '/api/v1/foreign-treatments/countries/${widget.countryId}/hospitals/?page=$page',
         headers: {
           'Authorization': 'Bearer $token',
         },
       );
 
+      debugPrint('Hospital list page => $page');
       debugPrint('Hospital list status => ${response.statusCode}');
       debugPrint('Hospital list body => ${response.body}');
 
@@ -108,6 +120,8 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
         EasyLoading.showError('Invalid hospital data.');
         return;
       }
+
+      final hasNextPage = decoded['next'] != null;
 
       final mapped = results
           .whereType<Map<String, dynamic>>()
@@ -129,22 +143,38 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
 
       if (!mounted) return;
       setState(() {
-        _hospitals
-          ..clear()
-          ..addAll(mapped);
+        if (!append) {
+          _hospitals
+            ..clear()
+            ..addAll(mapped);
+        } else {
+          _hospitals.addAll(mapped);
+        }
+        _hasMore = hasNextPage;
+        _currentPage = page;
       });
     } catch (e) {
       debugPrint('Hospital list fetch error => $e');
       EasyLoading.showError(
           'Hospital load failed. Check internet and try again.');
     } finally {
-      if (EasyLoading.isShow) {
+      if (!append && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       if (mounted) {
-        setState(() => _isLoading = false);
+        setState(() {
+          _isLoading = false;
+          _isLoadingMore = false;
+        });
       }
     }
+  }
+
+  Future<void> _loadMoreHospitals() async {
+    if (_isLoadingMore || !_hasMore) return;
+
+    setState(() => _isLoadingMore = true);
+    await _fetchHospitals(page: _currentPage + 1, append: true);
   }
 
   @override
@@ -179,9 +209,34 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                         ),
                       )
                     : ListView.separated(
-                        itemCount: _hospitals.length,
+                        itemCount: _hospitals.length + (_hasMore ? 1 : 0),
                         separatorBuilder: (_, __) => const SizedBox(height: 10),
                         itemBuilder: (context, index) {
+                          if (_hasMore && index == _hospitals.length) {
+                            return Center(
+                              child: TextButton(
+                                onPressed:
+                                    _isLoadingMore ? null : _loadMoreHospitals,
+                                child: _isLoadingMore
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Text(
+                                        'More',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                              ),
+                            );
+                          }
+
                           final item = _hospitals[index];
                           return _HospitalTile(
                             hospital: item.name,
