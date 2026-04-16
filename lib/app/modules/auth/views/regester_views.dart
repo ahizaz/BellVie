@@ -5,8 +5,17 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterView extends GetView<AuthController> {
+class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
+
+  @override
+  State<RegisterView> createState() => _RegisterViewState();
+}
+
+class _RegisterViewState extends State<RegisterView> {
+  final AuthController controller = Get.find<AuthController>();
+  bool _obscureRegisterPassword = true;
+  bool _obscureRegisterConfirmPassword = true;
 
   String _countryLabel(String iso, String dialCode) {
     return '$iso $dialCode';
@@ -181,7 +190,7 @@ class RegisterView extends GetView<AuthController> {
                 Obx(
                   () => TextField(
                     controller: controller.registerPasswordController,
-                    obscureText: true,
+                    obscureText: _obscureRegisterPassword,
                     textInputAction: TextInputAction.next,
                     onChanged: (_) =>
                         controller.validateRegisterPasswordMatch(),
@@ -191,6 +200,19 @@ class RegisterView extends GetView<AuthController> {
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: context.w(16),
                         vertical: context.h(16),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureRegisterPassword =
+                                !_obscureRegisterPassword;
+                          });
+                        },
+                        icon: Icon(
+                          _obscureRegisterPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
                       ),
                       errorText: controller.showRegisterPasswordMismatch.value
                           ? 'passwords_do_not_match'.tr
@@ -202,7 +224,7 @@ class RegisterView extends GetView<AuthController> {
                 Obx(
                   () => TextField(
                     controller: controller.registerConfirmPasswordController,
-                    obscureText: true,
+                    obscureText: _obscureRegisterConfirmPassword,
                     textInputAction: TextInputAction.done,
                     onChanged: (_) =>
                         controller.validateRegisterPasswordMatch(),
@@ -212,6 +234,19 @@ class RegisterView extends GetView<AuthController> {
                       contentPadding: EdgeInsets.symmetric(
                         horizontal: context.w(16),
                         vertical: context.h(16),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureRegisterConfirmPassword =
+                                !_obscureRegisterConfirmPassword;
+                          });
+                        },
+                        icon: Icon(
+                          _obscureRegisterConfirmPassword
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                        ),
                       ),
                       errorText: controller.showRegisterPasswordMismatch.value
                           ? 'passwords_do_not_match'.tr

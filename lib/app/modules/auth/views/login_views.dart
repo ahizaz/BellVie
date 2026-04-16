@@ -17,6 +17,7 @@ class _LoginViewState extends State<LoginView> {
   final AuthController controller = Get.find<AuthController>();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -138,13 +139,25 @@ class _LoginViewState extends State<LoginView> {
                 SizedBox(height: context.h(14)),
                 TextField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: _obscurePassword,
                   decoration: InputDecoration(
                     labelText: 'password'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
                       vertical: context.h(16),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      icon: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
                     ),
                   ),
                 ),
