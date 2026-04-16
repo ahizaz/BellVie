@@ -238,7 +238,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
         ],
       ),
     );
-  }
+  } //
 }
 
 class _CountryCardData {
