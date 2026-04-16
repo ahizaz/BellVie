@@ -5,7 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class AppApiService {
-  static const String baseUrl = 'http://192.168.0.246:5000';
+   //static const String baseUrl = 'http://192.168.0.246:5000';
+  static const String baseUrl =
+      'https://dara-unadjudicated-befittingly.ngrok-free.dev';
 
   Uri buildUrl(String path) {
     final normalizedPath = path.startsWith('/') ? path : '/$path';

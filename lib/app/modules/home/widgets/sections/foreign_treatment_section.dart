@@ -22,10 +22,18 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
   final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[];
 
+  void _setCountryCountSafely(int count) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (ForeignTreatmentSection.countryCount.value == count) return;
+      ForeignTreatmentSection.countryCount.value = count;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    ForeignTreatmentSection.countryCount.value = _countries.length;
+    _setCountryCountSafely(_countries.length);
     _fetchCountries();
   }
 
@@ -110,7 +118,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
       if (!mounted) return;
       if (mapped.isEmpty) {
-        ForeignTreatmentSection.countryCount.value = 0;
+        _setCountryCountSafely(0);
         EasyLoading.showError('No country found.');
         return;
       }
@@ -120,7 +128,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           ..clear()
           ..addAll(mapped);
       });
-      ForeignTreatmentSection.countryCount.value = _countries.length;
+      _setCountryCountSafely(_countries.length);
     } catch (e) {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();

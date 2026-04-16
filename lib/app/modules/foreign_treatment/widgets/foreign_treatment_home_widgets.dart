@@ -121,10 +121,15 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   void _openCountry(_CountryCardData item) {
     if (!AuthService.to.requireLogin()) return;
 
+    final countryName = item.name.trim();
+    final title = countryName.toLowerCase().startsWith('hospitals in ')
+        ? countryName
+        : 'Hospitals in $countryName';
+
     Get.to(
       () => IndiaHospitalsView(
         countryId: item.id,
-        countryTitle: item.name,
+        countryTitle: title,
       ),
     );
   }

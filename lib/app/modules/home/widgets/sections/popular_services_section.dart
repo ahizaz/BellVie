@@ -8,7 +8,11 @@ class PopularServicesSection extends StatelessWidget {
 
   static const _services = <_ServiceItem>[
     _ServiceItem('specialist_doctors', 'assets/images/Doctor Services.png'),
-    _ServiceItem('hospitals_booking', 'assets/images/Hospitals Booking.png'),
+    _ServiceItem(
+      'hospitals_booking',
+      'assets/images/Hospitals Booking.png',
+      whiteIconBackground: true,
+    ),
     _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
     _ServiceItem('pharmacy', 'assets/images/Pharmacy.png'),
     _ServiceItem('video_consultancy', 'assets/images/Video Consultancy.png'),

@@ -136,6 +136,16 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
               publicHospitalCountText: item['public_hospital_count'] == null
                   ? 'N/A'
                   : (item['public_hospital_count']).toString(),
+              bannerName: (item['banner_name'] ?? item['banner'] ?? '')
+                  .toString()
+                  .trim(),
+              description: (item['description'] ??
+                      item['details'] ??
+                      item['about'] ??
+                      '')
+                  .toString()
+                  .trim(),
+              contacts: _HospitalItem.extractContacts(item),
             ),
           )
           .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
@@ -239,10 +249,15 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
 
                           final item = _hospitals[index];
                           return _HospitalTile(
-                            hospital: item.name,
-                            statusText: item.agreementStatus,
-                            countText: item.publicHospitalCountText,
-                            iconUrl: item.iconUrl,
+                            hospital: item,
+                            onTap: () {
+                              Get.to(
+                                () => HospitalDetailsView(
+                                  hospital: item,
+                                  countryTitle: widget.countryTitle,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
@@ -259,6 +274,9 @@ class _HospitalItem {
   final String iconUrl;
   final String agreementStatus;
   final String publicHospitalCountText;
+  final String bannerName;
+  final String description;
+  final List<String> contacts;
 
   const _HospitalItem({
     required this.id,
@@ -266,19 +284,307 @@ class _HospitalItem {
     required this.iconUrl,
     required this.agreementStatus,
     required this.publicHospitalCountText,
+    required this.bannerName,
+    required this.description,
+    required this.contacts,
   });
+
+  String get resolvedBannerName =>
+      bannerName.isNotEmpty ? bannerName : 'Preferred Hospital Partner';
+
+  String get resolvedDescription => description.isNotEmpty
+      ? description
+      : 'Hospital description will appear here when available from API.';
+
+  List<String> get resolvedContacts {
+    final normalized = contacts
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .take(3)
+        .toList();
+    while (normalized.length < 3) {
+      normalized.add('N/A');
+    }
+    return normalized;
+  }
+
+  static List<String> extractContacts(Map<String, dynamic> raw) {
+    final contacts = <String>[];
+
+    void pushValue(dynamic value) {
+      final text = (value ?? '').toString().trim();
+      if (text.isNotEmpty) {
+        contacts.add(text);
+      }
+    }
+
+    final dynamic directContacts = raw['contacts'] ?? raw['contact_numbers'];
+    if (directContacts is List) {
+      for (final item in directContacts) {
+        if (item is Map<String, dynamic>) {
+          pushValue(item['number'] ?? item['phone'] ?? item['value']);
+        } else {
+          pushValue(item);
+        }
+      }
+    }
+
+    final dynamic contactInfo = raw['contact_info'];
+    if (contactInfo is List) {
+      for (final item in contactInfo) {
+        if (item is Map<String, dynamic>) {
+          pushValue(item['number'] ?? item['phone'] ?? item['value']);
+        } else {
+          pushValue(item);
+        }
+      }
+    } else if (contactInfo is String) {
+      final parts = contactInfo
+          .split(RegExp(r'[\n,;|]'))
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty);
+      contacts.addAll(parts);
+    }
+
+    pushValue(raw['phone']);
+    pushValue(raw['mobile']);
+    pushValue(raw['hotline']);
+    pushValue(raw['contact_number_1']);
+    pushValue(raw['contact_number_2']);
+    pushValue(raw['contact_number_3']);
+
+    return contacts.toSet().toList();
+  }
 }
 
 class _HospitalTile extends StatelessWidget {
-  final String hospital;
-  final String statusText;
-  final String countText;
-  final String iconUrl;
+  final _HospitalItem hospital;
+  final VoidCallback onTap;
 
   const _HospitalTile({
     required this.hospital,
-    required this.statusText,
-    required this.countText,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(14),
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFBFEFE2),
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: ClipOval(
+                child: hospital.iconUrl.isNotEmpty
+                    ? Image.network(
+                        hospital.iconUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const Icon(
+                          Icons.local_hospital,
+                          color: Colors.black87,
+                        ),
+                      )
+                    : const Icon(Icons.local_hospital, color: Colors.black87),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    hospital.name,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Agreement Status: ${hospital.agreementStatus}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    'Public Number of Hospitals: ${hospital.publicHospitalCountText}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right, color: Colors.black38),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HospitalDetailsView extends GetView<HomeController> {
+  final _HospitalItem hospital;
+  final String countryTitle;
+
+  const HospitalDetailsView({
+    super.key,
+    required this.hospital,
+    required this.countryTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      return Scaffold(
+        backgroundColor: const Color(0xFFF2F2F2),
+        body: SafeArea(
+          child: Column(
+            children: [
+              if (controller.tabIndex.value == 0) const _HomeTopBarClone(),
+              Expanded(
+                child: _HospitalDetailsTabBody(
+                  index: controller.tabIndex.value,
+                  hospital: hospital,
+                  countryTitle: countryTitle,
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: _MainBottomNav(controller: controller),
+      );
+    });
+  }
+}
+
+class _HospitalDetailsTabBody extends StatelessWidget {
+  final int index;
+  final _HospitalItem hospital;
+  final String countryTitle;
+
+  const _HospitalDetailsTabBody({
+    required this.index,
+    required this.hospital,
+    required this.countryTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    switch (index) {
+      case 0:
+        return _HospitalDetailsHome(
+          hospital: hospital,
+          countryTitle: countryTitle,
+        );
+      case 1:
+        return _PlaceholderScreen(titleKey: 'my_appointments');
+      case 2:
+        return _PlaceholderScreen(titleKey: 'my_health');
+      case 3:
+        return _PlaceholderScreen(titleKey: 'cart');
+      case 4:
+        return _PlaceholderScreen(titleKey: 'menu');
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+}
+
+class _HospitalDetailsHome extends StatelessWidget {
+  final _HospitalItem hospital;
+  final String countryTitle;
+
+  const _HospitalDetailsHome({
+    required this.hospital,
+    required this.countryTitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            countryTitle,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEEEEEE),
+              borderRadius: BorderRadius.circular(18),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33000000),
+                  blurRadius: 10,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _HospitalBannerCard(
+                  bannerName: hospital.resolvedBannerName,
+                  iconUrl: hospital.iconUrl,
+                ),
+                const SizedBox(height: 12),
+                _HospitalInfoCard(
+                  hospitalName: hospital.name,
+                  description: hospital.resolvedDescription,
+                ),
+                const SizedBox(height: 12),
+                ...hospital.resolvedContacts
+                    .map((number) => _HospitalContactCard(number: number)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HospitalBannerCard extends StatelessWidget {
+  final String bannerName;
+  final String iconUrl;
+
+  const _HospitalBannerCard({
+    required this.bannerName,
     required this.iconUrl,
   });
 
@@ -287,15 +593,13 @@ class _HospitalTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFBFEFE2),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFBFEFE2), Color(0xFFA8DED5)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: const Color(0xFF8BC9BD)),
       ),
       child: Row(
         children: [
@@ -312,47 +616,121 @@ class _HospitalTile extends StatelessWidget {
                       iconUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => const Icon(
-                          Icons.local_hospital,
-                          color: Colors.black87),
+                        Icons.local_hospital,
+                        color: Colors.black87,
+                      ),
                     )
                   : const Icon(Icons.local_hospital, color: Colors.black87),
             ),
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  hospital,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Agreement Status: $statusText',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  'Public Number of Hospitals: $countText',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
+            child: Text(
+              bannerName,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
             ),
           ),
-          const Icon(Icons.chevron_right, color: Colors.black38),
+        ],
+      ),
+    );
+  }
+}
+
+class _HospitalInfoCard extends StatelessWidget {
+  final String hospitalName;
+  final String description;
+
+  const _HospitalInfoCard({
+    required this.hospitalName,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 12, 12, 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFCFEDEA),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFB3DAD6)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Hospital Name',
+            style: TextStyle(
+              fontSize: 11,
+              color: Color(0xFF446963),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            hospitalName,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            'Description',
+            style: TextStyle(
+              fontSize: 11,
+              color: Color(0xFF446963),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            description,
+            style: const TextStyle(
+              fontSize: 12,
+              height: 1.3,
+              color: Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HospitalContactCard extends StatelessWidget {
+  final String number;
+
+  const _HospitalContactCard({required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFD8D8D8)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.call, size: 18, color: Color(0xFF2D7F72)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              number,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+          ),
         ],
       ),
     );
