@@ -86,7 +86,6 @@ class AppPages {
       name: Routes.SPECIALIST_DOCTORS,
       page: () => const SpecialistDoctorsView(),
       binding: SpecialistDoctorsBinding(),
-      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.REGISTER,

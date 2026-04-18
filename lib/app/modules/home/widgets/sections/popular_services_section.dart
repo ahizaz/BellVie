@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
-import '../../../../services/auth_service.dart';
 
 class PopularServicesSection extends StatelessWidget {
   const PopularServicesSection({super.key});
@@ -91,8 +90,6 @@ class _ServiceCard extends StatelessWidget {
   const _ServiceCard({required this.item});
 
   void _handleTap() {
-    if (!AuthService.to.requireLogin()) return;
-
     if (item.titleKey == 'specialist_doctors') {
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
       return;
