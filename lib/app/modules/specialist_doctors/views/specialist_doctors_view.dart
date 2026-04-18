@@ -196,7 +196,14 @@ class _SpecialistServiceCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
-        // later navigation add korba
+        Get.toNamed(
+          Routes.SPECIALIST_DOCTOR_LIST,
+          arguments: {
+            'categoryKey': item.titleKey,
+            'categoryLabel': item.titleKey.tr,
+            'categoryAssetPath': item.assetPath,
+          },
+        );
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(

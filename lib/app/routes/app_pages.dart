@@ -21,6 +21,8 @@ import '../modules/foreign_treatment/bindings/foreign_treatment_binding.dart';
 import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
 
 import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
+import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
+import '../modules/specialist_doctors/views/specialist_doctor_list_view.dart';
 import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
 
 import 'auth_middleware.dart';
@@ -86,6 +88,11 @@ class AppPages {
       name: Routes.SPECIALIST_DOCTORS,
       page: () => const SpecialistDoctorsView(),
       binding: SpecialistDoctorsBinding(),
+    ),
+    GetPage(
+      name: Routes.SPECIALIST_DOCTOR_LIST,
+      page: () => const SpecialistDoctorListView(),
+      binding: SpecialistDoctorListBinding(),
     ),
     GetPage(
       name: Routes.REGISTER,
