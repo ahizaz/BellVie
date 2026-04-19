@@ -28,26 +28,7 @@ class SpecialistDoctorsRepository {
       ),
     ],
     'neuromedicine': const [],
-    'gastroenterology': const [
-      SpecialistDoctorItem(
-        id: 'gastro-1',
-        name: 'Dr. Tanvir Ahmed',
-        designation: 'Consultant, Gastroenterology',
-        imageAssetPath: 'assets/images/special doctors/Gastroenterology.png',
-      ),
-      SpecialistDoctorItem(
-        id: 'gastro-2',
-        name: 'Dr. Samia Sultana',
-        designation: 'Associate Consultant, Gastroenterology',
-        imageAssetPath: 'assets/images/special doctors/Gastroenterology.png',
-      ),
-      SpecialistDoctorItem(
-        id: 'gastro-3',
-        name: 'Dr. Omar Faruq',
-        designation: 'Specialist, Hepatology & Gastro',
-        imageAssetPath: 'assets/images/special doctors/Gastroenterology.png',
-      ),
-    ],
+    'gastroenterology': const [],
     'urology': const [
       SpecialistDoctorItem(
         id: 'urology-1',
