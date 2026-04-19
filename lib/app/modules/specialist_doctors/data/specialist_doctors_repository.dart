@@ -83,6 +83,14 @@ class SpecialistDoctorsRepository {
         imageAssetPath: '',
       ),
     ],
+    'radio_therapy': const [
+      SpecialistDoctorItem(
+        id: 'rt-1',
+        name: 'Dr Md.Waheed Akhtar',
+        designation: 'Radiotherapy specialist',
+        imageAssetPath: '',
+      ),
+    ],
     'gynaecology_and_obstetrics': const [
       SpecialistDoctorItem(
         id: 'gyn-1',

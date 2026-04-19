@@ -89,6 +89,10 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
       assetPath: 'assets/images/special doctors/7.oncology.png',
     ),
     _SpecialistCategoryItem(
+      titleKey: 'radio_therapy',
+      assetPath: 'assets/images/special doctors/7.oncology.png',
+    ),
+    _SpecialistCategoryItem(
       titleKey: 'rheumatology',
       assetPath: 'assets/images/special doctors/8.rheumatology .png',
     ),
