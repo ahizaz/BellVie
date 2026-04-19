@@ -18,9 +18,47 @@ class ForeignTreatmentSection extends StatefulWidget {
 }
 
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
+  static const bool _useApiCountries = false;
   final AppApiService _apiService = AppApiService();
 
-  final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[];
+  final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[
+    const _ForeignTreatmentItem(
+      id: 1,
+      name: 'India',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Flag_of_India.png',
+    ),
+    const _ForeignTreatmentItem(
+      id: 2,
+      name: 'China',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Chaina.png',
+    ),
+    const _ForeignTreatmentItem(
+      id: 3,
+      name: 'Thailand',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Thailand.jpg',
+    ),
+    const _ForeignTreatmentItem(
+      id: 4,
+      name: 'Turkey',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Turkey.jpg',
+    ),
+    const _ForeignTreatmentItem(
+      id: 5,
+      name: 'Singapore',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Singapore.jpg',
+    ),
+    const _ForeignTreatmentItem(
+      id: 6,
+      name: 'Malaysia',
+      flagUrl: '',
+      fallbackAssetPath: 'assets/images/Malaysia.jpg',
+    ),
+  ];
 
   void _setCountryCountSafely(int count) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -34,7 +72,9 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   void initState() {
     super.initState();
     _setCountryCountSafely(_countries.length);
-    _fetchCountries();
+    if (_useApiCountries) {
+      _fetchCountries();
+    }
   }
 
   String _resolveImageUrl(String raw) {

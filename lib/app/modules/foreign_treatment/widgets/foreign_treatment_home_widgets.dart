@@ -8,15 +8,56 @@ class _ForeignTreatmentHome extends StatefulWidget {
 }
 
 class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
+  static const bool _useApiCountries = false;
   final AppApiService _apiService = AppApiService();
-  final List<_CountryCardData> _countries = <_CountryCardData>[];
+  final List<_CountryCardData> _countries = <_CountryCardData>[
+    const _CountryCardData(
+      id: 1,
+      name: 'India',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Flag_of_India.png',
+    ),
+    const _CountryCardData(
+      id: 2,
+      name: 'China',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Chaina.png',
+    ),
+    const _CountryCardData(
+      id: 3,
+      name: 'Thailand',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Thailand.jpg',
+    ),
+    const _CountryCardData(
+      id: 4,
+      name: 'Turkey',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Turkey.jpg',
+    ),
+    const _CountryCardData(
+      id: 5,
+      name: 'Singapore',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Singapore.jpg',
+    ),
+    const _CountryCardData(
+      id: 6,
+      name: 'Malaysia',
+      imageUrl: '',
+      fallbackAssetPath: 'assets/images/Malaysia.jpg',
+    ),
+  ];
 
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchCountries();
+    if (_useApiCountries) {
+      setState(() => _isLoading = true);
+      _fetchCountries();
+    }
   }
 
   String _resolveImageUrl(String raw) {

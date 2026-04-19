@@ -14,6 +14,7 @@ class HomeBannerCarousel extends StatefulWidget {
 }
 
 class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
+  static const bool _useApiBanners = false;
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
   Timer? _timer;
@@ -34,7 +35,9 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   void initState() {
     super.initState();
     _controller = PageController();
-    _fetchBanners();
+    if (_useApiBanners) {
+      _fetchBanners();
+    }
 
     _startAutoSlide();
   }
@@ -218,6 +221,7 @@ class PromoBannerCarousel extends StatefulWidget {
 }
 
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
+  static const bool _useApiBanners = false;
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
   Timer? _timer;
@@ -238,7 +242,9 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   void initState() {
     super.initState();
     _controller = PageController();
-    _fetchBanners();
+    if (_useApiBanners) {
+      _fetchBanners();
+    }
 
     _startAutoSlide();
   }
