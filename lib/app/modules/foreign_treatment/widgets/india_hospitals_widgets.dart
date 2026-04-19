@@ -700,11 +700,16 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                           }
 
                           final item = _hospitals[index];
+                          final isThailand = widget.countryTitle
+                              .toLowerCase()
+                              .contains('thailand');
                           return _HospitalTile(
                             hospital: item,
                             showAgreementStatus: !widget.countryTitle
-                                .toLowerCase()
-                                .contains('india'),
+                                    .toLowerCase()
+                                    .contains('india') &&
+                                !isThailand,
+                            showPublicHospitalCount: !isThailand,
                             onTap: () {
                               Get.to(
                                 () => HospitalDetailsView(
@@ -817,11 +822,13 @@ class _HospitalItem {
 class _HospitalTile extends StatelessWidget {
   final _HospitalItem hospital;
   final bool showAgreementStatus;
+  final bool showPublicHospitalCount;
   final VoidCallback onTap;
 
   const _HospitalTile({
     required this.hospital,
     required this.showAgreementStatus,
+    this.showPublicHospitalCount = true,
     required this.onTap,
   });
 
@@ -900,15 +907,17 @@ class _HospitalTile extends StatelessWidget {
                       ),
                     ),
                   ],
-                  const SizedBox(height: 2),
-                  Text(
-                    'Public Number of Hospitals: ${hospital.publicHospitalCountText}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                  if (showPublicHospitalCount) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      'Public Number of Hospitals: ${hospital.publicHospitalCountText}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
