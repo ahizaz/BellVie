@@ -5,6 +5,22 @@ class SpecialistDoctorsRepository {
 
   static final Map<String, List<SpecialistDoctorItem>>
       _staticDoctorsByCategory = {
+    'internal_medicine': const [
+      SpecialistDoctorItem(
+        id: 'internal-3',
+        name: 'Dr. Sumaiya Nowsheen Khan Panthoi',
+        designation: 'Medicine (PGT) Specialist',
+        imageAssetPath: '',
+      ),
+    ],
+    'general_physician': const [
+      SpecialistDoctorItem(
+        id: 'gp-1',
+        name: 'Dr. Avishek Chakraborty',
+        designation: 'MBBS',
+        imageAssetPath: '',
+      ),
+    ],
     'neuromedicine': const [
       SpecialistDoctorItem(
         id: 'neuro-1',
@@ -81,6 +97,12 @@ class SpecialistDoctorsRepository {
         name: 'Dr. Mausumi Iqbal',
         designation: 'Oral & Maxillofacial Surgery Specialist',
         imageAssetPath: '',
+      ),
+      SpecialistDoctorItem(
+        id: 'oms-2',
+        name: 'Dr Mezbah ul Azeez',
+        designation: 'Periodontology Specialist',
+        imageAssetPath: 'assets/images/drmezbah.jpeg',
       ),
     ],
   };
