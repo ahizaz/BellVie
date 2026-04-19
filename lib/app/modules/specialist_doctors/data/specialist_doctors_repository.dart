@@ -27,26 +27,7 @@ class SpecialistDoctorsRepository {
         imageAssetPath: '',
       ),
     ],
-    'neuromedicine': const [
-      SpecialistDoctorItem(
-        id: 'neuro-1',
-        name: 'Dr. Arif Hasan',
-        designation: 'Consultant, Neuromedicine',
-        imageAssetPath: 'assets/images/special doctors/4.Neuromedicine.png',
-      ),
-      SpecialistDoctorItem(
-        id: 'neuro-2',
-        name: 'Dr. Nabila Rahman',
-        designation: 'Associate Consultant, Neuromedicine',
-        imageAssetPath: 'assets/images/special doctors/4.Neuromedicine.png',
-      ),
-      SpecialistDoctorItem(
-        id: 'neuro-3',
-        name: 'Dr. Fahim Kabir',
-        designation: 'Senior Registrar, Neuromedicine',
-        imageAssetPath: 'assets/images/special doctors/4.Neuromedicine.png',
-      ),
-    ],
+    'neuromedicine': const [],
     'gastroenterology': const [
       SpecialistDoctorItem(
         id: 'gastro-1',
@@ -127,6 +108,10 @@ class SpecialistDoctorsRepository {
         imageAssetPath: '',
       ),
     ],
+    'rheumatology': const [],
+    'cardiology': const [],
+    'family_medicine': const [],
+    'endocrinology': const [],
     'gynaecology_and_obstetrics': const [
       SpecialistDoctorItem(
         id: 'gyn-1',
