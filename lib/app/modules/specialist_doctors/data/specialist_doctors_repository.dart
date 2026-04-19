@@ -45,6 +45,31 @@ class SpecialistDoctorsRepository {
         imageAssetPath: 'assets/images/special doctors/Gastroenterology.png',
       ),
     ],
+    'urology': const [
+      SpecialistDoctorItem(
+        id: 'urology-1',
+        name: 'Dr MD.Abdullah Alamin Shohan',
+        designation: 'Urology Specialist',
+        imageAssetPath: 'assets/images/drsohan.jpeg',
+      ),
+    ],
+    'oncology': const [
+      SpecialistDoctorItem(
+        id: 'onc-1',
+        name: 'Dr MD.Rassell',
+        designation: 'Surgical Oncology Specialist',
+        imageAssetPath: 'assets/images/special doctors/7.oncology.png',
+      ),
+    ],
+    'gynaecology_and_obstetrics': const [
+      SpecialistDoctorItem(
+        id: 'gyn-1',
+        name: 'Dr. Sanjida Rezwana',
+        designation: 'Gyn Specialist',
+        imageAssetPath:
+            'assets/images/special doctors/12.Gynaecology and Obstetric.png',
+      ),
+    ],
   };
 
   Future<List<SpecialistDoctorItem>> getDoctorsByCategory({

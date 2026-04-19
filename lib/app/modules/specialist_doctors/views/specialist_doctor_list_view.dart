@@ -83,14 +83,14 @@ class _DoctorListCard extends StatelessWidget {
           Container(
             width: 66,
             height: 66,
-            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.8),
+              color: const Color(0xFFCDEFF2),
               borderRadius: BorderRadius.circular(10),
             ),
+            clipBehavior: Clip.antiAlias,
             child: Image.asset(
               item.imageAssetPath,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(width: 12),
