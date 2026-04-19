@@ -578,6 +578,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                           final item = _hospitals[index];
                           return _HospitalTile(
                             hospital: item,
+                            showAgreementStatus: !widget.countryTitle
+                                .toLowerCase()
+                                .contains('india'),
                             onTap: () {
                               Get.to(
                                 () => HospitalDetailsView(
@@ -687,10 +690,12 @@ class _HospitalItem {
 
 class _HospitalTile extends StatelessWidget {
   final _HospitalItem hospital;
+  final bool showAgreementStatus;
   final VoidCallback onTap;
 
   const _HospitalTile({
     required this.hospital,
+    required this.showAgreementStatus,
     required this.onTap,
   });
 
@@ -747,15 +752,17 @@ class _HospitalTile extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    'Agreement Status: ${hospital.agreementStatus}',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black87,
+                  if (showAgreementStatus) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      'Agreement Status: ${hospital.agreementStatus}',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
                     ),
-                  ),
+                  ],
                   const SizedBox(height: 2),
                   Text(
                     'Public Number of Hospitals: ${hospital.publicHospitalCountText}',
