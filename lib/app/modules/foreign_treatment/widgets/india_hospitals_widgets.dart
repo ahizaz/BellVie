@@ -84,17 +84,141 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
           agreementStatus: 'Pending',
           publicHospitalCountText: 'N/A',
           bannerName: 'Preferred Hospital Partner',
-          description: 'Leading multi-specialty hospital in Bangkok.',
+          description:
+              'Cancer treatment (Oncology), Heart diseases (Cardiology), Brain and nerve disorders (Neurology), Bone and spine problems (Orthopedics), Kidney and liver transplant, Lung and respiratory diseases.',
+          specialties: [
+            'Cancer treatment (Oncology)',
+            'Heart diseases (Cardiology)',
+            'Brain and nerve disorders (Neurology)',
+            'Bone and spine problems (Orthopedics)',
+            'Kidney and liver transplant',
+            'Lung and respiratory diseases',
+          ],
           contacts: ['+66 2 090 3000', 'N/A', 'N/A'],
         ),
         _HospitalItem(
           id: 302,
+          name: 'Sukhumvit Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description:
+              'Child treatment, Heart problems, Spine and joint surgery, Fertility treatment.',
+          specialties: [
+            'Child treatment',
+            'Heart problems',
+            'Spine and joint surgery',
+            'Fertility treatment',
+          ],
+          contacts: ['N/A', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 303,
+          name: 'Nakhonthon Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description:
+              'Heart and Cardiovascular Center, Orthopedic and Joint Center, Fertility and Women\'s Health Center, Neurology and Stroke Care, Gastrointestinal and Liver Center, Child Health Center, Cancer and Surgery Services.',
+          specialties: [
+            'Heart and Cardiovascular Center',
+            'Orthopedic and Joint Center',
+            'Fertility and Women\'s Health Center',
+            'Neurology and Stroke Care',
+            'Gastrointestinal and Liver Center',
+            'Child Health Center',
+            'Cancer and Surgery Services',
+          ],
+          contacts: ['N/A', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 304,
+          name: 'Bangkok Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description:
+              'Heart treatment (angioplasty, bypass surgery), Cancer treatment, Brain and stroke care, Bone and joint replacement, Women\'s health and IVF, Liver and digestive treatment.',
+          specialties: [
+            'Heart treatment (angioplasty, bypass surgery)',
+            'Cancer treatment',
+            'Brain and stroke care',
+            'Bone and joint replacement',
+            'Women\'s health and IVF',
+            'Liver and digestive treatment',
+          ],
+          contacts: ['N/A', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 305,
           name: 'Bumrungrad International Hospital',
           iconUrl: '',
           agreementStatus: 'Pending',
           publicHospitalCountText: 'N/A',
           bannerName: 'Preferred Hospital Partner',
-          description: 'Internationally known tertiary care center.',
+          description:
+              'Pediatric (children) treatment, Maternity and fertility care, Advanced surgery with robotic technology, Medical tourism for international patients.',
+          specialties: [
+            'Pediatric (children) treatment',
+            'Maternity and fertility care',
+            'Advanced surgery with robotic technology',
+            'Medical tourism for international patients',
+          ],
+          contacts: ['+66 2 066 8888', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 306,
+          name: 'Samitivej Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description:
+              'Children\'s Hospital (Pediatrics), Heart and Vascular (Cardiology), Neurology and Neurosurgery, Gastroenterology and Liver Care, Plastic and Cosmetic Surgery, Preventive Health Checkups.',
+          specialties: [
+            'Children\'s Hospital (Pediatrics)',
+            'Heart and Vascular (Cardiology)',
+            'Neurology and Neurosurgery',
+            'Gastroenterology and Liver Care',
+            'Plastic and Cosmetic Surgery',
+            'Preventive Health Checkups',
+          ],
+          contacts: ['N/A', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 307,
+          name: 'Vejthani Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description: 'Orthopedic and Spine, Heart Center.',
+          specialties: [
+            'Orthopedic and Spine',
+            'Heart Center',
+          ],
+          contacts: ['N/A', 'N/A', 'N/A'],
+        ),
+        _HospitalItem(
+          id: 308,
+          name: 'Phyathai 2 International Hospital',
+          iconUrl: '',
+          agreementStatus: 'Pending',
+          publicHospitalCountText: 'N/A',
+          bannerName: 'Preferred Hospital Partner',
+          description:
+              'Brain and Neurology Center, Orthopedic and Spine Center, Cancer Center, Fertility and IVF Center, Women\'s Health and Maternity Care, Pediatric Center.',
+          specialties: [
+            'Brain and Neurology Center',
+            'Orthopedic and Spine Center',
+            'Cancer Center',
+            'Fertility and IVF Center',
+            'Women\'s Health and Maternity Care',
+            'Pediatric Center',
+          ],
           contacts: ['+66 2 066 8888', 'N/A', 'N/A'],
         ),
       ];
@@ -607,6 +731,7 @@ class _HospitalItem {
   final String publicHospitalCountText;
   final String bannerName;
   final String description;
+  final List<String> specialties;
   final List<String> contacts;
 
   const _HospitalItem({
@@ -617,6 +742,7 @@ class _HospitalItem {
     required this.publicHospitalCountText,
     required this.bannerName,
     required this.description,
+    this.specialties = const <String>[],
     required this.contacts,
   });
 
@@ -752,6 +878,17 @@ class _HospitalTile extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
+                  if (hospital.specialties.isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      hospital.specialties.join(' | '),
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
                   if (showAgreementStatus) ...[
                     const SizedBox(height: 2),
                     Text(
