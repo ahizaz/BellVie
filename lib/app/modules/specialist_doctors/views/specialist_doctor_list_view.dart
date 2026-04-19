@@ -64,6 +64,7 @@ class _DoctorListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const avatarIcon = Icons.person;
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -88,10 +89,25 @@ class _DoctorListCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             clipBehavior: Clip.antiAlias,
-            child: Image.asset(
-              item.imageAssetPath,
-              fit: BoxFit.cover,
-            ),
+            child: item.imageAssetPath.trim().isEmpty
+                ? Center(
+                    child: Icon(
+                      avatarIcon,
+                      size: 40,
+                      color: Colors.black45,
+                    ),
+                  )
+                : Image.asset(
+                    item.imageAssetPath,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Center(
+                      child: Icon(
+                        avatarIcon,
+                        size: 40,
+                        color: Colors.black45,
+                      ),
+                    ),
+                  ),
           ),
           const SizedBox(width: 12),
           Expanded(

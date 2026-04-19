@@ -52,13 +52,19 @@ class SpecialistDoctorsRepository {
         designation: 'Urology Specialist',
         imageAssetPath: 'assets/images/drsohan.jpeg',
       ),
+      SpecialistDoctorItem(
+        id: 'urology-2',
+        name: 'Dr MD.Ishtiaqul haque Mortuza',
+        designation: 'Urology Specialist',
+        imageAssetPath: '',
+      ),
     ],
     'oncology': const [
       SpecialistDoctorItem(
         id: 'onc-1',
         name: 'Dr MD.Rassell',
         designation: 'Surgical Oncology Specialist',
-        imageAssetPath: 'assets/images/special doctors/7.oncology.png',
+        imageAssetPath: '',
       ),
     ],
     'gynaecology_and_obstetrics': const [
@@ -66,8 +72,15 @@ class SpecialistDoctorsRepository {
         id: 'gyn-1',
         name: 'Dr. Sanjida Rezwana',
         designation: 'Gyn Specialist',
-        imageAssetPath:
-            'assets/images/special doctors/12.Gynaecology and Obstetric.png',
+        imageAssetPath: '',
+      ),
+    ],
+    'oral_and_maxillofacial_surgery': const [
+      SpecialistDoctorItem(
+        id: 'oms-1',
+        name: 'Dr. Mausumi Iqbal',
+        designation: 'Oral & Maxillofacial Surgery Specialist',
+        imageAssetPath: '',
       ),
     ],
   };

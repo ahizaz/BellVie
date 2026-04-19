@@ -253,7 +253,20 @@ class CoreFourSection extends StatelessWidget {
                   'psychiatrist', 'assets/images/Psychiatrist.png'),
               _otherMedicalTile('counseling_psychologist',
                   'assets/images/Counselling Psychologist.png'),
-              _otherMedicalTile('dentists', 'assets/images/Dentists.png'),
+              _otherMedicalTile(
+                'dentists',
+                'assets/images/Dentists.png',
+                onTap: () {
+                  Get.toNamed(
+                    Routes.SPECIALIST_DOCTOR_LIST,
+                    arguments: {
+                      'categoryKey': 'oral_and_maxillofacial_surgery',
+                      'categoryLabel': 'dentists'.tr,
+                      'categoryAssetPath': 'assets/images/Dentists.png',
+                    },
+                  );
+                },
+              ),
               _otherMedicalTile(
                   'stem_therapy', 'assets/images/Stem Therapy.png'),
               _otherMedicalTile('regenerative_therapy',
