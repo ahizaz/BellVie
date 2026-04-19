@@ -12,6 +12,12 @@ class SpecialistDoctorsRepository {
         designation: 'Medicine (PGT) Specialist',
         imageAssetPath: '',
       ),
+      SpecialistDoctorItem(
+        id: 'internal-4',
+        name: 'Dr MD.ABU HASNAN RUBEL',
+        designation: 'Medicine Specialist',
+        imageAssetPath: '',
+      ),
     ],
     'general_physician': const [
       SpecialistDoctorItem(
@@ -72,7 +78,7 @@ class SpecialistDoctorsRepository {
         id: 'urology-2',
         name: 'Dr MD.Ishtiaqul haque Mortuza',
         designation: 'Urology Specialist',
-        imageAssetPath: '',
+        imageAssetPath: 'assets/images/mortazadr.jpeg',
       ),
     ],
     'oncology': const [
@@ -80,6 +86,18 @@ class SpecialistDoctorsRepository {
         id: 'onc-1',
         name: 'Dr MD.Rassell',
         designation: 'Surgical Oncology Specialist',
+        imageAssetPath: '',
+      ),
+      SpecialistDoctorItem(
+        id: 'onc-2',
+        name: 'Dr K.M.Sakib',
+        designation: 'MS (Surgical Oncology) Specialist',
+        imageAssetPath: '',
+      ),
+      SpecialistDoctorItem(
+        id: 'onc-3',
+        name: 'Prof.Dr.Md.Khorshed Alam',
+        designation: 'Oncology Specialist',
         imageAssetPath: '',
       ),
     ],
