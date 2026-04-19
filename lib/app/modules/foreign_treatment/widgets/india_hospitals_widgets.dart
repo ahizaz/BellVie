@@ -440,63 +440,19 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     }
 
     if (title.contains('china')) {
-      return const [
-        _HospitalItem(
-          id: 201,
-          name: 'Peking Union Medical College Hospital',
-          iconUrl: '',
-          agreementStatus: 'Pending',
-          publicHospitalCountText: 'N/A',
-          bannerName: 'Preferred Hospital Partner',
-          description: 'Comprehensive tertiary care teaching hospital.',
-          contacts: ['+86 10 6915 6114', 'N/A', 'N/A'],
-        ),
-      ];
+      return const [];
     }
 
     if (title.contains('turkey')) {
-      return const [
-        _HospitalItem(
-          id: 401,
-          name: 'Acibadem International Hospital',
-          iconUrl: '',
-          agreementStatus: 'Pending',
-          publicHospitalCountText: 'N/A',
-          bannerName: 'Preferred Hospital Partner',
-          description: 'International patient support and specialty care.',
-          contacts: ['+90 216 544 4444', 'N/A', 'N/A'],
-        ),
-      ];
+      return const [];
     }
 
     if (title.contains('singapore')) {
-      return const [
-        _HospitalItem(
-          id: 501,
-          name: 'Mount Elizabeth Hospital',
-          iconUrl: '',
-          agreementStatus: 'Pending',
-          publicHospitalCountText: 'N/A',
-          bannerName: 'Preferred Hospital Partner',
-          description: 'Private specialist hospital in central Singapore.',
-          contacts: ['+65 6737 2666', 'N/A', 'N/A'],
-        ),
-      ];
+      return const [];
     }
 
     if (title.contains('malaysia')) {
-      return const [
-        _HospitalItem(
-          id: 601,
-          name: 'Gleneagles Kuala Lumpur',
-          iconUrl: '',
-          agreementStatus: 'Pending',
-          publicHospitalCountText: 'N/A',
-          bannerName: 'Preferred Hospital Partner',
-          description: 'International-standard private hospital services.',
-          contacts: ['+60 3 4141 3000', 'N/A', 'N/A'],
-        ),
-      ];
+      return const [];
     }
 
     return const [
