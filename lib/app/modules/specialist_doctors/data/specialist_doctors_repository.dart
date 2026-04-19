@@ -80,6 +80,12 @@ class SpecialistDoctorsRepository {
         designation: 'Urology Specialist',
         imageAssetPath: 'assets/images/mortazadr.jpeg',
       ),
+      SpecialistDoctorItem(
+        id: 'urology-3',
+        name: 'Dr.Shafiqur Rahman',
+        designation: 'Urology Specialist',
+        imageAssetPath: '',
+      ),
     ],
     'oncology': const [
       SpecialistDoctorItem(
@@ -97,6 +103,18 @@ class SpecialistDoctorsRepository {
       SpecialistDoctorItem(
         id: 'onc-3',
         name: 'Prof.Dr.Md.Khorshed Alam',
+        designation: 'Oncology Specialist',
+        imageAssetPath: '',
+      ),
+      SpecialistDoctorItem(
+        id: 'onc-4',
+        name: 'Dr Altaf Hossain',
+        designation: 'Clinical Oncology Specialist',
+        imageAssetPath: '',
+      ),
+      SpecialistDoctorItem(
+        id: 'onc-5',
+        name: 'Dr Rifat Zia Hossain',
         designation: 'Oncology Specialist',
         imageAssetPath: '',
       ),
