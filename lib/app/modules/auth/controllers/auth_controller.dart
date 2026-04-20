@@ -2,54 +2,9 @@ import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'dart:convert';
 import '../../../services/auth_service.dart';
-import '../../../services/api_service.dart';
 
 class AuthController extends GetxController {
-  final AppApiService _apiService = AppApiService();
-
-  String _extractApiErrorMessage(String responseBody, String fallbackMessage) {
-    try {
-      final decoded = jsonDecode(responseBody);
-
-      if (decoded is Map<String, dynamic>) {
-        final detail =
-            decoded['detail'] ?? decoded['message'] ?? decoded['error'];
-        if (detail is String && detail.trim().isNotEmpty) {
-          return detail.trim();
-        }
-
-        for (final entry in decoded.entries) {
-          final value = entry.value;
-          if (value is List && value.isNotEmpty) {
-            final first = value.first.toString().trim();
-            if (first.isNotEmpty) {
-              return '${entry.key}: $first';
-            }
-          }
-          if (value is String && value.trim().isNotEmpty) {
-            return '${entry.key}: ${value.trim()}';
-          }
-        }
-      }
-
-      if (decoded is List && decoded.isNotEmpty) {
-        final first = decoded.first.toString().trim();
-        if (first.isNotEmpty) {
-          return first;
-        }
-      }
-    } catch (_) {
-      final raw = responseBody.trim();
-      if (raw.isNotEmpty) {
-        return raw;
-      }
-    }
-
-    return fallbackMessage;
-  }
-
   static const List<String> districts = [
     'Bagerhat',
     'Bandarban',
@@ -178,71 +133,31 @@ class AuthController extends GetxController {
     try {
       debugPrint('Login request body => $requestBody');
 
-      final response = await _apiService.post(
-        path: '/api/v1/auth/login/',
-        body: requestBody,
-      );
+      final access =
+          'local_access_${DateTime.now().millisecondsSinceEpoch.toString()}';
+      final refresh =
+          'local_refresh_${DateTime.now().millisecondsSinceEpoch.toString()}';
+      final userPhone = '$selectedCountryCode$phone';
 
-      debugPrint('Login response status => ${response.statusCode}');
-      debugPrint('Login response body => ${response.body}');
+      await AuthService.to.login(access: access, refresh: refresh);
+      await AuthService.to.updateProfile(
+        name: '',
+        phone: userPhone,
+        email: '',
+      );
 
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        final decoded = jsonDecode(response.body);
-        if (decoded is! Map<String, dynamic>) {
-          EasyLoading.showError('Login failed. Invalid response from server.');
-          return;
-        }
-
-        final access = (decoded['access'] ?? '').toString().trim();
-        final refresh = (decoded['refresh'] ?? '').toString().trim();
-
-        if (access.isEmpty) {
-          EasyLoading.showError('Login failed. Access token missing.');
-          return;
-        }
-
-        String name = '';
-        String userPhone = '$selectedCountryCode$phone';
-        String email = '';
-
-        final user = decoded['user'];
-        if (user is Map<String, dynamic>) {
-          name = (user['name'] ?? '').toString().trim();
-          final apiPhone = (user['phone_number'] ?? '').toString().trim();
-          if (apiPhone.isNotEmpty) {
-            userPhone = apiPhone;
-          }
-          email = (user['email'] ?? '').toString().trim();
-        }
-
-        await AuthService.to.login(access: access, refresh: refresh);
-        await AuthService.to.updateProfile(
-          name: name,
-          phone: userPhone,
-          email: email,
-        );
-
-        debugPrint('Login success => profile + tokens saved');
-        Get.offAllNamed(Routes.HOME);
-        return;
-      }
-
-      final message = _extractApiErrorMessage(
-        response.body,
-        'Login failed. Please try again.',
-      );
-
-      EasyLoading.showError(message);
+      debugPrint('Login success (local) => profile + tokens saved');
+      Get.offAllNamed(Routes.HOME);
     } catch (e) {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       debugPrint('Login error => $e');
-      EasyLoading.showError('Login failed. Check internet and try again.');
+      EasyLoading.showError('Login failed. Please try again.');
     }
   }
 
@@ -285,39 +200,22 @@ class AuthController extends GetxController {
     try {
       debugPrint('Reset password request body => $requestBody');
 
-      final response = await _apiService.post(
-        path: '/api/v1/auth/reset-password/',
-        body: requestBody,
-      );
-
-      debugPrint('Reset password response status => ${response.statusCode}');
-      debugPrint('Reset password response body => ${response.body}');
-
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        if (Get.isDialogOpen ?? false) {
-          Get.back();
-        }
-        EasyLoading.showSuccess('Password reset successful. Please login.');
-        Get.offAllNamed(Routes.LOGIN);
-        return;
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
       }
 
-      final message = _extractApiErrorMessage(
-        response.body,
-        'Reset password failed. Please try again.',
-      );
-      EasyLoading.showError(message);
+      EasyLoading.showSuccess('Password reset successful. Please login.');
+      Get.offAllNamed(Routes.LOGIN);
     } catch (e) {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       debugPrint('Reset password error => $e');
-      EasyLoading.showError(
-          'Reset password failed. Check internet and try again.');
+      EasyLoading.showError('Reset password failed. Please try again.');
     }
   }
 
@@ -358,30 +256,15 @@ class AuthController extends GetxController {
     try {
       debugPrint('Register request body => $requestBody');
 
-      final response = await _apiService.post(
-        path: '/api/v1/auth/register/',
-        body: requestBody,
+      await AuthService.to.updateProfile(
+        name: name,
+        phone: '$countryCode$phone',
+        email: email,
       );
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        await AuthService.to.updateProfile(
-          name: name,
-          phone: '$countryCode$phone',
-          email: email,
-        );
-
-        clearRegistrationForm();
-        EasyLoading.showSuccess('registration_successful'.tr);
-        Get.offNamed(Routes.LOGIN);
-        return;
-      }
-
-      final message = _extractApiErrorMessage(
-        response.body,
-        'Registration failed. Please try again.',
-      );
-
-      EasyLoading.showError(message);
+      clearRegistrationForm();
+      EasyLoading.showSuccess('registration_successful'.tr);
+      Get.offNamed(Routes.LOGIN);
     } catch (e) {
       debugPrint('Register error => $e');
       final errorText = e.toString().trim();

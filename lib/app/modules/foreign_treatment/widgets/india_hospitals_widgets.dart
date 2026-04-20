@@ -877,7 +877,6 @@ class _HospitalTile extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.black38),
           ],
         ),
       ),
