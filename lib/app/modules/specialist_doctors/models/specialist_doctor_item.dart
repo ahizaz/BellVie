@@ -13,10 +13,17 @@ class SpecialistDoctorItem {
 
   factory SpecialistDoctorItem.fromJson(Map<String, dynamic> json) {
     return SpecialistDoctorItem(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      designation: json['designation']?.toString() ?? '',
-      imageAssetPath: json['imageAssetPath']?.toString() ?? '',
+      id: (json['id'] ?? json['uuid'] ?? '').toString(),
+      name: (json['name'] ?? json['doctor_name'] ?? '').toString(),
+      designation:
+          (json['designation'] ?? json['speciality'] ?? json['title'] ?? '')
+              .toString(),
+      imageAssetPath: (json['imageAssetPath'] ??
+              json['image'] ??
+              json['profile_picture'] ??
+              json['avatar'] ??
+              '')
+          .toString(),
     );
   }
 

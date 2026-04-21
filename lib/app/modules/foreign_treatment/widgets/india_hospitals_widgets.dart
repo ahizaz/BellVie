@@ -47,7 +47,7 @@ class _IndiaHospitalsHome extends StatefulWidget {
 }
 
 class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
-  static const bool _useApiHospitals = false;
+  static const bool _useApiHospitals = true;
   final AppApiService _apiService = AppApiService();
   final List<_HospitalItem> _hospitals = <_HospitalItem>[];
 

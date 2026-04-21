@@ -8,7 +8,7 @@ class _ForeignTreatmentHome extends StatefulWidget {
 }
 
 class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
-  static const bool _useApiCountries = false;
+  static const bool _useApiCountries = true;
   final AppApiService _apiService = AppApiService();
   final List<_CountryCardData> _countries = <_CountryCardData>[
     const _CountryCardData(
@@ -81,8 +81,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   }
 
   Future<void> _fetchCountries() async {
-    final token = AuthService.to.accessToken.value.trim();
-    if (token.isEmpty) {
+    if (AuthService.to.accessToken.value.trim().isEmpty) {
       debugPrint(
           'Foreign treatment view countries fetch skipped => token empty');
       EasyLoading.showError('Please login again.');
@@ -95,16 +94,18 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
     EasyLoading.show(status: 'Loading countries...');
 
     try {
-      final response = await _apiService.get(
+      final response = await _apiService.getWithAuthRetry(
         path: '/api/v1/foreign-treatments/countries/',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       debugPrint(
           'Foreign treatment view countries status => ${response.statusCode}');
       debugPrint('Foreign treatment view countries body => ${response.body}');
+
+      if (response.statusCode == 401) {
+        EasyLoading.showError('Session expired. Please login again.');
+        return;
+      }
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
         EasyLoading.showError('Country load failed. Please try again.');

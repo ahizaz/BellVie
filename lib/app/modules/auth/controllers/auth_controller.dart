@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../../services/auth_service.dart';
+import '../../../services/api_service.dart';
 
 class AuthController extends GetxController {
+  final AppApiService _apiService = AppApiService();
+
   static const List<String> districts = [
     'Bagerhat',
     'Bandarban',
@@ -133,17 +138,49 @@ class AuthController extends GetxController {
     try {
       debugPrint('Login request body => $requestBody');
 
+      final response = await _postToFirstAvailable(
+        candidatePaths: const [
+          '/api/v1/auth/login/',
+          '/api/v1/auth/sign-in/',
+          '/api/v1/login/',
+        ],
+        body: requestBody,
+      );
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        final message = _extractErrorMessage(response.body);
+        throw Exception(
+            message.isEmpty ? 'Login failed. Please try again.' : message);
+      }
+
+      final dynamic decoded = _safeJsonDecode(response.body);
       final access =
-          'local_access_${DateTime.now().millisecondsSinceEpoch.toString()}';
-      final refresh =
-          'local_refresh_${DateTime.now().millisecondsSinceEpoch.toString()}';
-      final userPhone = '$selectedCountryCode$phone';
+          _extractToken(decoded, ['access', 'access_token', 'token']);
+      final refresh = _extractToken(decoded, ['refresh', 'refresh_token']);
+
+      if (access.isEmpty || refresh.isEmpty) {
+        throw Exception('Login failed. Invalid token response.');
+      }
+
+      final name = _extractValue(decoded, ['name', 'full_name']);
+      final email = _extractValue(decoded, ['email']);
+      final district = _extractValue(decoded, ['district']);
+      final profilePicture = _extractValue(
+        decoded,
+        ['profile_picture', 'profile_image', 'avatar'],
+      );
+      final userPhone =
+          _extractValue(decoded, ['phone_number', 'phone']).isEmpty
+              ? '$selectedCountryCode$phone'
+              : _extractValue(decoded, ['phone_number', 'phone']);
 
       await AuthService.to.login(access: access, refresh: refresh);
       await AuthService.to.updateProfile(
-        name: '',
+        name: name,
         phone: userPhone,
-        email: '',
+        email: email,
+        district: district,
+        profilePictureUrl: profilePicture,
       );
 
       if (EasyLoading.isShow) {
@@ -199,6 +236,24 @@ class AuthController extends GetxController {
 
     try {
       debugPrint('Reset password request body => $requestBody');
+
+      final response = await _postToFirstAvailable(
+        candidatePaths: const [
+          '/api/v1/auth/reset-password/',
+          '/api/v1/auth/forgot-password/',
+          '/api/v1/auth/password-reset/',
+        ],
+        body: requestBody,
+      );
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        final message = _extractErrorMessage(response.body);
+        throw Exception(
+          message.isEmpty
+              ? 'Reset password failed. Please try again.'
+              : message,
+        );
+      }
 
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
@@ -256,6 +311,31 @@ class AuthController extends GetxController {
     try {
       debugPrint('Register request body => $requestBody');
 
+      final response = await _postToFirstAvailable(
+        candidatePaths: const [
+          '/api/v1/auth/register/',
+          '/api/v1/auth/sign-up/',
+          '/api/v1/register/',
+        ],
+        body: requestBody,
+      );
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        final message = _extractErrorMessage(response.body);
+        throw Exception(
+          message.isEmpty ? 'Registration failed. Please try again.' : message,
+        );
+      }
+
+      final dynamic decoded = _safeJsonDecode(response.body);
+      final access =
+          _extractToken(decoded, ['access', 'access_token', 'token']);
+      final refresh = _extractToken(decoded, ['refresh', 'refresh_token']);
+
+      if (access.isNotEmpty && refresh.isNotEmpty) {
+        await AuthService.to.login(access: access, refresh: refresh);
+      }
+
       await AuthService.to.updateProfile(
         name: name,
         phone: '$countryCode$phone',
@@ -290,5 +370,114 @@ class AuthController extends GetxController {
     registerPasswordController.dispose();
     registerConfirmPasswordController.dispose();
     super.onClose();
+  }
+
+  Future<dynamic> _postToFirstAvailable({
+    required List<String> candidatePaths,
+    required Map<String, dynamic> body,
+  }) async {
+    dynamic lastResponse;
+    dynamic lastError;
+
+    for (final path in candidatePaths) {
+      try {
+        final response = await _apiService.post(path: path, body: body);
+        if (response.statusCode == 404 || response.statusCode == 405) {
+          lastResponse = response;
+          continue;
+        }
+        return response;
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    if (lastResponse != null) {
+      return lastResponse;
+    }
+
+    throw Exception(lastError?.toString() ?? 'Request failed.');
+  }
+
+  dynamic _safeJsonDecode(String raw) {
+    try {
+      if (raw.trim().isEmpty) return null;
+      return jsonDecode(raw);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String _extractToken(dynamic decoded, List<String> keys) {
+    if (decoded is! Map<String, dynamic>) return '';
+
+    for (final key in keys) {
+      final direct = (decoded[key] ?? '').toString().trim();
+      if (direct.isNotEmpty) return direct;
+    }
+
+    final nestedUser = decoded['user'];
+    if (nestedUser is Map<String, dynamic>) {
+      for (final key in keys) {
+        final value = (nestedUser[key] ?? '').toString().trim();
+        if (value.isNotEmpty) return value;
+      }
+    }
+
+    final nestedData = decoded['data'];
+    if (nestedData is Map<String, dynamic>) {
+      for (final key in keys) {
+        final value = (nestedData[key] ?? '').toString().trim();
+        if (value.isNotEmpty) return value;
+      }
+    }
+
+    return '';
+  }
+
+  String _extractValue(dynamic decoded, List<String> keys) {
+    if (decoded is! Map<String, dynamic>) return '';
+
+    for (final key in keys) {
+      final direct = (decoded[key] ?? '').toString().trim();
+      if (direct.isNotEmpty) return direct;
+    }
+
+    final nestedUser = decoded['user'];
+    if (nestedUser is Map<String, dynamic>) {
+      for (final key in keys) {
+        final value = (nestedUser[key] ?? '').toString().trim();
+        if (value.isNotEmpty) return value;
+      }
+    }
+
+    final nestedData = decoded['data'];
+    if (nestedData is Map<String, dynamic>) {
+      for (final key in keys) {
+        final value = (nestedData[key] ?? '').toString().trim();
+        if (value.isNotEmpty) return value;
+      }
+    }
+
+    return '';
+  }
+
+  String _extractErrorMessage(String responseBody) {
+    final decoded = _safeJsonDecode(responseBody);
+    if (decoded is Map<String, dynamic>) {
+      final candidates = [
+        (decoded['message'] ?? '').toString().trim(),
+        (decoded['detail'] ?? '').toString().trim(),
+        (decoded['error'] ?? '').toString().trim(),
+        (decoded['non_field_errors'] ?? '').toString().trim(),
+      ];
+
+      for (final item in candidates) {
+        if (item.isNotEmpty && item != '[]') {
+          return item;
+        }
+      }
+    }
+    return '';
   }
 }

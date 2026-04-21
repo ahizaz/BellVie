@@ -65,6 +65,10 @@ class _DoctorListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const avatarIcon = Icons.person;
+    final imagePath = item.imageAssetPath.trim();
+    final isNetworkImage =
+        imagePath.startsWith('http://') || imagePath.startsWith('https://');
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -89,7 +93,7 @@ class _DoctorListCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             clipBehavior: Clip.antiAlias,
-            child: item.imageAssetPath.trim().isEmpty
+            child: imagePath.isEmpty
                 ? Center(
                     child: Icon(
                       avatarIcon,
@@ -97,17 +101,29 @@ class _DoctorListCard extends StatelessWidget {
                       color: Colors.black45,
                     ),
                   )
-                : Image.asset(
-                    item.imageAssetPath,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Center(
-                      child: Icon(
-                        avatarIcon,
-                        size: 40,
-                        color: Colors.black45,
+                : isNetworkImage
+                    ? Image.network(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Center(
+                          child: Icon(
+                            avatarIcon,
+                            size: 40,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      )
+                    : Image.asset(
+                        imagePath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Center(
+                          child: Icon(
+                            avatarIcon,
+                            size: 40,
+                            color: Colors.black45,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
           ),
           const SizedBox(width: 12),
           Expanded(

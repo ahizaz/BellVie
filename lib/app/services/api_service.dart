@@ -4,14 +4,19 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import 'auth_service.dart';
+
 class AppApiService {
-   //static const String baseUrl = 'http://192.168.0.246:5000';
-  static const String baseUrl =
-      'https://dara-unadjudicated-befittingly.ngrok-free.dev';
+  //static const String baseUrl = 'http://192.168.0.246:5000';
+  static const String baseUrl = 'https://api.dmatechno.com';
+  static Future<bool>? _ongoingRefresh;
 
   Uri buildUrl(String path) {
     final normalizedPath = path.startsWith('/') ? path : '/$path';
-    return Uri.parse('$baseUrl$normalizedPath');
+    final normalizedBaseUrl = baseUrl.endsWith('/')
+        ? baseUrl.substring(0, baseUrl.length - 1)
+        : baseUrl;
+    return Uri.parse('$normalizedBaseUrl$normalizedPath');
   }
 
   Future<http.Response> post({
@@ -67,6 +72,143 @@ class AppApiService {
     debugPrint('GET response <= ${response.body}');
 
     return response;
+  }
+
+  Future<http.Response> getWithAuthRetry({
+    required String path,
+    Map<String, String>? headers,
+  }) async {
+    final accessToken = AuthService.to.accessToken.value.trim();
+    if (accessToken.isEmpty) {
+      return http.Response(
+        '{"detail":"Missing access token"}',
+        401,
+        headers: const {'content-type': 'application/json'},
+      );
+    }
+
+    final initialResponse = await get(
+      path: path,
+      headers: {
+        ...?headers,
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    if (initialResponse.statusCode != 401) {
+      return initialResponse;
+    }
+
+    final refreshed = await _refreshAccessToken();
+    if (!refreshed) {
+      return initialResponse;
+    }
+
+    final newAccessToken = AuthService.to.accessToken.value.trim();
+    if (newAccessToken.isEmpty) {
+      return initialResponse;
+    }
+
+    return get(
+      path: path,
+      headers: {
+        ...?headers,
+        'Authorization': 'Bearer $newAccessToken',
+      },
+    );
+  }
+
+  Future<bool> _refreshAccessToken() async {
+    final ongoingRefresh = _ongoingRefresh;
+    if (ongoingRefresh != null) {
+      return ongoingRefresh;
+    }
+
+    final refreshFuture = _performRefreshAccessToken();
+    _ongoingRefresh = refreshFuture;
+
+    try {
+      return await refreshFuture;
+    } finally {
+      _ongoingRefresh = null;
+    }
+  }
+
+  Future<bool> _performRefreshAccessToken() async {
+    final currentRefresh = AuthService.to.refreshToken.value.trim();
+    if (currentRefresh.isEmpty) {
+      await AuthService.to.logout();
+      return false;
+    }
+
+    const refreshPaths = <String>[
+      '/api/v1/auth/token/refresh/',
+      '/api/v1/auth/refresh/',
+      '/api/v1/token/refresh/',
+    ];
+
+    bool shouldLogout = false;
+
+    for (final path in refreshPaths) {
+      try {
+        final response = await post(
+          path: path,
+          body: {'refresh': currentRefresh},
+        );
+
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          if (response.statusCode == 400 || response.statusCode == 401) {
+            shouldLogout = true;
+          }
+          continue;
+        }
+
+        final dynamic decoded = jsonDecode(response.body);
+        if (decoded is! Map<String, dynamic>) {
+          continue;
+        }
+
+        final newAccess = _extractToken(decoded, [
+          'access',
+          'access_token',
+          'token',
+        ]);
+        final newRefresh = _extractToken(decoded, [
+          'refresh',
+          'refresh_token',
+        ]);
+
+        if (newAccess.isEmpty) {
+          continue;
+        }
+
+        await AuthService.to.login(
+          access: newAccess,
+          refresh: newRefresh.isEmpty ? currentRefresh : newRefresh,
+        );
+
+        debugPrint('Token refresh success => new access token saved');
+        return true;
+      } catch (e) {
+        debugPrint('Token refresh failed on $path => $e');
+      }
+    }
+
+    if (shouldLogout) {
+      await AuthService.to.logout();
+    }
+
+    return false;
+  }
+
+  String _extractToken(Map<String, dynamic> json, List<String> keys) {
+    for (final key in keys) {
+      final value = json[key];
+      if (value is String && value.trim().isNotEmpty) {
+        return value.trim();
+      }
+    }
+    return '';
   }
 
   Future<http.Response> putMultipart({
