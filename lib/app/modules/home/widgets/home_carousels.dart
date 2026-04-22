@@ -275,20 +275,31 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
 
   Future<void> _fetchBanners() async {
     final token = AuthService.to.accessToken.value.trim();
+    debugPrint(
+      'SliderTwo => start fetch, hasToken: ${token.isNotEmpty}, tokenLength: ${token.length}',
+    );
+
     if (token.isEmpty) {
       EasyLoading.showError('Please login again.');
+      debugPrint('SliderTwo => access token missing');
       return;
     }
 
     EasyLoading.show(status: 'Loading banners...');
 
     try {
+      debugPrint(
+        'SliderTwo => GET ${AppApiService.baseUrl}/api/v1/slider/slider-two/',
+      );
       final response = await _apiService.get(
         path: '/api/v1/slider/slider-two/',
         headers: {
           'Authorization': 'Bearer $token',
         },
       );
+
+      debugPrint('SliderTwo => status: ${response.statusCode}');
+      debugPrint('SliderTwo => body: ${response.body}');
 
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
@@ -304,14 +315,23 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
         final dynamic results = decoded['results'];
         if (results is! List) {
           EasyLoading.showError('Invalid slider data.');
+          debugPrint(
+              'SliderTwo => invalid results type: ${results.runtimeType}');
           return;
         }
+
+        debugPrint('SliderTwo => results count: ${results.length}');
 
         final List<String> urls = results
             .whereType<Map<String, dynamic>>()
             .map((item) => _resolveImageUrl((item['image'] ?? '').toString()))
             .where((url) => url.isNotEmpty)
             .toList();
+
+        debugPrint('SliderTwo => parsed image urls count: ${urls.length}');
+        if (urls.isNotEmpty) {
+          debugPrint('SliderTwo => first image: ${urls.first}');
+        }
 
         if (!mounted) return;
 
@@ -324,15 +344,21 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
           if (_controller.hasClients) {
             _controller.jumpToPage(0);
           }
+        } else {
+          EasyLoading.showError('No slider image found.');
+          debugPrint('SliderTwo => no valid image URL in response');
         }
         return;
       }
 
       EasyLoading.showError('Banner load failed. Please try again.');
-    } catch (_) {
+      debugPrint('SliderTwo => non-success status: ${response.statusCode}');
+    } catch (e, st) {
       if (EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
+      debugPrint('SliderTwo => exception: $e');
+      debugPrint('SliderTwo => stacktrace: $st');
       EasyLoading.showError(
           'Banner load failed. Check internet and try again.');
     }
