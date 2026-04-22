@@ -659,15 +659,24 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                           }
 
                           final item = _hospitals[index];
-                          final isThailand = widget.countryTitle
-                              .toLowerCase()
-                              .contains('thailand');
+                            final normalizedCountryTitle =
+                              widget.countryTitle.toLowerCase();
+                            final isThailand =
+                              normalizedCountryTitle.contains('thailand');
+                            final isChina = normalizedCountryTitle.contains('china') ||
+                              normalizedCountryTitle.contains('chaina');
+                            final hasValidAgreementStatus =
+                              item.agreementStatus.trim().isNotEmpty &&
+                                item.agreementStatus.trim().toLowerCase() !=
+                                  'n/a';
                           return _HospitalTile(
                             hospital: item,
                             showAgreementStatus: !widget.countryTitle
                                     .toLowerCase()
                                     .contains('india') &&
-                                !isThailand,
+                                !isThailand &&
+                              !isChina &&
+                              hasValidAgreementStatus,
                             showPublicHospitalCount: !isThailand,
                             onTap: () {
                               Get.to(
