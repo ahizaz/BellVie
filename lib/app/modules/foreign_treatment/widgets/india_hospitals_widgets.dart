@@ -544,6 +544,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
               publicHospitalCountText: item['public_hospital_count'] == null
                   ? 'N/A'
                   : (item['public_hospital_count']).toString(),
+              specialties: [
+                (item['speciality'] ?? item['specialty'] ?? '').toString(),
+              ].map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
               bannerName: (item['banner_name'] ?? item['banner'] ?? '')
                   .toString()
                   .trim(),
@@ -714,6 +717,16 @@ class _HospitalItem {
       ? description
       : 'Hospital description will appear here when available from API.';
 
+  String get resolvedSpeciality {
+    final merged =
+        specialties.map((e) => e.trim()).where((e) => e.isNotEmpty).toList();
+    if (merged.isNotEmpty) {
+      return merged.join(' | ');
+    }
+    final fallback = publicHospitalCountText.trim();
+    return fallback.isNotEmpty ? fallback : 'N/A';
+  }
+
   List<String> get resolvedContacts {
     final normalized = contacts
         .map((e) => e.trim())
@@ -863,10 +876,11 @@ class _HospitalTile extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (showPublicHospitalCount) ...[
+                  if (showPublicHospitalCount &&
+                      hospital.specialties.isEmpty) ...[
                     const SizedBox(height: 2),
                     Text(
-                      'Public Number of Hospitals: ${hospital.publicHospitalCountText}',
+                      'Speciality: ${hospital.resolvedSpeciality}',
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
