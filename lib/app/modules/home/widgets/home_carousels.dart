@@ -15,10 +15,13 @@ class HomeBannerCarousel extends StatefulWidget {
 
 class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   static const bool _useApiBanners = true;
+  static const Duration _pollInterval = Duration(seconds: 5);
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
   Timer? _timer;
+  Timer? _pollTimer;
   int _index = 0;
+  bool _isFetching = false;
 
   static const _fallbackBanners = <String>[
     'assets/images/banners/bannar_update_1.png',
@@ -36,10 +39,18 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     super.initState();
     _controller = PageController();
     if (_useApiBanners) {
-      _fetchBanners();
+      _fetchBanners(showLoading: true, showErrors: true);
+      _startPolling();
     }
 
     _startAutoSlide();
+  }
+
+  void _startPolling() {
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(_pollInterval, (_) {
+      _fetchBanners(showLoading: false, showErrors: false);
+    });
   }
 
   void _startAutoSlide() {
@@ -67,14 +78,25 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     return '${AppApiService.baseUrl}$value';
   }
 
-  Future<void> _fetchBanners() async {
+  Future<void> _fetchBanners({
+    required bool showLoading,
+    required bool showErrors,
+  }) async {
+    if (_isFetching) return;
+    _isFetching = true;
+
     final token = AuthService.to.accessToken.value.trim();
     if (token.isEmpty) {
-      EasyLoading.showError('Please login again.');
+      _isFetching = false;
+      if (showErrors) {
+        EasyLoading.showError('Please login again.');
+      }
       return;
     }
 
-    EasyLoading.show(status: 'Loading banners...');
+    if (showLoading) {
+      EasyLoading.show(status: 'Loading banners...');
+    }
 
     try {
       final response = await _apiService.get(
@@ -84,20 +106,26 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
         },
       );
 
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         if (decoded is! Map<String, dynamic>) {
-          EasyLoading.showError('Invalid slider response.');
+          if (showErrors) {
+            EasyLoading.showError('Invalid slider response.');
+          }
+          _isFetching = false;
           return;
         }
 
         final dynamic results = decoded['results'];
         if (results is! List) {
-          EasyLoading.showError('Invalid slider data.');
+          if (showErrors) {
+            EasyLoading.showError('Invalid slider data.');
+          }
+          _isFetching = false;
           return;
         }
 
@@ -110,31 +138,44 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
         if (!mounted) return;
 
         if (urls.isNotEmpty) {
-          setState(() {
-            _apiBanners = urls;
-            _index = 0;
-          });
+          final isDifferent = _apiBanners.length != urls.length ||
+              _apiBanners.asMap().entries.any((e) => urls[e.key] != e.value);
 
-          if (_controller.hasClients) {
-            _controller.jumpToPage(0);
+          if (isDifferent) {
+            setState(() {
+              _apiBanners = urls;
+              _index = 0;
+            });
+
+            if (_controller.hasClients) {
+              _controller.jumpToPage(0);
+            }
           }
         }
+        _isFetching = false;
         return;
       }
 
-      EasyLoading.showError('Banner load failed. Please try again.');
+      if (showErrors) {
+        EasyLoading.showError('Banner load failed. Please try again.');
+      }
     } catch (_) {
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
-      EasyLoading.showError(
-          'Banner load failed. Check internet and try again.');
+      if (showErrors) {
+        EasyLoading.showError(
+            'Banner load failed. Check internet and try again.');
+      }
+    } finally {
+      _isFetching = false;
     }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _pollTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -222,10 +263,13 @@ class PromoBannerCarousel extends StatefulWidget {
 
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
   static const bool _useApiBanners = true;
+  static const Duration _pollInterval = Duration(seconds: 5);
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
   Timer? _timer;
+  Timer? _pollTimer;
   int _index = 0;
+  bool _isFetching = false;
 
   static const _fallbackBanners = <String>[
     'assets/images/banners/promo1.png',
@@ -243,10 +287,18 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     super.initState();
     _controller = PageController();
     if (_useApiBanners) {
-      _fetchBanners();
+      _fetchBanners(showLoading: true, showErrors: true);
+      _startPolling();
     }
 
     _startAutoSlide();
+  }
+
+  void _startPolling() {
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(_pollInterval, (_) {
+      _fetchBanners(showLoading: false, showErrors: false);
+    });
   }
 
   void _startAutoSlide() {
@@ -273,19 +325,30 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     return '${AppApiService.baseUrl}$value';
   }
 
-  Future<void> _fetchBanners() async {
+  Future<void> _fetchBanners({
+    required bool showLoading,
+    required bool showErrors,
+  }) async {
+    if (_isFetching) return;
+    _isFetching = true;
+
     final token = AuthService.to.accessToken.value.trim();
     debugPrint(
       'SliderTwo => start fetch, hasToken: ${token.isNotEmpty}, tokenLength: ${token.length}',
     );
 
     if (token.isEmpty) {
-      EasyLoading.showError('Please login again.');
+      _isFetching = false;
+      if (showErrors) {
+        EasyLoading.showError('Please login again.');
+      }
       debugPrint('SliderTwo => access token missing');
       return;
     }
 
-    EasyLoading.show(status: 'Loading banners...');
+    if (showLoading) {
+      EasyLoading.show(status: 'Loading banners...');
+    }
 
     try {
       debugPrint(
@@ -301,22 +364,28 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       debugPrint('SliderTwo => status: ${response.statusCode}');
       debugPrint('SliderTwo => body: ${response.body}');
 
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         if (decoded is! Map<String, dynamic>) {
-          EasyLoading.showError('Invalid slider response.');
+          if (showErrors) {
+            EasyLoading.showError('Invalid slider response.');
+          }
+          _isFetching = false;
           return;
         }
 
         final dynamic results = decoded['results'];
         if (results is! List) {
-          EasyLoading.showError('Invalid slider data.');
+          if (showErrors) {
+            EasyLoading.showError('Invalid slider data.');
+          }
           debugPrint(
               'SliderTwo => invalid results type: ${results.runtimeType}');
+          _isFetching = false;
           return;
         }
 
@@ -336,37 +405,52 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
         if (!mounted) return;
 
         if (urls.isNotEmpty) {
-          setState(() {
-            _apiBanners = urls;
-            _index = 0;
-          });
+          final isDifferent = _apiBanners.length != urls.length ||
+              _apiBanners.asMap().entries.any((e) => urls[e.key] != e.value);
 
-          if (_controller.hasClients) {
-            _controller.jumpToPage(0);
+          if (isDifferent) {
+            setState(() {
+              _apiBanners = urls;
+              _index = 0;
+            });
+
+            if (_controller.hasClients) {
+              _controller.jumpToPage(0);
+            }
           }
         } else {
-          EasyLoading.showError('No slider image found.');
+          if (showErrors) {
+            EasyLoading.showError('No slider image found.');
+          }
           debugPrint('SliderTwo => no valid image URL in response');
         }
+        _isFetching = false;
         return;
       }
 
-      EasyLoading.showError('Banner load failed. Please try again.');
+      if (showErrors) {
+        EasyLoading.showError('Banner load failed. Please try again.');
+      }
       debugPrint('SliderTwo => non-success status: ${response.statusCode}');
     } catch (e, st) {
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       debugPrint('SliderTwo => exception: $e');
       debugPrint('SliderTwo => stacktrace: $st');
-      EasyLoading.showError(
-          'Banner load failed. Check internet and try again.');
+      if (showErrors) {
+        EasyLoading.showError(
+            'Banner load failed. Check internet and try again.');
+      }
+    } finally {
+      _isFetching = false;
     }
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _pollTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }

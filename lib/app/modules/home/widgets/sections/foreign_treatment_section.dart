@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'dart:async';
 
 import '../../../../services/api_service.dart';
 import '../../../../services/auth_service.dart';
@@ -19,7 +20,10 @@ class ForeignTreatmentSection extends StatefulWidget {
 
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   static const bool _useApiCountries = true;
+  static const Duration _pollInterval = Duration(seconds: 5);
   final AppApiService _apiService = AppApiService();
+  Timer? _pollTimer;
+  bool _isFetching = false;
 
   final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[
     const _ForeignTreatmentItem(
@@ -73,8 +77,16 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     super.initState();
     _setCountryCountSafely(_countries.length);
     if (_useApiCountries) {
-      _fetchCountries();
+      _fetchCountries(showLoading: true, showErrors: true);
+      _startPolling();
     }
+  }
+
+  void _startPolling() {
+    _pollTimer?.cancel();
+    _pollTimer = Timer.periodic(_pollInterval, (_) {
+      _fetchCountries(showLoading: false, showErrors: false);
+    });
   }
 
   String _resolveImageUrl(String raw) {
@@ -98,14 +110,25 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     return 'assets/images/Flag_of_India.png';
   }
 
-  Future<void> _fetchCountries() async {
+  Future<void> _fetchCountries({
+    required bool showLoading,
+    required bool showErrors,
+  }) async {
+    if (_isFetching) return;
+    _isFetching = true;
+
     if (AuthService.to.accessToken.value.trim().isEmpty) {
       debugPrint('Foreign countries fetch skipped => token empty');
-      EasyLoading.showError('Please login again.');
+      _isFetching = false;
+      if (showErrors) {
+        EasyLoading.showError('Please login again.');
+      }
       return;
     }
 
-    EasyLoading.show(status: 'Loading countries...');
+    if (showLoading) {
+      EasyLoading.show(status: 'Loading countries...');
+    }
 
     try {
       final response = await _apiService.getWithAuthRetry(
@@ -115,29 +138,41 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       debugPrint('Foreign countries status => ${response.statusCode}');
       debugPrint('Foreign countries body => ${response.body}');
 
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
 
       if (response.statusCode == 401) {
-        EasyLoading.showError('Session expired. Please login again.');
+        if (showErrors) {
+          EasyLoading.showError('Session expired. Please login again.');
+        }
+        _isFetching = false;
         return;
       }
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        EasyLoading.showError('Country load failed. Please try again.');
+        if (showErrors) {
+          EasyLoading.showError('Country load failed. Please try again.');
+        }
+        _isFetching = false;
         return;
       }
 
       final dynamic decoded = jsonDecode(response.body);
       if (decoded is! Map<String, dynamic>) {
-        EasyLoading.showError('Invalid country response.');
+        if (showErrors) {
+          EasyLoading.showError('Invalid country response.');
+        }
+        _isFetching = false;
         return;
       }
 
       final dynamic results = decoded['results'];
       if (results is! List) {
-        EasyLoading.showError('Invalid country data.');
+        if (showErrors) {
+          EasyLoading.showError('Invalid country data.');
+        }
+        _isFetching = false;
         return;
       }
 
@@ -160,24 +195,49 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       if (!mounted) return;
       if (mapped.isEmpty) {
         _setCountryCountSafely(0);
-        EasyLoading.showError('No country found.');
+        if (showErrors) {
+          EasyLoading.showError('No country found.');
+        }
+        _isFetching = false;
         return;
       }
 
-      setState(() {
-        _countries
-          ..clear()
-          ..addAll(mapped);
-      });
+      final isDifferent = _countries.length != mapped.length ||
+          _countries.asMap().entries.any((entry) {
+            final existing = entry.value;
+            final incoming = mapped[entry.key];
+            return existing.id != incoming.id ||
+                existing.name != incoming.name ||
+                existing.flagUrl != incoming.flagUrl ||
+                existing.fallbackAssetPath != incoming.fallbackAssetPath;
+          });
+
+      if (isDifferent) {
+        setState(() {
+          _countries
+            ..clear()
+            ..addAll(mapped);
+        });
+      }
       _setCountryCountSafely(_countries.length);
     } catch (e) {
-      if (EasyLoading.isShow) {
+      if (showLoading && EasyLoading.isShow) {
         EasyLoading.dismiss();
       }
       debugPrint('Foreign countries fetch error => $e');
-      EasyLoading.showError(
-          'Country load failed. Check internet and try again.');
+      if (showErrors) {
+        EasyLoading.showError(
+            'Country load failed. Check internet and try again.');
+      }
+    } finally {
+      _isFetching = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _pollTimer?.cancel();
+    super.dispose();
   }
 
   @override
