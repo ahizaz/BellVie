@@ -81,16 +81,6 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   }
 
   Future<void> _fetchCountries() async {
-    if (AuthService.to.accessToken.value.trim().isEmpty) {
-      debugPrint(
-          'Foreign treatment view countries fetch skipped => token empty');
-      EasyLoading.showError('Please login again.');
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-      return;
-    }
-
     EasyLoading.show(status: 'Loading countries...');
 
     try {
@@ -103,7 +93,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       debugPrint('Foreign treatment view countries body => ${response.body}');
 
       if (response.statusCode == 401) {
-        EasyLoading.showError('Session expired. Please login again.');
+        EasyLoading.showError('Country load failed. Please try again.');
         return;
       }
 
@@ -161,8 +151,6 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   }
 
   void _openCountry(_CountryCardData item) {
-    if (!AuthService.to.requireLogin()) return;
-
     final countryName = item.name.trim();
     final title = countryName.toLowerCase().startsWith('hospitals in ')
         ? countryName

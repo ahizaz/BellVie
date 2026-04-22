@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
-import '../routes/app_routes.dart';
-
 class AuthService extends GetxService {
   static const String _loggedInKey = 'auth_logged_in';
   static const String _accessTokenKey = 'auth_access_token';
@@ -105,11 +103,6 @@ class AuthService extends GetxService {
   }
 
   bool requireLogin() {
-    if (authenticated) {
-      return true;
-    }
-
-    Get.toNamed(Routes.LOGIN);
-    return false;
+    return true;
   }
 }

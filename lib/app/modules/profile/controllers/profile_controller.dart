@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,7 +14,6 @@ class ProfileController extends GetxController {
   final AuthService authService = AuthService.to;
   final AppApiService _apiService = AppApiService();
   final ImagePicker _imagePicker = ImagePicker(); //
-  
 
   @override
   void onReady() {
@@ -24,12 +22,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> fetchProfile({bool showLoader = true}) async {
-    final token = authService.accessToken.value.trim();
-    if (token.isEmpty) {
-      debugPrint('Profile fetch skipped => access token is empty');
-      return;
-    }
-
     if (showLoader) {
       EasyLoading.show(status: 'Loading profile...');
     }
@@ -37,9 +29,6 @@ class ProfileController extends GetxController {
     try {
       final response = await _apiService.get(
         path: '/api/v1/auth/profile/',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       debugPrint('Profile response status => ${response.statusCode}');
@@ -104,13 +93,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> uploadProfilePicture(XFile imageFile) async {
-    final token = authService.accessToken.value.trim();
-    if (token.isEmpty) {
-      debugPrint('Profile picture upload skipped => access token is empty');
-      EasyLoading.showError('Please login again.');
-      return;
-    }
-
     EasyLoading.show(status: 'Uploading profile picture...');
 
     try {
@@ -118,9 +100,6 @@ class ProfileController extends GetxController {
         path: '/api/v1/auth/profile/',
         fileField: 'profile_picture',
         filePath: imageFile.path,
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       debugPrint('Profile picture upload status => ${response.statusCode}');

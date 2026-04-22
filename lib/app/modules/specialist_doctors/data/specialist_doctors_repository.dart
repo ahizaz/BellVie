@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import '../../../services/api_service.dart';
-import '../../../services/auth_service.dart';
 import '../models/specialist_doctor_item.dart';
 
 class SpecialistDoctorsRepository {
@@ -163,11 +162,6 @@ class SpecialistDoctorsRepository {
       String categoryKey) async {
     if (categoryKey.trim().isEmpty) return const [];
 
-    final token = AuthService.to.accessToken.value.trim();
-    final headers = <String, String>{
-      if (token.isNotEmpty) 'Authorization': 'Bearer $token',
-    };
-
     final encodedCategory = Uri.encodeQueryComponent(categoryKey.trim());
     final candidatePaths = <String>[
       '/api/v1/specialist-doctors/?category=$encodedCategory',
@@ -179,7 +173,7 @@ class SpecialistDoctorsRepository {
 
     for (final path in candidatePaths) {
       try {
-        final response = await _apiService.get(path: path, headers: headers);
+        final response = await _apiService.get(path: path);
         if (response.statusCode == 404 || response.statusCode == 405) {
           continue;
         }

@@ -482,19 +482,6 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     required int page,
     bool append = false,
   }) async {
-    final token = AuthService.to.accessToken.value.trim();
-    if (token.isEmpty) {
-      debugPrint('Hospital fetch skipped => token empty');
-      EasyLoading.showError('Please login again.');
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _isLoadingMore = false;
-        });
-      }
-      return;
-    }
-
     if (!append) {
       EasyLoading.show(status: 'Loading hospitals...');
     }
@@ -503,9 +490,6 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       final response = await _apiService.get(
         path:
             '/api/v1/foreign-treatments/countries/${widget.countryId}/hospitals/?page=$page',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       debugPrint('Hospital list page => $page');
@@ -659,24 +643,25 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                           }
 
                           final item = _hospitals[index];
-                            final normalizedCountryTitle =
+                          final normalizedCountryTitle =
                               widget.countryTitle.toLowerCase();
-                            final isThailand =
+                          final isThailand =
                               normalizedCountryTitle.contains('thailand');
-                            final isChina = normalizedCountryTitle.contains('china') ||
-                              normalizedCountryTitle.contains('chaina');
-                            final hasValidAgreementStatus =
+                          final isChina =
+                              normalizedCountryTitle.contains('china') ||
+                                  normalizedCountryTitle.contains('chaina');
+                          final hasValidAgreementStatus =
                               item.agreementStatus.trim().isNotEmpty &&
-                                item.agreementStatus.trim().toLowerCase() !=
-                                  'n/a';
+                                  item.agreementStatus.trim().toLowerCase() !=
+                                      'n/a';
                           return _HospitalTile(
                             hospital: item,
                             showAgreementStatus: !widget.countryTitle
                                     .toLowerCase()
                                     .contains('india') &&
                                 !isThailand &&
-                              !isChina &&
-                              hasValidAgreementStatus,
+                                !isChina &&
+                                hasValidAgreementStatus,
                             showPublicHospitalCount: !isThailand,
                             onTap: () {
                               Get.to(

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../services/api_service.dart';
-import '../../../services/auth_service.dart';
 
 class HomeBannerCarousel extends StatefulWidget {
   const HomeBannerCarousel({super.key});
@@ -85,15 +84,6 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     if (_isFetching) return;
     _isFetching = true;
 
-    final token = AuthService.to.accessToken.value.trim();
-    if (token.isEmpty) {
-      _isFetching = false;
-      if (showErrors) {
-        EasyLoading.showError('Please login again.');
-      }
-      return;
-    }
-
     if (showLoading) {
       EasyLoading.show(status: 'Loading banners...');
     }
@@ -101,9 +91,6 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     try {
       final response = await _apiService.get(
         path: '/api/v1/slider/slider-one/',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       if (showLoading && EasyLoading.isShow) {
@@ -332,19 +319,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     if (_isFetching) return;
     _isFetching = true;
 
-    final token = AuthService.to.accessToken.value.trim();
-    debugPrint(
-      'SliderTwo => start fetch, hasToken: ${token.isNotEmpty}, tokenLength: ${token.length}',
-    );
-
-    if (token.isEmpty) {
-      _isFetching = false;
-      if (showErrors) {
-        EasyLoading.showError('Please login again.');
-      }
-      debugPrint('SliderTwo => access token missing');
-      return;
-    }
+    debugPrint('SliderTwo => start fetch');
 
     if (showLoading) {
       EasyLoading.show(status: 'Loading banners...');
@@ -356,9 +331,6 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       );
       final response = await _apiService.get(
         path: '/api/v1/slider/slider-two/',
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
       );
 
       debugPrint('SliderTwo => status: ${response.statusCode}');

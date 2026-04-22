@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:async';
 
 import '../../../../services/api_service.dart';
-import '../../../../services/auth_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
 
 class ForeignTreatmentSection extends StatefulWidget {
@@ -117,15 +116,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     if (_isFetching) return;
     _isFetching = true;
 
-    if (AuthService.to.accessToken.value.trim().isEmpty) {
-      debugPrint('Foreign countries fetch skipped => token empty');
-      _isFetching = false;
-      if (showErrors) {
-        EasyLoading.showError('Please login again.');
-      }
-      return;
-    }
-
     if (showLoading) {
       EasyLoading.show(status: 'Loading countries...');
     }
@@ -144,7 +134,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
       if (response.statusCode == 401) {
         if (showErrors) {
-          EasyLoading.showError('Session expired. Please login again.');
+          EasyLoading.showError('Country load failed. Please try again.');
         }
         _isFetching = false;
         return;
@@ -293,8 +283,6 @@ class _ForeignTreatmentCard extends StatelessWidget {
   const _ForeignTreatmentCard({required this.item});
 
   void _handleTap() {
-    if (!AuthService.to.requireLogin()) return;
-
     Get.to(
       () => IndiaHospitalsView(
         countryId: item.id,

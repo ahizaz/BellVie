@@ -80,11 +80,7 @@ class AppApiService {
   }) async {
     final accessToken = AuthService.to.accessToken.value.trim();
     if (accessToken.isEmpty) {
-      return http.Response(
-        '{"detail":"Missing access token"}',
-        401,
-        headers: const {'content-type': 'application/json'},
-      );
+      return get(path: path, headers: headers);
     }
 
     final initialResponse = await get(
