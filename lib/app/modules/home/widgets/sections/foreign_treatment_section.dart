@@ -12,7 +12,7 @@ class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
 
   static final RxInt countryCount = 6.obs;
-
+//
   @override
   State<ForeignTreatmentSection> createState() =>
       _ForeignTreatmentSectionState();
