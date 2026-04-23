@@ -46,9 +46,46 @@ class _PlaceholderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        titleKey.tr,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.info_outline_rounded,
+              size: 52,
+              color: Color(0xFF2F6FED),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              titleKey.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'This section is not available yet.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton(
+              onPressed: () => Get.offAllNamed(Routes.HOME),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2F6FED),
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Go to Home'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -56,6 +93,10 @@ class _PlaceholderScreen extends StatelessWidget {
 
 class _HomeTopBarClone extends StatelessWidget {
   const _HomeTopBarClone();
+
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +115,7 @@ class _HomeTopBarClone extends StatelessWidget {
             child: IconButton(
               padding: EdgeInsets.zero,
               splashRadius: isSmall ? 18 : 20,
-              onPressed: () {},
+              onPressed: _showComingSoon,
               icon: Icon(icon, size: isSmall ? 20 : 22, color: Colors.black87),
             ),
           );

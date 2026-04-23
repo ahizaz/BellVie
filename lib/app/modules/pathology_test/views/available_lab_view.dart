@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../routes/app_routes.dart';
 
 class AvailableLabView extends StatelessWidget {
   const AvailableLabView({super.key});
@@ -56,13 +57,17 @@ class _LabCard extends StatelessWidget {
 
   const _LabCard({required this.item});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
-        onTap: () {},
+        onTap: _showComingSoon,
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(

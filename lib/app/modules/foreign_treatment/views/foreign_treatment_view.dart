@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 
 import '../../home/controllers/home_controller.dart';
+import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
 
 part '../widgets/shared_widgets.dart';

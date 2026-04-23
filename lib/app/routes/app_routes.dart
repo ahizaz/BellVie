@@ -12,4 +12,5 @@ abstract class Routes {
   static const PROFILE = '/profile';
   static const REGISTER = '/register';
   static const FORGOT_PASSWORD = '/forgot-password';
+  static const COMING_SOON = '/coming-soon';
 }

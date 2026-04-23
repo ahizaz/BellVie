@@ -270,6 +270,10 @@ class _SpecialistServiceCard extends StatelessWidget {
 class _HomeTopBar extends StatelessWidget {
   const _HomeTopBar();
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -287,7 +291,7 @@ class _HomeTopBar extends StatelessWidget {
             child: IconButton(
               padding: EdgeInsets.zero,
               splashRadius: isSmall ? 18 : 20,
-              onPressed: () {},
+              onPressed: _showComingSoon,
               icon: Icon(
                 icon,
                 size: isSmall ? 20 : 22,

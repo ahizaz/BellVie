@@ -24,6 +24,7 @@ import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
 import '../modules/specialist_doctors/views/specialist_doctor_list_view.dart';
 import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
+import '../modules/common/views/coming_soon_view.dart';
 
 import 'auth_middleware.dart';
 import 'app_routes.dart';
@@ -98,6 +99,11 @@ class AppPages {
       name: Routes.REGISTER,
       page: () => const RegisterView(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: Routes.COMING_SOON,
+      page: () => const ComingSoonView(),
+      middlewares: [AuthMiddleware()],
     ),
   ];
 }

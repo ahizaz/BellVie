@@ -89,11 +89,17 @@ class _ServiceCard extends StatelessWidget {
   final _ServiceItem item;
   const _ServiceCard({required this.item});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   void _handleTap() {
     if (item.titleKey == 'specialist_doctors') {
       Get.toNamed(Routes.SPECIALIST_DOCTORS);
       return;
     }
+
+    _showComingSoon();
   }
 
   @override

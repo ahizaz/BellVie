@@ -6,6 +6,10 @@ import 'foreign_treatment_section.dart';
 class CoreFourSection extends StatelessWidget {
   const CoreFourSection({super.key});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   static const _items = <_CoreFourItemData>[
     _CoreFourItemData(
       titleKey: 'telemedicine_video_consultancy',
@@ -35,7 +39,7 @@ class CoreFourSection extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: onTap,
+        onTap: onTap ?? _showComingSoon,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
@@ -100,7 +104,7 @@ class CoreFourSection extends StatelessWidget {
             return Expanded(
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
-                onTap: () {},
+                onTap: _showComingSoon,
                 child: Container(
                   height: itemH,
                   margin: EdgeInsets.only(right: i == 2 ? 0 : gap),
@@ -303,10 +307,17 @@ class _CoreFourCard extends StatelessWidget {
   final _CoreFourItemData item;
   const _CoreFourCard({required this.item});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   void _handleTap() {
     if (item.titleKey == 'diagnostic_services') {
       Get.toNamed(Routes.PATHOLOGY_TEST);
+      return;
     }
+
+    _showComingSoon();
   }
 
   @override

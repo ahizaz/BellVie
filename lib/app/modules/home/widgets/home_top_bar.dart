@@ -8,6 +8,10 @@ import '../../../services/auth_service.dart';
 class HomeTopBar extends StatelessWidget {
   const HomeTopBar({super.key});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   @override
   Widget build(BuildContext context) {
     final homeController = Get.find<HomeController>();
@@ -28,7 +32,7 @@ class HomeTopBar extends StatelessWidget {
             child: IconButton(
               padding: EdgeInsets.zero,
               splashRadius: isSmall ? 18 : 20,
-              onPressed: () {},
+              onPressed: _showComingSoon,
               icon: Icon(
                 icon,
                 size: isSmall ? 20 : 22,

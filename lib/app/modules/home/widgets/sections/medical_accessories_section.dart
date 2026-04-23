@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../../routes/app_routes.dart';
 
 class MedicalAccessoriesSection extends StatelessWidget {
   const MedicalAccessoriesSection({super.key});
@@ -78,11 +79,15 @@ class _MedicalAccessoryCard extends StatelessWidget {
   final _MedicalAccessoryItem item;
   const _MedicalAccessoryCard({required this.item});
 
+  void _showComingSoon() {
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: () {},
+      onTap: _showComingSoon,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(

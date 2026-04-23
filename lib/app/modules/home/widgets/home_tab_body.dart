@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
+import '../../../routes/app_routes.dart';
 import 'home_carousels.dart';
 import 'home_sections.dart';
 
@@ -75,11 +76,45 @@ class _PlaceholderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        title.tr,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.info_outline_rounded,
+              size: 52,
+              color: Color(0xFF2F6FED),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title.tr,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 6),
+            const Text(
+              'This section is not available yet.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton(
+              onPressed: () => Get.offAllNamed(Routes.HOME),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF2F6FED),
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Go to Home'),
+            ),
+          ],
         ),
       ),
     );
