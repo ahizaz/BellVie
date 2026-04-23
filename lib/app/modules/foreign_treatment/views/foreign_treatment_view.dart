@@ -6,6 +6,7 @@ import 'dart:convert';
 import '../../home/controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
+import '../../../services/auth_service.dart';
 
 part '../widgets/shared_widgets.dart';
 part '../widgets/foreign_treatment_home_widgets.dart';

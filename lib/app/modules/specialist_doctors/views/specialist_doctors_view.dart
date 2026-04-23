@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';
 import '../../../theme/responsive.dart';
+import '../../../services/auth_service.dart';
 
 class SpecialistDoctorsView extends GetView<HomeController> {
   const SpecialistDoctorsView({super.key});
@@ -276,6 +277,9 @@ class _HomeTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.find<HomeController>();
+    final authService = AuthService.to;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final isSmall = constraints.maxWidth < 380;
@@ -341,39 +345,91 @@ class _HomeTopBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: chipHPad,
-                  vertical: chipVPad,
+              PopupMenuButton<Locale>(
+                onSelected: homeController.changeLanguage,
+                offset: const Offset(0, 42),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFBFEFE2),
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: Text(
-                  'bangla'.tr,
-                  style: TextStyle(
-                    fontSize: isSmall ? 11.5 : 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: const Locale('en', 'US'),
+                    child: Text('english'.tr),
                   ),
+                  PopupMenuItem(
+                    value: const Locale('bn', 'BD'),
+                    child: Text('bangla'.tr),
+                  ),
+                ],
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: chipHPad,
+                    vertical: chipVPad,
+                  ),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFBFEFE2),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Obx(() {
+                    final isBangla =
+                        homeController.currentLocale.value.languageCode == 'bn';
+                    return Text(
+                      isBangla ? 'bangla'.tr : 'english'.tr,
+                      style: TextStyle(
+                        fontSize: isSmall ? 11.5 : 12,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    );
+                  }),
                 ),
               ),
               const SizedBox(width: 6),
               iconBtn(Icons.search),
               iconBtn(Icons.notifications_none),
               const SizedBox(width: 6),
-              Container(
-                width: isSmall ? 32 : 34,
-                height: isSmall ? 32 : 34,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFEFEFEF),
-                ),
-                child: Icon(
-                  Icons.person,
-                  size: isSmall ? 18 : 20,
-                  color: Colors.black54,
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Get.toNamed(Routes.PROFILE),
+                  customBorder: const CircleBorder(),
+                  child: Obx(() {
+                    final avatarBytes = authService.profileAvatarBytes.value;
+                    final profilePictureUrl =
+                        authService.profilePictureUrl.value;
+
+                    return Container(
+                      width: isSmall ? 32 : 34,
+                      height: isSmall ? 32 : 34,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFEFEFEF),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: avatarBytes != null
+                          ? Image.memory(
+                              avatarBytes,
+                              fit: BoxFit.cover,
+                            )
+                          : profilePictureUrl.isNotEmpty
+                              ? Image.network(
+                                  profilePictureUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) {
+                                    return Icon(
+                                      Icons.person,
+                                      size: isSmall ? 18 : 20,
+                                      color: Colors.black54,
+                                    );
+                                  },
+                                )
+                              : Icon(
+                                  Icons.person,
+                                  size: isSmall ? 18 : 20,
+                                  color: Colors.black54,
+                                ),
+                    );
+                  }),
                 ),
               ),
             ],
