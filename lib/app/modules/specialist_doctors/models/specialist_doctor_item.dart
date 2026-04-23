@@ -3,12 +3,16 @@ class SpecialistDoctorItem {
   final String name;
   final String designation;
   final String imageAssetPath;
+  final String hospitalName;
+  final String subcategoryName;
 
   const SpecialistDoctorItem({
     required this.id,
     required this.name,
     required this.designation,
     required this.imageAssetPath,
+    this.hospitalName = '',
+    this.subcategoryName = '',
   });
 
   factory SpecialistDoctorItem.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,15 @@ class SpecialistDoctorItem {
               json['image'] ??
               json['profile_picture'] ??
               json['avatar'] ??
+              json['profile_image'] ??
+              json['photo'] ??
+              '')
+          .toString(),
+      hospitalName:
+          (json['hospital_name'] ?? json['hospital'] ?? '').toString(),
+      subcategoryName: (json['subcategory_name'] ??
+              json['subcategory'] ??
+              json['category'] ??
               '')
           .toString(),
     );
@@ -33,6 +46,8 @@ class SpecialistDoctorItem {
       'name': name,
       'designation': designation,
       'imageAssetPath': imageAssetPath,
+      'hospital_name': hospitalName,
+      'subcategory_name': subcategoryName,
     };
   }
 }

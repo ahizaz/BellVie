@@ -152,6 +152,18 @@ class _DoctorListCard extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
+                const SizedBox(height: 4),
+                Text(
+                  item.hospitalName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    height: 1.1,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54,
+                  ),
+                ),
               ],
             ),
           ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../../../services/api_service.dart';
 import '../models/specialist_doctor_item.dart';
@@ -9,126 +10,18 @@ class SpecialistDoctorsRepository {
   static const String _defaultDoctorImage = 'assets/images/Doctor Services.png';
   final AppApiService _apiService = AppApiService();
 
+  // static data removed — now fully remote-driven
   static final Map<String, List<SpecialistDoctorItem>>
-      _staticDoctorsByCategory = {
-    'internal_medicine': const [
-      SpecialistDoctorItem(
-        id: 'internal-3',
-        name: 'Dr. Sumaiya Nowsheen Khan Panthoi',
-        designation: 'Medicine (PGT) Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'internal-4',
-        name: 'Dr MD.ABU HASNAN RUBEL',
-        designation: 'Medicine Specialist',
-        imageAssetPath: '',
-      ),
-    ],
-    'general_physician': const [
-      SpecialistDoctorItem(
-        id: 'gp-1',
-        name: 'Dr. Avishek Chakraborty',
-        designation: 'MBBS',
-        imageAssetPath: '',
-      ),
-    ],
-    'neuromedicine': const [],
-    'gastroenterology': const [],
-    'urology': const [
-      SpecialistDoctorItem(
-        id: 'urology-1',
-        name: 'Dr MD.Abdullah Alamin Shohan',
-        designation: 'Urology Specialist',
-        imageAssetPath: 'assets/images/drsohan.jpeg',
-      ),
-      SpecialistDoctorItem(
-        id: 'urology-2',
-        name: 'Dr MD.Ishtiaqul haque Mortuza',
-        designation: 'Urology Specialist',
-        imageAssetPath: 'assets/images/mortazadr.jpeg',
-      ),
-      SpecialistDoctorItem(
-        id: 'urology-3',
-        name: 'Dr.Shafiqur Rahman',
-        designation: 'Urology Specialist',
-        imageAssetPath: '',
-      ),
-    ],
-    'oncology': const [
-      SpecialistDoctorItem(
-        id: 'onc-1',
-        name: 'Dr MD.Rassell',
-        designation: 'Surgical Oncology Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'onc-2',
-        name: 'Dr K.M.Sakib',
-        designation: 'MS (Surgical Oncology) Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'onc-3',
-        name: 'Prof.Dr.Md.Khorshed Alam',
-        designation: 'Oncology Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'onc-4',
-        name: 'Dr Altaf Hossain',
-        designation: 'Clinical Oncology Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'onc-5',
-        name: 'Dr Rifat Zia Hossain',
-        designation: 'Oncology Specialist',
-        imageAssetPath: '',
-      ),
-    ],
-    'radio_therapy': const [
-      SpecialistDoctorItem(
-        id: 'rt-1',
-        name: 'Dr Md.Waheed Akhtar',
-        designation: 'Radiotherapy specialist',
-        imageAssetPath: '',
-      ),
-    ],
-    'rheumatology': const [],
-    'cardiology': const [],
-    'family_medicine': const [],
-    'endocrinology': const [],
-    'gynaecology_and_obstetrics': const [
-      SpecialistDoctorItem(
-        id: 'gyn-1',
-        name: 'Dr. Sanjida Rezwana',
-        designation: 'Gyn Specialist',
-        imageAssetPath: '',
-      ),
-    ],
-    'oral_and_maxillofacial_surgery': const [
-      SpecialistDoctorItem(
-        id: 'oms-1',
-        name: 'Dr. Mausumi Iqbal',
-        designation: 'Oral & Maxillofacial Surgery Specialist',
-        imageAssetPath: '',
-      ),
-      SpecialistDoctorItem(
-        id: 'oms-2',
-        name: 'Dr Mezbah ul Azeez',
-        designation: 'Periodontology Specialist',
-        imageAssetPath: 'assets/images/drmezbah.jpeg',
-      ),
-    ],
-  };
+      _staticDoctorsByCategory = {};
 
   Future<List<SpecialistDoctorItem>> getDoctorsByCategory({
     required String categoryKey,
     String? categoryAssetPath,
   }) async {
+    EasyLoading.show(status: 'Loading doctors...');
     final apiDoctors = await _fetchDoctorsFromApi(categoryKey);
     if (apiDoctors.isNotEmpty) {
+      EasyLoading.dismiss();
       return apiDoctors;
     }
 
@@ -142,6 +35,7 @@ class SpecialistDoctorsRepository {
             ? categoryAssetPath
             : _defaultDoctorImage;
 
+    EasyLoading.dismiss();
     return [
       SpecialistDoctorItem(
         id: '$categoryKey-1',
@@ -164,6 +58,7 @@ class SpecialistDoctorsRepository {
 
     final encodedCategory = Uri.encodeQueryComponent(categoryKey.trim());
     final candidatePaths = <String>[
+      '/api/v1/popular-service/doctors/',
       '/api/v1/specialist-doctors/?category=$encodedCategory',
       '/api/v1/specialist-doctors/?category_key=$encodedCategory',
       '/api/v1/specialist-doctors/$encodedCategory/',
@@ -174,6 +69,11 @@ class SpecialistDoctorsRepository {
     for (final path in candidatePaths) {
       try {
         final response = await _apiService.get(path: path);
+        debugPrint(
+            'Specialist doctors API ($path) status <= ${response.statusCode}');
+        debugPrint(
+            'Specialist doctors API ($path) response <= ${response.body}');
+
         if (response.statusCode == 404 || response.statusCode == 405) {
           continue;
         }
@@ -185,7 +85,12 @@ class SpecialistDoctorsRepository {
 
         final parsed = _parseDoctorsFromBody(response.body);
         if (parsed.isNotEmpty) {
-          return parsed;
+          // try filtering by categoryKey (subcategory match)
+          final filtered = _filterByCategory(parsed, categoryKey);
+          if (filtered.isNotEmpty) return filtered;
+          // no match in this parsed response — continue trying other endpoints
+          debugPrint('No doctors matched subcategory "$categoryKey" in $path');
+          continue;
         }
       } catch (e) {
         debugPrint('Specialist doctors API error => $e');
@@ -208,28 +113,41 @@ class SpecialistDoctorsRepository {
 
     return rawList
         .whereType<Map<String, dynamic>>()
-        .map((item) => SpecialistDoctorItem(
-              id: (item['id'] ?? item['uuid'] ?? '').toString(),
-              name:
-                  (item['name'] ?? item['doctor_name'] ?? '').toString().trim(),
-              designation: (item['designation'] ??
-                      item['speciality'] ??
-                      item['title'] ??
-                      '')
-                  .toString()
-                  .trim(),
-              imageAssetPath: _resolveImageUrl(
-                (item['image'] ??
-                        item['profile_picture'] ??
-                        item['profile_image'] ??
-                        item['avatar'] ??
-                        item['photo'] ??
-                        '')
-                    .toString(),
-              ),
-            ))
+        .map((item) {
+          try {
+            final base = SpecialistDoctorItem.fromJson(item);
+            return SpecialistDoctorItem(
+              id: base.id,
+              name: base.name,
+              designation: base.designation,
+              imageAssetPath: _resolveImageUrl(base.imageAssetPath),
+              hospitalName: base.hospitalName,
+              subcategoryName: base.subcategoryName,
+            );
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<SpecialistDoctorItem>()
         .where((doctor) => doctor.name.isNotEmpty)
         .toList();
+  }
+
+  List<SpecialistDoctorItem> _filterByCategory(
+      List<SpecialistDoctorItem> items, String categoryKey) {
+    final key = _toKey(categoryKey);
+    if (key.isEmpty) return items;
+    final filtered =
+        items.where((d) => _toKey(d.subcategoryName) == key).toList();
+    return filtered;
+  }
+
+  String _toKey(String s) {
+    return s
+        .toLowerCase()
+        .replaceAll(RegExp(r"[^a-z0-9]+"), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .trim();
   }
 
   List<dynamic> _extractList(dynamic decoded) {
