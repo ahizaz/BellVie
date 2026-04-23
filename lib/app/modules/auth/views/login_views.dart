@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                                       controller.selectedLoginCountryIso.value,
                                       controller.selectedLoginCountryCode.value,
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black87,
