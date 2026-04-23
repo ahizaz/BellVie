@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../home/controllers/home_controller.dart';
+import '../controllers/specialist_doctors_controller.dart';
+import '../models/subcategory.dart';
 import '../../../routes/app_routes.dart';
 import '../../../theme/responsive.dart';
 import '../../../services/auth_service.dart';
@@ -64,63 +66,23 @@ class SpecialistDoctorsView extends GetView<HomeController> {
 class _SpecialistDoctorsGrid extends StatelessWidget {
   const _SpecialistDoctorsGrid();
 
-  static const List<_SpecialistCategoryItem> _items = [
-    _SpecialistCategoryItem(
-      titleKey: 'internal_medicine',
-      assetPath: 'assets/images/Internal Medicine.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'general_physician',
-      assetPath: 'assets/images/special doctors/3.General Physician.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'neuromedicine',
-      assetPath: 'assets/images/special doctors/4.Neuromedicine.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'gastroenterology',
-      assetPath: 'assets/images/special doctors/Gastroenterology.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'urology',
-      assetPath: 'assets/images/special doctors/6.urology .png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'oncology',
-      assetPath: 'assets/images/special doctors/7.oncology.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'radio_therapy',
-      assetPath: 'assets/images/radiotherapy.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'rheumatology',
-      assetPath: 'assets/images/special doctors/8.rheumatology .png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'family_medicine',
-      assetPath: 'assets/images/special doctors/9.family medicine.png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'cardiology',
-      assetPath: 'assets/images/special doctors/10.Cardiology .png',
-    ),
-    _SpecialistCategoryItem(
-      titleKey: 'endocrinology',
-      assetPath: 'assets/images/special doctors/11.Endocrinology.png',
-    ),
-    _SpecialistCategoryItem(
-        titleKey: 'gynaecology_and_obstetrics',
-        assetPath:
-            'assets/images/special doctors/12.Gynaecology and Obstetric.png'),
-  ];
+  String _toKey(String s) {
+    final key = s
+        .toLowerCase()
+        .replaceAll(RegExp(r"[^a-z0-9]+"), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .trim();
+    return key;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<SpecialistDoctorsController>();
     final sidePadding = context.w(12);
     final topPadding = context.h(14);
     final bottomPadding = context.h(18);
     final crossAxisSpacing = context.w(8).clamp(6.0, 10.0);
+
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
         sidePadding,
@@ -154,20 +116,28 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
                 ),
               ],
             ),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _items.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: crossAxisSpacing,
-                mainAxisSpacing: crossAxisSpacing,
-                childAspectRatio: 1.2,
-              ),
-              itemBuilder: (context, index) {
-                return _SpecialistServiceCard(item: _items[index]);
-              },
-            ),
+            child: Obx(() {
+              final items = controller.items;
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: items.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: crossAxisSpacing,
+                  mainAxisSpacing: crossAxisSpacing,
+                  childAspectRatio: 1.2,
+                ),
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return _SpecialistServiceCard(
+                    subcategory: item,
+                    toKey: _toKey(item.name),
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -175,21 +145,13 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
   }
 }
 
-class _SpecialistCategoryItem {
-  final String titleKey;
-  final String assetPath;
-
-  const _SpecialistCategoryItem({
-    required this.titleKey,
-    required this.assetPath,
-  });
-}
-
 class _SpecialistServiceCard extends StatelessWidget {
-  final _SpecialistCategoryItem item;
+  final Subcategory subcategory;
+  final String toKey;
 
   const _SpecialistServiceCard({
-    required this.item,
+    required this.subcategory,
+    required this.toKey,
   });
 
   @override
@@ -198,15 +160,22 @@ class _SpecialistServiceCard extends StatelessWidget {
     final thumbSize = context.w(50).clamp(44.0, 56.0);
     final dpr = MediaQuery.devicePixelRatioOf(context);
     final thumbPx = (thumbSize * dpr).round().clamp(1, 1024);
+
+    final imageProvider =
+        subcategory.icon != null && subcategory.icon!.isNotEmpty
+            ? NetworkImage(subcategory.icon!)
+            : const AssetImage('assets/images/Doctor Services.png')
+                as ImageProvider;
+
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
         Get.toNamed(
           Routes.SPECIALIST_DOCTOR_LIST,
           arguments: {
-            'categoryKey': item.titleKey,
-            'categoryLabel': item.titleKey.tr,
-            'categoryAssetPath': item.assetPath,
+            'categoryKey': toKey,
+            'categoryLabel': subcategory.name,
+            'categoryAssetPath': subcategory.icon ?? '',
           },
         );
       },
@@ -237,18 +206,17 @@ class _SpecialistServiceCard extends StatelessWidget {
                 child: SizedBox(
                   height: thumbSize,
                   width: thumbSize,
-                  child: Image.asset(
-                    item.assetPath,
+                  child: Image(
+                    image: imageProvider,
                     fit: BoxFit.contain,
-                    cacheWidth: thumbPx,
-                    cacheHeight: thumbPx,
+                    // cacheWidth/cacheHeight not supported directly for Image with ImageProvider
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 6),
             Text(
-              item.titleKey.tr,
+              subcategory.name,
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

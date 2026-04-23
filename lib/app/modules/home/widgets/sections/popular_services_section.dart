@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
+import '../../controllers/popular_services_controller.dart';
+import '../../models/popular_service.dart';
 
 class PopularServicesSection extends StatelessWidget {
   const PopularServicesSection({super.key});
@@ -25,6 +27,8 @@ class PopularServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(PopularServicesController());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -53,22 +57,115 @@ class PopularServicesSection extends StatelessWidget {
           ),
           child: Column(
             children: [
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _services.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 1.2,
-                ),
-                itemBuilder: (context, i) => _ServiceCard(item: _services[i]),
-              ),
+              Obx(() {
+                final apiItems = controller.items;
+                final useApi = apiItems.isNotEmpty;
+                final count = useApi ? apiItems.length : _services.length;
+
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: count,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 1.2,
+                  ),
+                  itemBuilder: (context, i) {
+                    if (useApi) {
+                      final svc = apiItems[i];
+                      return _ServiceCardFromApi(
+                        name: svc.name,
+                        iconUrl: svc.iconUrl,
+                        titleKey: svc.name,
+                      );
+                    }
+                    return _ServiceCard(item: _services[i]);
+                  },
+                );
+              }),
             ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _ServiceCardFromApi extends StatelessWidget {
+  final String name;
+  final String iconUrl;
+  final String titleKey;
+
+  const _ServiceCardFromApi({
+    required this.name,
+    required this.iconUrl,
+    required this.titleKey,
+  });
+
+  void _handleTap() {
+    final key = titleKey.toLowerCase();
+    debugPrint('Popular service tapped: $titleKey');
+    if (key.contains('specialist') || key.contains('doctor')) {
+      Get.toNamed(Routes.SPECIALIST_DOCTORS);
+      return;
+    }
+
+    Get.toNamed(Routes.COMING_SOON);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: _handleTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFCFEDEA),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFB3DAD6)),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Center(
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: iconUrl.isNotEmpty
+                      ? Image.network(
+                          iconUrl,
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) =>
+                              Image.asset('assets/images/Doctor Services.png'),
+                        )
+                      : Image.asset('assets/images/Doctor Services.png'),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              name,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 10,
+                height: 1.15,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
