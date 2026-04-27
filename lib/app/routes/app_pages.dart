@@ -24,6 +24,8 @@ import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
 import '../modules/specialist_doctors/views/specialist_doctor_list_view.dart';
 import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
+import '../modules/other_medical_service/bindings/categories_binding.dart';
+import '../modules/other_medical_service/views/categories_view.dart';
 import '../modules/common/views/coming_soon_view.dart';
 
 import 'auth_middleware.dart';
@@ -89,6 +91,11 @@ class AppPages {
       name: Routes.SPECIALIST_DOCTORS,
       page: () => const SpecialistDoctorsView(),
       binding: SpecialistDoctorsBinding(),
+    ),
+    GetPage(
+      name: Routes.OTHER_MEDICAL_SERVICES,
+      page: () => const OtherMedicalCategoriesView(),
+      binding: OtherMedicalBinding(),
     ),
     GetPage(
       name: Routes.SPECIALIST_DOCTOR_LIST,

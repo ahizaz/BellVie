@@ -1,3 +1,4 @@
+import 'package:bellevie/app/modules/other_medical_service/controllers/categories_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
@@ -245,44 +246,83 @@ class CoreFourSection extends StatelessWidget {
               ),
             ],
           ),
-          child: GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 1.9,
-            children: [
-              _otherMedicalTile(
-                  'psychiatrist', 'assets/images/Psychiatrist.png'),
-              _otherMedicalTile('counseling_psychologist',
-                  'assets/images/Counselling Psychologist.png'),
-              _otherMedicalTile(
-                'dentists',
-                'assets/images/Dentists.png',
-                onTap: () {
-                  Get.toNamed(
-                    Routes.SPECIALIST_DOCTOR_LIST,
-                    arguments: {
-                      'categoryKey': 'oral_and_maxillofacial_surgery',
-                      'categoryLabel': 'dentists'.tr,
-                      'categoryAssetPath': 'assets/images/Dentists.png',
-                    },
-                  );
-                },
+          child: Obx(() {
+            final otherCtrl = Get.find<OtherMedicalController>();
+            final items = otherCtrl.items;
+
+            if (items.isEmpty) {
+              return const SizedBox(
+                height: 120,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                childAspectRatio: 1.9,
               ),
-              _otherMedicalTile(
-                  'stem_therapy', 'assets/images/Stem Therapy.png'),
-              _otherMedicalTile('regenerative_therapy',
-                  'assets/images/regenerative_therapy.jpeg'),
-              _otherMedicalTile(
-                  'caregiver_services', 'assets/images/Caregiver Services.png'),
-              _otherMedicalTile(
-                  'physiotherapist', 'assets/images/Physiotherapist.png'),
-              _otherMedicalTile('chiropractic_services',
-                  'assets/images/Chiropractic Sertvices.png'),
-            ],
-          ),
+              itemBuilder: (context, i) {
+                final it = items[i];
+                return Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(14),
+                    onTap: () {
+                      Get.toNamed(Routes.OTHER_MEDICAL_SERVICES);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE5F0F2),
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x1A000000),
+                            blurRadius: 8,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          if (it.image != null && it.image!.isNotEmpty)
+                            Image.network(
+                              it.image!,
+                              width: 44,
+                              height: 44,
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) =>
+                                  const SizedBox.shrink(),
+                            ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              it.name,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                height: 1.15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          }),
         ),
         const SizedBox(height: 16),
         _bottomTabsRow(),
