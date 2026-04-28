@@ -26,19 +26,19 @@ class HomeBottomNav extends StatelessWidget {
           label: 'home'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.event_note),
+          icon: const Icon(Icons.event_note),
           label: 'my_appointments'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
+          icon: const Icon(Icons.favorite),
           label: 'my_health'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
+          icon: const Icon(Icons.shopping_cart),
           label: 'cart'.tr,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           label: 'menu'.tr,
         ),
       ],
