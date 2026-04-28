@@ -30,26 +30,10 @@ class SpecialistDoctorsRepository {
       return selected;
     }
 
-    final fallbackImage =
-        (categoryAssetPath != null && categoryAssetPath.isNotEmpty)
-            ? categoryAssetPath
-            : _defaultDoctorImage;
-
     EasyLoading.dismiss();
-    return [
-      SpecialistDoctorItem(
-        id: '$categoryKey-1',
-        name: 'Dr. Ahsan Karim',
-        designation: 'Consultant Specialist',
-        imageAssetPath: fallbackImage,
-      ),
-      SpecialistDoctorItem(
-        id: '$categoryKey-2',
-        name: 'Dr. Nusrat Jahan',
-        designation: 'Associate Consultant',
-        imageAssetPath: fallbackImage,
-      ),
-    ];
+    // No static fallback doctors — return empty list so UI shows no items
+    // when backend has no data for the requested category.
+    return const [];
   }
 
   Future<List<SpecialistDoctorItem>> _fetchDoctorsFromApi(
