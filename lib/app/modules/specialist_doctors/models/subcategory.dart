@@ -16,7 +16,7 @@ class Subcategory {
       id: (json['id'] ?? 0) as int,
       category: json['category'] is int ? json['category'] as int : null,
       name: (json['name'] ?? '').toString(),
-      icon: json['icon'] == null ? null : json['icon'].toString(),
+      icon: json['icon']?.toString(),
     );
   }
 }

@@ -47,7 +47,7 @@ class EmergencyServicesCard extends StatelessWidget {
             Expanded(
               child: Text(
                 'emergency_services'.tr,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14.5,
                   fontWeight: FontWeight.w700,
                   color: Colors.black87,

@@ -94,7 +94,7 @@ class _DoctorListCard extends StatelessWidget {
             ),
             clipBehavior: Clip.antiAlias,
             child: imagePath.isEmpty
-                ? Center(
+                ? const Center(
                     child: Icon(
                       avatarIcon,
                       size: 40,
@@ -105,7 +105,7 @@ class _DoctorListCard extends StatelessWidget {
                     ? Image.network(
                         imagePath,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Center(
+                        errorBuilder: (_, __, ___) => const Center(
                           child: Icon(
                             avatarIcon,
                             size: 40,
@@ -116,7 +116,7 @@ class _DoctorListCard extends StatelessWidget {
                     : Image.asset(
                         imagePath,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Center(
+                        errorBuilder: (_, __, ___) => const Center(
                           child: Icon(
                             avatarIcon,
                             size: 40,

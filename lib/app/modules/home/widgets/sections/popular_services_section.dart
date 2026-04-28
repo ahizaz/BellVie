@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
 import '../../controllers/popular_services_controller.dart';
-import '../../models/popular_service.dart';
+
 
 class PopularServicesSection extends StatelessWidget {
   const PopularServicesSection({super.key});
@@ -35,7 +35,7 @@ class PopularServicesSection extends StatelessWidget {
         Text(
           'popular_services'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: Colors.black87,

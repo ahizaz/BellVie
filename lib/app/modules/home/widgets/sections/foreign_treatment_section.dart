@@ -238,7 +238,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
         Text(
           'foreign_treatment'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: Colors.black87,

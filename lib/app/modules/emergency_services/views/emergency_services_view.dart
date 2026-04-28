@@ -94,25 +94,25 @@ class EmergencyServicesView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            _EmergencyServiceTile(
+            const _EmergencyServiceTile(
               icon: Icons.local_taxi_rounded,
               titleKey: 'ambulance',
               subtitleKey: 'ambulance_subtitle',
             ),
             const SizedBox(height: 10),
-            _EmergencyServiceTile(
+            const _EmergencyServiceTile(
               icon: Icons.flight_takeoff_rounded,
               titleKey: 'air_ambulance',
               subtitleKey: 'air_ambulance_subtitle',
             ),
             const SizedBox(height: 10),
-            _EmergencyServiceTile(
+            const _EmergencyServiceTile(
               icon: Icons.monitor_heart_rounded,
               titleKey: 'icu_ambulance',
               subtitleKey: 'icu_ambulance_subtitle',
             ),
             const SizedBox(height: 10),
-            _EmergencyServiceTile(
+            const _EmergencyServiceTile(
               icon: Icons.person_pin_circle_rounded,
               titleKey: 'patient_transfer',
               subtitleKey: 'patient_transfer_subtitle',

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/categories_controller.dart';
 
 class OtherMedicalCategoriesView extends GetView<OtherMedicalController> {
-  const OtherMedicalCategoriesView({Key? key}) : super(key: key);
+  const OtherMedicalCategoriesView({super.key});
 
   @override
   Widget build(BuildContext context) {

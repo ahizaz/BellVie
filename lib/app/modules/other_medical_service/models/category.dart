@@ -15,9 +15,9 @@ class OtherMedicalCategory {
     return OtherMedicalCategory(
       id: (json['id'] ?? 0) as int,
       name: (json['name'] ?? '').toString(),
-      image: json['image'] == null ? null : json['image'].toString(),
+      image: json['image']?.toString(),
       createdAt:
-          json['created_at'] == null ? null : json['created_at'].toString(),
+          json['created_at']?.toString(),
     );
   }
 }

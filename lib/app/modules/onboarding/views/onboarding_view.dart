@@ -4,7 +4,7 @@ import '../../../theme/responsive.dart';
 import '../../../routes/app_routes.dart';
 
 class OnboardingView extends StatelessWidget {
-  const OnboardingView({Key? key}) : super(key: key);
+  const OnboardingView({super.key});
 
   @override
   Widget build(BuildContext context) {

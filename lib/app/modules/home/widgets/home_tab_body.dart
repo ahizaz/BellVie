@@ -16,13 +16,13 @@ class HomeTabBody extends StatelessWidget {
       case 0:
         return const HomeScrollContent();
       case 1:
-        return _PlaceholderScreen(title: 'my_appointments');
+        return const _PlaceholderScreen(title: 'my_appointments');
       case 2:
-        return _PlaceholderScreen(title: 'my_health');
+        return const _PlaceholderScreen(title: 'my_health');
       case 3:
-        return _PlaceholderScreen(title: 'cart');
+        return const _PlaceholderScreen(title: 'cart');
       case 4:
-        return _PlaceholderScreen(title: 'menu');
+        return const _PlaceholderScreen(title: 'menu');
       default:
         return const SizedBox.shrink();
     }

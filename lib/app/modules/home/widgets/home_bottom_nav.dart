@@ -22,7 +22,7 @@ class HomeBottomNav extends StatelessWidget {
       showUnselectedLabels: true,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home_filled),
+          icon: const Icon(Icons.home_filled),
           label: 'home'.tr,
         ),
         BottomNavigationBarItem(

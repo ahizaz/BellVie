@@ -174,7 +174,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
           Text(
             'foreign_treatment'.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,
               color: Colors.black87,

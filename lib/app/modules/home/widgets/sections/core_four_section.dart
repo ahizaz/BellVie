@@ -85,7 +85,7 @@ class CoreFourSection extends StatelessWidget {
   }
 
   Widget _bottomTabsRow() {
-    final items = const [
+    const items = [
       _BottomTabItem('air_ambulance', 'assets/images/air_ambulance_logo.png'),
       _BottomTabItem('palliative_care_services',
           'assets/images/palliative care services.png'),
@@ -171,8 +171,8 @@ class CoreFourSection extends StatelessWidget {
             return const SizedBox.shrink();
           }
 
-          return Column(
-            children: const [
+          return const Column(
+            children: [
               Text(
                 'More',
                 textAlign: TextAlign.center,
@@ -189,7 +189,7 @@ class CoreFourSection extends StatelessWidget {
         Text(
           'core_four'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w800,
             color: Colors.black87,
@@ -226,7 +226,7 @@ class CoreFourSection extends StatelessWidget {
         Text(
           'other_medical_services'.tr,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: Colors.black87,

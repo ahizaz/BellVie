@@ -15,9 +15,9 @@ class SpecialistDoctorsView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
-      body: SafeArea(
+      body: const SafeArea(
         child: Column(
-          children: const [
+          children: [
             _HomeTopBar(),
             Expanded(child: _SpecialistDoctorsGrid()),
           ],
@@ -37,23 +37,23 @@ class SpecialistDoctorsView extends GetView<HomeController> {
           showUnselectedLabels: true,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
+              icon: const Icon(Icons.home_filled),
               label: 'home'.tr,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.event_note),
+              icon: const Icon(Icons.event_note),
               label: 'my_appointments'.tr,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: const Icon(Icons.favorite),
               label: 'my_health'.tr,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart),
               label: 'cart'.tr,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               label: 'menu'.tr,
             ),
           ],
@@ -96,7 +96,7 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
           Text(
             'specialist_doctors_screen'.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.black87,

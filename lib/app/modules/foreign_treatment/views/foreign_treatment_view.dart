@@ -51,13 +51,13 @@ class _ForeignTreatmentTabBody extends StatelessWidget {
       case 0:
         return const _ForeignTreatmentHome();
       case 1:
-        return _PlaceholderScreen(titleKey: 'my_appointments');
+        return const _PlaceholderScreen(titleKey: 'my_appointments');
       case 2:
-        return _PlaceholderScreen(titleKey: 'my_health');
+        return const _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return _PlaceholderScreen(titleKey: 'cart');
+        return const _PlaceholderScreen(titleKey: 'cart');
       case 4:
-        return _PlaceholderScreen(titleKey: 'menu');
+        return const _PlaceholderScreen(titleKey: 'menu');
       default:
         return const SizedBox.shrink();
     }

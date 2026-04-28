@@ -48,9 +48,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Reset your password',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                     color: Colors.black87,

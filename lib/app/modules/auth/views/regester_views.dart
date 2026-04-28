@@ -124,7 +124,7 @@ class _RegisterViewState extends State<RegisterView> {
                                       controller
                                           .selectedRegisterCountryCode.value,
                                     ),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black87,

@@ -42,7 +42,7 @@ class ContactUsCard extends StatelessWidget {
             Expanded(
               child: Text(
                 'contact_us'.tr,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
