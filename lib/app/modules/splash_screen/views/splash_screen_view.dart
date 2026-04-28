@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../controllers/splash_screen_controller.dart';
 import '../../../theme/responsive.dart';
+import '../../../routes/app_routes.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
   const SplashScreenView({super.key});
@@ -75,7 +76,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
             bottom: 48,
             child: SafeArea(
               child: ElevatedButton(
-                onPressed: controller.goToHome,
+                onPressed: () => Get.toNamed(Routes.ONBOARDING),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.teal,

@@ -1,6 +1,7 @@
 abstract class Routes {
   static const SPLASH = '/';
   static const LOGIN = '/login';
+  static const ONBOARDING = '/onboarding';
   static const HOME = '/home';
   static const CONTACT_US = '/contact-us';
   static const EMERGENCY_SERVICES = '/emergency-services';
