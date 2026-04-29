@@ -7,20 +7,20 @@ class ContactUsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = MediaQuery.of(context).size.height * 0.08;
-    final iconSize =
-        MediaQuery.of(context).size.width * 0.12; // slightly larger icon
+    final cardSize = MediaQuery.of(context).size.width * 0.38; // square size
+    final cardRadius = 6.0;
+    final iconSize = cardSize * 0.38;
 
     return InkWell(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(cardRadius),
       onTap: () => Get.toNamed(Routes.CONTACT_US),
       child: Container(
-        height: cardHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        width: cardSize,
+        height: cardSize,
         decoration: BoxDecoration(
           color: const Color(0xFFCDEFF2),
-          borderRadius: BorderRadius.zero,
-          border: Border.all(color: const Color.fromARGB(255, 160, 212, 208)),
+          borderRadius: BorderRadius.circular(cardRadius),
+          border: Border.all(color: Color.fromARGB(255, 160, 212, 208)),
           boxShadow: const [
             BoxShadow(
               color: Color(0x14000000),
@@ -29,7 +29,9 @@ class ContactUsCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               width: iconSize,
@@ -39,17 +41,17 @@ class ContactUsCard extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Text(
-                'contact_us'.tr,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
+            const SizedBox(height: 10),
+            Text(
+              'contact_us'.tr,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
               ),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 8),
             const Icon(Icons.chevron_right, color: Colors.black, size: 22),
           ],
         ),

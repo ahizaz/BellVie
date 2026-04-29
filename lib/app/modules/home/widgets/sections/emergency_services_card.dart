@@ -8,20 +8,19 @@ class EmergencyServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = MediaQuery.of(context).size.height * 0.08;
-    final cardRadius = 0.0; // square corners
-    final iconSize =
-        MediaQuery.of(context).size.width * 0.14; // slightly larger icon
+    final cardSize = MediaQuery.of(context).size.width * 0.38; // square size
+    final cardRadius = 6.0; // uniform rounded corners
+    final iconSize = cardSize * 0.38;
 
     return InkWell(
-      borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.circular(cardRadius),
       onTap: () => Get.toNamed(Routes.EMERGENCY_SERVICES),
       child: Container(
-        height: cardHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        width: cardSize,
+        height: cardSize,
         decoration: BoxDecoration(
           color: const Color(0xFFFFD6D6),
-          borderRadius: BorderRadius.zero,
+          borderRadius: BorderRadius.circular(cardRadius),
           border: Border.all(color: const Color(0xFFFFB3B3)),
           boxShadow: const [
             BoxShadow(
@@ -31,7 +30,9 @@ class EmergencyServicesCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: iconSize,
@@ -45,17 +46,17 @@ class EmergencyServicesCard extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                'emergency_services'.tr,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                ),
+            const SizedBox(height: 10),
+            Text(
+              'emergency_services'.tr,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
               ),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 8),
             const Icon(Icons.chevron_right, color: Colors.black54),
           ],
         ),
