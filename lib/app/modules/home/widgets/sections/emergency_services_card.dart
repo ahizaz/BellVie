@@ -50,7 +50,7 @@ class EmergencyServicesCard extends StatelessWidget {
             Text(
               'emergency_services'.tr,
               style: const TextStyle(
-                fontSize: 13,
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87,
               ),
