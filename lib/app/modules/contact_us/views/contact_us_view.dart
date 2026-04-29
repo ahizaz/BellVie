@@ -140,7 +140,7 @@ class _ContactTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xff87CEFA),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E5E5)),
         boxShadow: const [

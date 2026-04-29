@@ -7,8 +7,8 @@ class ContactUsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = MediaQuery.of(context).size.height * 0.085;
-    final iconSize = MediaQuery.of(context).size.width * 0.12;
+    final cardHeight = MediaQuery.of(context).size.height * 0.07;
+    final iconSize = MediaQuery.of(context).size.width * 0.10;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -43,13 +43,13 @@ class ContactUsCard extends StatelessWidget {
               child: Text(
                 'contact_us'.tr,
                 style: const TextStyle(
-                  fontSize: 13.5,
+                  fontSize: 12.0,
                   fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.black, size: 26),
+            const Icon(Icons.chevron_right, color: Colors.black, size: 22),
           ],
         ),
       ),
