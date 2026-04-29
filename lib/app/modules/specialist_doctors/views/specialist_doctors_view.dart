@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../home/controllers/home_controller.dart';
+import '../../home/widgets/home_bottom_nav.dart';
 import '../controllers/specialist_doctors_controller.dart';
 import '../models/subcategory.dart';
 import '../../../routes/app_routes.dart';
@@ -24,39 +25,13 @@ class SpecialistDoctorsView extends GetView<HomeController> {
         ),
       ),
       bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
+        () => HomeBottomNav(
           currentIndex: controller.tabIndex.value,
           onTap: (i) {
             if (controller.changeTab(i)) {
               Get.offAllNamed(Routes.HOME);
             }
           },
-          selectedItemColor: const Color(0xFF2F6FED),
-          unselectedItemColor: const Color(0xFF7A7A7A),
-          showUnselectedLabels: true,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home_filled),
-              label: 'home'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.event_note),
-              label: 'my_appointments'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite),
-              label: 'my_health'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.shopping_cart),
-              label: 'cart'.tr,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.menu),
-              label: 'menu'.tr,
-            ),
-          ],
         ),
       ),
     );
