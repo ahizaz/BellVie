@@ -8,14 +8,17 @@ class EmergencyServicesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardRadius = MediaQuery.of(context).size.width * 0.045;
-    final iconSize = MediaQuery.of(context).size.width * 0.11;
+    final cardHeight = MediaQuery.of(context).size.height * 0.08;
+    final cardRadius = 6.0; // reduced rounding to make it squarish
+    final iconSize =
+        MediaQuery.of(context).size.width * 0.14; // slightly larger icon
 
     return InkWell(
       borderRadius: BorderRadius.circular(cardRadius),
       onTap: () => Get.toNamed(Routes.EMERGENCY_SERVICES),
       child: Container(
-        padding: const EdgeInsets.all(8),
+        height: cardHeight,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: const Color(0xFFFFD6D6),
           borderRadius: BorderRadius.circular(cardRadius),

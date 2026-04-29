@@ -55,7 +55,7 @@ class ContactUsView extends StatelessWidget {
                       'assets/images/banners/contact us.png',
                       fit: BoxFit.contain,
                     ),
-                  ),
+                  ), //
                   const SizedBox(width: 14),
                   const Expanded(
                     child: Column(
