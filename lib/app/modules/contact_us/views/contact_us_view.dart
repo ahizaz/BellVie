@@ -52,7 +52,7 @@ class ContactUsView extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset(
-                      'assets/images/Contact Us.png',
+                      'assets/images/banners/contact us.png',
                       fit: BoxFit.contain,
                     ),
                   ),

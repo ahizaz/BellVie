@@ -42,19 +42,9 @@ class EmergencyServicesView extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Container(
-                    width: 68,
-                    height: 68,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha:0.8),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.local_hospital_rounded,
-                      size: 32,
-                      color: Colors.black87,
-                    ),
+                  Image.asset(
+                    'assets/images/banners/emergency services.png',
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(width: 14),
                   Expanded(

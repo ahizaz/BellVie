@@ -35,11 +35,10 @@ class EmergencyServicesCard extends StatelessWidget {
               height: iconSize,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
               ),
               padding: const EdgeInsets.all(6),
               child: Image.asset(
-                'assets/images/Emergency.png',
+                'assets/images/banners/emergency services.png',
                 fit: BoxFit.contain,
               ),
             ),
