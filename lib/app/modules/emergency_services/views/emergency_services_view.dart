@@ -45,7 +45,7 @@ class EmergencyServicesView extends StatelessWidget {
                   Flexible(
                     flex: 0,
                     child: Image.asset(
-                      'assets/images/banners/emergency services.png',
+                      'assets/images/banners/emergency_service_final.png',
                       fit: BoxFit.contain,
                       width: 100, // Adjust as needed
                       height: 100, // Adjust as needed

@@ -37,7 +37,7 @@ class ContactUsCard extends StatelessWidget {
               width: iconSize,
               height: iconSize,
               child: Image.asset(
-                'assets/images/banners/contact us.png',
+                'assets/images/banners/contact_us_final.png',
                 fit: BoxFit.contain,
               ),
             ),

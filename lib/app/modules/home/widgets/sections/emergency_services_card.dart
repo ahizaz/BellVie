@@ -10,7 +10,7 @@ class EmergencyServicesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cardSize = MediaQuery.of(context).size.width * 0.38; // square size
     final cardRadius = 6.0; // uniform rounded corners
-    final iconSize = cardSize * 0.38;
+    final iconSize = cardSize * 0.53;
 
     return InkWell(
       borderRadius: BorderRadius.circular(cardRadius),
@@ -42,7 +42,7 @@ class EmergencyServicesCard extends StatelessWidget {
               ),
               padding: const EdgeInsets.all(6),
               child: Image.asset(
-                'assets/images/banners/emergency services.png',
+                'assets/images/banners/emergency_service_final.png',
                 fit: BoxFit.contain,
               ),
             ),
