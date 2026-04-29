@@ -76,7 +76,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
             bottom: 48,
             child: SafeArea(
               child: ElevatedButton(
-                onPressed: () => Get.toNamed(Routes.ONBOARDING),
+                onPressed: () => Get.offAllNamed(Routes.HOME),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.teal,

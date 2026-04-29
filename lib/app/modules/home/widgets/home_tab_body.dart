@@ -45,14 +45,18 @@ class HomeScrollContent extends StatelessWidget {
         horizontalPadding,
         bottomPadding,
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: const [
           HomeBannerCarousel(),
           SizedBox(height: 14),
-          EmergencyServicesCard(),
-          SizedBox(height: 14),
-          ContactUsCard(),
+          Row(
+            children: [
+              Expanded(child: EmergencyServicesCard()),
+              SizedBox(width: 12),
+              Expanded(child: ContactUsCard()),
+            ],
+          ),
           SizedBox(height: 14),
           PopularServicesSection(),
           SizedBox(height: 18),
