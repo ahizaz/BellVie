@@ -8,18 +8,25 @@ import '../models/subcategory.dart';
 class SubcategoryRepository {
   final AppApiService _apiService = AppApiService();
 
-  Future<List<Subcategory>> fetchSubcategories() async {
+  Future<List<Subcategory>> fetchSubcategories({int? categoryId}) async {
     try {
-      final response = await _apiService.get(
-        path: '/api/v1/popular-service/subcategories/',
-      );
+      // build path with optional category query param
+      var path = '/api/v1/popular-service/subcategories/';
+      if (categoryId != null) {
+        final encoded = Uri.encodeQueryComponent(categoryId.toString());
+        path = '/api/v1/popular-service/subcategories/?category=$encoded';
+      }
+
+      final response = await _apiService.get(path: path);
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint('Subcategories API failed => ${response.statusCode}');
         return [];
       }
 
-      final decoded = jsonDecode(response.body);
+      // offload JSON decode to background isolate
+      final decoded =
+          await compute((String body) => jsonDecode(body), response.body);
       final rawList = _extractList(decoded);
       return rawList
           .whereType<Map<String, dynamic>>()

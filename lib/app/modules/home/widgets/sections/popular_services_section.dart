@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
 import '../../controllers/popular_services_controller.dart';
 
-
 class PopularServicesSection extends StatelessWidget {
   const PopularServicesSection({super.key});
 
@@ -79,6 +78,7 @@ class PopularServicesSection extends StatelessWidget {
                         name: svc.name,
                         iconUrl: svc.iconUrl,
                         titleKey: svc.name,
+                        serviceId: svc.id,
                       );
                     }
                     return _ServiceCard(item: _services[i]);
@@ -97,18 +97,27 @@ class _ServiceCardFromApi extends StatelessWidget {
   final String name;
   final String iconUrl;
   final String titleKey;
+  final int serviceId;
 
   const _ServiceCardFromApi({
     required this.name,
     required this.iconUrl,
     required this.titleKey,
+    required this.serviceId,
   });
 
   void _handleTap() {
     final key = titleKey.toLowerCase();
     debugPrint('Popular service tapped: $titleKey');
     if (key.contains('specialist') || key.contains('doctor')) {
-      Get.toNamed(Routes.SPECIALIST_DOCTORS);
+      Get.toNamed(
+        Routes.SPECIALIST_DOCTORS,
+        arguments: {
+          'categoryId': serviceId,
+          'categoryLabel': name,
+          'categoryAssetPath': iconUrl,
+        },
+      );
       return;
     }
 

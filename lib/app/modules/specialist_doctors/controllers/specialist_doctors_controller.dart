@@ -16,13 +16,22 @@ class SpecialistDoctorsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadItems();
+    // read optional navigation arguments for category filtering
+    final args = Get.arguments;
+    int? categoryId;
+    if (args is Map<String, dynamic>) {
+      final raw = args['categoryId'];
+      if (raw is int) categoryId = raw;
+      if (raw is String) categoryId = int.tryParse(raw);
+    }
+    loadItems(categoryId: categoryId);
   }
 
-  Future<void> loadItems() async {
+  Future<void> loadItems({int? categoryId}) async {
     try {
       AppLoader.show(status: 'Loading...');
-      final result = await _repository.fetchSubcategories();
+      final result =
+          await _repository.fetchSubcategories(categoryId: categoryId);
       items.assignAll(result);
       debugPrint('Subcategories loaded: ${result.length}');
     } catch (e) {
