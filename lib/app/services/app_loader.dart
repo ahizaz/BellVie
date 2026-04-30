@@ -4,6 +4,11 @@ import 'package:get/get.dart';
 class AppLoader {
   static bool _isShowing = false;
 
+  /// If false, `showError` and `showSuccess` will not show visible
+  /// snackbars and will only log messages via `debugPrint`.
+  /// Set to `true` to re-enable snackbars globally.
+  static bool enableSnackbars = false;
+
   static bool get isShow => _isShowing;
 
   static void show({String? status}) {
@@ -55,23 +60,31 @@ class AppLoader {
 
   static void showError(String message) {
     dismiss();
-    Get.snackbar(
-      'Error',
-      message,
-      backgroundColor: Colors.redAccent,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    if (enableSnackbars) {
+      Get.snackbar(
+        'Error',
+        message,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      debugPrint('AppLoader.showError: $message');
+    }
   }
 
   static void showSuccess(String message) {
     dismiss();
-    Get.snackbar(
-      'Success',
-      message,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    if (enableSnackbars) {
+      Get.snackbar(
+        'Success',
+        message,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      debugPrint('AppLoader.showSuccess: $message');
+    }
   }
 }

@@ -8,9 +8,14 @@ class MedicalAccessoriesRepository {
 
   Future<List<MedicalAccessoryCategory>> fetchCategories() async {
     try {
+      debugPrint(
+          'Medical accessories => GET ${AppApiService.baseUrl}/api/v1/medical-accessories/categories/');
       final response = await _apiService.get(
         path: '/api/v1/medical-accessories/categories/',
       );
+
+      debugPrint('Medical accessories => status: ${response.statusCode}');
+      debugPrint('Medical accessories => body: ${response.body}');
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint('Medical accessories API failed => ${response.statusCode}');

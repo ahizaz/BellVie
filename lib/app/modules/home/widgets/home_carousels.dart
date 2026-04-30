@@ -90,9 +90,15 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     }
 
     try {
+      debugPrint(
+        'SliderOne => GET ${AppApiService.baseUrl}/api/v1/slider/slider-one/',
+      );
       final response = await _apiService.get(
         path: '/api/v1/slider/slider-one/',
       );
+
+      debugPrint('SliderOne => status: ${response.statusCode}');
+      debugPrint('SliderOne => body: ${response.body}');
 
       if (showLoading && AppLoader.isShow) {
         AppLoader.dismiss();
@@ -138,10 +144,12 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
       if (showErrors) {
         AppLoader.showError('Banner load failed. Please try again.');
       }
-    } catch (_) {
+    } catch (e, st) {
       if (showLoading && AppLoader.isShow) {
         AppLoader.dismiss();
       }
+      debugPrint('SliderOne => exception: $e');
+      debugPrint('SliderOne => stacktrace: $st');
       if (showErrors) {
         AppLoader.showError(
             'Banner load failed. Check internet and try again.');
@@ -152,17 +160,17 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   }
 
 // background parsing for banners
-List<dynamic> _extractBannerResults(String body) {
-  try {
-    final decoded = jsonDecode(body);
-    if (decoded is! Map<String, dynamic>) return const [];
-    final results = decoded['results'];
-    if (results is List) return results;
-    return const [];
-  } catch (_) {
-    return const [];
+  List<dynamic> _extractBannerResults(String body) {
+    try {
+      final decoded = jsonDecode(body);
+      if (decoded is! Map<String, dynamic>) return const [];
+      final results = decoded['results'];
+      if (results is List) return results;
+      return const [];
+    } catch (_) {
+      return const [];
+    }
   }
-}
 
   @override
   void dispose() {
@@ -417,8 +425,8 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       debugPrint('SliderTwo => stacktrace: $st');
       if (showErrors) {
         AppLoader.showError(
-          'Banner load failed. Check internet and try again.');
-        }
+            'Banner load failed. Check internet and try again.');
+      }
     } finally {
       _isFetching = false;
     }

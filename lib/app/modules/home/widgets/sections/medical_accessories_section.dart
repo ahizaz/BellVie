@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
 
-
 class MedicalAccessoriesSection extends StatefulWidget {
   const MedicalAccessoriesSection({super.key});
 
@@ -44,8 +43,13 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
     AppLoader.show(status: 'Loading categories...');
 
     try {
+      debugPrint(
+          'Medical categories => GET ${AppApiService.baseUrl}/api/v1/medical-accessories/categories/');
       final response = await _apiService.get(
           path: '/api/v1/medical-accessories/categories/');
+
+      debugPrint('Medical categories => status: ${response.statusCode}');
+      debugPrint('Medical categories => body: ${response.body}');
 
       if (AppLoader.isShow) AppLoader.dismiss();
 

@@ -8,9 +8,14 @@ class PopularServiceRepository {
 
   Future<List<PopularService>> fetchCategories() async {
     try {
+      debugPrint(
+          'Popular services => GET ${AppApiService.baseUrl}/api/v1/popular-service/categories/');
       final response = await _apiService.get(
         path: '/api/v1/popular-service/categories/',
       );
+
+      debugPrint('Popular services => status: ${response.statusCode}');
+      debugPrint('Popular services => body: ${response.body}');
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint('Popular services API failed => ${response.statusCode}');
