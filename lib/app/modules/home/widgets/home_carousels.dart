@@ -13,6 +13,19 @@ class HomeBannerCarousel extends StatefulWidget {
   State<HomeBannerCarousel> createState() => _HomeBannerCarouselState();
 }
 
+// background parser for banners — top-level and sendable to `compute`
+List<dynamic> _extractBannerResults(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is! Map<String, dynamic>) return const [];
+    final results = decoded['results'];
+    if (results is List) return results;
+    return const [];
+  } catch (_) {
+    return const [];
+  }
+}
+
 class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   static const bool _useApiBanners = true;
   static const Duration _pollInterval = Duration(seconds: 5);
@@ -159,18 +172,8 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     }
   }
 
-// background parsing for banners
-  List<dynamic> _extractBannerResults(String body) {
-    try {
-      final decoded = jsonDecode(body);
-      if (decoded is! Map<String, dynamic>) return const [];
-      final results = decoded['results'];
-      if (results is List) return results;
-      return const [];
-    } catch (_) {
-      return const [];
-    }
-  }
+// NOTE: _extractBannerResults moved to top-level below to be
+// sendable to `compute()` without capturing `this`.
 
   @override
   void dispose() {

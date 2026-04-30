@@ -152,8 +152,8 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       final results = await compute(_extractCountriesResults, response.body);
       if (results is! List) {
         if (showErrors) {
-            AppLoader.showError('Invalid country response.');
-          }
+          AppLoader.showError('Invalid country response.');
+        }
         _isFetching = false;
         return;
       }
@@ -209,25 +209,15 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       debugPrint('Foreign countries fetch error => $e');
       if (showErrors) {
         AppLoader.showError(
-        'Country load failed. Check internet and try again.');
+            'Country load failed. Check internet and try again.');
       }
     } finally {
       _isFetching = false;
     }
   }
 
-// background parser for countries list
-List<dynamic> _extractCountriesResults(String body) {
-  try {
-    final decoded = jsonDecode(body);
-    if (decoded is! Map<String, dynamic>) return const [];
-    final results = decoded['results'];
-    if (results is List) return results;
-    return const [];
-  } catch (_) {
-    return const [];
-  }
-}
+// NOTE: _extractCountriesResults moved to top-level below to be
+// sendable to `compute()` without capturing `this`.
 
   @override
   void dispose() {
@@ -351,5 +341,18 @@ class _ForeignTreatmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// background parser for countries list — top-level and sendable to `compute`
+List<dynamic> _extractCountriesResults(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is! Map<String, dynamic>) return const [];
+    final results = decoded['results'];
+    if (results is List) return results;
+    return const [];
+  } catch (_) {
+    return const [];
   }
 }
