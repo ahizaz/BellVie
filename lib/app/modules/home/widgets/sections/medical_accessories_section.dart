@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bellevie/app/services/app_loader.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
@@ -41,27 +41,27 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
   Future<void> _fetchCategories() async {
     if (_isFetching) return;
     _isFetching = true;
-    EasyLoading.show(status: 'Loading categories...');
+    AppLoader.show(status: 'Loading categories...');
 
     try {
       final response = await _apiService.get(
           path: '/api/v1/medical-accessories/categories/');
 
-      if (EasyLoading.isShow) EasyLoading.dismiss();
+      if (AppLoader.isShow) AppLoader.dismiss();
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         debugPrint('Medical categories decoded => $decoded');
 
         if (decoded is! Map<String, dynamic>) {
-          EasyLoading.showError('Invalid categories response.');
+          AppLoader.showError('Invalid categories response.');
           _isFetching = false;
           return;
         }
 
         final dynamic results = decoded['results'];
         if (results is! List) {
-          EasyLoading.showError('Invalid categories data.');
+          AppLoader.showError('Invalid categories data.');
           _isFetching = false;
           return;
         }
@@ -84,10 +84,10 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
         return;
       }
 
-      EasyLoading.showError('Failed to load categories.');
+      AppLoader.showError('Failed to load categories.');
     } catch (e) {
-      if (EasyLoading.isShow) EasyLoading.dismiss();
-      EasyLoading.showError('Categories load failed.');
+      if (AppLoader.isShow) AppLoader.dismiss();
+      AppLoader.showError('Categories load failed.');
       debugPrint('Categories fetch error => $e');
     } finally {
       _isFetching = false;

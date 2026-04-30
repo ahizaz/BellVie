@@ -17,7 +17,7 @@ class PopularServiceRepository {
         return [];
       }
 
-      final decoded = jsonDecode(response.body);
+      final decoded = await compute(_decodeJson, response.body);
       final rawList = _extractList(decoded);
       return rawList
           .whereType<Map<String, dynamic>>()
@@ -44,3 +44,6 @@ class PopularServiceRepository {
     return const [];
   }
 }
+
+// helper for background decoding
+dynamic _decodeJson(String body) => jsonDecode(body);

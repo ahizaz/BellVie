@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bellevie/app/services/app_loader.dart';
 import '../data/popular_service_repository.dart';
 import '../models/popular_service.dart';
 
@@ -15,14 +15,13 @@ class PopularServicesController extends GetxController {
 
   Future<void> load() async {
     try {
-      EasyLoading.show();
+      AppLoader.show();
       final result = await _repo.fetchCategories();
       items.assignAll(result);
-      // debugPrint('Popular services loaded: ${result.length}');
     } catch (e) {
       // debugPrint('Popular services load error => $e');
     } finally {
-      EasyLoading.dismiss();
+      AppLoader.dismiss();
     }
   }
 }

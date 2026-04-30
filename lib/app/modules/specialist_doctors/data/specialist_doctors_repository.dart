@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import '../../../services/app_loader.dart';
 
 import '../../../services/api_service.dart';
 import '../models/specialist_doctor_item.dart';
@@ -18,10 +18,10 @@ class SpecialistDoctorsRepository {
     required String categoryKey,
     String? categoryAssetPath,
   }) async {
-    EasyLoading.show(status: 'Loading doctors...');
+    AppLoader.show(status: 'Loading doctors...');
     final apiDoctors = await _fetchDoctorsFromApi(categoryKey);
     if (apiDoctors.isNotEmpty) {
-      EasyLoading.dismiss();
+      AppLoader.dismiss();
       return apiDoctors;
     }
 
@@ -30,7 +30,7 @@ class SpecialistDoctorsRepository {
       return selected;
     }
 
-    EasyLoading.dismiss();
+    AppLoader.dismiss();
     // No static fallback doctors — return empty list so UI shows no items
     // when backend has no data for the requested category.
     return const [];
@@ -67,7 +67,7 @@ class SpecialistDoctorsRepository {
           return const [];
         }
 
-        final parsed = _parseDoctorsFromBody(response.body);
+        final parsed = await _parseDoctorsFromBody(response.body);
         if (parsed.isNotEmpty) {
           // try filtering by categoryKey (subcategory match)
           final filtered = _filterByCategory(parsed, categoryKey);
@@ -83,11 +83,11 @@ class SpecialistDoctorsRepository {
 
     return const [];
   }
-
-  List<SpecialistDoctorItem> _parseDoctorsFromBody(String body) {
+  Future<List<SpecialistDoctorItem>> _parseDoctorsFromBody(String body) async {
+    // offload JSON decoding to background isolate
     dynamic decoded;
     try {
-      decoded = jsonDecode(body);
+      decoded = await compute(_decodeJson, body);
     } catch (_) {
       return const [];
     }
@@ -116,6 +116,11 @@ class SpecialistDoctorsRepository {
         .where((doctor) => doctor.name.isNotEmpty)
         .toList();
   }
+
+}
+
+// top-level helper for compute
+dynamic _decodeJson(String body) => jsonDecode(body);
 
   List<SpecialistDoctorItem> _filterByCategory(
       List<SpecialistDoctorItem> items, String categoryKey) {
@@ -172,4 +177,4 @@ class SpecialistDoctorsRepository {
     }
     return '${AppApiService.baseUrl}$value';
   }
-}
+

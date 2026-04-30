@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bellevie/app/services/app_loader.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:get/get.dart';
@@ -23,7 +23,7 @@ class ProfileController extends GetxController {
 
   Future<void> fetchProfile({bool showLoader = true}) async {
     if (showLoader) {
-      EasyLoading.show(status: 'Loading profile...');
+      AppLoader.show(status: 'Loading profile...');
     }
 
     try {
@@ -34,14 +34,14 @@ class ProfileController extends GetxController {
       debugPrint('Profile response status => ${response.statusCode}');
       debugPrint('Profile response body => ${response.body}');
 
-      if (showLoader && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoader && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         if (decoded is! Map<String, dynamic>) {
-          EasyLoading.showError(
+            AppLoader.showError(
               'Profile load failed. Invalid server response.');
           return;
         }
@@ -65,13 +65,13 @@ class ProfileController extends GetxController {
         return;
       }
 
-      EasyLoading.showError('Profile load failed. Please try again.');
+      AppLoader.showError('Profile load failed. Please try again.');
     } catch (e) {
-      if (showLoader && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoader && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('Profile fetch error => $e');
-      EasyLoading.showError(
+      AppLoader.showError(
           'Profile load failed. Check internet and try again.');
     }
   }
@@ -93,7 +93,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> uploadProfilePicture(XFile imageFile) async {
-    EasyLoading.show(status: 'Uploading profile picture...');
+    AppLoader.show(status: 'Uploading profile picture...');
 
     try {
       final response = await _apiService.putMultipart(
@@ -105,23 +105,23 @@ class ProfileController extends GetxController {
       debugPrint('Profile picture upload status => ${response.statusCode}');
       debugPrint('Profile picture upload body => ${response.body}');
 
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         await fetchProfile(showLoader: false);
-        EasyLoading.showSuccess('Profile picture updated');
+        AppLoader.showSuccess('Profile picture updated');
         return;
       }
 
-      EasyLoading.showError('Upload failed. Please try again.');
+      AppLoader.showError('Upload failed. Please try again.');
     } catch (e) {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('Profile picture upload error => $e');
-      EasyLoading.showError('Upload failed. Check internet and try again.');
+      AppLoader.showError('Upload failed. Check internet and try again.');
     }
   }
 

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bellevie/app/services/app_loader.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/api_service.dart';
 
@@ -124,7 +124,7 @@ class AuthController extends GetxController {
     final selectedCountryCode = countryCode.trim();
 
     if (phone.isEmpty || password.isEmpty) {
-      EasyLoading.showError('please_enter_phone_password'.tr);
+      AppLoader.showError('please_enter_phone_password'.tr);
       return;
     }
 
@@ -133,7 +133,7 @@ class AuthController extends GetxController {
       'password': password,
     };
 
-    EasyLoading.show(status: 'Please wait...');
+    AppLoader.show(status: 'Please wait...');
 
     try {
       debugPrint('Login request body => $requestBody');
@@ -183,18 +183,18 @@ class AuthController extends GetxController {
         profilePictureUrl: profilePicture,
       );
 
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       debugPrint('Login success (local) => profile + tokens saved');
       Get.offAllNamed(Routes.HOME);
     } catch (e) {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('Login error => $e');
-      EasyLoading.showError('Login failed. Please try again.');
+      AppLoader.showError('Login failed. Please try again.');
     }
   }
 
@@ -212,17 +212,17 @@ class AuthController extends GetxController {
         rawPhone.startsWith('+') ? rawPhone : '$selectedCountryCode$rawPhone';
 
     if (rawPhone.isEmpty) {
-      EasyLoading.showError('Please enter your phone number.');
+      AppLoader.showError('Please enter your phone number.');
       return;
     }
 
     if (password.isEmpty || confirm.isEmpty) {
-      EasyLoading.showError('Please enter new password and confirm password.');
+      AppLoader.showError('Please enter new password and confirm password.');
       return;
     }
 
     if (password != confirm) {
-      EasyLoading.showError('Passwords do not match.');
+      AppLoader.showError('Passwords do not match.');
       return;
     }
 
@@ -232,7 +232,7 @@ class AuthController extends GetxController {
       'phone_number': formattedPhone,
     };
 
-    EasyLoading.show(status: 'Please wait...');
+    AppLoader.show(status: 'Please wait...');
 
     try {
       debugPrint('Reset password request body => $requestBody');
@@ -255,22 +255,22 @@ class AuthController extends GetxController {
         );
       }
 
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (Get.isDialogOpen ?? false) {
         Get.back();
       }
 
-      EasyLoading.showSuccess('Password reset successful. Please login.');
+      AppLoader.showSuccess('Password reset successful. Please login.');
       Get.offAllNamed(Routes.LOGIN);
     } catch (e) {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('Reset password error => $e');
-      EasyLoading.showError('Reset password failed. Please try again.');
+      AppLoader.showError('Reset password failed. Please try again.');
     }
   }
 
@@ -283,18 +283,18 @@ class AuthController extends GetxController {
     final confirmPassword = registerConfirmPasswordController.text.trim();
 
     if (name.isEmpty || phone.isEmpty || selectedDistrict.value.isEmpty) {
-      EasyLoading.showError('please_fill_required_fields'.tr);
+      AppLoader.showError('please_fill_required_fields'.tr);
       return;
     }
 
     if (password.isEmpty || confirmPassword.isEmpty) {
-      EasyLoading.showError('please_enter_password_confirm_password'.tr);
+      AppLoader.showError('please_enter_password_confirm_password'.tr);
       return;
     }
 
     validateRegisterPasswordMatch();
     if (password != confirmPassword) {
-      EasyLoading.showError('passwords_do_not_match'.tr);
+      AppLoader.showError('passwords_do_not_match'.tr);
       return;
     }
 
@@ -306,7 +306,7 @@ class AuthController extends GetxController {
       'district': selectedDistrict.value,
     };
 
-    EasyLoading.show(status: 'Please wait...');
+    AppLoader.show(status: 'Please wait...');
 
     try {
       debugPrint('Register request body => $requestBody');
@@ -343,19 +343,19 @@ class AuthController extends GetxController {
       );
 
       clearRegistrationForm();
-      EasyLoading.showSuccess('registration_successful'.tr);
+      AppLoader.showSuccess('registration_successful'.tr);
       Get.offNamed(Routes.LOGIN);
     } catch (e) {
       debugPrint('Register error => $e');
       final errorText = e.toString().trim();
-      EasyLoading.showError(
+      AppLoader.showError(
         errorText.isNotEmpty
             ? errorText
             : 'Registration failed. Check internet and try again.',
       );
     } finally {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
     }
   }

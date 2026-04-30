@@ -81,7 +81,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   }
 
   Future<void> _fetchCountries() async {
-    EasyLoading.show(status: 'Loading countries...');
+    AppLoader.show(status: 'Loading countries...');
 
     try {
       final response = await _apiService.getWithAuthRetry(
@@ -93,24 +93,24 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       debugPrint('Foreign treatment view countries body => ${response.body}');
 
       if (response.statusCode == 401) {
-        EasyLoading.showError('Country load failed. Please try again.');
+        AppLoader.showError('Country load failed. Please try again.');
         return;
       }
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        EasyLoading.showError('Country load failed. Please try again.');
+        AppLoader.showError('Country load failed. Please try again.');
         return;
       }
 
       final dynamic decoded = jsonDecode(response.body);
       if (decoded is! Map<String, dynamic>) {
-        EasyLoading.showError('Invalid country response.');
+        AppLoader.showError('Invalid country response.');
         return;
       }
 
       final dynamic results = decoded['results'];
       if (results is! List) {
-        EasyLoading.showError('Invalid country data.');
+        AppLoader.showError('Invalid country data.');
         return;
       }
 
@@ -138,11 +138,11 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       });
     } catch (e) {
       debugPrint('Foreign treatment view countries fetch error => $e');
-      EasyLoading.showError(
+      AppLoader.showError(
           'Country load failed. Check internet and try again.');
     } finally {
-      if (EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       if (mounted) {
         setState(() => _isLoading = false);

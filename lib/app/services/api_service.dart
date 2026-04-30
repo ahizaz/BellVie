@@ -6,10 +6,25 @@ import 'package:http/http.dart' as http;
 
 import 'auth_service.dart';
 
+class _CacheEntry {
+  final String body;
+  final DateTime expiry;
+  _CacheEntry(this.body, this.expiry);
+  bool get isExpired => DateTime.now().isAfter(expiry);
+}
+
 class AppApiService {
   //static const String baseUrl = 'http://192.168.0.246:5000';
   static const String baseUrl = 'https://api.dmatechno.com';
   static Future<bool>? _ongoingRefresh;
+  // Simple in-memory cache for GET responses (path -> body + expiry)
+  static final Map<String, _CacheEntry> _getCache = {};
+
+  // Deduplicate concurrent GET requests for the same path
+  static final Map<String, Future<http.Response>> _ongoingGetRequests = {};
+
+  // Default cache TTL for GET in seconds. Keep small to favor freshness.
+  static const int _getCacheTtlSeconds = 30;
 
   Uri buildUrl(String path) {
     final normalizedPath = path.startsWith('/') ? path : '/$path';
@@ -58,20 +73,55 @@ class AppApiService {
       ...?headers,
     };
 
+    final key = uri.toString();
+
     debugPrint('GET => $uri');
     debugPrint('GET headers => $requestHeaders');
 
-    final response = await http
+    // Return cached response if present and not expired
+    final cached = _getCache[key];
+    if (cached != null && !cached.isExpired) {
+      debugPrint('GET cache hit => $key');
+      return http.Response(cached.body, 200,
+          headers: {'content-type': 'application/json'});
+    }
+
+    // If there's an ongoing identical GET request, await it (dedupe)
+    if (_ongoingGetRequests.containsKey(key)) {
+      debugPrint('Awaiting ongoing GET for $key');
+      try {
+        return await _ongoingGetRequests[key]!;
+      } catch (e) {
+        // fall through to issuing a fresh request
+      }
+    }
+
+    final futureResponse = http
         .get(
           uri,
           headers: requestHeaders,
         )
         .timeout(const Duration(seconds: 30));
 
-    debugPrint('GET status <= ${response.statusCode}');
-    debugPrint('GET response <= ${response.body}');
+    _ongoingGetRequests[key] = futureResponse;
 
-    return response;
+    try {
+      final response = await futureResponse;
+      debugPrint('GET status <= ${response.statusCode}');
+      debugPrint('GET response <= ${response.body}');
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        try {
+          // cache the raw body with a short TTL to improve perceived speed
+          _getCache[key] = _CacheEntry(response.body,
+              DateTime.now().add(const Duration(seconds: _getCacheTtlSeconds)));
+        } catch (_) {}
+      }
+
+      return response;
+    } finally {
+      _ongoingGetRequests.remove(key);
+    }
   }
 
   Future<http.Response> getWithAuthRetry({

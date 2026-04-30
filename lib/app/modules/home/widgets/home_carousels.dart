@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import '../../../services/app_loader.dart';
 
 import '../../../services/api_service.dart';
 
@@ -85,7 +86,7 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     _isFetching = true;
 
     if (showLoading) {
-      EasyLoading.show(status: 'Loading banners...');
+      AppLoader.show(status: 'Loading banners...');
     }
 
     try {
@@ -93,24 +94,15 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
         path: '/api/v1/slider/slider-one/',
       );
 
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        final dynamic decoded = jsonDecode(response.body);
-        if (decoded is! Map<String, dynamic>) {
+        final results = await compute(_extractBannerResults, response.body);
+        if (results is! List || results.isEmpty) {
           if (showErrors) {
-            EasyLoading.showError('Invalid slider response.');
-          }
-          _isFetching = false;
-          return;
-        }
-
-        final dynamic results = decoded['results'];
-        if (results is! List) {
-          if (showErrors) {
-            EasyLoading.showError('Invalid slider data.');
+            AppLoader.showError('Invalid slider response.');
           }
           _isFetching = false;
           return;
@@ -144,20 +136,33 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
       }
 
       if (showErrors) {
-        EasyLoading.showError('Banner load failed. Please try again.');
+        AppLoader.showError('Banner load failed. Please try again.');
       }
     } catch (_) {
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       if (showErrors) {
-        EasyLoading.showError(
+        AppLoader.showError(
             'Banner load failed. Check internet and try again.');
       }
     } finally {
       _isFetching = false;
     }
   }
+
+// background parsing for banners
+List<dynamic> _extractBannerResults(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is! Map<String, dynamic>) return const [];
+    final results = decoded['results'];
+    if (results is List) return results;
+    return const [];
+  } catch (_) {
+    return const [];
+  }
+}
 
   @override
   void dispose() {
@@ -322,7 +327,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     debugPrint('SliderTwo => start fetch');
 
     if (showLoading) {
-      EasyLoading.show(status: 'Loading banners...');
+      AppLoader.show(status: 'Loading banners...');
     }
 
     try {
@@ -336,15 +341,15 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       debugPrint('SliderTwo => status: ${response.statusCode}');
       debugPrint('SliderTwo => body: ${response.body}');
 
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         if (decoded is! Map<String, dynamic>) {
           if (showErrors) {
-            EasyLoading.showError('Invalid slider response.');
+            AppLoader.showError('Invalid slider response.');
           }
           _isFetching = false;
           return;
@@ -353,7 +358,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
         final dynamic results = decoded['results'];
         if (results is! List) {
           if (showErrors) {
-            EasyLoading.showError('Invalid slider data.');
+            AppLoader.showError('Invalid slider data.');
           }
           debugPrint(
               'SliderTwo => invalid results type: ${results.runtimeType}');
@@ -392,7 +397,7 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
           }
         } else {
           if (showErrors) {
-            EasyLoading.showError('No slider image found.');
+            AppLoader.showError('No slider image found.');
           }
           debugPrint('SliderTwo => no valid image URL in response');
         }
@@ -401,19 +406,19 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
       }
 
       if (showErrors) {
-        EasyLoading.showError('Banner load failed. Please try again.');
+        AppLoader.showError('Banner load failed. Please try again.');
       }
       debugPrint('SliderTwo => non-success status: ${response.statusCode}');
     } catch (e, st) {
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('SliderTwo => exception: $e');
       debugPrint('SliderTwo => stacktrace: $st');
       if (showErrors) {
-        EasyLoading.showError(
-            'Banner load failed. Check internet and try again.');
-      }
+        AppLoader.showError(
+          'Banner load failed. Check internet and try again.');
+        }
     } finally {
       _isFetching = false;
     }

@@ -483,7 +483,7 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     bool append = false,
   }) async {
     if (!append) {
-      EasyLoading.show(status: 'Loading hospitals...');
+      AppLoader.show(status: 'Loading hospitals...');
     }
 
     try {
@@ -497,19 +497,19 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       debugPrint('Hospital list body => ${response.body}');
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        EasyLoading.showError('Hospital load failed. Please try again.');
+        AppLoader.showError('Hospital load failed. Please try again.');
         return;
       }
 
       final dynamic decoded = jsonDecode(response.body);
       if (decoded is! Map<String, dynamic>) {
-        EasyLoading.showError('Invalid hospital response.');
+        AppLoader.showError('Invalid hospital response.');
         return;
       }
 
       final dynamic results = decoded['results'];
       if (results is! List) {
-        EasyLoading.showError('Invalid hospital data.');
+        AppLoader.showError('Invalid hospital data.');
         return;
       }
 
@@ -560,11 +560,11 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       });
     } catch (e) {
       debugPrint('Hospital list fetch error => $e');
-      EasyLoading.showError(
+      AppLoader.showError(
           'Hospital load failed. Check internet and try again.');
     } finally {
-      if (!append && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (!append && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       if (mounted) {
         setState(() {

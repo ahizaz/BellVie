@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:bellevie/app/services/app_loader.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 
 import '../../../../services/api_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
@@ -117,7 +118,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     _isFetching = true;
 
     if (showLoading) {
-      EasyLoading.show(status: 'Loading countries...');
+      AppLoader.show(status: 'Loading countries...');
     }
 
     try {
@@ -128,13 +129,13 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       debugPrint('Foreign countries status => ${response.statusCode}');
       debugPrint('Foreign countries body => ${response.body}');
 
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
 
       if (response.statusCode == 401) {
         if (showErrors) {
-          EasyLoading.showError('Country load failed. Please try again.');
+          AppLoader.showError('Country load failed. Please try again.');
         }
         _isFetching = false;
         return;
@@ -142,26 +143,17 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
         if (showErrors) {
-          EasyLoading.showError('Country load failed. Please try again.');
+          AppLoader.showError('Country load failed. Please try again.');
         }
         _isFetching = false;
         return;
       }
 
-      final dynamic decoded = jsonDecode(response.body);
-      if (decoded is! Map<String, dynamic>) {
-        if (showErrors) {
-          EasyLoading.showError('Invalid country response.');
-        }
-        _isFetching = false;
-        return;
-      }
-
-      final dynamic results = decoded['results'];
+      final results = await compute(_extractCountriesResults, response.body);
       if (results is! List) {
         if (showErrors) {
-          EasyLoading.showError('Invalid country data.');
-        }
+            AppLoader.showError('Invalid country response.');
+          }
         _isFetching = false;
         return;
       }
@@ -186,7 +178,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       if (mapped.isEmpty) {
         _setCountryCountSafely(0);
         if (showErrors) {
-          EasyLoading.showError('No country found.');
+          AppLoader.showError('No country found.');
         }
         _isFetching = false;
         return;
@@ -211,18 +203,31 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       }
       _setCountryCountSafely(_countries.length);
     } catch (e) {
-      if (showLoading && EasyLoading.isShow) {
-        EasyLoading.dismiss();
+      if (showLoading && AppLoader.isShow) {
+        AppLoader.dismiss();
       }
       debugPrint('Foreign countries fetch error => $e');
       if (showErrors) {
-        EasyLoading.showError(
-            'Country load failed. Check internet and try again.');
+        AppLoader.showError(
+        'Country load failed. Check internet and try again.');
       }
     } finally {
       _isFetching = false;
     }
   }
+
+// background parser for countries list
+List<dynamic> _extractCountriesResults(String body) {
+  try {
+    final decoded = jsonDecode(body);
+    if (decoded is! Map<String, dynamic>) return const [];
+    final results = decoded['results'];
+    if (results is List) return results;
+    return const [];
+  } catch (_) {
+    return const [];
+  }
+}
 
   @override
   void dispose() {
