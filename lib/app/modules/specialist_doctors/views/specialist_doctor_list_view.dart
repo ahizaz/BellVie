@@ -27,7 +27,7 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
         ),
       ),
       body: Obx(() {
-        if (controller.isLoading.value) {
+        if (controller.isLoading.value && !controller.showNoData.value) {
           return const Center(child: CircularProgressIndicator());
         }
 

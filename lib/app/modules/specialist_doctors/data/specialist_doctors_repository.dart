@@ -18,10 +18,8 @@ class SpecialistDoctorsRepository {
     required String categoryKey,
     String? categoryAssetPath,
   }) async {
-    AppLoader.show(status: 'Loading doctors...');
     final apiDoctors = await _fetchDoctorsFromApi(categoryKey);
     if (apiDoctors.isNotEmpty) {
-      AppLoader.dismiss();
       return apiDoctors;
     }
 
@@ -30,7 +28,6 @@ class SpecialistDoctorsRepository {
       return selected;
     }
 
-    AppLoader.dismiss();
     // No static fallback doctors — return empty list so UI shows no items
     // when backend has no data for the requested category.
     return const [];

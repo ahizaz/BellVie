@@ -10,6 +10,7 @@ class SpecialistDoctorListController extends GetxController {
 
   final RxBool isLoading = false.obs;
   final RxList<SpecialistDoctorItem> doctors = <SpecialistDoctorItem>[].obs;
+  final RxBool showNoData = false.obs;
 
   late final String categoryKey;
   late final String categoryLabel;
@@ -27,12 +28,22 @@ class SpecialistDoctorListController extends GetxController {
 
   Future<void> loadDoctors() async {
     isLoading.value = true;
+    showNoData.value = false;
+    // Start a 2s fallback: if still loading after 2s and no doctors yet,
+    // show the no-data message (but keep fetching; later results will update UI).
+    Future.delayed(const Duration(seconds: 2), () {
+      if (isLoading.value && doctors.isEmpty) {
+        showNoData.value = true;
+      }
+    });
+
     try {
       final result = await _repository.getDoctorsByCategory(
         categoryKey: categoryKey,
         categoryAssetPath: categoryAssetPath,
       );
       doctors.assignAll(result);
+      if (doctors.isNotEmpty) showNoData.value = false;
     } finally {
       isLoading.value = false;
     }

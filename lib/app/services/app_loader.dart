@@ -15,29 +15,16 @@ class AppLoader {
     if (_isShowing) return;
     _isShowing = true;
     try {
+      // show a minimal centered spinner without a large dark box or status text
+      // so the UI doesn't show an intrusive black overlay on real devices.
       Get.dialog(
         WillPopScope(
           onWillPop: () async => false,
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const CircularProgressIndicator(),
-                  if (status != null) ...[
-                    const SizedBox(height: 12),
-                    Text(
-                      status,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ]
-                ],
-              ),
+          child: const Center(
+            child: SizedBox(
+              width: 48,
+              height: 48,
+              child: CircularProgressIndicator(),
             ),
           ),
         ),
