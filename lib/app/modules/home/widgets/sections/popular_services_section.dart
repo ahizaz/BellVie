@@ -78,46 +78,54 @@ class PopularServicesSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFEAF3FF), Color(0xFFE6F7F2)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x33000000),
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Obx(() {
-                final apiItems = controller.items;
-                final isLoading = controller.isLoading.value;
-                final useApi = apiItems.isNotEmpty;
-                final count = useApi ? apiItems.length : _services.length;
+        Column(
+          children: [
+            Obx(() {
+              final apiItems = controller.items;
+              final isLoading = controller.isLoading.value;
+              final useApi = apiItems.isNotEmpty;
+              final count = useApi ? apiItems.length : _services.length;
 
-                if (isLoading && apiItems.isEmpty) {
-                  return const SizedBox(
-                    height: 112,
-                    child: Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  );
-                }
+              if (isLoading && apiItems.isEmpty) {
+                return const SizedBox(
+                  height: 112,
+                  child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                );
+              }
+
+              return LayoutBuilder(builder: (context, constraints) {
+                final totalWidth = constraints.maxWidth;
+                const crossCount = 5;
+                const spacing = 10.0;
+                const childAspect = 0.88;
+
+                final availableWidth = totalWidth;
+                final itemWidth =
+                    (availableWidth - (crossCount - 1) * spacing) / crossCount;
+                final itemHeight = itemWidth / childAspect;
+                final rows = (count / crossCount).ceil();
+                final gridHeight = rows * itemHeight +
+                    (rows - 1) * spacing +
+                    2; // small buffer
+
+                final cappedHeight = gridHeight.clamp(0, 400).toDouble();
 
                 return SizedBox(
-                  height: 112,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
+                  height: cappedHeight,
+                  child: GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
                     itemCount: count,
-                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossCount,
+                      crossAxisSpacing: spacing,
+                      mainAxisSpacing: spacing,
+                      childAspectRatio: childAspect,
+                    ),
                     itemBuilder: (context, i) {
                       if (useApi) {
                         final svc = apiItems[i];
@@ -132,9 +140,9 @@ class PopularServicesSection extends StatelessWidget {
                     },
                   ),
                 );
-              }),
-            ],
-          ),
+              });
+            }),
+          ],
         ),
       ],
     );
@@ -214,16 +222,18 @@ class _ServiceCardFromApi extends StatelessWidget {
                     : Image.asset('assets/images/Doctor Services.png'),
               ),
               const SizedBox(height: 6),
-              Text(
-                name,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 10,
-                  height: 1.15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+              Flexible(
+                child: Text(
+                  name,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    height: 1.15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ],
@@ -298,16 +308,18 @@ class _ServiceCard extends StatelessWidget {
                 child: Image.asset(item.assetPath, fit: BoxFit.contain),
               ),
               const SizedBox(height: 6),
-              Text(
-                item.titleKey.tr,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 10,
-                  height: 1.15,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
+              Flexible(
+                child: Text(
+                  item.titleKey.tr,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    height: 1.15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ],

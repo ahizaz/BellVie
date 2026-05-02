@@ -335,7 +335,12 @@ class PromoBannerCarousel extends StatefulWidget {
 }
 
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
-  static const bool _useApiBanners = true;
+  static const bool _useApiBanners = false;
+  static const List<String> _localBanners = <String>[
+    'assets/images/banners/promo1.png',
+    'assets/images/banners/promo2.png',
+    'assets/images/banners/promo3.png',
+  ];
   static const Duration _pollInterval = Duration(seconds: 4);
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
@@ -354,6 +359,10 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
     if (_useApiBanners) {
       _fetchBanners(showLoading: true, showErrors: true);
       _startPolling();
+    } else {
+      _apiBanners = List<String>.from(_localBanners);
+      _isInitialLoading = false;
+      _hasError = false;
     }
 
     _startAutoSlide();
@@ -547,26 +556,53 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
                           onPageChanged: (i) => setState(() => _index = i),
                           itemBuilder: (_, i) {
                             final source = _apiBanners[i];
-                            return Image.network(
+                            final isNetwork = source.startsWith('http://') ||
+                                source.startsWith('https://');
+
+                            if (isNetwork) {
+                              return Image.network(
+                                source,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                cacheWidth: bannerWidthPx,
+                                cacheHeight: bannerHeightPx,
+                                frameBuilder: (context, child, frame, _) {
+                                  final visible = frame != null;
+                                  return AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 250),
+                                    opacity: visible ? 1 : 0,
+                                    child: child,
+                                  );
+                                },
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (_, __, ___) {
+                                  return const Center(
+                                    child: Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.black38,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+
+                            return Image.asset(
                               source,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              cacheWidth: bannerWidthPx,
-                              cacheHeight: bannerHeightPx,
                               frameBuilder: (context, child, frame, _) {
                                 final visible = frame != null;
                                 return AnimatedOpacity(
                                   duration: const Duration(milliseconds: 250),
                                   opacity: visible ? 1 : 0,
                                   child: child,
-                                );
-                              },
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
                                 );
                               },
                               errorBuilder: (_, __, ___) {
