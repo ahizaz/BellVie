@@ -24,6 +24,14 @@ class PopularService {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icon': iconUrl,
+    };
+  }
+
   static String _resolveImageUrl(String value) {
     if (value.trim().isEmpty) return '';
     if (value.startsWith('http://') || value.startsWith('https://')) {

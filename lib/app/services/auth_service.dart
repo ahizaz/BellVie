@@ -75,6 +75,8 @@ class AuthService extends GetxService {
     await _prefs?.remove(_refreshTokenKey);
     await _prefs?.remove(_profileDistrictKey);
     await _prefs?.remove(_profilePictureUrlKey);
+    await _prefs?.remove('popular_services_cache_v1');
+    await _prefs?.remove('popular_services_cache_time_v1');
     debugPrint('Auth logout => tokens cleared, loggedIn false');
   }
 

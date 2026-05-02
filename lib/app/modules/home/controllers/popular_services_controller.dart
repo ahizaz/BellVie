@@ -16,8 +16,15 @@ class PopularServicesController extends GetxController {
   Future<void> load() async {
     try {
       isLoading.value = true;
+      final cached = await _repo.loadCachedCategories();
+      if (cached.isNotEmpty) {
+        items.assignAll(cached);
+      }
+
       final result = await _repo.fetchCategories();
-      items.assignAll(result);
+      if (result.isNotEmpty) {
+        items.assignAll(result);
+      }
     } catch (e) {
       // debugPrint('Popular services load error => $e');
     } finally {
