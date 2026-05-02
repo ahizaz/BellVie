@@ -50,13 +50,7 @@ class HomeScrollContent extends StatelessWidget {
         children: [
           HomeBannerCarousel(),
           SizedBox(height: 14),
-          Row(
-            children: [
-              Expanded(child: EmergencyServicesCard()),
-              SizedBox(width: 12),
-              Expanded(child: ContactUsCard()),
-            ],
-          ),
+          QuickActionsBar(),
           SizedBox(height: 14),
           PopularServicesSection(),
           SizedBox(height: 18),
