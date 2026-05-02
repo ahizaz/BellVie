@@ -31,20 +31,61 @@ class PopularServicesSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'popular_services'.tr,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'popular_services'.tr,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () => Get.toNamed(Routes.POPULAR_SERVICES),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'All',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF2F6FED),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Container(
+                    height: 24,
+                    width: 24,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2F6FED),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: const Color(0xFFEEEEEE),
+            gradient: const LinearGradient(
+              colors: [Color(0xFFEAF3FF), Color(0xFFE6F7F2)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(18),
             boxShadow: const [
               BoxShadow(
@@ -61,28 +102,25 @@ class PopularServicesSection extends StatelessWidget {
                 final useApi = apiItems.isNotEmpty;
                 final count = useApi ? apiItems.length : _services.length;
 
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: count,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 1.2,
+                return SizedBox(
+                  height: 112,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: count,
+                    separatorBuilder: (_, __) => const SizedBox(width: 10),
+                    itemBuilder: (context, i) {
+                      if (useApi) {
+                        final svc = apiItems[i];
+                        return _ServiceCardFromApi(
+                          name: svc.name,
+                          iconUrl: svc.iconUrl,
+                          titleKey: svc.name,
+                          serviceId: svc.id,
+                        );
+                      }
+                      return _ServiceCard(item: _services[i]);
+                    },
                   ),
-                  itemBuilder: (context, i) {
-                    if (useApi) {
-                      final svc = apiItems[i];
-                      return _ServiceCardFromApi(
-                        name: svc.name,
-                        iconUrl: svc.iconUrl,
-                        titleKey: svc.name,
-                        serviceId: svc.id,
-                      );
-                    }
-                    return _ServiceCard(item: _services[i]);
-                  },
                 );
               }),
             ],
@@ -129,50 +167,57 @@ class _ServiceCardFromApi extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFCFEDEA),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFB3DAD6)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: iconUrl.isNotEmpty
-                      ? Image.network(
-                          iconUrl,
-                          fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) =>
-                              Image.asset('assets/images/Doctor Services.png'),
-                        )
-                      : Image.asset('assets/images/Doctor Services.png'),
+      child: SizedBox(
+        width: 78,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE4E8F2)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0F000000),
+                blurRadius: 8,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 36,
+                width: 36,
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF1FF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: iconUrl.isNotEmpty
+                    ? Image.network(
+                        iconUrl,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) =>
+                            Image.asset('assets/images/Doctor Services.png'),
+                      )
+                    : Image.asset('assets/images/Doctor Services.png'),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                name,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 10,
+                  height: 1.15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
                 ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              name,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 10,
-                height: 1.15,
-                fontWeight: FontWeight.w700,
-                color: Colors.black87,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -213,53 +258,50 @@ class _ServiceCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFCFEDEA),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFB3DAD6)),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x22000000),
-              blurRadius: 8,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Center(
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: item.whiteIconBackground
-                        ? Colors.white
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Image.asset(item.assetPath, fit: BoxFit.contain),
+      child: SizedBox(
+        width: 78,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE4E8F2)),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x0F000000),
+                blurRadius: 8,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 36,
+                width: 36,
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEAF1FF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Image.asset(item.assetPath, fit: BoxFit.contain),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                item.titleKey.tr,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 10,
+                  height: 1.15,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
                 ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              item.titleKey.tr,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 10,
-                height: 1.15,
-                fontWeight: FontWeight.w700,
-                color: Colors.black87,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

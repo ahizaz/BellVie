@@ -20,6 +20,7 @@ import '../modules/profile/views/profile_view.dart';
 
 import '../modules/foreign_treatment/bindings/foreign_treatment_binding.dart';
 import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
+import '../modules/home/views/popular_services_view.dart';
 
 import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
@@ -90,6 +91,11 @@ class AppPages {
       name: Routes.FOREIGN_TREATMENT,
       page: () => const ForeignTreatmentView(),
       binding: ForeignTreatmentBinding(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.POPULAR_SERVICES,
+      page: () => const PopularServicesView(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(

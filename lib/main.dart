@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'app/services/app_loader.dart';
+
 import 'app/localization/app_translation.dart';
 import 'app/routes/app_pages.dart';
 import 'app/services/auth_service.dart';

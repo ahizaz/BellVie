@@ -45,9 +45,9 @@ class HomeScrollContent extends StatelessWidget {
         horizontalPadding,
         bottomPadding,
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
+        children: [
           HomeBannerCarousel(),
           SizedBox(height: 14),
           Row(

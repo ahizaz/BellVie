@@ -8,6 +8,7 @@ abstract class Routes {
   static const PATHOLOGY_TEST = '/pathology-test';
   static const AMAR_LAB = '/amar-lab';
   static const FOREIGN_TREATMENT = '/foreign-treatment';
+  static const POPULAR_SERVICES = '/popular-services';
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
   static const SPECIALIST_DOCTOR_LIST = '/specialist-doctor-list';
   static const OTHER_MEDICAL_SERVICES = '/other-medical-services';

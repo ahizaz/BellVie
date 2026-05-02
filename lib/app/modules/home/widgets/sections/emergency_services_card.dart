@@ -9,7 +9,7 @@ class EmergencyServicesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardSize = MediaQuery.of(context).size.width * 0.38; // square size
-    final cardRadius = 6.0; // uniform rounded corners
+    const cardRadius = 6.0; // uniform rounded corners
     final iconSize = cardSize * 0.53;
 
     return InkWell(

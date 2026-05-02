@@ -8,7 +8,7 @@ class ContactUsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardSize = MediaQuery.of(context).size.width * 0.38; // square size
-    final cardRadius = 6.0;
+    const cardRadius = 6.0;
     final iconSize = cardSize * 0.38;
 
     return InkWell(
@@ -20,7 +20,7 @@ class ContactUsCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFCDEFF2),
           borderRadius: BorderRadius.circular(cardRadius),
-          border: Border.all(color: Color.fromARGB(255, 160, 212, 208)),
+          border: Border.all(color: const Color.fromARGB(255, 160, 212, 208)),
           boxShadow: const [
             BoxShadow(
               color: Color(0x14000000),
