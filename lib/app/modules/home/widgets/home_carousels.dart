@@ -25,7 +25,14 @@ List<dynamic> _extractBannerResults(String body) {
 }
 
 class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
-  static const bool _useApiBanners = true;
+  // When false, the carousel will use the bundled local banner images
+  // so the first slider is available immediately on app start.
+  static const bool _useApiBanners = false;
+  static const List<String> _localBanners = <String>[
+    'assets/images/banners/banner1.png',
+    'assets/images/banners/bannar_update_1.png',
+    'assets/images/banners/bannar_update_2.png',
+  ];
   static const Duration _pollInterval = Duration(seconds: 4);
   late final PageController _controller;
   final AppApiService _apiService = AppApiService();
@@ -44,6 +51,11 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     if (_useApiBanners) {
       _fetchBanners(showLoading: true, showErrors: true);
       _startPolling();
+    } else {
+      // Use local bundled banners so UI shows immediately.
+      _apiBanners = List<String>.from(_localBanners);
+      _isInitialLoading = false;
+      _hasError = false;
     }
 
     _startAutoSlide();
@@ -214,26 +226,54 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                           onPageChanged: (i) => setState(() => _index = i),
                           itemBuilder: (_, i) {
                             final source = _apiBanners[i];
-                            return Image.network(
+                            final isNetwork = source.startsWith('http://') ||
+                                source.startsWith('https://');
+
+                            if (isNetwork) {
+                              return Image.network(
+                                source,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                cacheWidth: bannerWidthPx,
+                                cacheHeight: bannerHeightPx,
+                                frameBuilder: (context, child, frame, _) {
+                                  final visible = frame != null;
+                                  return AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 250),
+                                    opacity: visible ? 1 : 0,
+                                    child: child,
+                                  );
+                                },
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (_, __, ___) {
+                                  return const Center(
+                                    child: Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.black38,
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+
+                            // Treat as local asset
+                            return Image.asset(
                               source,
                               fit: BoxFit.cover,
                               width: double.infinity,
-                              cacheWidth: bannerWidthPx,
-                              cacheHeight: bannerHeightPx,
                               frameBuilder: (context, child, frame, _) {
                                 final visible = frame != null;
                                 return AnimatedOpacity(
                                   duration: const Duration(milliseconds: 250),
                                   opacity: visible ? 1 : 0,
                                   child: child,
-                                );
-                              },
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
                                 );
                               },
                               errorBuilder: (_, __, ___) {
