@@ -94,6 +94,29 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
             child: Obx(() {
               final items = controller.items;
 
+              if (controller.isLoading.value && !controller.showNoData.value) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (items.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24),
+                  child: Center(
+                    child: Text(
+                      'No subcategories available right now.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
               return GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -109,6 +132,8 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
                   return _SpecialistServiceCard(
                     subcategory: item,
                     toKey: _toKey(item.name),
+                    categoryId: item.category,
+                    subcategoryId: item.id,
                   );
                 },
               );
@@ -123,19 +148,20 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
 class _SpecialistServiceCard extends StatelessWidget {
   final Subcategory subcategory;
   final String toKey;
+  final int? categoryId;
+  final int? subcategoryId;
 
   const _SpecialistServiceCard({
     required this.subcategory,
     required this.toKey,
+    this.categoryId,
+    this.subcategoryId,
   });
 
   @override
   Widget build(BuildContext context) {
     final cardPadding = context.w(10).clamp(8.0, 12.0);
     final thumbSize = context.w(50).clamp(44.0, 56.0);
-    final dpr = MediaQuery.devicePixelRatioOf(context);
-    final thumbPx = (thumbSize * dpr).round().clamp(1, 1024);
-
     final imageProvider =
         subcategory.icon != null && subcategory.icon!.isNotEmpty
             ? NetworkImage(subcategory.icon!)
@@ -145,13 +171,17 @@ class _SpecialistServiceCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: () {
+        final Map<String, dynamic> args = {
+          'categoryKey': toKey,
+          'categoryLabel': subcategory.name,
+          'categoryAssetPath': subcategory.icon ?? '',
+        };
+        if (categoryId != null) args['categoryId'] = categoryId;
+        if (subcategoryId != null) args['subcategoryId'] = subcategoryId;
+
         Get.toNamed(
           Routes.SPECIALIST_DOCTOR_LIST,
-          arguments: {
-            'categoryKey': toKey,
-            'categoryLabel': subcategory.name,
-            'categoryAssetPath': subcategory.icon ?? '',
-          },
+          arguments: args,
         );
       },
       child: Container(

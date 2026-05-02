@@ -44,12 +44,44 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
           );
         }
 
-        return ListView.separated(
+        return ListView.builder(
           padding: const EdgeInsets.fromLTRB(14, 14, 14, 20),
-          itemCount: controller.doctors.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          itemCount:
+              controller.doctors.length + (controller.hasMore.value ? 1 : 0),
           itemBuilder: (context, index) {
-            return _DoctorListCard(item: controller.doctors[index]);
+            if (index < controller.doctors.length) {
+              if (index > 0) {
+                // spacing between items
+                return Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    _DoctorListCard(item: controller.doctors[index]),
+                  ],
+                );
+              }
+              return _DoctorListCard(item: controller.doctors[index]);
+            }
+
+            // footer: More button or loading indicator
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Center(
+                child: Obx(() {
+                  if (controller.isLoadingMore.value) {
+                    return const SizedBox(
+                      width: 28,
+                      height: 28,
+                      child: CircularProgressIndicator(strokeWidth: 2.5),
+                    );
+                  }
+
+                  return ElevatedButton(
+                    onPressed: controller.loadMore,
+                    child: const Text('More'),
+                  );
+                }),
+              ),
+            );
           },
         );
       }),

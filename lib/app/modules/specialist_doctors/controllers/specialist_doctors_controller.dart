@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:bellevie/app/services/app_loader.dart';
 
 import '../data/subcategory_repository.dart';
 import '../models/subcategory.dart';
@@ -12,6 +11,8 @@ class SpecialistDoctorsController extends GetxController {
       : _repository = repository ?? SubcategoryRepository();
 
   final RxList<Subcategory> items = <Subcategory>[].obs;
+  final RxBool isLoading = false.obs;
+  final RxBool showNoData = false.obs;
 
   @override
   void onInit() {
@@ -28,16 +29,26 @@ class SpecialistDoctorsController extends GetxController {
   }
 
   Future<void> loadItems({int? categoryId}) async {
+    isLoading.value = true;
+    showNoData.value = false;
+
+    // If still loading after 2s and no items, show empty state
+    Future.delayed(const Duration(seconds: 2), () {
+      if (isLoading.value && items.isEmpty) {
+        showNoData.value = true;
+      }
+    });
+
     try {
-      AppLoader.show(status: 'Loading...');
       final result =
           await _repository.fetchSubcategories(categoryId: categoryId);
       items.assignAll(result);
+      if (items.isNotEmpty) showNoData.value = false;
       debugPrint('Subcategories loaded: ${result.length}');
     } catch (e) {
       debugPrint('Error loading subcategories => $e');
     } finally {
-      AppLoader.dismiss();
+      isLoading.value = false;
     }
   }
 }
