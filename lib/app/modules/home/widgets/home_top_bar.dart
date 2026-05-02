@@ -82,23 +82,14 @@ class HomeTopBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              PopupMenuButton<Locale>(
-                onSelected: homeController.changeLanguage,
-                offset: const Offset(0, 42),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: const Locale('en', 'US'),
-                    child: Text('english'.tr),
+              Obx(() {
+                final isBangla =
+                    homeController.currentLocale.value.languageCode == 'bn';
+
+                return Container(
+                  constraints: BoxConstraints(
+                    minWidth: isSmall ? 80 : 92,
                   ),
-                  PopupMenuItem(
-                    value: const Locale('bn', 'BD'),
-                    child: Text('bangla'.tr),
-                  ),
-                ],
-                child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: chipHPad,
                     vertical: chipVPad,
@@ -107,20 +98,49 @@ class HomeTopBar extends StatelessWidget {
                     color: const Color(0xFFBFEFE2),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Obx(() {
-                    final isBangla =
-                        homeController.currentLocale.value.languageCode == 'bn';
-                    return Text(
-                      isBangla ? 'bangla'.tr : 'english'.tr,
-                      style: TextStyle(
-                        fontSize: isSmall ? 11.5 : 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () => homeController
+                            .changeLanguage(const Locale('en', 'US')),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Text(
+                          'Eng',
+                          style: TextStyle(
+                            fontSize: isSmall ? 11.5 : 12,
+                            fontWeight:
+                                isBangla ? FontWeight.w500 : FontWeight.w700,
+                            color: Colors.black87,
+                          ),
+                        ),
                       ),
-                    );
-                  }),
-                ),
-              ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Container(
+                          width: 1,
+                          height: isSmall ? 12 : 14,
+                          color: Colors.black26,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => homeController
+                            .changeLanguage(const Locale('bn', 'BD')),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Text(
+                          'Ban',
+                          style: TextStyle(
+                            fontSize: isSmall ? 11.5 : 12,
+                            fontWeight:
+                                isBangla ? FontWeight.w700 : FontWeight.w500,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               const SizedBox(width: 6),
               // iconBtn(Icons.search),
               iconBtn(Icons.notifications_none),

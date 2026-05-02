@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../controllers/splash_screen_controller.dart';
 import '../../../theme/responsive.dart';
-import '../../../routes/app_routes.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
   const SplashScreenView({super.key});
@@ -67,29 +66,6 @@ class SplashScreenView extends GetView<SplashScreenController> {
                   ),
                 ),
               ],
-            ),
-          ),
-          // Get Started button at bottom
-          Positioned(
-            left: 24,
-            right: 24,
-            bottom: 48,
-            child: SafeArea(
-              child: ElevatedButton(
-                onPressed: () => Get.offAllNamed(Routes.HOME),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.teal,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                ),
-                child: const Text(
-                  'Get Started →',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ),
             ),
           ),
         ],

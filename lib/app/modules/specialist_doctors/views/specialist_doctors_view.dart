@@ -346,13 +346,37 @@ class _HomeTopBar extends StatelessWidget {
                   child: Obx(() {
                     final isBangla =
                         homeController.currentLocale.value.languageCode == 'bn';
-                    return Text(
-                      isBangla ? 'bangla'.tr : 'english'.tr,
-                      style: TextStyle(
-                        fontSize: isSmall ? 11.5 : 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
+
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Eng',
+                          style: TextStyle(
+                            fontSize: isSmall ? 11.5 : 12,
+                            fontWeight:
+                                isBangla ? FontWeight.w500 : FontWeight.w700,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            width: 1,
+                            height: isSmall ? 12 : 14,
+                            color: Colors.black26,
+                          ),
+                        ),
+                        Text(
+                          'Ban',
+                          style: TextStyle(
+                            fontSize: isSmall ? 11.5 : 12,
+                            fontWeight:
+                                isBangla ? FontWeight.w700 : FontWeight.w500,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
                     );
                   }),
                 ),
