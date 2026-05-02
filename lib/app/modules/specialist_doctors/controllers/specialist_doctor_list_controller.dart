@@ -63,10 +63,10 @@ class SpecialistDoctorListController extends GetxController {
       _currentPage += 1;
     }
 
-    // Start a 2s fallback: if still loading after 2s and no doctors yet,
+    // Start a 4s fallback: if still loading after 4s and no doctors yet,
     // show the no-data message (but keep fetching; later results will update UI).
     if (reset) {
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(seconds: 4), () {
         if (isLoading.value && doctors.isEmpty) {
           showNoData.value = true;
         }

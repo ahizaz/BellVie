@@ -32,8 +32,8 @@ class SpecialistDoctorsController extends GetxController {
     isLoading.value = true;
     showNoData.value = false;
 
-    // If still loading after 2s and no items, show empty state
-    Future.delayed(const Duration(seconds: 2), () {
+    // If still loading after 4s and no items, show empty state
+    Future.delayed(const Duration(seconds: 4), () {
       if (isLoading.value && items.isEmpty) {
         showNoData.value = true;
       }

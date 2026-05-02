@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bellevie/app/services/app_loader.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -20,10 +19,11 @@ class ForeignTreatmentSection extends StatefulWidget {
 
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   static const bool _useApiCountries = true;
-  static const Duration _pollInterval = Duration(seconds: 5);
+  static const Duration _pollInterval = Duration(seconds: 4);
   final AppApiService _apiService = AppApiService();
   Timer? _pollTimer;
   bool _isFetching = false;
+  bool _isLoading = false;
 
   final List<_ForeignTreatmentItem> _countries = <_ForeignTreatmentItem>[
     const _ForeignTreatmentItem(
@@ -77,6 +77,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     super.initState();
     _setCountryCountSafely(_countries.length);
     if (_useApiCountries) {
+      _isLoading = true;
       _fetchCountries(showLoading: true, showErrors: true);
       _startPolling();
     }
@@ -116,9 +117,10 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   }) async {
     if (_isFetching) return;
     _isFetching = true;
-
-    if (showLoading) {
-      AppLoader.show(status: 'Loading countries...');
+    if (showLoading && mounted) {
+      setState(() {
+        _isLoading = true;
+      });
     }
 
     try {
@@ -129,21 +131,21 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       debugPrint('Foreign countries status => ${response.statusCode}');
       debugPrint('Foreign countries body => ${response.body}');
 
-      if (showLoading && AppLoader.isShow) {
-        AppLoader.dismiss();
-      }
-
       if (response.statusCode == 401) {
-        if (showErrors) {
-          AppLoader.showError('Country load failed. Please try again.');
+        if (showErrors && mounted) {
+          setState(() {
+            _isLoading = false;
+          });
         }
         _isFetching = false;
         return;
       }
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        if (showErrors) {
-          AppLoader.showError('Country load failed. Please try again.');
+        if (showErrors && mounted) {
+          setState(() {
+            _isLoading = false;
+          });
         }
         _isFetching = false;
         return;
@@ -151,8 +153,10 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
 
       final results = await compute(_extractCountriesResults, response.body);
       if (results is! List) {
-        if (showErrors) {
-          AppLoader.showError('Invalid country response.');
+        if (showErrors && mounted) {
+          setState(() {
+            _isLoading = false;
+          });
         }
         _isFetching = false;
         return;
@@ -177,8 +181,10 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       if (!mounted) return;
       if (mapped.isEmpty) {
         _setCountryCountSafely(0);
-        if (showErrors) {
-          AppLoader.showError('No country found.');
+        if (showErrors && mounted) {
+          setState(() {
+            _isLoading = false;
+          });
         }
         _isFetching = false;
         return;
@@ -199,17 +205,20 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           _countries
             ..clear()
             ..addAll(mapped);
+          _isLoading = false;
+        });
+      } else if (_isLoading && mounted) {
+        setState(() {
+          _isLoading = false;
         });
       }
       _setCountryCountSafely(_countries.length);
     } catch (e) {
-      if (showLoading && AppLoader.isShow) {
-        AppLoader.dismiss();
-      }
       debugPrint('Foreign countries fetch error => $e');
-      if (showErrors) {
-        AppLoader.showError(
-            'Country load failed. Check internet and try again.');
+      if (showErrors && mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     } finally {
       _isFetching = false;

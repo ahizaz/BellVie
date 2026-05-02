@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:flutter/material.dart';
-import 'package:bellevie/app/services/app_loader.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
@@ -19,6 +18,7 @@ class MedicalAccessoriesSection extends StatefulWidget {
 class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
   final AppApiService _apiService = AppApiService();
   bool _isFetching = false;
+  bool _isLoading = true;
   List<_MedicalAccessoryItem> _items = [];
 
   @override
@@ -40,7 +40,11 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
   Future<void> _fetchCategories() async {
     if (_isFetching) return;
     _isFetching = true;
-    AppLoader.show(status: 'Loading categories...');
+    if (mounted) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
 
     try {
       debugPrint(
@@ -51,21 +55,27 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
       debugPrint('Medical categories => status: ${response.statusCode}');
       debugPrint('Medical categories => body: ${response.body}');
 
-      if (AppLoader.isShow) AppLoader.dismiss();
-
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         debugPrint('Medical categories decoded => $decoded');
 
         if (decoded is! Map<String, dynamic>) {
-          AppLoader.showError('Invalid categories response.');
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+            });
+          }
           _isFetching = false;
           return;
         }
 
         final dynamic results = decoded['results'];
         if (results is! List) {
-          AppLoader.showError('Invalid categories data.');
+          if (mounted) {
+            setState(() {
+              _isLoading = false;
+            });
+          }
           _isFetching = false;
           return;
         }
@@ -83,16 +93,23 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
 
         setState(() {
           _items = items;
+          _isLoading = false;
         });
         _isFetching = false;
         return;
       }
-
-      AppLoader.showError('Failed to load categories.');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     } catch (e) {
-      if (AppLoader.isShow) AppLoader.dismiss();
-      AppLoader.showError('Categories load failed.');
       debugPrint('Categories fetch error => $e');
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     } finally {
       _isFetching = false;
     }
@@ -130,71 +147,93 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
               ),
             ],
           ),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: _items.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 2.0,
-            ),
-            itemBuilder: (context, i) {
-              final item = _items[i];
-              return InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: _showComingSoon,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 221, 241, 240),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 197, 228, 225),
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x22000000),
-                        blurRadius: 8,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
+          child: _isLoading && _items.isEmpty
+              ? const SizedBox(
+                  height: 120,
+                  child: Center(
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   ),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        height: 46,
-                        width: 46,
-                        child: item.imageUrl.isNotEmpty
-                            ? Image.network(
-                                item.imageUrl,
-                                fit: BoxFit.contain,
-                                errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.image_not_supported),
-                              )
-                            : const Icon(Icons.image_not_supported),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
+                )
+              : _items.isEmpty
+                  ? const SizedBox(
+                      height: 100,
+                      child: Center(
                         child: Text(
-                          item.name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            height: 1.2,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black87,
+                          'No categories found',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black54,
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
+                    )
+                  : GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _items.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 2.0,
+                      ),
+                      itemBuilder: (context, i) {
+                        final item = _items[i];
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(16),
+                          onTap: _showComingSoon,
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 221, 241, 240),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 197, 228, 225),
+                              ),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x22000000),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  height: 46,
+                                  width: 46,
+                                  child: item.imageUrl.isNotEmpty
+                                      ? Image.network(
+                                          item.imageUrl,
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (_, __, ___) =>
+                                              const Icon(
+                                                  Icons.image_not_supported),
+                                        )
+                                      : const Icon(Icons.image_not_supported),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    item.name,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 11,
+                                      height: 1.2,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
         ),
       ],
     );

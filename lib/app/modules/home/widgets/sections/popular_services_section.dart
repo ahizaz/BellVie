@@ -99,8 +99,18 @@ class PopularServicesSection extends StatelessWidget {
             children: [
               Obx(() {
                 final apiItems = controller.items;
+                final isLoading = controller.isLoading.value;
                 final useApi = apiItems.isNotEmpty;
                 final count = useApi ? apiItems.length : _services.length;
+
+                if (isLoading && apiItems.isEmpty) {
+                  return const SizedBox(
+                    height: 112,
+                    child: Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                }
 
                 return SizedBox(
                   height: 112,
