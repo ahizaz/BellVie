@@ -26,7 +26,7 @@ class QuickActionsBar extends StatelessWidget {
         onTap: () => Get.toNamed(Routes.CONTACT_US),
       ),
       _QuickActionItem(
-        label: 'Medical Records',
+        label: 'Book Appointment',
         icon: Icons.folder_shared,
         onTap: () => _openTab(2),
       ),
