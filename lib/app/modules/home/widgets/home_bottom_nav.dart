@@ -74,12 +74,22 @@ class HomeBottomNav extends StatelessWidget {
                                 color:
                                     selected ? selectedColor : unselectedColor,
                               ),
-                              child: Text(
-                                item['label'] as String,
-                                maxLines: 1,
-                                softWrap: false,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                              child: isCenter
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(top: 2),
+                                      child: Text(
+                                        item['label'] as String,
+                                        maxLines: 1,
+                                        softWrap: false,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  : Text(
+                                      item['label'] as String,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                             ),
                             const SizedBox(height: 0),
                             AnimatedContainer(
