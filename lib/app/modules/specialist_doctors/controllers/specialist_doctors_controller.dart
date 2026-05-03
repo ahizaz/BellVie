@@ -31,24 +31,35 @@ class SpecialistDoctorsController extends GetxController {
   Future<void> loadItems({int? categoryId}) async {
     isLoading.value = true;
     showNoData.value = false;
-
-    // If still loading after 4s and no items, show empty state
-    Future.delayed(const Duration(seconds: 4), () {
-      if (isLoading.value && items.isEmpty) {
-        showNoData.value = true;
-      }
-    });
+    final startedAt = DateTime.now();
 
     try {
+      final cached =
+          await _repository.loadCachedSubcategories(categoryId: categoryId);
+      if (cached.isNotEmpty) {
+        items.assignAll(cached);
+      }
+
       final result =
           await _repository.fetchSubcategories(categoryId: categoryId);
-      items.assignAll(result);
-      if (items.isNotEmpty) showNoData.value = false;
-      debugPrint('Subcategories loaded: ${result.length}');
+      if (result.isNotEmpty) {
+        items.assignAll(result);
+      }
+
+      debugPrint('Subcategories loaded: ${items.length}');
     } catch (e) {
       debugPrint('Error loading subcategories => $e');
     } finally {
+      final elapsed = DateTime.now().difference(startedAt);
+      final remaining = const Duration(seconds: 3) - elapsed;
+      if (!remaining.isNegative) {
+        await Future.delayed(remaining);
+      }
+
       isLoading.value = false;
+      if (items.isEmpty) {
+        showNoData.value = true;
+      }
     }
   }
 }

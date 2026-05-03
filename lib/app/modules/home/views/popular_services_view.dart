@@ -87,21 +87,15 @@ class _ServiceCardFromApi extends StatelessWidget {
   });
 
   void _handleTap() {
-    final key = titleKey.toLowerCase();
     debugPrint('Popular service tapped: $titleKey');
-    if (key.contains('specialist') || key.contains('doctor')) {
-      Get.toNamed(
-        Routes.SPECIALIST_DOCTORS,
-        arguments: {
-          'categoryId': serviceId,
-          'categoryLabel': name,
-          'categoryAssetPath': iconUrl,
-        },
-      );
-      return;
-    }
-
-    Get.toNamed(Routes.COMING_SOON);
+    Get.toNamed(
+      Routes.SPECIALIST_DOCTORS,
+      arguments: {
+        'categoryId': serviceId,
+        'categoryLabel': name,
+        'categoryAssetPath': iconUrl,
+      },
+    );
   }
 
   @override

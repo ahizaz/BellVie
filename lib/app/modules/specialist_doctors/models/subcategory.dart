@@ -19,4 +19,13 @@ class Subcategory {
       icon: json['icon']?.toString(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'category': category,
+      'name': name,
+      'icon': icon,
+    };
+  }
 }

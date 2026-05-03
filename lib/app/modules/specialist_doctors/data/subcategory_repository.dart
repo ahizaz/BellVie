@@ -1,12 +1,56 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../services/api_service.dart';
 import '../models/subcategory.dart';
 
 class SubcategoryRepository {
   final AppApiService _apiService = AppApiService();
+
+  static const String _cachePrefix = 'popular_service_subcategories_cache_v1_';
+
+  String _cacheKey(int? categoryId) {
+    return '$_cachePrefix${categoryId?.toString() ?? 'all'}';
+  }
+
+  Future<List<Subcategory>> loadCachedSubcategories({int? categoryId}) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedJson = prefs.getString(_cacheKey(categoryId));
+
+      if (cachedJson == null || cachedJson.isEmpty) {
+        return [];
+      }
+
+      final decoded = jsonDecode(cachedJson);
+      if (decoded is! List) {
+        return [];
+      }
+
+      return decoded
+          .whereType<Map<String, dynamic>>()
+          .map((e) => Subcategory.fromJson(e))
+          .toList();
+    } catch (e) {
+      debugPrint('Subcategories cache read error => $e');
+      return [];
+    }
+  }
+
+  Future<void> saveCachedSubcategories(
+    List<Subcategory> items, {
+    int? categoryId,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(items.map((e) => e.toJson()).toList());
+      await prefs.setString(_cacheKey(categoryId), encoded);
+    } catch (e) {
+      debugPrint('Subcategories cache write error => $e');
+    }
+  }
 
   Future<List<Subcategory>> fetchSubcategories({int? categoryId}) async {
     try {
@@ -28,10 +72,16 @@ class SubcategoryRepository {
       final decoded =
           await compute((String body) => jsonDecode(body), response.body);
       final rawList = _extractList(decoded);
-      return rawList
+      final items = rawList
           .whereType<Map<String, dynamic>>()
           .map((e) => Subcategory.fromJson(e))
           .toList();
+
+      if (items.isNotEmpty) {
+        await saveCachedSubcategories(items, categoryId: categoryId);
+      }
+
+      return items;
     } catch (e) {
       debugPrint('Subcategories API error => $e');
       return [];
