@@ -295,7 +295,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             crossAxisCount: 3,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
-            childAspectRatio: 0.78,
+            childAspectRatio: 0.85,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
@@ -413,7 +413,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 11,
                           height: 1.15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
@@ -443,7 +443,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                       child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                       decoration: BoxDecoration(
                         color: Color(0xFFE8F6F2),
                         borderRadius: BorderRadius.circular(7),
@@ -470,7 +470,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                               'Press to view',
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 9,
+                                fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black,
                               ),
