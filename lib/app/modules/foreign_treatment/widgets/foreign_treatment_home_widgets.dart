@@ -198,10 +198,10 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
                         itemCount: _countries.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 1.32,
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 10,
+                          childAspectRatio: 0.92,
                         ),
                         itemBuilder: (context, index) {
                           final item = _countries[index];
@@ -209,7 +209,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
                             borderRadius: BorderRadius.circular(12),
                             onTap: () => _openCountry(item),
                             child: Container(
-                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+                              padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFCFEDEA),
                                 borderRadius: BorderRadius.circular(12),
@@ -220,8 +220,8 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
                                   Expanded(
                                     child: Center(
                                       child: SizedBox(
-                                        height: 52,
-                                        width: 72,
+                                        height: 44,
+                                        width: 56,
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(2),
