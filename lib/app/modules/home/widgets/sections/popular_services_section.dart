@@ -189,31 +189,14 @@ class _ServiceCardFromApi extends StatelessWidget {
       onTap: _handleTap,
       child: SizedBox(
         width: 78,
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE4E8F2)),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x0F000000),
-                blurRadius: 8,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 36,
                 width: 36,
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF1FF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 child: iconUrl.isNotEmpty
                     ? Image.network(
                         iconUrl,
@@ -282,31 +265,14 @@ class _ServiceCard extends StatelessWidget {
       onTap: _handleTap,
       child: SizedBox(
         width: 78,
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE4E8F2)),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x0F000000),
-                blurRadius: 8,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 height: 36,
                 width: 36,
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFEAF1FF),
-                  borderRadius: BorderRadius.circular(12),
-                ),
                 child: Image.asset(item.assetPath, fit: BoxFit.contain),
               ),
               const SizedBox(height: 6),
