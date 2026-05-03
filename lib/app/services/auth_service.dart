@@ -77,7 +77,25 @@ class AuthService extends GetxService {
     await _prefs?.remove(_profilePictureUrlKey);
     await _prefs?.remove('popular_services_cache_v1');
     await _prefs?.remove('popular_services_cache_time_v1');
+    await _prefs?.remove('medical_accessories_categories_cache_v1');
+    await _prefs?.remove('foreign_treatment_countries_cache_v1');
+    await _removeCacheByPrefix('popular_service_subcategories_cache_v1_');
+    await _removeCacheByPrefix('foreign_treatment_hospitals_cache_v1_');
     debugPrint('Auth logout => tokens cleared, loggedIn false');
+  }
+
+  Future<void> _removeCacheByPrefix(String prefix) async {
+    try {
+      final prefs = _prefs ?? await SharedPreferences.getInstance();
+      final keys = prefs.getKeys();
+      for (final key in keys) {
+        if (key.startsWith(prefix)) {
+          await prefs.remove(key);
+        }
+      }
+    } catch (_) {
+      // ignore cache cleanup errors during logout
+    }
   }
 
   Future<void> updateProfile({

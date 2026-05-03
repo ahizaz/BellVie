@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
@@ -21,6 +22,7 @@ class ForeignTreatmentSection extends StatefulWidget {
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   static const bool _useApiCountries = true;
   static const Duration _pollInterval = Duration(seconds: 4);
+  static const String _cacheKey = 'foreign_treatment_countries_cache_v1';
   final AppApiService _apiService = AppApiService();
   Timer? _pollTimer;
   bool _isFetching = false;
@@ -78,9 +80,11 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     super.initState();
     _setCountryCountSafely(_countries.length);
     if (_useApiCountries) {
-      _isLoading = true;
-      _fetchCountries(showLoading: true, showErrors: true);
-      _startPolling();
+      _restoreCachedCountries().then((hasCache) {
+        _isLoading = !hasCache;
+        _fetchCountries(showLoading: !hasCache, showErrors: true);
+        _startPolling();
+      });
     }
   }
 
@@ -208,6 +212,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             ..addAll(mapped);
           _isLoading = false;
         });
+        await _saveCachedCountries(mapped);
       } else if (_isLoading && mounted) {
         setState(() {
           _isLoading = false;
@@ -223,6 +228,65 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       }
     } finally {
       _isFetching = false;
+    }
+  }
+
+  Future<bool> _restoreCachedCountries() async {
+    final cached = await _loadCachedCountries();
+    if (!mounted || cached.isEmpty) return false;
+    setState(() {
+      _countries
+        ..clear()
+        ..addAll(cached);
+      _isLoading = false;
+    });
+    _setCountryCountSafely(_countries.length);
+    return true;
+  }
+
+  Future<List<_ForeignTreatmentItem>> _loadCachedCountries() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedJson = prefs.getString(_cacheKey);
+      if (cachedJson == null || cachedJson.isEmpty) return [];
+
+      final decoded = jsonDecode(cachedJson);
+      if (decoded is! List) return [];
+
+      return decoded
+          .whereType<Map<String, dynamic>>()
+          .map(
+            (item) => _ForeignTreatmentItem(
+              id: (item['id'] is int)
+                  ? item['id'] as int
+                  : int.tryParse((item['id'] ?? '').toString()) ?? 0,
+              name: (item['name'] ?? '').toString(),
+              flagUrl: (item['flagUrl'] ?? '').toString(),
+              fallbackAssetPath:
+                  _fallbackAssetByName((item['name'] ?? '').toString()),
+            ),
+          )
+          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
+          .toList();
+    } catch (e) {
+      debugPrint('Foreign countries cache read error => $e');
+      return [];
+    }
+  }
+
+  Future<void> _saveCachedCountries(List<_ForeignTreatmentItem> items) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(items
+          .map((e) => {
+                'id': e.id,
+                'name': e.name,
+                'flagUrl': e.flagUrl,
+              })
+          .toList());
+      await prefs.setString(_cacheKey, encoded);
+    } catch (e) {
+      debugPrint('Foreign countries cache write error => $e');
     }
   }
 

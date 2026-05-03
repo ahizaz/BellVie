@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../routes/app_routes.dart';
 
@@ -16,6 +17,7 @@ class MedicalAccessoriesSection extends StatefulWidget {
 }
 
 class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
+  static const String _cacheKey = 'medical_accessories_categories_cache_v1';
   final AppApiService _apiService = AppApiService();
   bool _isFetching = false;
   bool _isLoading = true;
@@ -24,7 +26,9 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
   @override
   void initState() {
     super.initState();
-    _fetchCategories();
+    _restoreCachedCategories().then((hasCache) {
+      _fetchCategories(showLoading: !hasCache);
+    });
   }
 
   String _resolveImageUrl(String raw) {
@@ -37,10 +41,10 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
     return '${AppApiService.baseUrl}$value';
   }
 
-  Future<void> _fetchCategories() async {
+  Future<void> _fetchCategories({bool showLoading = true}) async {
     if (_isFetching) return;
     _isFetching = true;
-    if (mounted) {
+    if (showLoading && mounted) {
       setState(() {
         _isLoading = true;
       });
@@ -95,6 +99,7 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
           _items = items;
           _isLoading = false;
         });
+        await _saveCachedCategories(items);
         _isFetching = false;
         return;
       }
@@ -112,6 +117,54 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
       }
     } finally {
       _isFetching = false;
+    }
+  }
+
+  Future<bool> _restoreCachedCategories() async {
+    final cached = await _loadCachedCategories();
+    if (!mounted || cached.isEmpty) return false;
+    setState(() {
+      _items = cached;
+      _isLoading = false;
+    });
+    return true;
+  }
+
+  Future<List<_MedicalAccessoryItem>> _loadCachedCategories() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedJson = prefs.getString(_cacheKey);
+      if (cachedJson == null || cachedJson.isEmpty) return [];
+
+      final decoded = jsonDecode(cachedJson);
+      if (decoded is! List) return [];
+
+      return decoded
+          .whereType<Map<String, dynamic>>()
+          .map((m) => _MedicalAccessoryItem(
+                (m['name'] ?? '').toString(),
+                (m['imageUrl'] ?? '').toString(),
+              ))
+          .where((it) => it.name.isNotEmpty)
+          .toList();
+    } catch (e) {
+      debugPrint('Medical accessories cache read error => $e');
+      return [];
+    }
+  }
+
+  Future<void> _saveCachedCategories(List<_MedicalAccessoryItem> items) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(items
+          .map((e) => {
+                'name': e.name,
+                'imageUrl': e.imageUrl,
+              })
+          .toList());
+      await prefs.setString(_cacheKey, encoded);
+    } catch (e) {
+      debugPrint('Medical accessories cache write error => $e');
     }
   }
 

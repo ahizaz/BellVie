@@ -48,6 +48,7 @@ class _IndiaHospitalsHome extends StatefulWidget {
 
 class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
   static const bool _useApiHospitals = true;
+  static const String _cachePrefix = 'foreign_treatment_hospitals_cache_v1_';
   final AppApiService _apiService = AppApiService();
   final List<_HospitalItem> _hospitals = <_HospitalItem>[];
 
@@ -60,7 +61,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
   void initState() {
     super.initState();
     if (_useApiHospitals) {
-      _fetchHospitals(page: 1);
+      _restoreCachedHospitals().then((hasCache) {
+        _fetchHospitals(page: 1, showLoader: !hasCache);
+      });
     } else {
       _hospitals
         ..clear()
@@ -481,8 +484,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
   Future<void> _fetchHospitals({
     required int page,
     bool append = false,
+    bool showLoader = true,
   }) async {
-    if (!append) {
+    if (!append && showLoader) {
       AppLoader.show(status: 'Loading hospitals...');
     }
 
@@ -546,18 +550,21 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
           .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
           .toList();
 
+      final updatedList = append ? [..._hospitals, ...mapped] : mapped;
+
       if (!mounted) return;
       setState(() {
-        if (!append) {
-          _hospitals
-            ..clear()
-            ..addAll(mapped);
-        } else {
-          _hospitals.addAll(mapped);
-        }
+        _hospitals
+          ..clear()
+          ..addAll(updatedList);
         _hasMore = hasNextPage;
         _currentPage = page;
       });
+      await _saveCachedHospitals(
+        items: updatedList,
+        hasMore: hasNextPage,
+        currentPage: page,
+      );
     } catch (e) {
       debugPrint('Hospital list fetch error => $e');
       AppLoader.showError(
@@ -580,6 +587,110 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
 
     setState(() => _isLoadingMore = true);
     await _fetchHospitals(page: _currentPage + 1, append: true);
+  }
+
+  String get _cacheKey => '$_cachePrefix${widget.countryId}';
+
+  Future<bool> _restoreCachedHospitals() async {
+    final cached = await _loadCachedHospitals();
+    if (!mounted || cached == null) return false;
+    setState(() {
+      _hospitals
+        ..clear()
+        ..addAll(cached.items);
+      _hasMore = cached.hasMore;
+      _currentPage = cached.currentPage;
+      _isLoading = false;
+      _isLoadingMore = false;
+    });
+    return cached.items.isNotEmpty;
+  }
+
+  Future<_HospitalCache?> _loadCachedHospitals() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedJson = prefs.getString(_cacheKey);
+      if (cachedJson == null || cachedJson.isEmpty) return null;
+
+      final decoded = jsonDecode(cachedJson);
+      if (decoded is! Map<String, dynamic>) return null;
+
+      final rawItems = decoded['items'];
+      if (rawItems is! List) return null;
+
+      final items = rawItems
+          .whereType<Map<String, dynamic>>()
+          .map(_hospitalFromJson)
+          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
+          .toList();
+
+      final hasMore = decoded['hasMore'] == true;
+      final currentPage = decoded['currentPage'] is int
+          ? decoded['currentPage'] as int
+          : int.tryParse((decoded['currentPage'] ?? '1').toString()) ?? 1;
+
+      return _HospitalCache(
+        items: items,
+        hasMore: hasMore,
+        currentPage: currentPage,
+      );
+    } catch (e) {
+      debugPrint('Hospital cache read error => $e');
+      return null;
+    }
+  }
+
+  Future<void> _saveCachedHospitals({
+    required List<_HospitalItem> items,
+    required bool hasMore,
+    required int currentPage,
+  }) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode({
+        'items': items.map(_hospitalToJson).toList(),
+        'hasMore': hasMore,
+        'currentPage': currentPage,
+      });
+      await prefs.setString(_cacheKey, encoded);
+    } catch (e) {
+      debugPrint('Hospital cache write error => $e');
+    }
+  }
+
+  Map<String, dynamic> _hospitalToJson(_HospitalItem item) {
+    return {
+      'id': item.id,
+      'name': item.name,
+      'iconUrl': item.iconUrl,
+      'agreementStatus': item.agreementStatus,
+      'publicHospitalCountText': item.publicHospitalCountText,
+      'bannerName': item.bannerName,
+      'description': item.description,
+      'specialties': item.specialties,
+      'contacts': item.contacts,
+    };
+  }
+
+  _HospitalItem _hospitalFromJson(Map<String, dynamic> json) {
+    return _HospitalItem(
+      id: (json['id'] is int)
+          ? json['id'] as int
+          : int.tryParse((json['id'] ?? '').toString()) ?? 0,
+      name: (json['name'] ?? '').toString(),
+      iconUrl: (json['iconUrl'] ?? '').toString(),
+      agreementStatus: (json['agreementStatus'] ?? '').toString(),
+      publicHospitalCountText:
+          (json['publicHospitalCountText'] ?? '').toString(),
+      bannerName: (json['bannerName'] ?? '').toString(),
+      description: (json['description'] ?? '').toString(),
+      specialties: (json['specialties'] is List)
+          ? (json['specialties'] as List).map((e) => e.toString()).toList()
+          : const <String>[],
+      contacts: (json['contacts'] is List)
+          ? (json['contacts'] as List).map((e) => e.toString()).toList()
+          : const <String>[],
+    );
   }
 
   @override
@@ -679,6 +790,18 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       ),
     );
   }
+}
+
+class _HospitalCache {
+  final List<_HospitalItem> items;
+  final bool hasMore;
+  final int currentPage;
+
+  const _HospitalCache({
+    required this.items,
+    required this.hasMore,
+    required this.currentPage,
+  });
 }
 
 class _HospitalItem {

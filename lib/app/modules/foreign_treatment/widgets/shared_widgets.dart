@@ -27,7 +27,7 @@ class _MainBottomNav extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: [
               Container(
-                height: 42,
+                height: 44,
                 decoration: const BoxDecoration(
                   border: Border(
                     top: BorderSide(color: Color(0xFFE6EEF7), width: 1),

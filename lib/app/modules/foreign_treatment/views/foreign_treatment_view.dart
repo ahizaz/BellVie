@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bellevie/app/services/app_loader.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../home/controllers/home_controller.dart';
 import '../../../routes/app_routes.dart';

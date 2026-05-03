@@ -9,6 +9,7 @@ class _ForeignTreatmentHome extends StatefulWidget {
 
 class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   static const bool _useApiCountries = true;
+  static const String _cacheKey = 'foreign_treatment_countries_cache_v1';
   final AppApiService _apiService = AppApiService();
   final List<_CountryCardData> _countries = <_CountryCardData>[
     const _CountryCardData(
@@ -55,8 +56,11 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
   void initState() {
     super.initState();
     if (_useApiCountries) {
-      setState(() => _isLoading = true);
-      _fetchCountries();
+      _restoreCachedCountries().then((hasCache) {
+        if (!mounted) return;
+        setState(() => _isLoading = !hasCache);
+        _fetchCountries(showLoader: !hasCache);
+      });
     }
   }
 
@@ -80,8 +84,10 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
     return 'assets/images/Flag_of_India.png';
   }
 
-  Future<void> _fetchCountries() async {
-    AppLoader.show(status: 'Loading countries...');
+  Future<void> _fetchCountries({bool showLoader = true}) async {
+    if (showLoader) {
+      AppLoader.show(status: 'Loading countries...');
+    }
 
     try {
       final response = await _apiService.getWithAuthRetry(
@@ -136,6 +142,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
           ..clear()
           ..addAll(mapped);
       });
+      await _saveCachedCountries(mapped);
     } catch (e) {
       debugPrint('Foreign treatment view countries fetch error => $e');
       AppLoader.showError('Country load failed. Check internet and try again.');
@@ -146,6 +153,64 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  Future<bool> _restoreCachedCountries() async {
+    final cached = await _loadCachedCountries();
+    if (!mounted || cached.isEmpty) return false;
+    setState(() {
+      _countries
+        ..clear()
+        ..addAll(cached);
+      _isLoading = false;
+    });
+    return true;
+  }
+
+  Future<List<_CountryCardData>> _loadCachedCountries() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final cachedJson = prefs.getString(_cacheKey);
+      if (cachedJson == null || cachedJson.isEmpty) return [];
+
+      final decoded = jsonDecode(cachedJson);
+      if (decoded is! List) return [];
+
+      return decoded
+          .whereType<Map<String, dynamic>>()
+          .map(
+            (item) => _CountryCardData(
+              id: (item['id'] is int)
+                  ? item['id'] as int
+                  : int.tryParse((item['id'] ?? '').toString()) ?? 0,
+              name: (item['name'] ?? '').toString(),
+              imageUrl: (item['flagUrl'] ?? '').toString(),
+              fallbackAssetPath:
+                  _fallbackAssetByName((item['name'] ?? '').toString()),
+            ),
+          )
+          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
+          .toList();
+    } catch (e) {
+      debugPrint('Foreign treatment cache read error => $e');
+      return [];
+    }
+  }
+
+  Future<void> _saveCachedCountries(List<_CountryCardData> items) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(items
+          .map((e) => {
+                'id': e.id,
+                'name': e.name,
+                'flagUrl': e.imageUrl,
+              })
+          .toList());
+      await prefs.setString(_cacheKey, encoded);
+    } catch (e) {
+      debugPrint('Foreign treatment cache write error => $e');
     }
   }
 
