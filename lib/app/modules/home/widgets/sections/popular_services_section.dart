@@ -97,7 +97,7 @@ class PopularServicesSection extends StatelessWidget {
 
               return LayoutBuilder(builder: (context, constraints) {
                 final totalWidth = constraints.maxWidth;
-                const crossCount = 5;
+                const crossCount = 4;
                 const spacing = 10.0;
                 const childAspect = 0.88;
 
@@ -110,7 +110,9 @@ class PopularServicesSection extends StatelessWidget {
                     (rows - 1) * spacing +
                     2; // small buffer
 
-                final cappedHeight = gridHeight.clamp(0, 400).toDouble();
+                // Use the computed grid height so the grid takes full space
+                // instead of being artificially capped which caused clipping.
+                final cappedHeight = gridHeight.toDouble();
 
                 return SizedBox(
                   height: cappedHeight,

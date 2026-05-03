@@ -11,7 +11,7 @@ class SplashScreenController extends GetxController {
   }
 
   void _scheduleAutoNavigate() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (isClosed || _navigated) {
         return;
       }
