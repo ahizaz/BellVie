@@ -295,7 +295,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             crossAxisCount: 3,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
-            childAspectRatio: 0.85,
+            childAspectRatio: 0.92,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
@@ -365,7 +365,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
           ],
         ),
         child: Container(
-          padding: const EdgeInsets.all(4),
+          padding: const EdgeInsets.all(3),
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(11),
@@ -374,7 +374,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
+                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
@@ -385,8 +385,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: SizedBox(
-                            height: 36,
-                            width: 48,
+                            height: 32,
+                            width: 44,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(2),
                               child: item.flagUrl.isNotEmpty
@@ -413,7 +413,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 11,
+                          fontSize: 10,
                           height: 1.15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
@@ -423,7 +423,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               SizedBox(
                 width: double.infinity,
                 child: InkWell(
@@ -444,7 +444,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                     ),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 6),
+                          vertical: 3, horizontal: 6),
                       decoration: BoxDecoration(
                         color: Color(0xFFE8F6F2),
                         borderRadius: BorderRadius.circular(7),
