@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../services/api_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
+import '../../../../routes/app_routes.dart';
 
 class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
@@ -239,14 +240,51 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          'foreign_treatment'.tr,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.black87,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'foreign_treatment'.tr,
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () => Get.toNamed(Routes.FOREIGN_TREATMENT),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'All',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF2F6FED),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Container(
+                    height: 24,
+                    width: 24,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2F6FED),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 10),
         GridView.builder(
@@ -257,7 +295,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             crossAxisCount: 2,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 1.32,
+            childAspectRatio: 1.05,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
@@ -298,55 +336,160 @@ class _ForeignTreatmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(14),
       onTap: _handleTap,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFCFEDEA),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Center(
-                child: SizedBox(
-                  height: 52,
-                  width: 72,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(2),
-                    child: item.flagUrl.isNotEmpty
-                        ? Image.network(
-                            item.flagUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) {
-                              return Image.asset(
-                                item.fallbackAssetPath,
-                                fit: BoxFit.cover,
-                              );
-                            },
-                          )
-                        : Image.asset(item.fallbackAssetPath,
-                            fit: BoxFit.cover),
+          child: Container(
+          padding: const EdgeInsets.all(1),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFFBEE9FF),
+                Color(0xFFDFF8EF),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: Colors.white24, width: 1),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x33FFFFFF),
+                offset: Offset(-3, -3),
+                blurRadius: 6,
+              ),
+              BoxShadow(
+                color: Color(0x22000000),
+                offset: Offset(3, 3),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(13),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: SizedBox(
+                            height: 52,
+                            width: 72,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(2),
+                              child: item.flagUrl.isNotEmpty
+                                  ? Image.network(
+                                      item.flagUrl,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, __, ___) {
+                                        return Image.asset(
+                                          item.fallbackAssetPath,
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    )
+                                  : Image.asset(item.fallbackAssetPath,
+                                      fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        item.name,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          height: 1.15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              item.name,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12,
-                height: 1.15,
-                fontWeight: FontWeight.w500,
-                color: Colors.black87,
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: _handleTap,
+                  child: Container(
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFBEE9FF),
+                          Color(0xFFDFF8EF),
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                      child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFE8F6F2),
+                        borderRadius: BorderRadius.circular(9),
+                        border: Border.all(color: Colors.black12, width: 1),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x66FFFFFF),
+                            offset: Offset(-4, -4),
+                            blurRadius: 8,
+                          ),
+                          BoxShadow(
+                            color: Color(0x33000000),
+                            offset: Offset(6, 6),
+                            blurRadius: 12,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Flexible(
+                            child: Text(
+                              'Press to view',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 12,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

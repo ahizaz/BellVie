@@ -138,8 +138,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       });
     } catch (e) {
       debugPrint('Foreign treatment view countries fetch error => $e');
-      AppLoader.showError(
-          'Country load failed. Check internet and try again.');
+      AppLoader.showError('Country load failed. Check internet and try again.');
     } finally {
       if (AppLoader.isShow) {
         AppLoader.dismiss();
