@@ -338,33 +338,33 @@ class _ForeignTreatmentCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: _handleTap,
-          child: Container(
-          padding: const EdgeInsets.all(1),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [
-                Color(0xFFBEE9FF),
-                Color(0xFFDFF8EF),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white24, width: 1),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x33FFFFFF),
-                offset: Offset(-3, -3),
-                blurRadius: 6,
-              ),
-              BoxShadow(
-                color: Color(0x22000000),
-                offset: Offset(3, 3),
-                blurRadius: 8,
-              ),
+      child: Container(
+        padding: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFFBEE9FF),
+              Color(0xFFDFF8EF),
             ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
-          child: Container(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white24, width: 1),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x33FFFFFF),
+              offset: Offset(-3, -3),
+              blurRadius: 6,
+            ),
+            BoxShadow(
+              color: Color(0x22000000),
+              offset: Offset(3, 3),
+              blurRadius: 8,
+            ),
+          ],
+        ),
+        child: Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.transparent,
@@ -442,8 +442,9 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                      child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 6),
                       decoration: BoxDecoration(
                         color: Color(0xFFE8F6F2),
                         borderRadius: BorderRadius.circular(7),
