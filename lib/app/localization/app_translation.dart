@@ -22,6 +22,7 @@ class AppTranslation extends Translations {
           'my_appointments': 'My Appointments',
           'my_health': 'My Health',
           'cart': 'Cart',
+          'records': 'Records',
           'menu': 'Menu',
           'english': 'English',
           'bangla': 'Bangla',

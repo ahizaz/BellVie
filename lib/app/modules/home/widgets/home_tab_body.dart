@@ -20,7 +20,7 @@ class HomeTabBody extends StatelessWidget {
       case 2:
         return const _PlaceholderScreen(title: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'cart');
+        return const _PlaceholderScreen(title: 'records');
       case 4:
         return const _PlaceholderScreen(title: 'menu');
       default:
