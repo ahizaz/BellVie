@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bellevie/app/services/api_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -259,10 +260,10 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
                               height: 44,
                               width: 44,
                               child: item.imageUrl.isNotEmpty
-                                  ? Image.network(
-                                      item.imageUrl,
+                                  ? CachedNetworkImage(
+                                      imageUrl: item.imageUrl,
                                       fit: BoxFit.contain,
-                                      errorBuilder: (_, __, ___) =>
+                                      errorWidget: (_, __, ___) =>
                                           const Icon(Icons.image_not_supported),
                                     )
                                   : const Icon(Icons.image_not_supported),

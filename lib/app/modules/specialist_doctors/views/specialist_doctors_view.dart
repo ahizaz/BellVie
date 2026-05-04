@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -164,7 +165,7 @@ class _SpecialistServiceCard extends StatelessWidget {
     final thumbSize = context.w(50).clamp(44.0, 56.0);
     final imageProvider =
         subcategory.icon != null && subcategory.icon!.isNotEmpty
-            ? NetworkImage(subcategory.icon!)
+            ? CachedNetworkImageProvider(subcategory.icon!)
             : const AssetImage('assets/images/Doctor Services.png')
                 as ImageProvider;
 
@@ -409,16 +410,14 @@ class _HomeTopBar extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : profilePictureUrl.isNotEmpty
-                              ? Image.network(
-                                  profilePictureUrl,
+                              ? CachedNetworkImage(
+                                  imageUrl: profilePictureUrl,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) {
-                                    return Icon(
-                                      Icons.person,
-                                      size: isSmall ? 18 : 20,
-                                      color: Colors.black54,
-                                    );
-                                  },
+                                  errorWidget: (_, __, ___) => Icon(
+                                    Icons.person,
+                                    size: isSmall ? 18 : 20,
+                                    color: Colors.black54,
+                                  ),
                                 )
                               : Icon(
                                   Icons.person,

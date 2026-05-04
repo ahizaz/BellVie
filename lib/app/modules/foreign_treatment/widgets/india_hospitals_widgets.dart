@@ -947,10 +947,10 @@ class _HospitalTile extends StatelessWidget {
               ),
               child: ClipOval(
                 child: hospital.iconUrl.isNotEmpty
-                    ? Image.network(
-                        hospital.iconUrl,
+                    ? CachedNetworkImage(
+                        imageUrl: hospital.iconUrl,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(
+                        errorWidget: (_, __, ___) => const Icon(
                           Icons.local_hospital,
                           color: Colors.black87,
                         ),
@@ -1179,10 +1179,10 @@ class _HospitalBannerCard extends StatelessWidget {
             ),
             child: ClipOval(
               child: iconUrl.isNotEmpty
-                  ? Image.network(
-                      iconUrl,
+                  ? CachedNetworkImage(
+                      imageUrl: iconUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => const Icon(
+                      errorWidget: (_, __, ___) => const Icon(
                         Icons.local_hospital,
                         color: Colors.black87,
                       ),

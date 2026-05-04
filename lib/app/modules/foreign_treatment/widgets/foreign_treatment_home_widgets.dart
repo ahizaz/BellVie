@@ -291,10 +291,10 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
                                           borderRadius:
                                               BorderRadius.circular(2),
                                           child: item.imageUrl.isNotEmpty
-                                              ? Image.network(
-                                                  item.imageUrl,
+                                              ? CachedNetworkImage(
+                                                  imageUrl: item.imageUrl,
                                                   fit: BoxFit.cover,
-                                                  errorBuilder: (_, __, ___) {
+                                                  errorWidget: (_, __, ___) {
                                                     return Image.asset(
                                                       item.fallbackAssetPath,
                                                       fit: BoxFit.cover,

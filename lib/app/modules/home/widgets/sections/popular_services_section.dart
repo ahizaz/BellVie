@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
@@ -192,10 +193,10 @@ class _ServiceCardFromApi extends StatelessWidget {
                 height: 36,
                 width: 36,
                 child: iconUrl.isNotEmpty
-                    ? Image.network(
-                        iconUrl,
+                    ? CachedNetworkImage(
+                        imageUrl: iconUrl,
                         fit: BoxFit.contain,
-                        errorBuilder: (_, __, ___) =>
+                        errorWidget: (_, __, ___) =>
                             Image.asset('assets/images/Doctor Services.png'),
                       )
                     : Image.asset('assets/images/Doctor Services.png'),

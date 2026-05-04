@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -134,10 +135,10 @@ class _DoctorListCard extends StatelessWidget {
                     ),
                   )
                 : isNetworkImage
-                    ? Image.network(
-                        imagePath,
+                    ? CachedNetworkImage(
+                        imageUrl: imagePath,
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Center(
+                        errorWidget: (_, __, ___) => const Center(
                           child: Icon(
                             avatarIcon,
                             size: 40,

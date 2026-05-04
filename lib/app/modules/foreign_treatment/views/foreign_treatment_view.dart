@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bellevie/app/services/app_loader.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';

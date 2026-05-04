@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -73,20 +74,18 @@ class ProfileView extends GetView<ProfileController> {
                                     )
                                   : profilePictureUrl.isNotEmpty
                                       ? ClipOval(
-                                          child: Image.network(
-                                            profilePictureUrl,
-                                            width: 108,
-                                            height: 108,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (_, __, ___) {
-                                              return const Icon(
-                                                Icons.person,
-                                                size: 54,
-                                                color: Colors.white,
-                                              );
-                                            },
+                                          child: CachedNetworkImage(
+                                          imageUrl: profilePictureUrl,
+                                          width: 108,
+                                          height: 108,
+                                          fit: BoxFit.cover,
+                                          errorWidget: (_, __, ___) =>
+                                              const Icon(
+                                            Icons.person,
+                                            size: 54,
+                                            color: Colors.white,
                                           ),
-                                        )
+                                        ))
                                       : const Icon(
                                           Icons.person,
                                           size: 54,

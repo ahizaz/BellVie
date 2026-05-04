@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../services/api_service.dart';
@@ -230,36 +231,25 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                                 source.startsWith('https://');
 
                             if (isNetwork) {
-                              return Image.network(
-                                source,
+                              return CachedNetworkImage(
+                                imageUrl: source,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
-                                cacheWidth: bannerWidthPx,
-                                cacheHeight: bannerHeightPx,
-                                frameBuilder: (context, child, frame, _) {
-                                  final visible = frame != null;
-                                  return AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 250),
-                                    opacity: visible ? 1 : 0,
-                                    child: child,
-                                  );
-                                },
-                                loadingBuilder: (context, child, progress) {
-                                  if (progress == null) return child;
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (_, __, ___) {
-                                  return const Center(
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      color: Colors.black38,
-                                    ),
-                                  );
-                                },
+                                memCacheWidth: bannerWidthPx,
+                                memCacheHeight: bannerHeightPx,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 250),
+                                placeholder: (context, _) => const Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                                errorWidget: (_, __, ___) => const Center(
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.black38,
+                                  ),
+                                ),
                               );
                             }
 
@@ -560,36 +550,25 @@ class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
                                 source.startsWith('https://');
 
                             if (isNetwork) {
-                              return Image.network(
-                                source,
+                              return CachedNetworkImage(
+                                imageUrl: source,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
-                                cacheWidth: bannerWidthPx,
-                                cacheHeight: bannerHeightPx,
-                                frameBuilder: (context, child, frame, _) {
-                                  final visible = frame != null;
-                                  return AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 250),
-                                    opacity: visible ? 1 : 0,
-                                    child: child,
-                                  );
-                                },
-                                loadingBuilder: (context, child, progress) {
-                                  if (progress == null) return child;
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (_, __, ___) {
-                                  return const Center(
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      color: Colors.black38,
-                                    ),
-                                  );
-                                },
+                                memCacheWidth: bannerWidthPx,
+                                memCacheHeight: bannerHeightPx,
+                                fadeInDuration:
+                                    const Duration(milliseconds: 250),
+                                placeholder: (context, _) => const Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                                errorWidget: (_, __, ___) => const Center(
+                                  child: Icon(
+                                    Icons.image_not_supported,
+                                    color: Colors.black38,
+                                  ),
+                                ),
                               );
                             }
 

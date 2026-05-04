@@ -102,7 +102,7 @@ class _MainBottomNav extends StatelessWidget {
                   color: Colors.transparent,
                   child: InkResponse(
                     onTap: () => controller.changeTab(2),
-                      radius: 28,
+                    radius: 28,
                     child: Container(
                       width: 46,
                       height: 46,
@@ -365,16 +365,14 @@ class _HomeTopBarClone extends StatelessWidget {
                               fit: BoxFit.cover,
                             )
                           : profilePictureUrl.isNotEmpty
-                              ? Image.network(
-                                  profilePictureUrl,
+                              ? CachedNetworkImage(
+                                  imageUrl: profilePictureUrl,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) {
-                                    return Icon(
-                                      Icons.person,
-                                      size: isSmall ? 18 : 20,
-                                      color: Colors.black54,
-                                    );
-                                  },
+                                  errorWidget: (_, __, ___) => Icon(
+                                    Icons.person,
+                                    size: isSmall ? 18 : 20,
+                                    color: Colors.black54,
+                                  ),
                                 )
                               : Icon(
                                   Icons.person,

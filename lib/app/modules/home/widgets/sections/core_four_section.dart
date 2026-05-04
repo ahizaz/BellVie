@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/other_medical_service/controllers/categories_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../routes/app_routes.dart';
@@ -293,12 +294,12 @@ class CoreFourSection extends StatelessWidget {
                       child: Row(
                         children: [
                           if (it.image != null && it.image!.isNotEmpty)
-                            Image.network(
-                              it.image!,
+                            CachedNetworkImage(
+                              imageUrl: it.image!,
                               width: 44,
                               height: 44,
                               fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) =>
+                              errorWidget: (_, __, ___) =>
                                   const SizedBox.shrink(),
                             ),
                           const SizedBox(width: 10),

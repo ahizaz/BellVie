@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/categories_controller.dart';
@@ -42,12 +43,13 @@ class OtherMedicalCategoriesView extends GetView<OtherMedicalController> {
                       if (item.image != null && item.image!.isNotEmpty)
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            item.image!,
+                          child: CachedNetworkImage(
+                            imageUrl: item.image!,
                             width: 48,
                             height: 48,
                             fit: BoxFit.cover,
-                            errorBuilder: (c, e, s) => const SizedBox.shrink(),
+                            errorWidget: (_, __, ___) =>
+                                const SizedBox.shrink(),
                           ),
                         ),
                       const SizedBox(width: 12),

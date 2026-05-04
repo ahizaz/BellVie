@@ -79,6 +79,7 @@ class AuthService extends GetxService {
     await _prefs?.remove('popular_services_cache_time_v1');
     await _prefs?.remove('medical_accessories_categories_cache_v1');
     await _prefs?.remove('foreign_treatment_countries_cache_v1');
+    await _removeCacheByPrefix('api_cache_v1_');
     await _removeCacheByPrefix('popular_service_subcategories_cache_v1_');
     await _removeCacheByPrefix('foreign_treatment_hospitals_cache_v1_');
     debugPrint('Auth logout => tokens cleared, loggedIn false');
