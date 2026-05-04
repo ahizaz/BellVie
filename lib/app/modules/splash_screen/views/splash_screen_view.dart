@@ -25,13 +25,17 @@ class SplashScreenView extends GetView<SplashScreenController> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image (fallback to color if asset missing)
+          // Background gradient (no circular overlays)
           Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image:
-                    AssetImage('assets/images/banners/backgroundskyblue.jpg'),
-                fit: BoxFit.cover,
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF8CC9F5),
+                  Color(0xFF6EB5EE),
+                  Color(0xFF5BA6E8),
+                ],
               ),
             ),
           ),
