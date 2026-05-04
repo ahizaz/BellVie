@@ -28,7 +28,7 @@ List<dynamic> _extractBannerResults(String body) {
 class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   // When false, the carousel will use the bundled local banner images
   // so the first slider is available immediately on app start.
-  static const bool _useApiBanners = false;
+  static const bool _useApiBanners = true;
   static const List<String> _localBanners = <String>[
     'assets/images/banners/banner1.png',
     'assets/images/banners/bannar_update_1.png',
@@ -50,7 +50,8 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     super.initState();
     _controller = PageController();
     if (_useApiBanners) {
-      _fetchBanners(showLoading: true, showErrors: true);
+      _loadCachedBanners();
+      _fetchBanners(showLoading: false, showErrors: true);
       _startPolling();
     } else {
       // Use local bundled banners so UI shows immediately.
@@ -60,6 +61,31 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     }
 
     _startAutoSlide();
+  }
+
+  Future<void> _loadCachedBanners() async {
+    final cachedBody = await _apiService.getCachedBody(
+      path: '/api/v1/slider/slider-one/',
+    );
+    if (cachedBody == null || cachedBody.isEmpty) return;
+
+    final results = await compute(_extractBannerResults, cachedBody);
+    if (results is! List || results.isEmpty) return;
+
+    final List<String> urls = results
+        .whereType<Map<String, dynamic>>()
+        .map((item) => _resolveImageUrl((item['image'] ?? '').toString()))
+        .where((url) => url.isNotEmpty)
+        .toList();
+
+    if (!mounted || urls.isEmpty) return;
+
+    setState(() {
+      _apiBanners = urls;
+      _index = 0;
+      _isInitialLoading = false;
+      _hasError = false;
+    });
   }
 
   void _startPolling() {

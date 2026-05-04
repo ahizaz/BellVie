@@ -172,6 +172,29 @@ class AppApiService {
     }
   }
 
+  Future<String?> getCachedBody({
+    required String path,
+  }) async {
+    final uri = buildUrl(path);
+    final key = uri.toString();
+
+    final cached = _getCache[key];
+    if (cached != null && !cached.isExpired) {
+      return cached.body;
+    }
+
+    final persistentCached = await _readPersistentCache(key);
+    if (persistentCached != null) {
+      _getCache[key] = _CacheEntry(
+        persistentCached.body,
+        DateTime.now().add(const Duration(days: 3650)),
+      );
+      return persistentCached.body;
+    }
+
+    return null;
+  }
+
   String _persistentKeyForUrl(String url) {
     final encoded = base64UrlEncode(utf8.encode(url));
     return '$_persistentCachePrefix$encoded';
