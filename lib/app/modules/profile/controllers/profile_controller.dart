@@ -42,8 +42,7 @@ class ProfileController extends GetxController {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final dynamic decoded = jsonDecode(response.body);
         if (decoded is! Map<String, dynamic>) {
-            AppLoader.showError(
-              'Profile load failed. Invalid server response.');
+          AppLoader.showError('Profile load failed. Invalid server response.');
           return;
         }
 
@@ -72,8 +71,7 @@ class ProfileController extends GetxController {
         AppLoader.dismiss();
       }
       debugPrint('Profile fetch error => $e');
-      AppLoader.showError(
-          'Profile load failed. Check internet and try again.');
+      AppLoader.showError('Profile load failed. Check internet and try again.');
     }
   }
 
