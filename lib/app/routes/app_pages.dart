@@ -29,6 +29,7 @@ import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
 import '../modules/other_medical_service/bindings/categories_binding.dart';
 import '../modules/other_medical_service/views/categories_view.dart';
 import '../modules/common/views/coming_soon_view.dart';
+import '../modules/appointments/views/book_appointment_view.dart';
 
 import 'auth_middleware.dart';
 import 'app_routes.dart';
@@ -121,6 +122,11 @@ class AppPages {
     GetPage(
       name: Routes.COMING_SOON,
       page: () => const ComingSoonView(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.BOOK_APPOINTMENT,
+      page: () => const BookAppointmentView(),
       middlewares: [AuthMiddleware()],
     ),
   ];

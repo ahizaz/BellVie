@@ -41,6 +41,10 @@ class TopDoctorsSection extends StatelessWidget {
     Get.toNamed(Routes.SPECIALIST_DOCTORS);
   }
 
+  void _openAppointmentOptions() {
+    Get.toNamed(Routes.BOOK_APPOINTMENT);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -94,7 +98,8 @@ class TopDoctorsSection extends StatelessWidget {
             itemBuilder: (context, index) {
               return _TopDoctorCard(
                 doctor: _doctors[index],
-                onTap: _openDoctors,
+                onCardTap: _openDoctors,
+                onAppointmentTap: _openAppointmentOptions,
               );
             },
           ),
@@ -106,18 +111,20 @@ class TopDoctorsSection extends StatelessWidget {
 
 class _TopDoctorCard extends StatelessWidget {
   final _DoctorItem doctor;
-  final VoidCallback onTap;
+  final VoidCallback onCardTap;
+  final VoidCallback onAppointmentTap;
 
   const _TopDoctorCard({
     required this.doctor,
-    required this.onTap,
+    required this.onCardTap,
+    required this.onAppointmentTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
+      onTap: onCardTap,
       child: Container(
         width: 175,
         padding: const EdgeInsets.all(12),
@@ -228,7 +235,7 @@ class _TopDoctorCard extends StatelessWidget {
               width: double.infinity,
               height: 30,
               child: ElevatedButton(
-                onPressed: onTap,
+                onPressed: onAppointmentTap,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF2F6FED),
                   foregroundColor: Colors.white,

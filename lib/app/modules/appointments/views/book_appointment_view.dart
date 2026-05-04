@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../routes/app_routes.dart';
+import '../../../theme/responsive.dart';
+
+class BookAppointmentView extends StatelessWidget {
+  const BookAppointmentView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final horizontalPadding = context.w(16);
+    final verticalPadding = context.h(12);
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
+      appBar: AppBar(
+        title: const Text('Book Appointment'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black87,
+        elevation: 0.5,
+      ),
+      body: ListView(
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
+        ),
+        children: const [
+          _AppointmentOptionCard(
+            title: 'Foreign Treatment',
+            subtitle: 'Browse hospitals and packages abroad.',
+            icon: Icons.public,
+            routeName: Routes.FOREIGN_TREATMENT,
+          ),
+          SizedBox(height: 12),
+          _AppointmentOptionCard(
+            title: 'Top Doctors',
+            subtitle: 'Find a specialist and book quickly.',
+            icon: Icons.medical_services_outlined,
+            routeName: Routes.SPECIALIST_DOCTORS,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AppointmentOptionCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final String routeName;
+
+  const _AppointmentOptionCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.routeName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => Get.toNamed(routeName),
+        child: Padding(
+          padding: EdgeInsets.all(context.w(16)),
+          child: Row(
+            children: [
+              Container(
+                width: context.w(44),
+                height: context.w(44),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE6F0FF),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon, color: const Color(0xFF2F6FED)),
+              ),
+              SizedBox(width: context.w(12)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+                color: Color(0xFF2F6FED),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

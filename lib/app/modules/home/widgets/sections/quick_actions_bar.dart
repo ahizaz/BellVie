@@ -28,7 +28,7 @@ class QuickActionsBar extends StatelessWidget {
       _QuickActionItem(
         label: 'Book Appointment',
         icon: Icons.folder_shared,
-        onTap: () => _openTab(2),
+        onTap: () => Get.toNamed(Routes.BOOK_APPOINTMENT),
       ),
       _QuickActionItem(
         label: 'My History',

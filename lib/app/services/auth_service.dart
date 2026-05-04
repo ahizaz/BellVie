@@ -23,6 +23,7 @@ class AuthService extends GetxService {
   final Rxn<Uint8List> profileAvatarBytes = Rxn<Uint8List>();
 
   SharedPreferences? _prefs;
+  String? _pendingRedirect;
 
   bool get authenticated => isLoggedIn.value;
 
@@ -67,6 +68,7 @@ class AuthService extends GetxService {
     isLoggedIn.value = false;
     accessToken.value = '';
     refreshToken.value = '';
+    clearPendingRedirect();
     profileAvatarBytes.value = null;
     profileDistrict.value = '';
     profilePictureUrl.value = '';
@@ -121,6 +123,23 @@ class AuthService extends GetxService {
 
   void updateProfileAvatar(Uint8List? avatarBytes) {
     profileAvatarBytes.value = avatarBytes;
+  }
+
+  void setPendingRedirect(String? route) {
+    if (route == null || route.isEmpty) {
+      return;
+    }
+    _pendingRedirect = route;
+  }
+
+  void clearPendingRedirect() {
+    _pendingRedirect = null;
+  }
+
+  String? consumePendingRedirect() {
+    final route = _pendingRedirect;
+    _pendingRedirect = null;
+    return route;
   }
 
   bool requireLogin() {

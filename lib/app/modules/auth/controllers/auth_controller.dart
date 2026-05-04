@@ -188,7 +188,15 @@ class AuthController extends GetxController {
       }
 
       debugPrint('Login success (local) => profile + tokens saved');
-      Get.offAllNamed(Routes.HOME);
+
+      final args = Get.arguments;
+      final redirect = (args is Map ? args['redirect'] as String? : null) ??
+          AuthService.to.consumePendingRedirect();
+      if (redirect != null && redirect.isNotEmpty && redirect != Routes.LOGIN) {
+        Get.offAllNamed(redirect);
+      } else {
+        Get.offAllNamed(Routes.HOME);
+      }
     } catch (e) {
       if (AppLoader.isShow) {
         AppLoader.dismiss();

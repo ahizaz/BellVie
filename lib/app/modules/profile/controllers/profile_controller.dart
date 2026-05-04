@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
 import '../../../services/auth_service.dart';
+import '../../home/controllers/home_controller.dart';
 
 class ProfileController extends GetxController {
   final AuthService authService = AuthService.to;
@@ -127,6 +128,9 @@ class ProfileController extends GetxController {
 
   Future<void> logout() async {
     await authService.logout();
+    if (Get.isRegistered<HomeController>()) {
+      Get.find<HomeController>().changeTab(0);
+    }
     Get.offAllNamed(Routes.LOGIN);
   }
 }
