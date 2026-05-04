@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/foundation.dart';
@@ -22,7 +21,6 @@ class ForeignTreatmentSection extends StatefulWidget {
 class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   static const bool _useApiCountries = true;
   static const Duration _pollInterval = Duration(seconds: 4);
-  static const String _cacheKey = 'foreign_treatment_countries_cache_v1';
   final AppApiService _apiService = AppApiService();
   Timer? _pollTimer;
   bool _isFetching = false;
@@ -80,11 +78,9 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     super.initState();
     _setCountryCountSafely(_countries.length);
     if (_useApiCountries) {
-      _restoreCachedCountries().then((hasCache) {
-        _isLoading = !hasCache;
-        _fetchCountries(showLoading: !hasCache, showErrors: true);
-        _startPolling();
-      });
+      _isLoading = true;
+      _fetchCountries(showLoading: true, showErrors: true);
+      _startPolling();
     }
   }
 
@@ -212,7 +208,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             ..addAll(mapped);
           _isLoading = false;
         });
-        await _saveCachedCountries(mapped);
       } else if (_isLoading && mounted) {
         setState(() {
           _isLoading = false;
@@ -228,65 +223,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
       }
     } finally {
       _isFetching = false;
-    }
-  }
-
-  Future<bool> _restoreCachedCountries() async {
-    final cached = await _loadCachedCountries();
-    if (!mounted || cached.isEmpty) return false;
-    setState(() {
-      _countries
-        ..clear()
-        ..addAll(cached);
-      _isLoading = false;
-    });
-    _setCountryCountSafely(_countries.length);
-    return true;
-  }
-
-  Future<List<_ForeignTreatmentItem>> _loadCachedCountries() async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final cachedJson = prefs.getString(_cacheKey);
-      if (cachedJson == null || cachedJson.isEmpty) return [];
-
-      final decoded = jsonDecode(cachedJson);
-      if (decoded is! List) return [];
-
-      return decoded
-          .whereType<Map<String, dynamic>>()
-          .map(
-            (item) => _ForeignTreatmentItem(
-              id: (item['id'] is int)
-                  ? item['id'] as int
-                  : int.tryParse((item['id'] ?? '').toString()) ?? 0,
-              name: (item['name'] ?? '').toString(),
-              flagUrl: (item['flagUrl'] ?? '').toString(),
-              fallbackAssetPath:
-                  _fallbackAssetByName((item['name'] ?? '').toString()),
-            ),
-          )
-          .where((item) => item.id > 0 && item.name.trim().isNotEmpty)
-          .toList();
-    } catch (e) {
-      debugPrint('Foreign countries cache read error => $e');
-      return [];
-    }
-  }
-
-  Future<void> _saveCachedCountries(List<_ForeignTreatmentItem> items) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final encoded = jsonEncode(items
-          .map((e) => {
-                'id': e.id,
-                'name': e.name,
-                'flagUrl': e.flagUrl,
-              })
-          .toList());
-      await prefs.setString(_cacheKey, encoded);
-    } catch (e) {
-      debugPrint('Foreign countries cache write error => $e');
     }
   }
 
@@ -359,7 +295,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             crossAxisCount: 3,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
-            childAspectRatio: 0.92,
+            childAspectRatio: 0.85,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
@@ -402,34 +338,34 @@ class _ForeignTreatmentCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: _handleTap,
-      child: Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFBEE9FF),
-              Color(0xFFDFF8EF),
+          child: Container(
+          padding: const EdgeInsets.all(1),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [
+                Color(0xFFBEE9FF),
+                Color(0xFFDFF8EF),
+              ],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.white24, width: 1),
+            boxShadow: const [
+              BoxShadow(
+                color: Color(0x33FFFFFF),
+                offset: Offset(-3, -3),
+                blurRadius: 6,
+              ),
+              BoxShadow(
+                color: Color(0x22000000),
+                offset: Offset(3, 3),
+                blurRadius: 8,
+              ),
             ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white24, width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x33FFFFFF),
-              offset: Offset(-3, -3),
-              blurRadius: 6,
-            ),
-            BoxShadow(
-              color: Color(0x22000000),
-              offset: Offset(3, 3),
-              blurRadius: 8,
-            ),
-          ],
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(3),
+          child: Container(
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(11),
@@ -438,7 +374,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                  padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
@@ -449,8 +385,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       Expanded(
                         child: Center(
                           child: SizedBox(
-                            height: 32,
-                            width: 44,
+                            height: 36,
+                            width: 48,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(2),
                               child: item.flagUrl.isNotEmpty
@@ -477,7 +413,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 10,
+                          fontSize: 11,
                           height: 1.15,
                           fontWeight: FontWeight.w500,
                           color: Colors.black,
@@ -487,7 +423,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
                 child: InkWell(
@@ -506,9 +442,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 3, horizontal: 6),
+                      child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
                       decoration: BoxDecoration(
                         color: Color(0xFFE8F6F2),
                         borderRadius: BorderRadius.circular(7),
