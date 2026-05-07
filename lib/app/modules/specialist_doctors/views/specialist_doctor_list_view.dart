@@ -50,8 +50,8 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
             itemCount: 3,
             itemBuilder: (context, index) {
               if (index > 0) {
-                return Column(
-                  children: const [
+                return const Column(
+                  children: [
                     SizedBox(height: 10),
                     _DoctorPlaceholderCard(),
                   ],
