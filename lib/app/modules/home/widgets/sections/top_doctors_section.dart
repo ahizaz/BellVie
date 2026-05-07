@@ -1,47 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../../../routes/app_routes.dart';
+import '../../../specialist_doctors/data/specialist_doctors_repository.dart';
+import '../../../specialist_doctors/models/specialist_doctor_item.dart';
+import '../../../specialist_doctors/data/subcategory_repository.dart';
+import '../../../specialist_doctors/models/subcategory.dart';
 
-class TopDoctorsSection extends StatelessWidget {
+class TopDoctorsSection extends StatefulWidget {
   const TopDoctorsSection({super.key});
 
-  static const List<_DoctorItem> _doctors = [
-    _DoctorItem(
-      initials: 'RK',
-      name: 'Dr. Rashid Khan',
-      specialty: 'Cardiologist',
-      rating: 4.9,
-      years: 12,
-    ),
-    _DoctorItem(
-      initials: 'SN',
-      name: 'Dr. Sara Naser',
-      specialty: 'Oncologist',
-      rating: 4.8,
-      years: 9,
-    ),
-    _DoctorItem(
-      initials: 'AH',
-      name: 'Dr. Ayaan Hossain',
-      specialty: 'Neurologist',
-      rating: 4.7,
-      years: 10,
-    ),
-    _DoctorItem(
-      initials: 'LM',
-      name: 'Dr. Lina Mirza',
-      specialty: 'Dermatologist',
-      rating: 4.6,
-      years: 7,
-    ),
-  ];
+  @override
+  State<TopDoctorsSection> createState() => _TopDoctorsSectionState();
+}
 
-  void _openDoctors() {
+class _TopDoctorsSectionState extends State<TopDoctorsSection> {
+  final _subcategoryRepo = SubcategoryRepository();
+  final _doctorsRepo = SpecialistDoctorsRepository();
+
+  List<Subcategory> _chips = [];
+  Subcategory? _selectedSubcategory;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadChips();
+  }
+
+  Future<void> _loadChips() async {
+    final items = await _subcategoryRepo.fetchSubcategories();
+    setState(() {
+      _chips = items;
+    });
+  }
+
+  Future<List<SpecialistDoctorItem>> _loadDoctors(
+      {Subcategory? subcategory}) async {
+    try {
+      if (subcategory != null) {
+        // Prefer numeric category+subcategory direct endpoint when available
+        if (subcategory.category != null) {
+          final page = await _doctorsRepo.getDoctorsByCategory(
+            categoryId: subcategory.category,
+            subcategoryId: subcategory.id,
+            page: 1,
+            useCache: true,
+          );
+          return page.items;
+        }
+
+        // Fallback: use the subcategory name as categoryKey
+        final page = await _doctorsRepo.getDoctorsByCategory(
+          categoryKey: subcategory.name,
+          page: 1,
+          useCache: true,
+        );
+        return page.items;
+      }
+
+      // default: popular doctors
+      final page = await _doctorsRepo.getDoctorsByCategory(
+        categoryKey: 'popular',
+        page: 1,
+        useCache: true,
+      );
+      return page.items;
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  void _onSeeAll() {
     Get.toNamed(Routes.SPECIALIST_DOCTORS);
   }
 
-  void _openAppointmentOptions() {
+  void _onBook() {
     Get.toNamed(Routes.BOOK_APPOINTMENT);
   }
 
@@ -54,7 +88,7 @@ class TopDoctorsSection extends StatelessWidget {
           children: [
             const Expanded(
               child: Text(
-                'Top Doctors',
+                'General Physician',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 18,
@@ -65,7 +99,7 @@ class TopDoctorsSection extends StatelessWidget {
             ),
             InkWell(
               borderRadius: BorderRadius.circular(18),
-              onTap: _openDoctors,
+              onTap: _onSeeAll,
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -89,17 +123,92 @@ class TopDoctorsSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
+
+        // Category chips row
         SizedBox(
-          height: 210,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: _doctors.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, index) {
-              return _TopDoctorCard(
-                doctor: _doctors[index],
-                onCardTap: _openDoctors,
-                onAppointmentTap: _openAppointmentOptions,
+          height: 44,
+          child: _chips.isEmpty
+              ? const SizedBox.shrink()
+              : ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _chips.length + 1,
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      final selected = _selectedSubcategory == null;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: ChoiceChip(
+                          label: const Text('All'),
+                          selected: selected,
+                          onSelected: (_) {
+                            setState(() => _selectedSubcategory = null);
+                          },
+                        ),
+                      );
+                    }
+                    final item = _chips[index - 1];
+                    final selected = _selectedSubcategory?.id == item.id;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: ChoiceChip(
+                        avatar: item.icon != null && item.icon!.isNotEmpty
+                            ? Image.network(item.icon!, width: 18, height: 18)
+                            : null,
+                        label: Text(item.name),
+                        selected: selected,
+                        onSelected: (_) {
+                          setState(() =>
+                              _selectedSubcategory = selected ? null : item);
+                        },
+                      ),
+                    );
+                  },
+                ),
+        ),
+
+        const SizedBox(height: 12),
+        SizedBox(
+          height: 220,
+          child: FutureBuilder<List<SpecialistDoctorItem>>(
+            future: _loadDoctors(subcategory: _selectedSubcategory),
+            builder: (context, snap) {
+              if (snap.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final items = snap.data ?? [];
+              if (items.isEmpty) {
+                return const Center(
+                  child: Text('No doctors available right now.'),
+                );
+              }
+
+              return ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: items.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final d = items[index];
+                  return _TopDoctorCard(
+                    doctor: d,
+                    onCardTap: () {
+                      final Map<String, dynamic> args = {
+                        'categoryKey': d.subcategoryName.isNotEmpty
+                            ? d.subcategoryName
+                            : d.designation,
+                        'categoryLabel': d.subcategoryName.isNotEmpty
+                            ? d.subcategoryName
+                            : d.designation,
+                        'categoryAssetPath': d.imageAssetPath,
+                        'subcategoryId': d.id,
+                      };
+                      Get.toNamed(Routes.SPECIALIST_DOCTOR_LIST,
+                          arguments: args);
+                    },
+                    onAppointmentTap: _onBook,
+                  );
+                },
               );
             },
           ),
@@ -110,7 +219,7 @@ class TopDoctorsSection extends StatelessWidget {
 }
 
 class _TopDoctorCard extends StatelessWidget {
-  final _DoctorItem doctor;
+  final SpecialistDoctorItem doctor;
   final VoidCallback onCardTap;
   final VoidCallback onAppointmentTap;
 
@@ -153,93 +262,86 @@ class _TopDoctorCard extends StatelessWidget {
           ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Stack(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: const Color(0xFF2F6FED),
-                  child: Text(
-                    doctor.initials,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
+            Center(
+              child: SizedBox(
+                height: 80,
+                width: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(40),
+                  child: doctor.imageAssetPath.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: doctor.imageAssetPath,
+                          fit: BoxFit.cover,
+                          placeholder: (c, s) => Container(
+                            color: const Color(0xFFDFF8EF),
+                            child: Center(
+                                child: Text(
+                              _initialsFromName(doctor.name),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                          ),
+                          errorWidget: (c, s, e) => Container(
+                            color: const Color(0xFFDFF8EF),
+                            child: Center(
+                                child: Text(
+                              _initialsFromName(doctor.name),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                          ),
+                        )
+                      : Container(
+                          color: const Color(0xFFDFF8EF),
+                          child: Center(
+                            child: Text(
+                              _initialsFromName(doctor.name),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
                 ),
-                Positioned(
-                  right: 2,
-                  bottom: 2,
-                  child: Container(
-                    height: 12,
-                    width: 12,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF26C281),
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             Text(
               doctor.name,
+              textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              doctor.specialty,
+              doctor.subcategoryName.isNotEmpty
+                  ? doctor.subcategoryName
+                  : doctor.designation,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 11,
+                fontSize: 12,
                 color: Colors.black54,
               ),
-            ),
-            const SizedBox(height: 6),
-            Row(
-              children: [
-                const Icon(
-                  Icons.star_rounded,
-                  size: 14,
-                  color: Color(0xFFF4B400),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  doctor.rating.toStringAsFixed(1),
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  '${doctor.years} yrs',
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
             ),
             const Spacer(),
             SizedBox(
               width: double.infinity,
               height: 30,
-              child: ElevatedButton(
+              child: TextButton(
                 onPressed: onAppointmentTap,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF2F6FED),
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.zero,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -247,8 +349,9 @@ class _TopDoctorCard extends StatelessWidget {
                 child: const Text(
                   'Book Appointment',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
+                    color: Color(0xFF2F6FED),
                   ),
                 ),
               ),
@@ -258,20 +361,11 @@ class _TopDoctorCard extends StatelessWidget {
       ),
     );
   }
-}
 
-class _DoctorItem {
-  final String initials;
-  final String name;
-  final String specialty;
-  final double rating;
-  final int years;
-
-  const _DoctorItem({
-    required this.initials,
-    required this.name,
-    required this.specialty,
-    required this.rating,
-    required this.years,
-  });
+  String _initialsFromName(String name) {
+    final parts = name.trim().split(RegExp(r"\s+"));
+    if (parts.isEmpty) return '';
+    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
+    return (parts[0].substring(0, 1) + parts[1].substring(0, 1)).toUpperCase();
+  }
 }
