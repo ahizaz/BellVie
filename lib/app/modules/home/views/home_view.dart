@@ -90,37 +90,74 @@ class _CallDrawer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            _CallDrawerCard(
-              title: 'Emergency Doctor',
-              subtitle: 'Get urgent medical support quickly.',
-              icon: Icons.emergency_rounded,
-              iconBg: const Color(0xFFEAF4FF),
-              onTap: () {
-                Navigator.of(context).pop();
-                Get.toNamed(Routes.EMERGENCY_SERVICES);
-              },
-            ),
-            const SizedBox(height: 10),
-            _CallDrawerCard(
-              title: 'Special Doctor',
-              subtitle: 'Connect with specialist consultation.',
-              icon: Icons.medical_services_rounded,
-              iconBg: const Color(0xFFEAFBF7),
-              onTap: () {
-                Navigator.of(context).pop();
-                Get.toNamed(Routes.SPECIALIST_DOCTORS);
-              },
-            ),
-            const SizedBox(height: 10),
-            _CallDrawerCard(
-              title: 'Call Us For Other Need',
-              subtitle: 'Reach BelleVie support for any other help.',
-              icon: Icons.call_rounded,
-              iconBg: const Color(0xFFFFF3EA),
-              onTap: () {
-                Navigator.of(context).pop();
-                Get.toNamed(Routes.CONTACT_US);
-              },
+            SizedBox(
+              height: 140,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                itemCount: 3,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final items = [
+                    {
+                      'title': 'Emergency Doctor',
+                      'subtitle': 'Get urgent medical support quickly.',
+                      'route': Routes.EMERGENCY_SERVICES,
+                    },
+                    {
+                      'title': 'Special Doctor',
+                      'subtitle': 'Connect with specialist consultation.',
+                      'route': Routes.SPECIALIST_DOCTORS,
+                    },
+                    {
+                      'title': 'Call Us For Other Need',
+                      'subtitle': 'Reach BelleVie support for any other help.',
+                      'route': Routes.CONTACT_US,
+                    },
+                  ];
+
+                  final item = items[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Get.toNamed(item['route'] as String);
+                    },
+                    child: Container(
+                      width: 150,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x22000000),
+                            offset: Offset(2, 2),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: SizedBox.expand(
+                          child: Image.asset(
+                            'assets/images/banners/emergency_service_receize.jpg',
+                            fit: BoxFit.cover,
+                            errorBuilder: (c, e, s) => Container(
+                              color: const Color(0xFFDFF8EF),
+                              child: const Center(
+                                  child: Icon(
+                                Icons.emergency_rounded,
+                                color: Colors.white,
+                                size: 36,
+                              )),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
