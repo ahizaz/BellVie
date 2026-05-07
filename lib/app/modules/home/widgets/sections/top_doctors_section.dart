@@ -21,18 +21,58 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
 
   List<Subcategory> _chips = [];
   Subcategory? _selectedSubcategory;
+  List<SpecialistDoctorItem> _doctors = [];
+  bool _doctorsResolved = false;
+  bool _isFetchingDoctors = false;
+  final Map<String, List<SpecialistDoctorItem>> _doctorCache = {};
 
   @override
   void initState() {
     super.initState();
     _loadChips();
+    _loadDoctorsForSelection();
   }
 
   Future<void> _loadChips() async {
     final items = await _subcategoryRepo.fetchSubcategories();
+    if (!mounted) return;
     setState(() {
       _chips = items;
     });
+  }
+
+  DoctorsPage? _loadCachedDoctors({Subcategory? subcategory}) {
+    if (subcategory != null) {
+      if (subcategory.category != null) {
+        return _doctorsRepo.getDoctorsByCategorySync(
+          categoryId: subcategory.category,
+          subcategoryId: subcategory.id,
+          page: 1,
+        );
+      }
+
+      return _doctorsRepo.getDoctorsByCategorySync(
+        categoryKey: subcategory.name,
+        page: 1,
+      );
+    }
+
+    return _doctorsRepo.getDoctorsByCategorySync(
+      categoryKey: 'popular',
+      page: 1,
+    );
+  }
+
+  String _selectionCacheKey({Subcategory? subcategory}) {
+    if (subcategory == null) {
+      return 'popular';
+    }
+
+    if (subcategory.category != null) {
+      return 'cat:${subcategory.category}-sub:${subcategory.id}';
+    }
+
+    return 'key:${subcategory.name.trim().toLowerCase()}';
   }
 
   Future<List<SpecialistDoctorItem>> _loadDoctors(
@@ -69,6 +109,61 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     } catch (_) {
       return const [];
     }
+  }
+
+  Future<void> _loadDoctorsForSelection({Subcategory? subcategory}) async {
+    final cacheKey = _selectionCacheKey(subcategory: subcategory);
+    final memoryCache = _doctorCache[cacheKey];
+    if (memoryCache != null && memoryCache.isNotEmpty) {
+      if (!mounted) return;
+      setState(() {
+        _doctors = memoryCache;
+        _doctorsResolved = true;
+        _isFetchingDoctors = false;
+      });
+      return;
+    }
+
+    final cachedPage = _loadCachedDoctors(subcategory: subcategory);
+    if (!mounted) return;
+
+    if (cachedPage != null && cachedPage.items.isNotEmpty) {
+      setState(() {
+        _doctors = cachedPage.items;
+        _doctorsResolved = true;
+        _isFetchingDoctors = false;
+      });
+      _doctorCache[cacheKey] = cachedPage.items;
+      return;
+    }
+
+    if (!mounted) return;
+    setState(() {
+      _isFetchingDoctors = true;
+      if (_doctors.isEmpty) {
+        _doctorsResolved = false;
+      }
+    });
+
+    final items = await _loadDoctors(subcategory: subcategory);
+    if (!mounted) return;
+
+    setState(() {
+      _doctors = items;
+      _doctorsResolved = true;
+      _isFetchingDoctors = false;
+    });
+
+    if (items.isNotEmpty) {
+      _doctorCache[cacheKey] = items;
+    }
+  }
+
+  void _selectSubcategory(Subcategory? subcategory) {
+    setState(() {
+      _selectedSubcategory = subcategory;
+    });
+    _loadDoctorsForSelection(subcategory: subcategory);
   }
 
   void _onSeeAll() {
@@ -143,7 +238,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                           label: const Text('All'),
                           selected: selected,
                           onSelected: (_) {
-                            setState(() => _selectedSubcategory = null);
+                            _selectSubcategory(null);
                           },
                         ),
                       );
@@ -159,8 +254,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                         label: Text(item.name),
                         selected: selected,
                         onSelected: (_) {
-                          setState(() =>
-                              _selectedSubcategory = selected ? null : item);
+                          _selectSubcategory(selected ? null : item);
                         },
                       ),
                     );
@@ -171,47 +265,38 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         const SizedBox(height: 12),
         SizedBox(
           height: 220,
-          child: FutureBuilder<List<SpecialistDoctorItem>>(
-            future: _loadDoctors(subcategory: _selectedSubcategory),
-            builder: (context, snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final items = snap.data ?? [];
-              if (items.isEmpty) {
-                return const Center(
-                  child: Text('No doctors available right now.'),
-                );
-              }
-
-              return ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: items.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
-                itemBuilder: (context, index) {
-                  final d = items[index];
-                  return _TopDoctorCard(
-                    doctor: d,
-                    onCardTap: () {
-                      final Map<String, dynamic> args = {
-                        'categoryKey': d.subcategoryName.isNotEmpty
-                            ? d.subcategoryName
-                            : d.designation,
-                        'categoryLabel': d.subcategoryName.isNotEmpty
-                            ? d.subcategoryName
-                            : d.designation,
-                        'categoryAssetPath': d.imageAssetPath,
-                        'subcategoryId': d.id,
-                      };
-                      Get.toNamed(Routes.SPECIALIST_DOCTOR_LIST,
-                          arguments: args);
-                    },
-                    onAppointmentTap: _onBook,
-                  );
-                },
-              );
-            },
-          ),
+          child: _doctors.isEmpty
+              ? (_doctorsResolved
+                  ? const Center(
+                      child: Text('No doctors available right now.'),
+                    )
+                  : const SizedBox.shrink())
+              : ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _doctors.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    final d = _doctors[index];
+                    return _TopDoctorCard(
+                      doctor: d,
+                      onCardTap: () {
+                        final Map<String, dynamic> args = {
+                          'categoryKey': d.subcategoryName.isNotEmpty
+                              ? d.subcategoryName
+                              : d.designation,
+                          'categoryLabel': d.subcategoryName.isNotEmpty
+                              ? d.subcategoryName
+                              : d.designation,
+                          'categoryAssetPath': d.imageAssetPath,
+                          'subcategoryId': d.id,
+                        };
+                        Get.toNamed(Routes.SPECIALIST_DOCTOR_LIST,
+                            arguments: args);
+                      },
+                      onAppointmentTap: _onBook,
+                    );
+                  },
+                ),
         ),
       ],
     );
