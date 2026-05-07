@@ -52,8 +52,8 @@ class SpecialistDoctorListController extends GetxController {
   Future<void> loadDoctors({bool reset = true}) async {
     if (reset) {
       _currentPage = 1;
-      isLoading.value = true;
       showNoData.value = false;
+      isLoading.value = false;
     } else {
       // load more
       if (isLoading.value || isLoadingMore.value || !hasMore.value) return;
@@ -63,8 +63,8 @@ class SpecialistDoctorListController extends GetxController {
 
     try {
       final page = _currentPage;
-      bool loadedFromCache = false;
 
+      // Always try cache first (no loader shown)
       if (reset && doctors.isEmpty) {
         final cachedResult = await _repository.getDoctorsByCategory(
           categoryKey: categoryKey,
@@ -79,37 +79,47 @@ class SpecialistDoctorListController extends GetxController {
           doctors.assignAll(cachedResult.items);
           hasMore.value = cachedResult.hasNext;
           showNoData.value = false;
-          loadedFromCache = true;
-          isLoading.value = false; // Hide loader immediately after showing cached data
+          // Cache found - use it, NO further API calls
+          return;
         }
       }
 
-      // Fetch fresh data from API (or use cache if no fresh data needed)
-      final result = await _repository.getDoctorsByCategory(
-        categoryKey: categoryKey,
-        categoryId: categoryId,
-        subcategoryId: subcategoryId,
-        page: page,
-        useCache: false,
-        categoryAssetPath: categoryAssetPath,
-      );
+      // Cache miss on first load - fetch from API silently and cache it
+      if (reset && doctors.isEmpty) {
+        final result = await _repository.getDoctorsByCategory(
+          categoryKey: categoryKey,
+          categoryId: categoryId,
+          subcategoryId: subcategoryId,
+          page: page,
+          useCache: false,
+          categoryAssetPath: categoryAssetPath,
+        );
 
-      if (reset) {
         if (result.items.isNotEmpty) {
           doctors.assignAll(result.items);
+          hasMore.value = result.hasNext;
+        } else {
+          showNoData.value = true;
         }
-      } else {
-        doctors.addAll(result.items);
+        return;
       }
 
-      hasMore.value = result.hasNext;
-      if (reset) {
-        showNoData.value = doctors.isEmpty;
+      // Load more (pagination)
+      if (!reset) {
+        final result = await _repository.getDoctorsByCategory(
+          categoryKey: categoryKey,
+          categoryId: categoryId,
+          subcategoryId: subcategoryId,
+          page: page,
+          useCache: false,
+          categoryAssetPath: categoryAssetPath,
+        );
+
+        doctors.addAll(result.items);
+        hasMore.value = result.hasNext;
       }
     } finally {
-      if (reset) {
-        isLoading.value = false;
-      } else {
+      if (!reset) {
         isLoadingMore.value = false;
       }
     }

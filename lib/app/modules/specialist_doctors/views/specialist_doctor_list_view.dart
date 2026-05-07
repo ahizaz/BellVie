@@ -28,13 +28,8 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
         ),
       ),
       body: Obx(() {
-        if (controller.doctors.isEmpty && controller.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        if (controller.doctors.isEmpty) {
+        // Only show "No doctors" message if explicitly confirmed no data
+        if (controller.showNoData.value && controller.doctors.isEmpty) {
           return const Center(
             child: Text(
               'No doctors available right now.',
@@ -45,6 +40,11 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
               ),
             ),
           );
+        }
+
+        // Show list if doctors exist, or empty space if loading
+        if (controller.doctors.isEmpty) {
+          return const SizedBox.expand();
         }
 
         return ListView.builder(
