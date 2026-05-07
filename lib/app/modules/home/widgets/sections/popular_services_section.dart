@@ -100,7 +100,7 @@ class PopularServicesSection extends StatelessWidget {
                 final totalWidth = constraints.maxWidth;
                 const crossCount = 4;
                 const spacing = 10.0;
-                const childAspect = 0.88;
+                const childAspect = 0.74;
 
                 final availableWidth = totalWidth;
                 final itemWidth =
@@ -182,42 +182,40 @@ class _ServiceCardFromApi extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
-      child: SizedBox(
-        width: 78,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 36,
-                width: 36,
-                child: iconUrl.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: iconUrl,
-                        fit: BoxFit.contain,
-                        errorWidget: (_, __, ___) =>
-                            Image.asset('assets/images/Doctor Services.png'),
-                      )
-                    : Image.asset('assets/images/Doctor Services.png'),
-              ),
-              const SizedBox(height: 6),
-              Flexible(
-                child: Text(
-                  name,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    height: 1.15,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black87,
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 36,
+              width: 36,
+              child: iconUrl.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: iconUrl,
+                      fit: BoxFit.contain,
+                      errorWidget: (_, __, ___) =>
+                          Image.asset('assets/images/Doctor Services.png'),
+                    )
+                  : Image.asset('assets/images/Doctor Services.png'),
+            ),
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.visible,
+                softWrap: true,
+                style: const TextStyle(
+                  fontSize: 11,
+                  height: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -258,35 +256,33 @@ class _ServiceCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
-      child: SizedBox(
-        width: 78,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 36,
-                width: 36,
-                child: Image.asset(item.assetPath, fit: BoxFit.contain),
-              ),
-              const SizedBox(height: 6),
-              Flexible(
-                child: Text(
-                  item.titleKey.tr,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    height: 1.15,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black87,
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 36,
+              width: 36,
+              child: Image.asset(item.assetPath, fit: BoxFit.contain),
+            ),
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                item.titleKey.tr,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.visible,
+                softWrap: true,
+                style: const TextStyle(
+                  fontSize: 11,
+                  height: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
