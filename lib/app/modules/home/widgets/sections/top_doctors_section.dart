@@ -183,7 +183,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           children: [
             const Expanded(
               child: Text(
-                'General Physician',
+                'Specialized Doctors',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 18,
