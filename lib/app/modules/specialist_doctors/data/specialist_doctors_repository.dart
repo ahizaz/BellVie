@@ -130,6 +130,56 @@ class SpecialistDoctorsRepository {
     return null;
   }
 
+  /// Synchronous in-memory-only cache reader.
+  /// Attempts to read the in-memory cached body (no SharedPreferences read)
+  /// and parse it synchronously. Returns null if no usable cached data.
+  DoctorsPage? _loadCachedDoctorsPageSync({
+    String? categoryKey,
+    int? categoryId,
+    int? subcategoryId,
+    required int page,
+  }) {
+    final candidatePaths = _candidatePaths(
+      categoryKey: categoryKey,
+      categoryId: categoryId,
+      subcategoryId: subcategoryId,
+    );
+
+    for (final path in candidatePaths) {
+      try {
+        final cachedBody =
+            AppApiService().getCachedBodySync(path: _withPage(path, page));
+        if (cachedBody == null || cachedBody.isEmpty) {
+          continue;
+        }
+
+        final parsed = _parseDoctorsPageFromBodySync(cachedBody);
+        if (parsed.items.isNotEmpty || parsed.count > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        // ignore and try next
+      }
+    }
+
+    return null;
+  }
+
+  /// Public synchronous accessor for cached page, returns null if none.
+  DoctorsPage? getDoctorsByCategorySync({
+    String? categoryKey,
+    int? categoryId,
+    int? subcategoryId,
+    int page = 1,
+  }) {
+    return _loadCachedDoctorsPageSync(
+      categoryKey: categoryKey,
+      categoryId: categoryId,
+      subcategoryId: subcategoryId,
+      page: page,
+    );
+  }
+
   List<String> _candidatePaths({
     String? categoryKey,
     int? categoryId,
@@ -169,6 +219,51 @@ class SpecialistDoctorsRepository {
     dynamic decoded;
     try {
       decoded = await compute(_decodeJson, body);
+    } catch (_) {
+      return emptyPage;
+    }
+
+    final rawList = _extractList(decoded);
+    final items = rawList
+        .whereType<Map<String, dynamic>>()
+        .map((item) {
+          try {
+            final base = SpecialistDoctorItem.fromJson(item);
+            return SpecialistDoctorItem(
+              id: base.id,
+              name: base.name,
+              designation: base.designation,
+              imageAssetPath: _resolveImageUrl(base.imageAssetPath),
+              hospitalName: base.hospitalName,
+              subcategoryName: base.subcategoryName,
+            );
+          } catch (_) {
+            return null;
+          }
+        })
+        .whereType<SpecialistDoctorItem>()
+        .where((doctor) => doctor.name.isNotEmpty)
+        .toList();
+
+    bool hasNext = false;
+    int count = items.length;
+    if (decoded is Map<String, dynamic>) {
+      final nextVal = decoded['next'];
+      if (nextVal != null) hasNext = true;
+      final c = decoded['count'];
+      if (c is int) count = c;
+    }
+
+    return DoctorsPage(items: items, hasNext: hasNext, count: count);
+  }
+
+  /// Synchronous (non-isolate) JSON parse of a doctors page body.
+  /// This is used only for quick in-memory cache reads to avoid async waits
+  /// during initial screen build.
+  DoctorsPage _parseDoctorsPageFromBodySync(String body) {
+    dynamic decoded;
+    try {
+      decoded = jsonDecode(body);
     } catch (_) {
       return emptyPage;
     }

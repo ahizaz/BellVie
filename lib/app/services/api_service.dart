@@ -195,6 +195,22 @@ class AppApiService {
     return null;
   }
 
+  /// Synchronous in-memory-only cached body lookup.
+  /// Returns the cached response body if present and not expired,
+  /// otherwise returns null. This does NOT read persistent storage.
+  String? getCachedBodySync({
+    required String path,
+  }) {
+    final uri = buildUrl(path);
+    final key = uri.toString();
+
+    final cached = _getCache[key];
+    if (cached != null && !cached.isExpired) {
+      return cached.body;
+    }
+    return null;
+  }
+
   String _persistentKeyForUrl(String url) {
     final encoded = base64UrlEncode(utf8.encode(url));
     return '$_persistentCachePrefix$encoded';

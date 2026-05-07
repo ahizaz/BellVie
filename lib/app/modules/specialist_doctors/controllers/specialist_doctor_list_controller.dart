@@ -46,6 +46,24 @@ class SpecialistDoctorListController extends GetxController {
     } else {
       subcategoryId = null;
     }
+    // Try to synchronously populate from in-memory cache so UI shows data instantly.
+    try {
+      final cached = _repository.getDoctorsByCategorySync(
+        categoryKey: categoryKey,
+        categoryId: categoryId,
+        subcategoryId: subcategoryId,
+        page: 1,
+      );
+      if (cached != null && cached.items.isNotEmpty) {
+        doctors.assignAll(cached.items);
+        hasMore.value = cached.hasNext;
+        showNoData.value = false;
+        // Trigger a background refresh to update stale data if any
+        loadDoctors(reset: true);
+        return;
+      }
+    } catch (_) {}
+
     loadDoctors(reset: true);
   }
 
@@ -82,6 +100,28 @@ class SpecialistDoctorListController extends GetxController {
           // Cache found - use it, NO further API calls
           return;
         }
+      }
+
+      // If reset but we already have items (from sync cache), fetch fresh data
+      // in background and update the list when available.
+      if (reset && doctors.isNotEmpty) {
+        try {
+          final result = await _repository.getDoctorsByCategory(
+            categoryKey: categoryKey,
+            categoryId: categoryId,
+            subcategoryId: subcategoryId,
+            page: page,
+            useCache: false,
+            categoryAssetPath: categoryAssetPath,
+          );
+
+          if (result.items.isNotEmpty) {
+            doctors.assignAll(result.items);
+            hasMore.value = result.hasNext;
+            showNoData.value = false;
+          }
+        } catch (_) {}
+        return;
       }
 
       // Cache miss on first load - fetch from API silently and cache it

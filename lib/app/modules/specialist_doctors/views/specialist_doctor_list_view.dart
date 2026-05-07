@@ -43,8 +43,23 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
         }
 
         // Show list if doctors exist, or empty space if loading
+        // If no doctors yet, show placeholder cards so UI is built immediately
         if (controller.doctors.isEmpty) {
-          return const SizedBox.expand();
+          return ListView.builder(
+            padding: const EdgeInsets.fromLTRB(14, 14, 14, 20),
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              if (index > 0) {
+                return Column(
+                  children: const [
+                    SizedBox(height: 10),
+                    _DoctorPlaceholderCard(),
+                  ],
+                );
+              }
+              return const _DoctorPlaceholderCard();
+            },
+          );
         }
 
         return ListView.builder(
@@ -190,6 +205,66 @@ class _DoctorListCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     color: Colors.black54,
                   ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DoctorPlaceholderCard extends StatelessWidget {
+  const _DoctorPlaceholderCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFCDEFF2),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFB7D9D6)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x19000000),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 66,
+            height: 66,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 16,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: 14,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.35,
+                  height: 12,
+                  color: Colors.grey.shade300,
                 ),
               ],
             ),
