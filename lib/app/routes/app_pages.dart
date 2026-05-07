@@ -65,12 +65,10 @@ class AppPages {
     GetPage(
       name: Routes.CONTACT_US,
       page: () => const ContactUsView(),
-      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.EMERGENCY_SERVICES,
       page: () => const EmergencyServicesView(),
-      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.PATHOLOGY_TEST,

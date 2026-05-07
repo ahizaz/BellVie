@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../controllers/home_controller.dart';
+import '../../../../services/auth_service.dart';
 
 class QuickActionsBar extends StatelessWidget {
   const QuickActionsBar({super.key});
@@ -33,7 +34,15 @@ class QuickActionsBar extends StatelessWidget {
       _QuickActionItem(
         label: 'My History',
         icon: Icons.history,
-        onTap: () => _openTab(1),
+        onTap: () {
+          final auth = AuthService.to;
+          if (auth.authenticated) {
+            _openTab(1);
+          } else {
+            Get.toNamed(Routes.LOGIN,
+                arguments: {'redirect': '${Routes.HOME}?tab=1'});
+          }
+        },
       ),
     ];
 

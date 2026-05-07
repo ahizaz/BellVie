@@ -95,13 +95,6 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
             child: Obx(() {
               final items = controller.items;
 
-              if (controller.isLoading.value && !controller.showNoData.value) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
               if (items.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 24),

@@ -447,7 +447,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 4, horizontal: 6),
                       decoration: BoxDecoration(
-                        color: Color(0xFFE8F6F2),
+                        color: const Color(0xFFE8F6F2),
                         borderRadius: BorderRadius.circular(7),
                         border: Border.all(color: Colors.black12, width: 1),
                         boxShadow: const [
@@ -463,10 +463,10 @@ class _ForeignTreatmentCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Flexible(
                             child: Text(
                               'Press to view',

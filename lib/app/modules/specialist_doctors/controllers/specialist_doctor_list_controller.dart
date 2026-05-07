@@ -52,8 +52,6 @@ class SpecialistDoctorListController extends GetxController {
   Future<void> loadDoctors({bool reset = true}) async {
     if (reset) {
       _currentPage = 1;
-      doctors.clear();
-      hasMore.value = false;
       isLoading.value = true;
       showNoData.value = false;
     } else {
@@ -63,34 +61,51 @@ class SpecialistDoctorListController extends GetxController {
       _currentPage += 1;
     }
 
-    // Start a 4s fallback: if still loading after 4s and no doctors yet,
-    // show the no-data message (but keep fetching; later results will update UI).
-    if (reset) {
-      Future.delayed(const Duration(seconds: 4), () {
-        if (isLoading.value && doctors.isEmpty) {
-          showNoData.value = true;
-        }
-      });
-    }
-
     try {
       final page = _currentPage;
+      bool loadedFromCache = false;
+
+      if (reset && doctors.isEmpty) {
+        final cachedResult = await _repository.getDoctorsByCategory(
+          categoryKey: categoryKey,
+          categoryId: categoryId,
+          subcategoryId: subcategoryId,
+          page: page,
+          useCache: true,
+          categoryAssetPath: categoryAssetPath,
+        );
+
+        if (cachedResult.items.isNotEmpty) {
+          doctors.assignAll(cachedResult.items);
+          hasMore.value = cachedResult.hasNext;
+          showNoData.value = false;
+          loadedFromCache = true;
+          isLoading.value = false; // Hide loader immediately after showing cached data
+        }
+      }
+
+      // Fetch fresh data from API (or use cache if no fresh data needed)
       final result = await _repository.getDoctorsByCategory(
         categoryKey: categoryKey,
         categoryId: categoryId,
         subcategoryId: subcategoryId,
         page: page,
+        useCache: false,
         categoryAssetPath: categoryAssetPath,
       );
 
       if (reset) {
-        doctors.assignAll(result.items);
+        if (result.items.isNotEmpty) {
+          doctors.assignAll(result.items);
+        }
       } else {
         doctors.addAll(result.items);
       }
 
       hasMore.value = result.hasNext;
-      if (doctors.isNotEmpty) showNoData.value = false;
+      if (reset) {
+        showNoData.value = doctors.isEmpty;
+      }
     } finally {
       if (reset) {
         isLoading.value = false;

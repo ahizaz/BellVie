@@ -32,12 +32,16 @@ class SpecialistDoctorsController extends GetxController {
     isLoading.value = true;
     showNoData.value = false;
     final startedAt = DateTime.now();
+    var loadedFromCache = false;
 
     try {
       final cached =
           await _repository.loadCachedSubcategories(categoryId: categoryId);
       if (cached.isNotEmpty) {
         items.assignAll(cached);
+        debugPrint('Subcategories loaded from cache: ${items.length}');
+        loadedFromCache = true;
+        return;
       }
 
       final result =
@@ -50,10 +54,12 @@ class SpecialistDoctorsController extends GetxController {
     } catch (e) {
       debugPrint('Error loading subcategories => $e');
     } finally {
-      final elapsed = DateTime.now().difference(startedAt);
-      final remaining = const Duration(seconds: 3) - elapsed;
-      if (!remaining.isNegative) {
-        await Future.delayed(remaining);
+      if (!loadedFromCache) {
+        final elapsed = DateTime.now().difference(startedAt);
+        final remaining = const Duration(seconds: 3) - elapsed;
+        if (!remaining.isNegative) {
+          await Future.delayed(remaining);
+        }
       }
 
       isLoading.value = false;

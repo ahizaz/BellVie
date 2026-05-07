@@ -28,8 +28,10 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
         ),
       ),
       body: Obx(() {
-        if (controller.isLoading.value && !controller.showNoData.value) {
-          return const Center(child: CircularProgressIndicator());
+        if (controller.doctors.isEmpty && controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
         if (controller.doctors.isEmpty) {
@@ -68,14 +70,6 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Center(
                 child: Obx(() {
-                  if (controller.isLoadingMore.value) {
-                    return const SizedBox(
-                      width: 28,
-                      height: 28,
-                      child: CircularProgressIndicator(strokeWidth: 2.5),
-                    );
-                  }
-
                   return ElevatedButton(
                     onPressed: controller.loadMore,
                     child: const Text('More'),

@@ -35,8 +35,21 @@ class SpecialistDoctorsRepository {
     int? categoryId,
     int? subcategoryId,
     int page = 1,
+    bool useCache = true,
     String? categoryAssetPath,
   }) async {
+    if (useCache) {
+      final cached = await _loadCachedDoctorsPage(
+        categoryKey: categoryKey,
+        categoryId: categoryId,
+        subcategoryId: subcategoryId,
+        page: page,
+      );
+      if (cached != null) {
+        return cached;
+      }
+    }
+
     // If numeric ids are provided, prefer calling the popular-service doctors
     // endpoint with page/category/subcategory query params for exact results.
     if (categoryId != null && subcategoryId != null) {
@@ -81,6 +94,75 @@ class SpecialistDoctorsRepository {
     }
 
     return emptyPage;
+  }
+
+  Future<DoctorsPage?> _loadCachedDoctorsPage({
+    String? categoryKey,
+    int? categoryId,
+    int? subcategoryId,
+    required int page,
+  }) async {
+    final candidatePaths = _candidatePaths(
+      categoryKey: categoryKey,
+      categoryId: categoryId,
+      subcategoryId: subcategoryId,
+    );
+
+    for (final path in candidatePaths) {
+      try {
+        final cachedBody = await _apiService.getCachedBody(
+          path: _withPage(path, page),
+        );
+        if (cachedBody == null || cachedBody.isEmpty) {
+          continue;
+        }
+
+        final parsed = await _parseDoctorsPageFromBody(cachedBody);
+        if (parsed.items.isNotEmpty || parsed.count > 0) {
+          debugPrint('Specialist doctors cache hit => $path');
+          return parsed;
+        }
+      } catch (e) {
+        debugPrint('Specialist doctors cache read error => $e');
+      }
+    }
+
+    return null;
+  }
+
+  List<String> _candidatePaths({
+    String? categoryKey,
+    int? categoryId,
+    int? subcategoryId,
+  }) {
+    if (categoryId != null && subcategoryId != null) {
+      return [
+        '/api/v1/popular-service/doctors/?category=${Uri.encodeQueryComponent(categoryId.toString())}&subcategory=${Uri.encodeQueryComponent(subcategoryId.toString())}',
+      ];
+    }
+
+    final key = (categoryKey ?? '').trim();
+    if (key.isEmpty) {
+      return const [];
+    }
+
+    final encodedCategory = Uri.encodeQueryComponent(key);
+    return [
+      '/api/v1/popular-service/doctors/',
+      '/api/v1/specialist-doctors/?category=$encodedCategory',
+      '/api/v1/specialist-doctors/?category_key=$encodedCategory',
+      '/api/v1/specialist-doctors/$encodedCategory/',
+      '/api/v1/doctors/?category=$encodedCategory',
+      '/api/v1/doctors/specialist/?category=$encodedCategory',
+    ];
+  }
+
+  String _withPage(String path, int page) {
+    final encodedPage = Uri.encodeQueryComponent(page.toString());
+    if (path.contains('?')) {
+      return '$path&page=$encodedPage';
+    }
+    return '$path?page=$encodedPage';
   }
 
   Future<DoctorsPage> _parseDoctorsPageFromBody(String body) async {
@@ -141,7 +223,7 @@ class SpecialistDoctorsRepository {
 
     for (final path in candidatePaths) {
       try {
-        final fullPath = path.contains('?') ? '$path&page=1' : '$path?page=1';
+        final fullPath = _withPage(path, 1);
         final response = await _apiService.get(path: fullPath);
         debugPrint(
             'Specialist doctors API ($path) status <= ${response.statusCode}');
