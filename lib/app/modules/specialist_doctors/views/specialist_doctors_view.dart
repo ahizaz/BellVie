@@ -51,6 +51,22 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
     return key;
   }
 
+  String _screenTitle() {
+    final args = Get.arguments;
+    final rawLabel = args is Map ? args['categoryLabel'] : null;
+    final label = (rawLabel ?? '').toString().trim();
+
+    if (label.isEmpty) {
+      return 'specialist_doctors_screen'.tr;
+    }
+
+    return label.split(RegExp(r'\s+')).map((word) {
+      if (word.isEmpty) return word;
+      if (word.length == 1) return word.toUpperCase();
+      return '${word[0].toUpperCase()}${word.substring(1).toLowerCase()}';
+    }).join(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<SpecialistDoctorsController>();
@@ -70,7 +86,7 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'specialist_doctors_screen'.tr,
+            _screenTitle(),
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 18,
