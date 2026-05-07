@@ -41,6 +41,9 @@ class SpecialistDoctorsController extends GetxController {
         items.assignAll(cached);
         debugPrint('Subcategories loaded from cache: ${items.length}');
         loadedFromCache = true;
+        isLoading.value = false;
+        showNoData.value = false;
+        _refreshItemsFromApi(categoryId: categoryId);
         return;
       }
 
@@ -66,6 +69,18 @@ class SpecialistDoctorsController extends GetxController {
       if (items.isEmpty) {
         showNoData.value = true;
       }
+    }
+  }
+
+  Future<void> _refreshItemsFromApi({int? categoryId}) async {
+    try {
+      final result = await _repository.fetchSubcategories(categoryId: categoryId);
+      if (result.isNotEmpty) {
+        items.assignAll(result);
+        showNoData.value = false;
+      }
+    } catch (e) {
+      debugPrint('Subcategories refresh error => $e');
     }
   }
 }

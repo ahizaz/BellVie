@@ -34,6 +34,7 @@ class AppApiService {
 
   // Default cache TTL for GET in seconds. Keep small to favor freshness.
   static const int _getCacheTtlSeconds = 30;
+  static const int _persistentHydrationTtlSeconds = 5;
   static const String _persistentCachePrefix = 'api_cache_v1_';
   static final Future<SharedPreferences> _prefsFuture =
       SharedPreferences.getInstance();
@@ -102,7 +103,8 @@ class AppApiService {
     if (cached == null && persistentCached != null) {
       _getCache[key] = _CacheEntry(
         persistentCached.body,
-        DateTime.now().add(const Duration(days: 3650)),
+        DateTime.now()
+            .add(const Duration(seconds: _persistentHydrationTtlSeconds)),
       );
     }
 
@@ -185,10 +187,9 @@ class AppApiService {
 
     final persistentCached = await _readPersistentCache(key);
     if (persistentCached != null) {
-      _getCache[key] = _CacheEntry(
-        persistentCached.body,
-        DateTime.now().add(const Duration(days: 3650)),
-      );
+      // Keep this lightweight read-only; do not pin persistent cache in
+      // in-memory cache for long, otherwise immediate refresh calls can be
+      // prevented.
       return persistentCached.body;
     }
 

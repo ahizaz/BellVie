@@ -97,7 +97,8 @@ class SpecialistDoctorListController extends GetxController {
           doctors.assignAll(cachedResult.items);
           hasMore.value = cachedResult.hasNext;
           showNoData.value = false;
-          // Cache found - use it, NO further API calls
+          // Cache found - show instantly and refresh in background.
+          _refreshDoctorsFromApi(page: page);
           return;
         }
       }
@@ -166,4 +167,25 @@ class SpecialistDoctorListController extends GetxController {
   }
 
   Future<void> loadMore() async => loadDoctors(reset: false);
+
+  Future<void> _refreshDoctorsFromApi({required int page}) async {
+    try {
+      final result = await _repository.getDoctorsByCategory(
+        categoryKey: categoryKey,
+        categoryId: categoryId,
+        subcategoryId: subcategoryId,
+        page: page,
+        useCache: false,
+        categoryAssetPath: categoryAssetPath,
+      );
+
+      if (result.items.isNotEmpty) {
+        doctors.assignAll(result.items);
+        hasMore.value = result.hasNext;
+        showNoData.value = false;
+      }
+    } catch (_) {
+      // Keep cached UI if refresh fails.
+    }
+  }
 }
