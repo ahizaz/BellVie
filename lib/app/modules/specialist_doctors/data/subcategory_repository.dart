@@ -96,7 +96,9 @@ class SubcategoryRepository {
         decoded['data'],
         decoded['items']
       ];
-      for (final c in candidates) if (c is List) return c;
+      for (final c in candidates) {
+        if (c is List) return c;
+      }
       final nested = decoded['results'] ?? decoded['data'] ?? decoded['items'];
       if (nested is List) return nested;
     }

@@ -146,7 +146,7 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final results = await compute(_extractBannerResults, response.body);
-        if (results is! List || results.isEmpty) {
+        if (results.isEmpty) {
           if (showErrors && mounted) {
             setState(() {
               _isInitialLoading = false;

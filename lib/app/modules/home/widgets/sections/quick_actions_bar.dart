@@ -69,7 +69,7 @@ class QuickActionsBar extends StatelessWidget {
             return Container(
               width: 1,
               height: 40,
-              color: Colors.white.withOpacity(0.25),
+              color: Colors.white.withValues(alpha:0.25),
             );
           }
           final item = items[i ~/ 2];
