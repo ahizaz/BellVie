@@ -123,34 +123,23 @@ class _CallDrawer extends StatelessWidget {
                       Navigator.of(context).pop();
                       Get.toNamed(item['route'] as String);
                     },
-                    child: Container(
+                    child: SizedBox(
                       width: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x22000000),
-                            offset: Offset(2, 2),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(14),
-                        child: SizedBox.expand(
-                          child: Image.asset(
-                            'assets/images/banners/emergency_service_receize.jpg',
-                            fit: BoxFit.cover,
-                            errorBuilder: (c, e, s) => Container(
-                              color: const Color(0xFFDFF8EF),
-                              child: const Center(
-                                  child: Icon(
-                                Icons.emergency_rounded,
-                                color: Colors.white,
-                                size: 36,
-                              )),
-                            ),
+                        child: Image.asset(
+                          'assets/images/banners/emergency_dcotor_apps.jpg',
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          errorBuilder: (c, e, s) => Container(
+                            color: const Color(0xFFDFF8EF),
+                            child: const Center(
+                                child: Icon(
+                              Icons.emergency_rounded,
+                              color: Colors.white,
+                              size: 36,
+                            )),
                           ),
                         ),
                       ),
