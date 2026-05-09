@@ -34,7 +34,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
   }
 
   Future<void> _loadChips() async {
-    final items = await _subcategoryRepo.fetchSubcategories();
+    // Fetch only subcategories for the Specialist Doctors category (category=1)
+    final items = await _subcategoryRepo.fetchSubcategories(categoryId: 1);
     if (!mounted) return;
     setState(() {
       _chips = items;
