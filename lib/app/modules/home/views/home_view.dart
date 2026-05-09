@@ -73,7 +73,6 @@ class _CallDrawer extends StatelessWidget {
             Center(
               child: Container(
                 width: 42,
-                height: 4,
                 decoration: BoxDecoration(
                   color: const Color(0xFFCFD8E2),
                   borderRadius: BorderRadius.circular(99),
@@ -89,9 +88,9 @@ class _CallDrawer extends StatelessWidget {
                 color: Color(0xFF13A0BE),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 15),
             SizedBox(
-              height: 140,
+              height: 100,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -124,24 +123,20 @@ class _CallDrawer extends StatelessWidget {
                       Get.toNamed(item['route'] as String);
                     },
                     child: SizedBox(
-                      width: 150,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Image.asset(
-                          'assets/images/banners/emergency_dcotor_apps.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          errorBuilder: (c, e, s) => Container(
-                            color: const Color(0xFFDFF8EF),
-                            child: const Center(
-                                child: Icon(
-                              Icons.emergency_rounded,
-                              color: Colors.white,
-                              size: 36,
-                            )),
-                          ),
-                        ),
+                      child: Image.asset(
+                        'assets/images/banners/Emergency_service_banner.jpg',
+                        fit: BoxFit.cover,
+                        width: 180,
+                        height: 5,
+                        // errorBuilder: (c, e, s) => Container(
+                        //   color: const Color(0xFFDFF8EF),
+                        //   child: const Center(
+                        //       child: Icon(
+                        //     Icons.emergency_rounded,
+                        //     color: Colors.white,
+                        //     // size: 36,
+                        //   )),
+                        // ),
                       ),
                     ),
                   );
