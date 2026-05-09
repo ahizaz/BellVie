@@ -194,6 +194,20 @@ class _DoctorListCard extends StatelessWidget {
                     color: Colors.black87,
                   ),
                 ),
+                if (item.experience.isNotEmpty || item.fees.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    'Experience: ${item.experience}${item.experience.isNotEmpty && item.fees.isNotEmpty ? '  •  ' : ''}${item.fees.isNotEmpty ? 'Fees: ${item.fees}' : ''}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      height: 1.15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 4),
                 Text(
                   item.hospitalName,

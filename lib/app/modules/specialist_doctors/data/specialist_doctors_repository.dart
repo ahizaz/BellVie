@@ -236,6 +236,8 @@ class SpecialistDoctorsRepository {
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
+              experience: base.experience,
+              fees: base.fees,
             );
           } catch (_) {
             return null;
@@ -281,6 +283,8 @@ class SpecialistDoctorsRepository {
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
+              experience: base.experience,
+              fees: base.fees,
             );
           } catch (_) {
             return null;
@@ -375,6 +379,8 @@ class SpecialistDoctorsRepository {
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
+              experience: base.experience,
+              fees: base.fees,
             );
           } catch (_) {
             return null;

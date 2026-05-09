@@ -264,7 +264,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
 
         const SizedBox(height: 12),
         SizedBox(
-          height: 220,
+          height: 250,
           child: _doctors.isEmpty
               ? (_doctorsResolved
                   ? const Center(
@@ -419,6 +419,20 @@ class _TopDoctorCard extends StatelessWidget {
                 color: Colors.black54,
               ),
             ),
+            if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                'Experience: ${doctor.experience}${doctor.experience.isNotEmpty && doctor.fees.isNotEmpty ? '  •  ' : ''}${doctor.fees.isNotEmpty ? 'Fees: ${doctor.fees}' : ''}',
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 11,
+                  height: 1.2,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
             const Spacer(),
             SizedBox(
               width: double.infinity,
