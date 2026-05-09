@@ -182,7 +182,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Specialist Doctors',
+              'Top Doctors',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 18,
@@ -391,20 +391,32 @@ class _DoctorCard extends StatelessWidget {
         : doctor.designation;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
-        width: 170,
-        padding: const EdgeInsets.fromLTRB(12, 14, 12, 12),
+        width: 175,
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: const Color(0xFFE8EEF6)),
+          gradient: const LinearGradient(
+            colors: [
+              Color(0xFFBEE9FF),
+              Color(0xFFDFF8EF),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white24, width: 1),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x0F000000),
-              offset: Offset(0, 8),
-              blurRadius: 20,
+              color: Color(0x33FFFFFF),
+              offset: Offset(-3, -3),
+              blurRadius: 6,
+            ),
+            BoxShadow(
+              color: Color(0x22000000),
+              offset: Offset(3, 3),
+              blurRadius: 8,
             ),
           ],
         ),
@@ -413,13 +425,10 @@ class _DoctorCard extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                width: 78,
-                height: 78,
-                padding: const EdgeInsets.all(3),
+                height: 80,
+                width: 80,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFFEAF4FF),
-                  border: Border.all(color: const Color(0xFFD4E7FF)),
                 ),
                 child: ClipOval(
                   child: imagePath.isNotEmpty
@@ -445,7 +454,7 @@ class _DoctorCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             Text(
               doctor.name,
               textAlign: TextAlign.center,
@@ -457,7 +466,7 @@ class _DoctorCard extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Text(
               subtitle,
               textAlign: TextAlign.center,
@@ -469,39 +478,45 @@ class _DoctorCard extends StatelessWidget {
                 height: 1.2,
               ),
             ),
-            const SizedBox(height: 6),
-            if (doctor.experience.isNotEmpty)
-              Text(
-                'Experience: ${doctor.experience}',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Colors.black54,
-                ),
-              ),
-            if (doctor.fees.isNotEmpty) ...[
-              const SizedBox(height: 2),
-              Text(
-                'Fees: ৳${doctor.fees}',
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: Colors.black54,
-                ),
+            if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Column(
+                children: [
+                  if (doctor.experience.isNotEmpty)
+                    Text(
+                      'Experience: ${doctor.experience}',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        height: 1.2,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  if (doctor.fees.isNotEmpty)
+                    Text(
+                      'Fees: ৳${doctor.fees}',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        height: 1.2,
+                        color: Colors.black54,
+                      ),
+                    ),
+                ],
               ),
             ],
             const Spacer(),
             SizedBox(
               width: double.infinity,
-              height: 34,
+              height: 30,
               child: TextButton(
                 onPressed: onTap,
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFEBF3FF),
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -531,12 +546,12 @@ class _DoctorPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFEAF4FF),
+      color: const Color(0xFFDFF8EF),
       alignment: Alignment.center,
       child: Text(
         _initialsFromName(name),
         style: const TextStyle(
-          color: Color(0xFF2F6FED),
+          color: Colors.white,
           fontWeight: FontWeight.w700,
           fontSize: 18,
         ),
