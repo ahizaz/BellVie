@@ -261,16 +261,33 @@ class _DoctorCard extends StatelessWidget {
             ),
             if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Text(
-                'Experience: ${doctor.experience}${doctor.experience.isNotEmpty && doctor.fees.isNotEmpty ? '  •  ' : ''}${doctor.fees.isNotEmpty ? 'Fees: ${doctor.fees}' : ''}',
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 11,
-                  height: 1.2,
-                  color: Colors.black54,
-                ),
+              Column(
+                children: [
+                  if (doctor.experience.isNotEmpty)
+                    Text(
+                      'Experience: ${doctor.experience}',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        height: 1.2,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  if (doctor.fees.isNotEmpty)
+                    Text(
+                      'Fees: ${doctor.fees}',
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        height: 1.2,
+                        color: Colors.black54,
+                      ),
+                    ),
+                ],
               ),
             ],
             const Spacer(),
