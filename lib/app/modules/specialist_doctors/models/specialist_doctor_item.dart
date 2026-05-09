@@ -20,6 +20,8 @@ class SpecialistDoctorItem {
   });
 
   factory SpecialistDoctorItem.fromJson(Map<String, dynamic> json) {
+    final experienceValue = json['experience'] ?? json['years_of_experience'];
+    final feesValue = json['fees'] ?? json['doctor_fees'];
     return SpecialistDoctorItem(
       id: (json['id'] ?? json['uuid'] ?? '').toString(),
       name: (json['name'] ?? json['doctor_name'] ?? '').toString(),
@@ -44,8 +46,8 @@ class SpecialistDoctorItem {
               json['category'] ??
               '')
           .toString(),
-      experience: (json['experience'] ?? '').toString(),
-      fees: (json['fees'] ?? '').toString(),
+      experience: (experienceValue ?? '').toString(),
+      fees: (feesValue ?? '').toString(),
     );
   }
 
