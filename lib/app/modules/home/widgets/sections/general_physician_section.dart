@@ -142,7 +142,7 @@ class _DoctorCard extends StatelessWidget {
         width: 175,
         height: 220,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
@@ -217,7 +217,7 @@ class _DoctorCard extends StatelessWidget {
             Text(
               doctor.name,
               textAlign: TextAlign.center,
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontSize: 13,
@@ -225,7 +225,6 @@ class _DoctorCard extends StatelessWidget {
                 color: Colors.black87,
               ),
             ),
-            const SizedBox(height: 4),
             Text(
               doctor.designation,
               textAlign: TextAlign.center,
@@ -237,7 +236,6 @@ class _DoctorCard extends StatelessWidget {
               ),
             ),
             if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
-              const SizedBox(height: 4),
               Column(
                 children: [
                   if (doctor.experience.isNotEmpty)
@@ -262,8 +260,6 @@ class _DoctorCard extends StatelessWidget {
               ),
             ],
             SizedBox(
-              width: 140,
-              height: 30,
               child: TextButton(
                 onPressed: onTap,
                 style: TextButton.styleFrom(
