@@ -262,7 +262,7 @@ class _DoctorCard extends StatelessWidget {
               child: TextButton(
                 onPressed: onTap,
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFF2F6FED),
+                  backgroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -272,7 +272,7 @@ class _DoctorCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: const Color(0xFF2F6FED),
                   ),
                 ),
               ),

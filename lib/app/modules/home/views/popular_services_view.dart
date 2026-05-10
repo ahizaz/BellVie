@@ -110,8 +110,8 @@ class _ServiceCardFromApi extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 42,
-              width: 42,
+              height: 30,
+              width: 30,
               child: iconUrl.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: iconUrl,
@@ -181,8 +181,8 @@ class _ServiceCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 42,
-              width: 42,
+              height: 30,
+              width: 30,
               child: Image.asset(item.assetPath, fit: BoxFit.contain),
             ),
             const SizedBox(height: 8),

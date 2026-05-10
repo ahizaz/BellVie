@@ -294,8 +294,8 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           itemCount: _countries.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 6,
             childAspectRatio: 0.85,
           ),
           itemBuilder: (context, i) {
@@ -359,8 +359,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.18),
-                    blurRadius: 8,
+                    color: Colors.grey.withOpacity(0.20),
+                    blurRadius: 15,
                     offset: const Offset(0, 2),
                   ),
                 ],
