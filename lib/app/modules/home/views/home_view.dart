@@ -102,16 +102,21 @@ class _CallDrawer extends StatelessWidget {
                       'title': 'Emergency Doctor',
                       'subtitle': 'Get urgent medical support quickly.',
                       'route': Routes.EMERGENCY_SERVICES,
+                      'image':
+                          'assets/images/banners/Emergency_service_banner.jpg',
                     },
                     {
                       'title': 'Special Doctor',
                       'subtitle': 'Connect with specialist consultation.',
                       'route': Routes.SPECIALIST_DOCTORS,
+                      'image':
+                          'assets/images/banners/special_service_banner.jpg',
                     },
                     {
                       'title': 'Call Us For Other Need',
                       'subtitle': 'Reach BelleVie support for any other help.',
                       'route': Routes.CONTACT_US,
+                      'image': 'assets/images/banners/call_us_need.jpg',
                     },
                   ];
 
@@ -124,7 +129,7 @@ class _CallDrawer extends StatelessWidget {
                     },
                     child: SizedBox(
                       child: Image.asset(
-                        'assets/images/banners/Emergency_service_banner.jpg',
+                        item['image'] as String,
                         fit: BoxFit.cover,
                         width: 180,
                         height: 5,

@@ -182,7 +182,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text(
-              'Top Doctors',
+              'Specialist Doctors',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: 18,
