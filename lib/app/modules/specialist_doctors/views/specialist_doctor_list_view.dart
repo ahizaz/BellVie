@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../controllers/specialist_doctor_list_controller.dart';
 import '../models/specialist_doctor_item.dart';
+import '../widgets/doctor_info_button.dart';
 
 class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
   const SpecialistDoctorListView({super.key});
@@ -111,7 +112,10 @@ class _DoctorListCard extends StatelessWidget {
     final isNetworkImage =
         imagePath.startsWith('http://') || imagePath.startsWith('https://');
 
-    return Container(
+    // parse id (API expects numeric id like 18)
+    final parsedId = int.tryParse(item.id);
+
+    final card = Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xFFCDEFF2),
@@ -223,7 +227,26 @@ class _DoctorListCard extends StatelessWidget {
               ],
             ),
           ),
+
+          // <<< HERE: add the info button if id is numeric
+          if (parsedId != null) ...[
+            const SizedBox(width: 12),
+            DoctorInfoButton(doctorId: parsedId),
+          ],
         ],
+      ),
+    );
+
+    if (parsedId == null) {
+      return card;
+    }
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => DoctorInfoButton.openDoctorDetails(context, parsedId),
+        child: card,
       ),
     );
   }

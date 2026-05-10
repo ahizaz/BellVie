@@ -24,6 +24,7 @@ import '../modules/home/views/popular_services_view.dart';
 
 import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
+import '../modules/specialist_doctors/views/doctor_details_view.dart';
 import '../modules/specialist_doctors/views/specialist_doctor_list_view.dart';
 import '../modules/specialist_doctors/views/specialist_doctors_view.dart';
 import '../modules/other_medical_service/bindings/categories_binding.dart';
@@ -111,6 +112,10 @@ class AppPages {
       name: Routes.SPECIALIST_DOCTOR_LIST,
       page: () => const SpecialistDoctorListView(),
       binding: SpecialistDoctorListBinding(),
+    ),
+    GetPage(
+      name: Routes.DOCTOR_DETAILS,
+      page: () => const DoctorDetailsView(),
     ),
     GetPage(
       name: Routes.REGISTER,

@@ -11,6 +11,7 @@ abstract class Routes {
   static const POPULAR_SERVICES = '/popular-services';
   static const SPECIALIST_DOCTORS = '/specialist-doctors';
   static const SPECIALIST_DOCTOR_LIST = '/specialist-doctor-list';
+  static const DOCTOR_DETAILS = '/doctor-details';
   static const OTHER_MEDICAL_SERVICES = '/other-medical-services';
   static const PROFILE = '/profile';
   static const REGISTER = '/register';
