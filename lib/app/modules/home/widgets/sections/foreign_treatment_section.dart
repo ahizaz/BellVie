@@ -337,161 +337,66 @@ class _ForeignTreatmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
-      child: Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFBEE9FF),
-              Color(0xFFDFF8EF),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white24, width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x33FFFFFF),
-              offset: Offset(-3, -3),
-              blurRadius: 6,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 75,
+              width: 75,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFE8F5FF),
+                    const Color(0xFF2F6FED).withOpacity(0.10),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(32),
+              ),
+              child: Center(
+                child: SizedBox(
+                  height: 40,
+                  width: 48,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: item.flagUrl.isNotEmpty
+                        ? CachedNetworkImage(
+                            imageUrl: item.flagUrl,
+                            fit: BoxFit.cover,
+                            errorWidget: (_, __, ___) {
+                              return Image.asset(
+                                item.fallbackAssetPath,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )
+                        : Image.asset(item.fallbackAssetPath,
+                            fit: BoxFit.cover),
+                  ),
+                ),
+              ),
             ),
-            BoxShadow(
-              color: Color(0x22000000),
-              offset: Offset(3, 3),
-              blurRadius: 8,
+            const SizedBox(height: 8),
+            Flexible(
+              child: Text(
+                item.name,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 14,
+                  height: 1.2,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
             ),
           ],
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(11),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(6, 6, 6, 6),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: SizedBox(
-                            height: 36,
-                            width: 48,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(2),
-                              child: item.flagUrl.isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: item.flagUrl,
-                                      fit: BoxFit.cover,
-                                      errorWidget: (_, __, ___) {
-                                        return Image.asset(
-                                          item.fallbackAssetPath,
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
-                                    )
-                                  : Image.asset(item.fallbackAssetPath,
-                                      fit: BoxFit.cover),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        item.name,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          height: 1.15,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(8),
-                  onTap: _handleTap,
-                  child: Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFBEE9FF),
-                          Color(0xFFDFF8EF),
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4, horizontal: 6),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE8F6F2),
-                        borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: Colors.black12, width: 1),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0x66FFFFFF),
-                            offset: Offset(-4, -4),
-                            blurRadius: 8,
-                          ),
-                          BoxShadow(
-                            color: Color(0x33000000),
-                            offset: Offset(6, 6),
-                            blurRadius: 12,
-                          ),
-                        ],
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              'Press to view',
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 10,
-                            color: Colors.black54,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

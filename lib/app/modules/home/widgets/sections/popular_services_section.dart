@@ -221,13 +221,12 @@ class _ServiceCardFromApi extends StatelessWidget {
               child: Text(
                 name,
                 textAlign: TextAlign.center,
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.visible,
                 softWrap: true,
                 style: const TextStyle(
-                  fontSize: 11,
-                  height: 1.2,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),
               ),
