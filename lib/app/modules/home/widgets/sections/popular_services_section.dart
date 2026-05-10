@@ -187,17 +187,34 @@ class _ServiceCardFromApi extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 36,
-              width: 36,
-              child: iconUrl.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: iconUrl,
-                      fit: BoxFit.contain,
-                      errorWidget: (_, __, ___) =>
-                          Image.asset('assets/images/Doctor Services.png'),
-                    )
-                  : Image.asset('assets/images/Doctor Services.png'),
+            Container(
+              height: 64,
+              width: 64,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFE8F5FF),
+                    const Color(0xFF2F6FED).withOpacity(0.10),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(32),
+              ),
+              child: Center(
+                child: SizedBox(
+                  height: 36,
+                  width: 36,
+                  child: iconUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: iconUrl,
+                          fit: BoxFit.contain,
+                          errorWidget: (_, __, ___) =>
+                              Image.asset('assets/images/Doctor Services.png'),
+                        )
+                      : Image.asset('assets/images/Doctor Services.png'),
+                ),
+              ),
             ),
             const SizedBox(height: 6),
             Flexible(
@@ -261,10 +278,27 @@ class _ServiceCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 36,
-              width: 36,
-              child: Image.asset(item.assetPath, fit: BoxFit.contain),
+            Container(
+              height: 64,
+              width: 64,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFE8F5FF),
+                    const Color(0xFF2F6FED).withOpacity(0.15),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(32),
+              ),
+              child: Center(
+                child: SizedBox(
+                  height: 36,
+                  width: 36,
+                  child: Image.asset(item.assetPath, fit: BoxFit.contain),
+                ),
+              ),
             ),
             const SizedBox(height: 6),
             Flexible(
