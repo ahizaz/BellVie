@@ -413,8 +413,8 @@ class _DoctorCard extends StatelessWidget {
             children: [
               Center(
                 child: SizedBox(
-                  height: 80,
-                  width: 80,
+                  height: 60,
+                  width: 60,
                   child: ClipOval(
                     child: imagePath.isNotEmpty
                         ? isNetworkImage
@@ -442,19 +442,19 @@ class _DoctorCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(
                 doctor.name,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w900,
                   color: Colors.black87,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Text(
                 subtitle,
                 textAlign: TextAlign.center,
@@ -467,7 +467,7 @@ class _DoctorCard extends StatelessWidget {
                 ),
               ),
               if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Column(
                   children: [
                     if (doctor.experience.isNotEmpty)
@@ -507,7 +507,7 @@ class _DoctorCard extends StatelessWidget {
                   'Book Appointment',
                   style: TextStyle(
                     fontSize: 10,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),

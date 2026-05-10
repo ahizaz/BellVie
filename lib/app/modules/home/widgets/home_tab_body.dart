@@ -60,9 +60,9 @@ class HomeScrollContent extends StatelessWidget {
           ForeignTreatmentSection(),
           SizedBox(height: 18),
           GeneralPhysicianSection(),
-          SizedBox(height: 18),
+
           TopDoctorsSection(),
-          SizedBox(height: 18),
+
           // CoreFourSection(),
           // SizedBox(height: 18),
           MedicalAccessoriesSection(),

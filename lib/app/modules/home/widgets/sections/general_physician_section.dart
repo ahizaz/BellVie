@@ -140,15 +140,14 @@ class _DoctorCard extends StatelessWidget {
       onTap: onTap,
       child: SizedBox(
         width: 175,
-        height: 220,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
               child: SizedBox(
-                height: 80,
-                width: 80,
+                height: 60,
+                width: 60,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(40),
                   child: imagePath.isNotEmpty
@@ -213,7 +212,7 @@ class _DoctorCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
             Text(
               doctor.name,
               textAlign: TextAlign.center,
@@ -272,7 +271,7 @@ class _DoctorCard extends StatelessWidget {
                   'Book Appointment',
                   style: TextStyle(
                     fontSize: 10,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
                 ),
