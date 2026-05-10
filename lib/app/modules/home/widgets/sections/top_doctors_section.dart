@@ -495,27 +495,20 @@ class _DoctorCard extends StatelessWidget {
                   ],
                 ),
               ],
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 140,
-                height: 30,
-                child: TextButton(
-                  onPressed: onTap,
-                  style: TextButton.styleFrom(
-                    backgroundColor: const Color(0xFF2F6FED),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+              TextButton(
+                onPressed: onTap,
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFF2F6FED),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Text(
-                    'Book Appointment',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
+                ),
+                child: const Text(
+                  'Book Appointment',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
                   ),
                 ),
               ),
