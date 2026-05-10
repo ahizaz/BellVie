@@ -271,8 +271,8 @@ class _DoctorCard extends StatelessWidget {
                 child: const Text(
                   'Book Appointment',
                   style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
                     color: Colors.white,
                   ),
                 ),
