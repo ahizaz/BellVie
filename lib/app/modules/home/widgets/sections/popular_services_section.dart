@@ -195,11 +195,18 @@ class _ServiceCardFromApi extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFFF4F8FF),
-                    Color(0xFFDFE9FF),
+                    Color(0xFFDEE9F5),
+                    Color(0xFFC5D9F1),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.18),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: Center(
                 child: SizedBox(
