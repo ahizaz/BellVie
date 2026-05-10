@@ -31,7 +31,7 @@ class DoctorDetailsView extends StatelessWidget {
     return text.isEmpty ? fallback : text;
   }
 
-  List<String> _contactLines(String text) {
+  List<String> _splitLines(String text) {
     return text
         .split(RegExp(r'\r?\n'))
         .map((line) => line.trim())
@@ -39,20 +39,46 @@ class DoctorDetailsView extends StatelessWidget {
         .toList();
   }
 
+  List<String> _contactLines(String text) {
+    return _splitLines(text);
+  }
+
+  String _firstLine(List<String> lines, {required String fallback}) {
+    if (lines.isEmpty) return fallback;
+    return lines.first;
+  }
+
   Widget _chip(String label, String value) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: const Color(0xFFE1E8E7)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      child: Text(
-        '$label: $value',
-        style: const TextStyle(
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
+      child: RichText(
+        text: TextSpan(
+          style: const TextStyle(
+            fontSize: 13,
+            color: Colors.black87,
+          ),
+          children: [
+            TextSpan(
+              text: '$label: ',
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            TextSpan(
+              text: value,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+          ],
         ),
       ),
     );
@@ -66,9 +92,9 @@ class DoctorDetailsView extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
+        color: const Color(0xFFF9FBFB),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
+        border: Border.all(color: const Color(0xFFE3E9E8)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,7 +103,7 @@ class DoctorDetailsView extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: const Color(0xFFCBF1EF).withOpacity(0.8),
+              color: const Color(0xFFCBF1EF).withOpacity(0.75),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 20, color: Colors.black87),
@@ -106,6 +132,174 @@ class DoctorDetailsView extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _actionButton({
+    required String label,
+    required VoidCallback onPressed,
+    required Color backgroundColor,
+    required Color foregroundColor,
+    BorderSide? borderSide,
+  }) {
+    final button = borderSide == null
+        ? ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: backgroundColor,
+              foregroundColor: foregroundColor,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          )
+        : OutlinedButton(
+            onPressed: onPressed,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: foregroundColor,
+              side: borderSide,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          );
+
+    return Expanded(
+      child: SizedBox(height: 48, child: button),
+    );
+  }
+
+  Widget _heroAvatar(String imageUrl, String name, String designation) {
+    return Column(
+      children: [
+        Container(
+          width: 116,
+          height: 116,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(26),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.12),
+                blurRadius: 24,
+                offset: const Offset(0, 12),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(6),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: const Color(0xFFEFF6F5),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: const Color(0xFFEFF6F5),
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.person,
+                          size: 56,
+                          color: Colors.black26,
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    color: const Color(0xFFEFF6F5),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.person,
+                      size: 56,
+                      color: Colors.black26,
+                    ),
+                  ),
+          ),
+        ),
+        const SizedBox(height: 14),
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF17302F),
+            fontSize: 21,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          designation,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF6B7B7A),
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _scheduleRow({required String left, required String right}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 4),
+            child: Icon(
+              Icons.fiber_manual_record,
+              size: 9,
+              color: Color(0xFF1DA9A1),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              left,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF17302F),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            right,
+            textAlign: TextAlign.right,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF4C5E5D),
             ),
           ),
         ],
@@ -151,13 +345,7 @@ class DoctorDetailsView extends StatelessWidget {
     final doctorId = _doctorIdFromRoute();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FB),
-      appBar: AppBar(
-        title: const Text('Doctor Details'),
-        backgroundColor: const Color(0xFFCBF1EF),
-        foregroundColor: Colors.black87,
-        elevation: 0,
-      ),
+      backgroundColor: const Color(0xFFF3F7F6),
       body: doctorId == null
           ? const Center(child: Text('Invalid doctor id'))
           : FutureBuilder<Map<String, dynamic>>(
@@ -199,267 +387,408 @@ class DoctorDetailsView extends StatelessWidget {
                   fallback: 'No contact details available.',
                 );
                 final contactLines = _contactLines(contacts);
+                final scheduleLines = _splitLines(schedule);
+                final contactLead = _firstLine(
+                  contactLines,
+                  fallback: 'No contact details available.',
+                );
 
-                return SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(22),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
-                              blurRadius: 20,
-                              offset: const Offset(0, 10),
-                            ),
+                return Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(0xFFC6EFE8),
+                            Color(0xFFF3F7F6),
                           ],
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(22),
-                          child: Stack(
-                            children: [
-                              AspectRatio(
-                                aspectRatio: 16 / 11,
-                                child: image.isNotEmpty
-                                    ? Image.network(
-                                        image,
-                                        width: double.infinity,
-                                        fit: BoxFit.cover,
-                                        loadingBuilder: (
-                                          context,
-                                          child,
-                                          loadingProgress,
-                                        ) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          }
-                                          return Container(
-                                            color: const Color(0xFFEFF6F5),
-                                            child: const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            ),
-                                          );
-                                        },
-                                        errorBuilder:
-                                            (context, error, stackTrace) {
-                                          return Container(
-                                            color: const Color(0xFFEFF6F5),
-                                            child: const Center(
-                                              child: Icon(
-                                                Icons.person,
-                                                size: 72,
-                                                color: Colors.black26,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      )
-                                    : Container(
-                                        color: const Color(0xFFEFF6F5),
-                                        child: const Center(
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 72,
-                                            color: Colors.black26,
-                                          ),
-                                        ),
+                      ),
+                    ),
+                    SafeArea(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () => Get.back(),
+                                  icon: const Icon(Icons.arrow_back),
+                                  color: Colors.black87,
+                                ),
+                                const Expanded(
+                                  child: Text(
+                                    'Profile',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87,
+                                    ),
+                                  ),
+                                ),
+                                // Container(
+                                //   width: 48,
+                                //   height: 48,
+                                //   margin: const EdgeInsets.only(right: 4),
+                                //   decoration: const BoxDecoration(
+                                //     color: Colors.white,
+                                //     shape: BoxShape.circle,
+                                //   ),
+                                //   child: IconButton(
+                                //     onPressed: () {
+                                //       Get.snackbar(
+                                //         'More options',
+                                //         'Additional actions are not available yet.',
+                                //         snackPosition: SnackPosition.BOTTOM,
+                                //       );
+                                //     },
+                                //     icon: const Icon(Icons.menu),
+                                //     color: Colors.black87,
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              padding:
+                                  const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child:
+                                        _heroAvatar(image, name, designation),
+                                  ),
+                                  const SizedBox(height: 18),
+                                  Center(
+                                    child: Text(
+                                      subcategory.isEmpty
+                                          ? designation
+                                          : subcategory,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF2C6D69),
                                       ),
-                              ),
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                child: Container(
-                                  padding: const EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Colors.transparent,
-                                        Colors.black.withOpacity(0.75),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Center(
+                                    child: Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: 10,
+                                      runSpacing: 10,
+                                      children: [
+                                        _chip('Specialty', subcategory),
+                                        _chip('Experience', '$years years'),
+                                        _chip('Fees', fees),
                                       ],
                                     ),
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        name,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w800,
-                                        ),
+                                  const SizedBox(height: 16),
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 14,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: const Color(0xFFE3E9E8),
                                       ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        designation,
-                                        style: const TextStyle(
-                                          color: Colors.white70,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: [
-                          _chip('Specialty', subcategory),
-                          _chip('Experience', '$years years'),
-                          _chip('Fees', fees),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      _sectionCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _sectionTitle('Doctor Information'),
-                            _infoTile(
-                              icon: Icons.local_hospital_outlined,
-                              label: 'Hospital',
-                              value: hospital,
-                            ),
-                            const SizedBox(height: 12),
-                            _infoTile(
-                              icon: Icons.medical_services_outlined,
-                              label: 'Specialty',
-                              value: subcategory,
-                            ),
-                            const SizedBox(height: 12),
-                            _infoTile(
-                              icon: Icons.timer_outlined,
-                              label: 'Experience',
-                              value: '$years years',
-                            ),
-                            const SizedBox(height: 12),
-                            _infoTile(
-                              icon: Icons.payments_outlined,
-                              label: 'Consultation Fee',
-                              value: fees,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      _sectionCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _sectionTitle('Schedule'),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(14),
-                              decoration: BoxDecoration(
-                                color:
-                                    const Color(0xFFCBF1EF).withOpacity(0.35),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Text(
-                                schedule,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      _sectionCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _sectionTitle('Details'),
-                            Text(
-                              details,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                height: 1.6,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      _sectionCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _sectionTitle('Contact'),
-                            if (contactLines.isNotEmpty)
-                              Column(
-                                children: contactLines
-                                    .map(
-                                      (line) => Container(
-                                        width: double.infinity,
-                                        margin:
-                                            const EdgeInsets.only(bottom: 10),
-                                        padding: const EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFF8FAFC),
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          border: Border.all(
-                                            color: const Color(0xFFE5E7EB),
-                                          ),
-                                        ),
-                                        child: Row(
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             const Icon(
-                                              Icons.phone_in_talk_outlined,
+                                              Icons.local_hospital_outlined,
                                               size: 18,
-                                              color: Colors.black54,
+                                              color: Color(0xFF1DA9A1),
                                             ),
                                             const SizedBox(width: 10),
                                             Expanded(
                                               child: Text(
-                                                line,
+                                                hospital,
                                                 style: const TextStyle(
-                                                  fontSize: 14,
-                                                  height: 1.45,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xFF17302F),
                                                 ),
                                               ),
                                             ),
                                           ],
                                         ),
+                                        const SizedBox(height: 10),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Icon(
+                                              Icons.phone_outlined,
+                                              size: 18,
+                                              color: Color(0xFF1DA9A1),
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Expanded(
+                                              child: Text(
+                                                contactLead,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF4C5E5D),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  Row(
+                                    children: [
+                                      _actionButton(
+                                        label: 'Book Appointment',
+                                        onPressed: () {
+                                          Get.snackbar(
+                                            'Book Appointment',
+                                            hospital.isNotEmpty
+                                                ? 'Please contact $hospital to book an appointment.'
+                                                : 'Appointment booking is not available yet.',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                        },
+                                        backgroundColor:
+                                            const Color(0xFF1DA9A1),
+                                        foregroundColor: Colors.white,
                                       ),
-                                    )
-                                    .toList(),
-                              )
-                            else
-                              Text(
-                                contacts,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  height: 1.6,
-                                ),
+                                      const SizedBox(width: 12),
+                                      _actionButton(
+                                        label: 'Recommendations',
+                                        onPressed: () {
+                                          Get.snackbar(
+                                            'Recommendations',
+                                            'Recommendations are not available yet.',
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                        },
+                                        backgroundColor: Colors.white,
+                                        foregroundColor:
+                                            const Color(0xFF17302F),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFFE1E8E7),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 18),
+                                  _sectionCard(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _sectionTitle('OPD Timings'),
+                                        if (scheduleLines.isNotEmpty)
+                                          Column(
+                                            children: scheduleLines.map((line) {
+                                              final normalized = line
+                                                  .replaceAll('–', '-')
+                                                  .replaceAll('—', '-')
+                                                  .trim();
+                                              String left = normalized;
+                                              String right = '';
+
+                                              final twoPart = normalized.split(
+                                                RegExp(r'\s{2,}'),
+                                              );
+                                              if (twoPart.length >= 2) {
+                                                left = twoPart.first;
+                                                right = twoPart
+                                                    .sublist(1)
+                                                    .join(' ');
+                                              } else if (normalized
+                                                  .contains(' - ')) {
+                                                final dashPart =
+                                                    normalized.split(
+                                                  RegExp(r'\s*-\s*'),
+                                                );
+                                                if (dashPart.length >= 2) {
+                                                  left = dashPart.first;
+                                                  right = dashPart
+                                                      .sublist(1)
+                                                      .join(' - ');
+                                                }
+                                              }
+
+                                              return _scheduleRow(
+                                                left: left,
+                                                right:
+                                                    right.isEmpty ? ' ' : right,
+                                              );
+                                            }).toList(),
+                                          )
+                                        else
+                                          Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.all(14),
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFCBF1EF)
+                                                  .withOpacity(0.32),
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
+                                            ),
+                                            child: Text(
+                                              schedule,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1.5,
+                                                color: Color(0xFF17302F),
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  _sectionCard(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _sectionTitle('Doctor Information'),
+                                        _infoTile(
+                                          icon: Icons.local_hospital_outlined,
+                                          label: 'Hospital',
+                                          value: hospital,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        _infoTile(
+                                          icon: Icons.medical_services_outlined,
+                                          label: 'Specialty',
+                                          value: subcategory,
+                                        ),
+                                        const SizedBox(height: 12),
+                                        _infoTile(
+                                          icon: Icons.timer_outlined,
+                                          label: 'Experience',
+                                          value: '$years years',
+                                        ),
+                                        const SizedBox(height: 12),
+                                        _infoTile(
+                                          icon: Icons.payments_outlined,
+                                          label: 'Consultation Fee',
+                                          value: fees,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  _sectionCard(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _sectionTitle('Details'),
+                                        Text(
+                                          details,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            height: 1.6,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 14),
+                                  _sectionCard(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        _sectionTitle('Contact'),
+                                        if (contactLines.isNotEmpty)
+                                          Column(
+                                            children: contactLines
+                                                .map(
+                                                  (line) => Container(
+                                                    width: double.infinity,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            bottom: 10),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12),
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xFFF9FBFB),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              12),
+                                                      border: Border.all(
+                                                        color: const Color(
+                                                            0xFFE3E9E8),
+                                                      ),
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        const SizedBox(
+                                                            width: 10),
+                                                        Expanded(
+                                                          child: Text(
+                                                            line,
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 14,
+                                                              height: 1.45,
+                                                              color: Colors
+                                                                  .black87,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                                .toList(),
+                                          )
+                                        else
+                                          Text(
+                                            contacts,
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              height: 1.6,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 24),
+                                ],
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               },
             ),
