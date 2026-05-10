@@ -225,17 +225,23 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                 ),
                 const SizedBox(width: 8),
                 ..._subcategories.map(
-                  (subcategory) => Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: _CategoryChip(
-                      label: subcategory.name,
-                      iconUrl: _resolveImageUrl(subcategory.icon ?? ''),
-                      iconFallback: Icons.local_hospital_outlined,
-                      selected: _selectedSubcategoryId == subcategory.id,
-                      onTap: () => _selectSubcategory(subcategory.id),
-                      isLoading: false,
-                    ),
-                  ),
+                  (subcategory) {
+                    if (subcategory.name.trim() == 'General Physician') {
+                      return const SizedBox.shrink();
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: _CategoryChip(
+                        label: subcategory.name,
+                        iconUrl: _resolveImageUrl(subcategory.icon ?? ''),
+                        iconFallback: Icons.local_hospital_outlined,
+                        selected: _selectedSubcategoryId == subcategory.id,
+                        onTap: () => _selectSubcategory(subcategory.id),
+                        isLoading: false,
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
