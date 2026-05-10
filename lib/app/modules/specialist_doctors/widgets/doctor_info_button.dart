@@ -6,7 +6,7 @@ import '../../../routes/app_routes.dart';
 
 class DoctorInfoButton extends StatelessWidget {
   final int doctorId;
-  const DoctorInfoButton({Key? key, required this.doctorId}) : super(key: key);
+  const DoctorInfoButton({super.key, required this.doctorId});
 
   static Future<void> openDoctorDetails(
     BuildContext context,
@@ -26,9 +26,14 @@ class DoctorInfoButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.info_outline, color: Colors.black54),
       onPressed: () => openDoctorDetails(context, doctorId),
       tooltip: 'View details',
+      icon: Image.asset(
+        'assets/images/banners/right.png',
+        width: 24,
+        height: 24,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }

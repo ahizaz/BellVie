@@ -94,7 +94,7 @@ class DoctorDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
                             image,
-                            height: 160,
+                            height: 400,
                             width: double.infinity,
                             fit: BoxFit.cover,
                           ),
