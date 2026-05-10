@@ -138,34 +138,11 @@ class _DoctorCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: 175,
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFBEE9FF),
-              Color(0xFFDFF8EF),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white24, width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x33FFFFFF),
-              offset: Offset(-3, -3),
-              blurRadius: 6,
-            ),
-            BoxShadow(
-              color: Color(0x22000000),
-              offset: Offset(3, 3),
-              blurRadius: 8,
-            ),
-          ],
-        ),
+        height: 220,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Center(
@@ -267,11 +244,8 @@ class _DoctorCard extends StatelessWidget {
                     Text(
                       'Experience: ${doctor.experience}',
                       textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 11,
-                        height: 1.2,
                         color: Colors.black54,
                       ),
                     ),
@@ -279,27 +253,23 @@ class _DoctorCard extends StatelessWidget {
                     Text(
                       'Fees: ${doctor.fees}',
                       textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 11,
-                        height: 1.2,
                         color: Colors.black54,
                       ),
                     ),
                 ],
               ),
             ],
-            const Spacer(),
             SizedBox(
-              width: double.infinity,
+              width: 140,
               height: 30,
               child: TextButton(
                 onPressed: onTap,
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: const Color(0xFF2F6FED),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Text(
@@ -307,7 +277,7 @@ class _DoctorCard extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF2F6FED),
+                    color: Colors.white,
                   ),
                 ),
               ),

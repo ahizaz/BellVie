@@ -390,8 +390,10 @@ class _DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imagePath = doctor.imageAssetPath.trim();
+
     final isNetworkImage =
         imagePath.startsWith('http://') || imagePath.startsWith('https://');
+
     final subtitle = doctor.subcategoryName.isNotEmpty
         ? doctor.subcategoryName
         : doctor.designation;
@@ -399,145 +401,126 @@ class _DoctorCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
         width: 175,
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color(0xFFBEE9FF),
-              Color(0xFFDFF8EF),
-            ],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 6,
+            vertical: 4,
           ),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white24, width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x33FFFFFF),
-              offset: Offset(-3, -3),
-              blurRadius: 6,
-            ),
-            BoxShadow(
-              color: Color(0x22000000),
-              offset: Offset(3, 3),
-              blurRadius: 8,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                height: 80,
-                width: 80,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: ClipOval(
-                  child: imagePath.isNotEmpty
-                      ? isNetworkImage
-                          ? CachedNetworkImage(
-                              imageUrl: imagePath,
-                              fit: BoxFit.cover,
-                              placeholder: (_, __) => _DoctorPlaceholder(
-                                name: doctor.name,
-                              ),
-                              errorWidget: (_, __, ___) => _DoctorPlaceholder(
-                                name: doctor.name,
-                              ),
-                            )
-                          : Image.asset(
-                              imagePath,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => _DoctorPlaceholder(
-                                name: doctor.name,
-                              ),
-                            )
-                      : _DoctorPlaceholder(name: doctor.name),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: ClipOval(
+                    child: imagePath.isNotEmpty
+                        ? isNetworkImage
+                            ? CachedNetworkImage(
+                                imageUrl: imagePath,
+                                fit: BoxFit.cover,
+                                placeholder: (_, __) => _DoctorPlaceholder(
+                                  name: doctor.name,
+                                ),
+                                errorWidget: (_, __, ___) => _DoctorPlaceholder(
+                                  name: doctor.name,
+                                ),
+                              )
+                            : Image.asset(
+                                imagePath,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) =>
+                                    _DoctorPlaceholder(
+                                  name: doctor.name,
+                                ),
+                              )
+                        : _DoctorPlaceholder(
+                            name: doctor.name,
+                          ),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              doctor.name,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: Colors.black87,
+              const SizedBox(height: 8),
+              Text(
+                doctor.name,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black54,
-                height: 1.2,
-              ),
-            ),
-            if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Column(
-                children: [
-                  if (doctor.experience.isNotEmpty)
-                    Text(
-                      'Experience: ${doctor.experience}',
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        height: 1.2,
-                        color: Colors.black54,
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.black54,
+                  height: 1.2,
+                ),
+              ),
+              if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Column(
+                  children: [
+                    if (doctor.experience.isNotEmpty)
+                      Text(
+                        'Experience: ${doctor.experience}',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.black54,
+                        ),
                       ),
-                    ),
-                  if (doctor.fees.isNotEmpty)
-                    Text(
-                      'Fees: ৳${doctor.fees}',
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        height: 1.2,
-                        color: Colors.black54,
+                    if (doctor.fees.isNotEmpty)
+                      Text(
+                        'Fees: ৳${doctor.fees}',
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.black54,
+                        ),
                       ),
+                  ],
+                ),
+              ],
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 140,
+                height: 30,
+                child: TextButton(
+                  onPressed: onTap,
+                  style: TextButton.styleFrom(
+                    backgroundColor: const Color(0xFF2F6FED),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                ],
+                  ),
+                  child: const Text(
+                    'Book Appointment',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ],
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              height: 30,
-              child: TextButton(
-                onPressed: onTap,
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Book Appointment',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF2F6FED),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
