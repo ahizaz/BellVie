@@ -411,15 +411,46 @@ class DoctorDetailsView extends StatelessWidget {
                       child: Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 2, 10, 0),
-                            child: Row(
+                            padding: const EdgeInsets.fromLTRB(4, 2, 4, 0),
+                            child: Stack(
+                              alignment: Alignment.center,
                               children: [
-                                IconButton(
-                                  onPressed: () => Get.back(),
-                                  icon: const Icon(Icons.arrow_back),
-                                  color: Colors.black87,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: 48,
+                                      child: IconButton(
+                                        onPressed: () => Get.back(),
+                                        icon: const Icon(Icons.arrow_back),
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 48,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Get.snackbar(
+                                              'More options',
+                                              'Additional actions are not available yet.',
+                                              snackPosition:
+                                                  SnackPosition.BOTTOM,
+                                            );
+                                          },
+                                          icon: const Icon(Icons.menu),
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const Expanded(
+                                const Center(
                                   child: Text(
                                     'Profile',
                                     textAlign: TextAlign.center,
@@ -430,26 +461,6 @@ class DoctorDetailsView extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // Container(
-                                //   width: 48,
-                                //   height: 48,
-                                //   margin: const EdgeInsets.only(right: 4),
-                                //   decoration: const BoxDecoration(
-                                //     color: Colors.white,
-                                //     shape: BoxShape.circle,
-                                //   ),
-                                //   child: IconButton(
-                                //     onPressed: () {
-                                //       Get.snackbar(
-                                //         'More options',
-                                //         'Additional actions are not available yet.',
-                                //         snackPosition: SnackPosition.BOTTOM,
-                                //       );
-                                //     },
-                                //     icon: const Icon(Icons.menu),
-                                //     color: Colors.black87,
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
