@@ -345,15 +345,15 @@ class _ForeignTreatmentCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 75,
-              width: 75,
+              height: 90,
+              width: 90,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFFE8F5FF),
-                    const Color(0xFF2F6FED).withOpacity(0.10),
+                    Color(0xFFF4F8FF),
+                    Color(0xFFDFE9FF),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(32),
