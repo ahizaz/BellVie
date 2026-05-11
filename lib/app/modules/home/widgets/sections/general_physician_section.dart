@@ -18,14 +18,45 @@ class GeneralPhysicianSection extends StatefulWidget {
 
 class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
   final AppApiService _apiService = AppApiService();
+  final ScrollController _scrollController = ScrollController();
   List<SpecialistDoctorItem> _doctors = [];
   bool _isLoading = false;
   bool _resolved = false;
+  bool _showScrollHint = false;
 
   @override
   void initState() {
     super.initState();
     _fetchDoctors();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollRight() {
+    if (!_scrollController.hasClients) return;
+    final max = _scrollController.position.maxScrollExtent;
+    final next = (_scrollController.offset + 220.0).clamp(0.0, max).toDouble();
+    _scrollController.animateTo(
+      next,
+      duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOut,
+    );
+  }
+
+  void _updateScrollHint() {
+    if (!mounted || !_scrollController.hasClients) return;
+    final position = _scrollController.position;
+    final show = position.maxScrollExtent > 0 &&
+        position.pixels < position.maxScrollExtent - 2;
+    if (show != _showScrollHint) {
+      setState(() {
+        _showScrollHint = show;
+      });
+    }
   }
 
   Future<void> _fetchDoctors() async {
@@ -65,13 +96,16 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         _doctors = items;
         _resolved = true;
         _isLoading = false;
+        _showScrollHint = false;
       });
+      WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
     } catch (_) {
       if (!mounted) return;
       setState(() {
         _doctors = [];
         _resolved = true;
         _isLoading = false;
+        _showScrollHint = false;
       });
     }
   }
@@ -105,20 +139,84 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
                           child: Text('No doctors available right now.'),
                         )
                       : const SizedBox.shrink())
-                  : ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _doctors.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
-                      itemBuilder: (context, index) {
-                        final doctor = _doctors[index];
-                        return _DoctorCard(
-                          doctor: doctor,
-                          onTap: _openBooking,
-                        );
-                      },
+                  : Stack(
+                      children: [
+                        NotificationListener<ScrollNotification>(
+                          onNotification: (notification) {
+                            if (notification is ScrollUpdateNotification ||
+                                notification is ScrollEndNotification) {
+                              _updateScrollHint();
+                            }
+                            return false;
+                          },
+                          child: ListView.separated(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            padding: const EdgeInsets.only(right: 36),
+                            itemCount: _doctors.length,
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(width: 12),
+                            itemBuilder: (context, index) {
+                              final doctor = _doctors[index];
+                              return _DoctorCard(
+                                doctor: doctor,
+                                onTap: _openBooking,
+                              );
+                            },
+                          ),
+                        ),
+                        if (_doctors.length > 1 && _showScrollHint)
+                          Positioned(
+                            right: 6,
+                            top: 0,
+                            bottom: 0,
+                            child: _ScrollHintArrow(
+                              onPressed: _scrollRight,
+                            ),
+                          ),
+                      ],
                     ),
         ),
       ],
+    );
+  }
+}
+
+class _ScrollHintArrow extends StatelessWidget {
+  const _ScrollHintArrow({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(14),
+          child: Container(
+            height: 28,
+            width: 28,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x22000000),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: Color(0xFF2F6FED),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
