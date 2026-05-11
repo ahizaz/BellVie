@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
 import '../../../services/app_loader.dart';
 import '../../../services/auth_service.dart';
@@ -59,6 +62,30 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
     final hour = time.hour.toString().padLeft(2, '0');
     final minute = time.minute.toString().padLeft(2, '0');
     return '$hour:$minute:00.000Z';
+  }
+
+  int? _asInt(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is String) return int.tryParse(value);
+    return null;
+  }
+
+  int? _extractBookingId(dynamic decoded) {
+    if (decoded == null) return null;
+
+    if (decoded is Map<String, dynamic>) {
+      return _asInt(decoded['id']) ??
+          _asInt(decoded['booking']) ??
+          _asInt(decoded['booking_id']) ??
+          _extractBookingId(decoded['data']);
+    }
+
+    if (decoded is List && decoded.isNotEmpty) {
+      return _extractBookingId(decoded.first);
+    }
+
+    return null;
   }
 
   Future<void> _pickDate() async {
@@ -141,9 +168,26 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
       );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        int? bookingId;
+        try {
+          bookingId = _extractBookingId(jsonDecode(response.body));
+        } catch (_) {
+          bookingId = null;
+        }
+
+        if (bookingId == null) {
+          AppLoader.showError('Booking created but booking id is missing.');
+          return;
+        }
+
         AppLoader.showSuccess('Appointment submitted successfully.');
         if (mounted) {
-          Get.back();
+          Get.offNamed(
+            Routes.APPOINTMENT_PAYMENT,
+            parameters: {
+              'bookingId': bookingId.toString(),
+            },
+          );
         }
         return;
       }
