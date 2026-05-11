@@ -32,7 +32,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
   bool _resolvedDoctors = false;
   String? _errorMessage;
   int _doctorRequestToken = 0;
-  bool _showScrollHint = false;
+  bool _showScrollHintLeft = false;
+  bool _showScrollHintRight = false;
 
   @override
   void initState() {
@@ -57,14 +58,27 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     );
   }
 
+  void _scrollLeft() {
+    if (!_scrollController.hasClients) return;
+    final max = _scrollController.position.maxScrollExtent;
+    final next = (_scrollController.offset - 220.0).clamp(0.0, max).toDouble();
+    _scrollController.animateTo(
+      next,
+      duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOut,
+    );
+  }
+
   void _updateScrollHint() {
     if (!mounted || !_scrollController.hasClients) return;
     final position = _scrollController.position;
-    final show = position.maxScrollExtent > 0 &&
+    final showLeft = position.pixels > 2;
+    final showRight = position.maxScrollExtent > 0 &&
         position.pixels < position.maxScrollExtent - 2;
-    if (show != _showScrollHint) {
+    if (showLeft != _showScrollHintLeft || showRight != _showScrollHintRight) {
       setState(() {
-        _showScrollHint = show;
+        _showScrollHintLeft = showLeft;
+        _showScrollHintRight = showRight;
       });
     }
   }
@@ -147,7 +161,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         _doctors = items;
         _resolvedDoctors = true;
         _isLoadingDoctors = false;
-        _showScrollHint = false;
+        _showScrollHintLeft = false;
+        _showScrollHintRight = false;
         _errorMessage =
             items.isEmpty ? 'No doctors available right now.' : null;
       });
@@ -158,7 +173,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         _doctors = [];
         _resolvedDoctors = true;
         _isLoadingDoctors = false;
-        _showScrollHint = false;
+        _showScrollHintLeft = false;
+        _showScrollHintRight = false;
         _errorMessage = 'No doctors available right now.';
       });
     }
@@ -312,7 +328,10 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                             controller: _scrollController,
                             scrollDirection: Axis.horizontal,
                             physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.only(right: 36),
+                            padding: EdgeInsets.only(
+                              left: _showScrollHintLeft ? 36 : 0,
+                              right: _showScrollHintRight ? 36 : 0,
+                            ),
                             itemCount: _doctors.length,
                             separatorBuilder: (_, __) =>
                                 const SizedBox(width: 12),
@@ -325,13 +344,24 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                             },
                           ),
                         ),
-                        if (_doctors.length > 1 && _showScrollHint)
+                        if (_doctors.length > 1 && _showScrollHintRight)
                           Positioned(
                             right: 6,
                             top: 0,
                             bottom: 0,
                             child: _ScrollHintArrow(
                               onPressed: _scrollRight,
+                              icon: Icons.arrow_forward_ios_rounded,
+                            ),
+                          ),
+                        if (_doctors.length > 1 && _showScrollHintLeft)
+                          Positioned(
+                            left: 6,
+                            top: 0,
+                            bottom: 0,
+                            child: _ScrollHintArrow(
+                              onPressed: _scrollLeft,
+                              icon: Icons.arrow_back_ios_new_rounded,
                             ),
                           ),
                       ],
@@ -343,9 +373,10 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
 }
 
 class _ScrollHintArrow extends StatelessWidget {
-  const _ScrollHintArrow({required this.onPressed});
+  const _ScrollHintArrow({required this.onPressed, required this.icon});
 
   final VoidCallback onPressed;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -369,8 +400,8 @@ class _ScrollHintArrow extends StatelessWidget {
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            child: Icon(
+              icon,
               size: 16,
               color: Color(0xFF2F6FED),
             ),

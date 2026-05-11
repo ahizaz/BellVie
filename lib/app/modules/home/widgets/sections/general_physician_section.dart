@@ -22,7 +22,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
   List<SpecialistDoctorItem> _doctors = [];
   bool _isLoading = false;
   bool _resolved = false;
-  bool _showScrollHint = false;
+  bool _showScrollHintLeft = false;
+  bool _showScrollHintRight = false;
 
   @override
   void initState() {
@@ -47,14 +48,27 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
     );
   }
 
+  void _scrollLeft() {
+    if (!_scrollController.hasClients) return;
+    final max = _scrollController.position.maxScrollExtent;
+    final next = (_scrollController.offset - 220.0).clamp(0.0, max).toDouble();
+    _scrollController.animateTo(
+      next,
+      duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOut,
+    );
+  }
+
   void _updateScrollHint() {
     if (!mounted || !_scrollController.hasClients) return;
     final position = _scrollController.position;
-    final show = position.maxScrollExtent > 0 &&
+    final showLeft = position.pixels > 2;
+    final showRight = position.maxScrollExtent > 0 &&
         position.pixels < position.maxScrollExtent - 2;
-    if (show != _showScrollHint) {
+    if (showLeft != _showScrollHintLeft || showRight != _showScrollHintRight) {
       setState(() {
-        _showScrollHint = show;
+        _showScrollHintLeft = showLeft;
+        _showScrollHintRight = showRight;
       });
     }
   }
@@ -96,7 +110,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         _doctors = items;
         _resolved = true;
         _isLoading = false;
-        _showScrollHint = false;
+        _showScrollHintLeft = false;
+        _showScrollHintRight = false;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
     } catch (_) {
@@ -105,7 +120,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         _doctors = [];
         _resolved = true;
         _isLoading = false;
-        _showScrollHint = false;
+        _showScrollHintLeft = false;
+        _showScrollHintRight = false;
       });
     }
   }
@@ -152,7 +168,10 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
                           child: ListView.separated(
                             controller: _scrollController,
                             scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.only(right: 36),
+                            padding: EdgeInsets.only(
+                              left: _showScrollHintLeft ? 36 : 0,
+                              right: _showScrollHintRight ? 36 : 0,
+                            ),
                             itemCount: _doctors.length,
                             separatorBuilder: (_, __) =>
                                 const SizedBox(width: 12),
@@ -165,13 +184,24 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
                             },
                           ),
                         ),
-                        if (_doctors.length > 1 && _showScrollHint)
+                        if (_doctors.length > 1 && _showScrollHintRight)
                           Positioned(
                             right: 6,
                             top: 0,
                             bottom: 0,
                             child: _ScrollHintArrow(
                               onPressed: _scrollRight,
+                              icon: Icons.arrow_forward_ios_rounded,
+                            ),
+                          ),
+                        if (_doctors.length > 1 && _showScrollHintLeft)
+                          Positioned(
+                            left: 6,
+                            top: 0,
+                            bottom: 0,
+                            child: _ScrollHintArrow(
+                              onPressed: _scrollLeft,
+                              icon: Icons.arrow_back_ios_new_rounded,
                             ),
                           ),
                       ],
@@ -183,9 +213,10 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
 }
 
 class _ScrollHintArrow extends StatelessWidget {
-  const _ScrollHintArrow({required this.onPressed});
+  const _ScrollHintArrow({required this.onPressed, required this.icon});
 
   final VoidCallback onPressed;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +240,8 @@ class _ScrollHintArrow extends StatelessWidget {
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.arrow_forward_ios_rounded,
+            child: Icon(
+              icon,
               size: 16,
               color: Color(0xFF2F6FED),
             ),
