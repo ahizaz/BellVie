@@ -175,7 +175,7 @@ class _DoctorCard extends StatelessWidget {
               ),
               Center(
                 child: SizedBox(
-                  height: 60,
+                  height: 72,
                   width: 60,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(40),
@@ -291,16 +291,15 @@ class _DoctorCard extends StatelessWidget {
                 child: TextButton(
                   onPressed: onTap,
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: const Text(
                     'Book Appointment',
                     style: TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
                       color: const Color(0xFF2F6FED),
                     ),
                   ),

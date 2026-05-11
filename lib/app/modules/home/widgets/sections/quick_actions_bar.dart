@@ -57,9 +57,9 @@ class QuickActionsBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x1A000000),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+            color: Color(0xFF0B8C7C),
+            blurRadius: 4,
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class QuickActionsBar extends StatelessWidget {
             return Container(
               width: 1,
               height: 40,
-              color: Colors.white.withValues(alpha:0.25),
+              color: Colors.white.withValues(alpha: 0.25),
             );
           }
           final item = items[i ~/ 2];

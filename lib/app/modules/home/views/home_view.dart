@@ -90,7 +90,7 @@ class _CallDrawer extends StatelessWidget {
             ),
             const SizedBox(height: 15),
             SizedBox(
-              height: 100,
+              height: 84,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 4),

@@ -99,8 +99,8 @@ class PopularServicesSection extends StatelessWidget {
               return LayoutBuilder(builder: (context, constraints) {
                 final totalWidth = constraints.maxWidth;
                 const crossCount = 4;
-                const spacing = 10.0;
-                const childAspect = 0.74;
+                const spacing = 2.0;
+                const childAspect = 0.80;
 
                 final availableWidth = totalWidth;
                 final itemWidth =
@@ -188,8 +188,8 @@ class _ServiceCardFromApi extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 80,
-              width: 80,
+              height: 70,
+              width: 90,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
