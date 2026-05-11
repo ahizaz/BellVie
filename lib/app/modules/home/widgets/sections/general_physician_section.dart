@@ -126,8 +126,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
     }
   }
 
-  void _openBooking() {
-    Get.toNamed(Routes.BOOK_APPOINTMENT);
+  void _openBooking(String doctorId) {
+    Get.toNamed('${Routes.GENERAL_PHYSICIAN_BOOKING}?id=$doctorId');
   }
 
   @override
@@ -179,7 +179,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
                               final doctor = _doctors[index];
                               return _DoctorCard(
                                 doctor: doctor,
-                                onTap: _openBooking,
+                                onTap: () => _openBooking(doctor.id),
                               );
                             },
                           ),
