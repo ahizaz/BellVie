@@ -192,19 +192,19 @@ class _ServiceCardFromApi extends StatelessWidget {
               width: 80,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFFDEE9F5),
-                    Color(0xFFC5D9F1),
+                    Color(0xFFE0F7FA),
+                    Color(0xFFE8F8FB),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(32),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.18),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
                 ],
               ),
@@ -289,14 +289,21 @@ class _ServiceCard extends StatelessWidget {
               width: 80,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [
-                    const Color(0xFFF4F8FF),
-                    const Color(0xFFDFE9FF),
+                    Color(0xFFE0F7FA),
+                    Color(0xFFE8F8FB),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
               child: Center(
                 child: SizedBox(
