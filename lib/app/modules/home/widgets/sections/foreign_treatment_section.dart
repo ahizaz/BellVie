@@ -340,7 +340,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
