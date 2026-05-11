@@ -206,8 +206,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     _fetchDoctors(subcategoryId: subcategoryId);
   }
 
-  void _openBooking() {
-    Get.toNamed(Routes.BOOK_APPOINTMENT);
+  void _openBooking(String doctorId) {
+    Get.toNamed('${Routes.SPECIALIST_DOCTOR_BOOKING}?id=$doctorId');
   }
 
   void _openAllDoctors() {
@@ -339,7 +339,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                               final doctor = _doctors[index];
                               return _DoctorCard(
                                 doctor: doctor,
-                                onTap: _openBooking,
+                                onTap: () => _openBooking(doctor.id),
                               );
                             },
                           ),

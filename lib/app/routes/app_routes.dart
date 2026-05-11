@@ -21,5 +21,7 @@ abstract class Routes {
   static const DOCTOR_BOOKING = '/doctor-booking';
   static const GENERAL_PHYSICIAN_BOOKING = '/general-physician-booking';
   static const GENERAL_PHYSICIAN_PAYMENT = '/general-physician-payment';
+  static const SPECIALIST_DOCTOR_BOOKING = '/specialist-doctor-booking';
+  static const SPECIALIST_DOCTOR_PAYMENT = '/specialist-doctor-payment';
   static const APPOINTMENT_PAYMENT = '/appointment-payment';
 }

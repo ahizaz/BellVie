@@ -34,6 +34,8 @@ import '../modules/appointments/views/book_appointment_view.dart';
 import '../modules/appointments/views/doctor_booking_view.dart';
 import '../modules/appointments/views/general_physician_booking_view.dart';
 import '../modules/appointments/views/general_physician_payment_view.dart';
+import '../modules/appointments/views/specialist_doctor_booking_view.dart';
+import '../modules/appointments/views/specialist_doctor_payment_view.dart';
 import '../modules/appointments/views/appointment_payment_view.dart';
 
 import 'auth_middleware.dart';
@@ -149,6 +151,16 @@ class AppPages {
     GetPage(
       name: Routes.GENERAL_PHYSICIAN_PAYMENT,
       page: () => const GeneralPhysicianPaymentView(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.SPECIALIST_DOCTOR_BOOKING,
+      page: () => const SpecialistDoctorBookingView(),
+      middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.SPECIALIST_DOCTOR_PAYMENT,
+      page: () => const SpecialistDoctorPaymentView(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
