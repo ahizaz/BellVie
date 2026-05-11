@@ -100,7 +100,7 @@ class PopularServicesSection extends StatelessWidget {
                 final totalWidth = constraints.maxWidth;
                 const crossCount = 4;
                 const spacing = 2.0;
-                const childAspect = 0.80;
+                const childAspect = 0.76;
 
                 final availableWidth = totalWidth;
                 final itemWidth =

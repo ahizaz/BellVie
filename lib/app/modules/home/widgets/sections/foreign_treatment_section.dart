@@ -296,7 +296,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             crossAxisCount: 3,
             crossAxisSpacing: 2,
             mainAxisSpacing: 0,
-            childAspectRatio: 0.95,
+            childAspectRatio: 0.82,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
