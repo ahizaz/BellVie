@@ -96,6 +96,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         ),
         const SizedBox(height: 6),
         SizedBox(
+          height: 200,
           child: _isLoading && _doctors.isEmpty
               ? const SizedBox.shrink()
               : _doctors.isEmpty
