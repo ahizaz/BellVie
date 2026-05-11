@@ -247,9 +247,9 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
             ),
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 18),
         SizedBox(
-          height: 260,
+          height: 200,
           child: _isLoadingDoctors && _doctors.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(strokeWidth: 2.2),
@@ -401,16 +401,34 @@ class _DoctorCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
-      child: SizedBox(
-        width: 175,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 6,
-            vertical: 4,
+      child: Container(
+        width: 180,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFE0F7FA),
+              Color(0xFFE8F8FB),
+            ],
           ),
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: SizedBox(
+          width: 175,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(
+                height: 4,
+              ),
               Center(
                 child: SizedBox(
                   height: 60,
