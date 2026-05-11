@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/specialist_doctor_list_controller.dart';
 import '../models/specialist_doctor_item.dart';
 import '../widgets/doctor_info_button.dart';
+import '../../../services/api_service.dart';
 
 class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
   const SpecialistDoctorListView({super.key});
@@ -105,12 +106,25 @@ class _DoctorListCard extends StatelessWidget {
 
   final SpecialistDoctorItem item;
 
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    if (value.startsWith('/')) {
+      return '${AppApiService.baseUrl}$value';
+    }
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     const avatarIcon = Icons.person;
     final imagePath = item.imageAssetPath.trim();
-    final isNetworkImage =
-        imagePath.startsWith('http://') || imagePath.startsWith('https://');
+    final resolvedImageUrl = _resolveImageUrl(imagePath);
+    final isNetworkImage = resolvedImageUrl.startsWith('http://') ||
+        resolvedImageUrl.startsWith('https://');
 
     // parse id (API expects numeric id like 18)
     final parsedId = int.tryParse(item.id);
@@ -149,7 +163,7 @@ class _DoctorListCard extends StatelessWidget {
                   )
                 : isNetworkImage
                     ? CachedNetworkImage(
-                        imageUrl: imagePath,
+                        imageUrl: resolvedImageUrl,
                         fit: BoxFit.cover,
                         errorWidget: (_, __, ___) => const Center(
                           child: Icon(

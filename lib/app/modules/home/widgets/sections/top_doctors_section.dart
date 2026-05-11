@@ -220,7 +220,10 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     if (value.startsWith('http://') || value.startsWith('https://')) {
       return value;
     }
-    return '${AppApiService.baseUrl}$value';
+    if (value.startsWith('/')) {
+      return '${AppApiService.baseUrl}$value';
+    }
+    return value;
   }
 
   @override
@@ -516,12 +519,25 @@ class _DoctorCard extends StatelessWidget {
   final SpecialistDoctorItem doctor;
   final VoidCallback onTap;
 
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    if (value.startsWith('/')) {
+      return '${AppApiService.baseUrl}$value';
+    }
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     final imagePath = doctor.imageAssetPath.trim();
+    final resolvedImageUrl = _resolveImageUrl(imagePath);
 
-    final isNetworkImage =
-        imagePath.startsWith('http://') || imagePath.startsWith('https://');
+    final isNetworkImage = resolvedImageUrl.startsWith('http://') ||
+        resolvedImageUrl.startsWith('https://');
 
     final subtitle = doctor.subcategoryName.isNotEmpty
         ? doctor.subcategoryName
@@ -572,7 +588,7 @@ class _DoctorCard extends StatelessWidget {
                     child: imagePath.isNotEmpty
                         ? isNetworkImage
                             ? CachedNetworkImage(
-                                imageUrl: imagePath,
+                                imageUrl: resolvedImageUrl,
                                 fit: BoxFit.cover,
                                 placeholder: (_, __) => _DoctorPlaceholder(
                                   name: doctor.name,

@@ -258,11 +258,24 @@ class _DoctorCard extends StatelessWidget {
   final SpecialistDoctorItem doctor;
   final VoidCallback onTap;
 
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    if (value.startsWith('/')) {
+      return '${AppApiService.baseUrl}$value';
+    }
+    return value;
+  }
+
   @override
   Widget build(BuildContext context) {
     final imagePath = doctor.imageAssetPath.trim();
-    final isNetworkImage =
-        imagePath.startsWith('http://') || imagePath.startsWith('https://');
+    final resolvedImageUrl = _resolveImageUrl(imagePath);
+    final isNetworkImage = resolvedImageUrl.startsWith('http://') ||
+        resolvedImageUrl.startsWith('https://');
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -311,7 +324,7 @@ class _DoctorCard extends StatelessWidget {
                     child: imagePath.isNotEmpty
                         ? isNetworkImage
                             ? CachedNetworkImage(
-                                imageUrl: imagePath,
+                                imageUrl: resolvedImageUrl,
                                 fit: BoxFit.cover,
                                 placeholder: (c, s) => Container(
                                   color: const Color(0xFFDFF8EF),

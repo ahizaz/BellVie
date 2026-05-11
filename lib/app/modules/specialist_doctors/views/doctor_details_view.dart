@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../routes/app_routes.dart';
+import '../../../services/api_service.dart';
 
 class DoctorDetailsView extends StatelessWidget {
   const DoctorDetailsView({super.key});
@@ -31,6 +32,18 @@ class DoctorDetailsView extends StatelessWidget {
   String _textValue(dynamic value, {String fallback = 'Not available'}) {
     final text = value?.toString().trim() ?? '';
     return text.isEmpty ? fallback : text;
+  }
+
+  String _resolveImageUrl(String raw) {
+    final value = raw.trim();
+    if (value.isEmpty) return '';
+    if (value.startsWith('http://') || value.startsWith('https://')) {
+      return value;
+    }
+    if (value.startsWith('/')) {
+      return '${AppApiService.baseUrl}$value';
+    }
+    return value;
   }
 
   List<String> _splitLines(String text) {
@@ -368,7 +381,8 @@ class DoctorDetailsView extends StatelessWidget {
 
                 final data = snapshot.data ?? const <String, dynamic>{};
                 final name = _textValue(data['name']);
-                final image = data['image']?.toString().trim() ?? '';
+                final image =
+                    _resolveImageUrl(data['image']?.toString().trim() ?? '');
                 final designation = _textValue(data['designation']);
                 final years =
                     _textValue(data['years_of_experience'], fallback: '0');
