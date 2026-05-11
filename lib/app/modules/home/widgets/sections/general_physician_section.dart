@@ -268,7 +268,7 @@ class _DoctorCard extends StatelessWidget {
                   children: [
                     if (doctor.experience.isNotEmpty)
                       Text(
-                        'Experience: ${doctor.experience}',
+                        'Experience: ${doctor.experience} year${doctor.experience == 1 ? '' : 's'}',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 11,

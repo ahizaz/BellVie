@@ -294,9 +294,9 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           itemCount: _countries.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 6,
-            childAspectRatio: 0.85,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 0,
+            childAspectRatio: 0.95,
           ),
           itemBuilder: (context, i) {
             return _ForeignTreatmentCard(item: _countries[i]);
@@ -346,7 +346,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
           children: [
             Container(
               height: 100,
-              width: 100,
+              width: 125,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
@@ -373,8 +373,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
               ),
               child: Center(
                 child: SizedBox(
-                  height: 40,
-                  width: 48,
+                  height: 60,
+                  width: 78,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(4),
                     child: item.flagUrl.isNotEmpty
