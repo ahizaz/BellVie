@@ -405,19 +405,25 @@ class _DoctorCard extends StatelessWidget {
         width: 180,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFE0F7FA),
-              Color(0xFFE8F8FB),
+              Color(0xFFBEE9FF),
+              Color(0xFFDFF8EF),
             ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white24, width: 1),
+          boxShadow: const [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              color: Color(0x33FFFFFF),
+              offset: Offset(-3, -3),
+              blurRadius: 6,
+            ),
+            BoxShadow(
+              color: Color(0x22000000),
+              offset: Offset(3, 4),
+              blurRadius: 8,
             ),
           ],
         ),
@@ -460,7 +466,7 @@ class _DoctorCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Text(
                 doctor.name,
                 textAlign: TextAlign.center,

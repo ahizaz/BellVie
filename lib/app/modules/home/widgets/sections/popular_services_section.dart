@@ -192,19 +192,24 @@ class _ServiceCardFromApi extends StatelessWidget {
               width: 80,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
                   colors: [
-                    Color(0xFFE0F7FA),
-                    Color(0xFFE8F8FB),
+                    Color(0xFFBEE9FF),
+                    Color(0xFFDFF8EF),
                   ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
                 ),
-                borderRadius: BorderRadius.circular(32),
-                boxShadow: [
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    blurRadius: 12,
-                    offset: const Offset(0, 4),
+                    color: Color(0x33FFFFFF),
+                    offset: Offset(-3, -3),
+                    blurRadius: 6,
+                  ),
+                  BoxShadow(
+                    color: Color(0x22000000),
+                    offset: Offset(3, 3),
+                    blurRadius: 8,
                   ),
                 ],
               ),
