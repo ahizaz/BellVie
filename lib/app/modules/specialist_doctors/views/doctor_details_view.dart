@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../routes/app_routes.dart';
+
 class DoctorDetailsView extends StatelessWidget {
   const DoctorDetailsView({super.key});
 
@@ -574,12 +576,8 @@ class DoctorDetailsView extends StatelessWidget {
                                       _actionButton(
                                         label: 'Book Appointment',
                                         onPressed: () {
-                                          Get.snackbar(
-                                            'Book Appointment',
-                                            hospital.isNotEmpty
-                                                ? 'Please contact $hospital to book an appointment.'
-                                                : 'Appointment booking is not available yet.',
-                                            snackPosition: SnackPosition.BOTTOM,
+                                          Get.toNamed(
+                                            '${Routes.DOCTOR_BOOKING}?id=$doctorId',
                                           );
                                         },
                                         backgroundColor:

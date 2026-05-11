@@ -18,4 +18,5 @@ abstract class Routes {
   static const FORGOT_PASSWORD = '/forgot-password';
   static const COMING_SOON = '/coming-soon';
   static const BOOK_APPOINTMENT = '/book-appointment';
+  static const DOCTOR_BOOKING = '/doctor-booking';
 }
