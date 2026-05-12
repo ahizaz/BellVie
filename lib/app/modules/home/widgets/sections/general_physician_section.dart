@@ -81,7 +81,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
 
     try {
       final response = await _apiService.get(
-        path: '/api/v1/top-doctor/doctors/',
+        path:
+            '/api/v1/popular-service/doctors/?subcategory=3&subcategory__category=1',
       );
 
       if (!mounted) return;
