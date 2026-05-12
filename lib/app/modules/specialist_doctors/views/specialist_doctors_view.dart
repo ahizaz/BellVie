@@ -9,6 +9,7 @@ import '../models/subcategory.dart';
 import '../../../routes/app_routes.dart';
 import '../../../theme/responsive.dart';
 import '../../../services/auth_service.dart';
+import '../../../services/api_service.dart';
 
 class SpecialistDoctorsView extends GetView<HomeController> {
   const SpecialistDoctorsView({super.key});
@@ -174,7 +175,8 @@ class _SpecialistServiceCard extends StatelessWidget {
     final thumbSize = context.w(50).clamp(44.0, 56.0);
     final imageProvider =
         subcategory.icon != null && subcategory.icon!.isNotEmpty
-            ? CachedNetworkImageProvider(subcategory.icon!)
+            ? CachedNetworkImageProvider(
+                AppApiService.resolveImageUrl(subcategory.icon!))
             : const AssetImage('assets/images/Doctor Services.png')
                 as ImageProvider;
 

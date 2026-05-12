@@ -47,6 +47,18 @@ class AppApiService {
     return Uri.parse('$normalizedBaseUrl$normalizedPath');
   }
 
+  /// Resolve an image path or URL into a fully-qualified absolute URL.
+  /// If [url] is already absolute (starts with http/https) it is returned
+  /// unchanged. If it's a relative path (with or without a leading slash)
+  /// it is joined with [baseUrl]. Empty strings are returned as-is.
+  static String resolveImageUrl(String url) {
+    final u = url.trim();
+    if (u.isEmpty) return u;
+    if (u.startsWith('http://') || u.startsWith('https://')) return u;
+    if (u.startsWith('/')) return '$baseUrl$u';
+    return '$baseUrl/$u';
+  }
+
   Future<http.Response> post({
     required String path,
     Map<String, dynamic>? body,

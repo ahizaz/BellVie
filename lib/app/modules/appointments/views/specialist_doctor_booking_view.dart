@@ -154,18 +154,18 @@ class _SpecialistDoctorBookingViewState
     try {
       final accessToken = _authService.accessToken.value.trim();
       final response = await _apiService.post(
-        path: '/api/v1/special-doctor/bookings/create/',
+        path: '/api/v1/auth/appointments/create/',
         headers: accessToken.isEmpty
             ? null
             : {
                 'Authorization': 'Bearer $accessToken',
               },
         body: {
-          'date': _formatDate(_selectedDate!),
-          'doctor': doctorId,
+          'appointment_date': _formatDate(_selectedDate!),
+          'appointment_time': _formatTime(_selectedTime!),
+          'doctor_id': doctorId,
           'patient_name': name,
-          'phone': phone,
-          'time': _formatTime(_selectedTime!),
+          'patient_phone': phone,
         },
       );
 

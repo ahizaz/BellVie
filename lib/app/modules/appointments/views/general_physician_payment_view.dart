@@ -19,6 +19,7 @@ class _GeneralPhysicianPaymentViewState
   final AuthService _authService = AuthService.to;
 
   final TextEditingController _transactionController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
   int? _bookingId;
   String? _paymentMethod;
@@ -33,6 +34,7 @@ class _GeneralPhysicianPaymentViewState
   @override
   void dispose() {
     _transactionController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -45,9 +47,14 @@ class _GeneralPhysicianPaymentViewState
   Future<void> _submit() async {
     final bookingId = _bookingId;
     final transactionId = _transactionController.text.trim();
+    final amountText = _amountController.text.trim();
 
     if (bookingId == null) {
       AppLoader.showError('Booking id is missing.');
+      return;
+    }
+    if (amountText.isEmpty) {
+      AppLoader.showError('Please enter amount.');
       return;
     }
     if (_paymentMethod == null) {
@@ -68,15 +75,16 @@ class _GeneralPhysicianPaymentViewState
     try {
       final accessToken = _authService.accessToken.value.trim();
       final response = await _apiService.post(
-        path: '/api/v1/top-doctor/payments/',
+        path: '/api/v1/auth/payments/submit/',
         headers: accessToken.isEmpty
             ? null
             : {
                 'Authorization': 'Bearer $accessToken',
               },
         body: {
-          'booking': bookingId,
-          'payment_method': _paymentMethod,
+          'amount': amountText,
+          'appointment': bookingId,
+          'method': _paymentMethod,
           'transaction_id': transactionId,
         },
       );
@@ -135,6 +143,13 @@ class _GeneralPhysicianPaymentViewState
                 _paymentMethod = value;
               });
             },
+          ),
+          const SizedBox(height: 12),
+          _InputField(
+            controller: _amountController,
+            label: 'Amount',
+            hintText: 'Enter amount',
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 12),
           _InputField(

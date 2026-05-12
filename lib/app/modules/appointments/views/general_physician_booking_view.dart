@@ -154,7 +154,7 @@ class _GeneralPhysicianBookingViewState
     try {
       final accessToken = _authService.accessToken.value.trim();
       final response = await _apiService.post(
-        path: '/api/v1/top-doctor/bookings/',
+        path: '/api/v1/auth/appointments/create/',
         headers: accessToken.isEmpty
             ? null
             : {
@@ -163,7 +163,7 @@ class _GeneralPhysicianBookingViewState
         body: {
           'appointment_date': _formatDate(_selectedDate!),
           'appointment_time': _formatTime(_selectedTime!),
-          'doctor': doctorId,
+          'doctor_id': doctorId,
           'patient_name': name,
           'patient_phone': phone,
         },
