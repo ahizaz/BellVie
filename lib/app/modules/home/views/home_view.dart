@@ -28,12 +28,30 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  void _maybeShowDailyTip(BuildContext context, int activeIndex) {
+    if (activeIndex != 0) return;
+    if (!controller.shouldShowDailyTip) return;
+    controller.markDailyTipShown();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!context.mounted) return;
+      final tip = controller.dailyTip.value;
+      if (tip == null) return;
+
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => _DailyTipDialog(tip: tip),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       controller.currentLocale.value;
       final activeIndex =
           controller.tabIndex.value == 2 ? 0 : controller.tabIndex.value;
+      _maybeShowDailyTip(context, activeIndex);
       return Scaffold(
         backgroundColor: const Color(0xFFF2F2F2),
         body: SafeArea(
@@ -226,6 +244,80 @@ class _CallDrawerCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _DailyTipDialog extends StatelessWidget {
+  final DailyTip tip;
+
+  const _DailyTipDialog({required this.tip});
+
+  @override
+  Widget build(BuildContext context) {
+    final title = tip.title.isNotEmpty ? tip.title : 'Daily health tips';
+    final quote = tip.quote.isNotEmpty
+        ? tip.quote
+        : 'Take a moment for a healthy habit today.';
+
+    return Dialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 22, 18, 14),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF0B5394),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  quote,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFFE6E6E6),
+                      foregroundColor: Colors.black87,
+                      elevation: 0,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text('Close'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: 6,
+            right: 6,
+            child: IconButton(
+              onPressed: () => Navigator.of(context).pop(),
+              icon: const Icon(Icons.close),
+              splashRadius: 18,
+            ),
+          ),
+        ],
       ),
     );
   }
