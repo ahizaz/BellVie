@@ -10,6 +10,7 @@ class SubcategoryRepository {
   final AppApiService _apiService = AppApiService();
 
   static const String _cachePrefix = 'popular_service_subcategories_cache_v1_';
+  static const String _hiddenSubcategoryName = 'General Physician';
 
   String _cacheKey(int? categoryId) {
     return '$_cachePrefix${categoryId?.toString() ?? 'all'}';
@@ -32,6 +33,7 @@ class SubcategoryRepository {
       return decoded
           .whereType<Map<String, dynamic>>()
           .map((e) => Subcategory.fromJson(e))
+          .where((item) => !_shouldHide(item))
           .toList();
     } catch (e) {
       debugPrint('Subcategories cache read error => $e');
@@ -45,7 +47,8 @@ class SubcategoryRepository {
   }) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final encoded = jsonEncode(items.map((e) => e.toJson()).toList());
+      final visibleItems = items.where((item) => !_shouldHide(item)).toList();
+      final encoded = jsonEncode(visibleItems.map((e) => e.toJson()).toList());
       await prefs.setString(_cacheKey(categoryId), encoded);
     } catch (e) {
       debugPrint('Subcategories cache write error => $e');
@@ -75,6 +78,7 @@ class SubcategoryRepository {
       final items = rawList
           .whereType<Map<String, dynamic>>()
           .map((e) => Subcategory.fromJson(e))
+          .where((item) => !_shouldHide(item))
           .toList();
 
       if (items.isNotEmpty) {
@@ -103,5 +107,10 @@ class SubcategoryRepository {
       if (nested is List) return nested;
     }
     return const [];
+  }
+
+  bool _shouldHide(Subcategory item) {
+    return item.name.trim().toLowerCase() ==
+        _hiddenSubcategoryName.toLowerCase();
   }
 }

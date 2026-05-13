@@ -51,13 +51,13 @@ class SpecialistDoctorsRepository {
     }
 
     // If numeric ids are provided, prefer calling the popular-service doctors
-    // endpoint with page/category/subcategory query params for exact results.
+    // endpoint with page/subcategory__category/subcategory query params for exact results.
     if (categoryId != null && subcategoryId != null) {
       final encodedCategory = Uri.encodeQueryComponent(categoryId.toString());
       final encodedSub = Uri.encodeQueryComponent(subcategoryId.toString());
       final encodedPage = Uri.encodeQueryComponent(page.toString());
       final path =
-          '/api/v1/popular-service/doctors/?page=$encodedPage&category=$encodedCategory&subcategory=$encodedSub';
+          '/api/v1/popular-service/doctors/?page=$encodedPage&subcategory__category=$encodedCategory&subcategory=$encodedSub';
 
       try {
         final response = await _apiService.get(path: path);
@@ -187,7 +187,7 @@ class SpecialistDoctorsRepository {
   }) {
     if (categoryId != null && subcategoryId != null) {
       return [
-        '/api/v1/popular-service/doctors/?category=${Uri.encodeQueryComponent(categoryId.toString())}&subcategory=${Uri.encodeQueryComponent(subcategoryId.toString())}',
+        '/api/v1/popular-service/doctors/?subcategory__category=${Uri.encodeQueryComponent(categoryId.toString())}&subcategory=${Uri.encodeQueryComponent(subcategoryId.toString())}',
       ];
     }
 

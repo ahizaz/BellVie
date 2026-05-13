@@ -133,8 +133,8 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
 
     try {
       final path = subcategoryId == null
-          ? '/api/v1/special-doctor/doctors/?subcategory__category=$_categoryId'
-          : '/api/v1/special-doctor/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId';
+          ? '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId'
+          : '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId';
 
       final response = await _apiService.get(path: path);
       if (!mounted || requestToken != _doctorRequestToken) return;
@@ -155,6 +155,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           .whereType<Map<String, dynamic>>()
           .map(SpecialistDoctorItem.fromJson)
           .where((doctor) => doctor.name.isNotEmpty)
+          .where((doctor) => !_isHiddenDoctor(doctor))
           .toList();
 
       setState(() {
@@ -226,6 +227,10 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     return value;
   }
 
+  bool _isHiddenDoctor(SpecialistDoctorItem doctor) {
+    return doctor.subcategoryName.trim().toLowerCase() == 'general physician';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -279,10 +284,6 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                 const SizedBox(width: 8),
                 ..._subcategories.map(
                   (subcategory) {
-                    if (subcategory.name.trim() == 'General Physician') {
-                      return const SizedBox.shrink();
-                    }
-
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: _CategoryChip(
