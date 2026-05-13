@@ -392,10 +392,10 @@ class _ScrollHintArrow extends StatelessWidget {
           child: Container(
             height: 28,
             width: 28,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Color(0x22000000),
                   blurRadius: 6,

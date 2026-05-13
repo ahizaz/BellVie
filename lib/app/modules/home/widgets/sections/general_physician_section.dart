@@ -230,10 +230,10 @@ class _ScrollHintArrow extends StatelessWidget {
           child: Container(
             height: 28,
             width: 28,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   color: Color(0x22000000),
                   blurRadius: 6,
@@ -310,6 +310,7 @@ class _DoctorCard extends StatelessWidget {
         child: SizedBox(
           width: 178,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -389,7 +390,7 @@ class _DoctorCard extends StatelessWidget {
                 doctor.name,
                 textAlign: TextAlign.center,
                 maxLines: 1,
-                //overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -399,7 +400,7 @@ class _DoctorCard extends StatelessWidget {
               Text(
                 doctor.designation,
                 textAlign: TextAlign.center,
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 12,
@@ -431,7 +432,7 @@ class _DoctorCard extends StatelessWidget {
                 ),
               ],
               Container(
-                height: 35,
+                height: 32,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12)),
