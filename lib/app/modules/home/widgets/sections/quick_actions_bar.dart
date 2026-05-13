@@ -57,8 +57,8 @@ class QuickActionsBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(
-            color: Color(0xFF0B8C7C),
-            blurRadius: 4,
+            color: Color(0xFF757575),
+            blurRadius: 6,
             offset: Offset(0, 3),
           ),
         ],
