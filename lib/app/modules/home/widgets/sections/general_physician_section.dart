@@ -147,7 +147,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         ),
         const SizedBox(height: 6),
         SizedBox(
-          height: 200,
+          height: 150,
           child: _isLoading && _doctors.isEmpty
               ? const SizedBox.shrink()
               : _doctors.isEmpty
@@ -282,7 +282,7 @@ class _DoctorCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: Container(
-        width: 180,
+        width: 238,
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
@@ -307,113 +307,110 @@ class _DoctorCard extends StatelessWidget {
             ),
           ],
         ),
-        child: SizedBox(
-          width: 178,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 6,
-              ),
-              Center(
-                child: SizedBox(
-                  height: 72,
-                  width: 60,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(40),
-                    child: imagePath.isNotEmpty
-                        ? isNetworkImage
-                            ? CachedNetworkImage(
-                                imageUrl: resolvedImageUrl,
-                                fit: BoxFit.cover,
-                                placeholder: (c, s) => Container(
-                                  color: const Color(0xFFDFF8EF),
-                                  child: Center(
-                                    child: Text(
-                                      _initialsFromName(doctor.name),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+              SizedBox(
+                height: 56,
+                width: 56,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(28),
+                  child: imagePath.isNotEmpty
+                      ? isNetworkImage
+                          ? CachedNetworkImage(
+                              imageUrl: resolvedImageUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (c, s) => Container(
+                                color: const Color(0xFFDFF8EF),
+                                child: Center(
+                                  child: Text(
+                                    _initialsFromName(doctor.name),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
-                                errorWidget: (c, s, e) => Container(
-                                  color: const Color(0xFFDFF8EF),
-                                  child: Center(
-                                    child: Text(
-                                      _initialsFromName(doctor.name),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                              ),
+                              errorWidget: (c, s, e) => Container(
+                                color: const Color(0xFFDFF8EF),
+                                child: Center(
+                                  child: Text(
+                                    _initialsFromName(doctor.name),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
-                              )
-                            : Image.asset(
-                                imagePath,
-                                fit: BoxFit.cover,
-                                errorBuilder: (c, s, e) => Container(
-                                  color: const Color(0xFFDFF8EF),
-                                  child: Center(
-                                    child: Text(
-                                      _initialsFromName(doctor.name),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                              ),
+                            )
+                          : Image.asset(
+                              imagePath,
+                              fit: BoxFit.cover,
+                              errorBuilder: (c, s, e) => Container(
+                                color: const Color(0xFFDFF8EF),
+                                child: Center(
+                                  child: Text(
+                                    _initialsFromName(doctor.name),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
-                              )
-                        : Container(
-                            color: const Color(0xFFDFF8EF),
-                            child: Center(
-                              child: Text(
-                                _initialsFromName(doctor.name),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 18,
-                                ),
+                              ),
+                            )
+                      : Container(
+                          color: const Color(0xFFDFF8EF),
+                          child: Center(
+                            child: Text(
+                              _initialsFromName(doctor.name),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18,
                               ),
                             ),
                           ),
-                  ),
+                        ),
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                doctor.name,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                doctor.designation,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.black54,
-                ),
-              ),
-              if (doctor.experience.isNotEmpty || doctor.fees.isNotEmpty) ...[
-                Column(
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      doctor.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      doctor.designation,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
                     if (doctor.experience.isNotEmpty)
                       Text(
                         'Experience: ${doctor.experience} year${doctor.experience == 1 ? '' : 's'}',
-                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 11,
                           color: Colors.black54,
@@ -422,35 +419,45 @@ class _DoctorCard extends StatelessWidget {
                     if (doctor.fees.isNotEmpty)
                       Text(
                         'Fees: ${doctor.fees}',
-                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 11,
                           color: Colors.black54,
                         ),
                       ),
+                    const SizedBox(height: 6),
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: Container(
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: TextButton(
+                            onPressed: onTap,
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'Book Appointment',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF2F6FED),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ],
-              Container(
-                height: 32,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12)),
-                child: TextButton(
-                  onPressed: onTap,
-                  style: TextButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    'Book Appointment',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF2F6FED),
-                    ),
-                  ),
                 ),
               ),
             ],
