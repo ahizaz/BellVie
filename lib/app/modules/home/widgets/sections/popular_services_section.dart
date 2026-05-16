@@ -518,7 +518,7 @@ class _PopularServicesGridState extends State<_PopularServicesGrid> {
         // Show More / Close Button
         if (widget.totalItems > 8)
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Center(
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
