@@ -10,10 +10,8 @@ import '../../../services/api_service.dart';
 class DoctorDetailsView extends StatelessWidget {
   const DoctorDetailsView({super.key});
 
-  static const String _baseUrl = 'https://api.dmatechno.com';
-
   Future<Map<String, dynamic>> _fetchDoctor(int id) async {
-    final uri = Uri.parse('$_baseUrl/api/v1/popular-service/doctors/$id/');
+    final uri = AppApiService().buildUrl('/api/v1/popular-service/doctors/$id/');
     final response = await http.get(uri);
 
     if (response.statusCode != 200) {

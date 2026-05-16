@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../home_carousels.dart';
 
 class PromotionBanner extends StatefulWidget {
   const PromotionBanner({super.key});
@@ -10,27 +11,19 @@ class PromotionBanner extends StatefulWidget {
 class _PromotionBannerState extends State<PromotionBanner> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              "Banner",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: 12,),
-        Container(
-          height: 120,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(10)
+        Text(
+          "Banner",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
           ),
-        )
+        ),
+        SizedBox(height: 12),
+        // Show the API-driven promo banner carousel
+        PromoBannerCarousel(),
       ],
     );
   }
