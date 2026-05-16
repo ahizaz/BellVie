@@ -137,7 +137,7 @@ class SubscriptionPackageSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: color.withOpacity(0.2),
+                  color: color.withValues(alpha: .2),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),

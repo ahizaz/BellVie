@@ -1,9 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import '../../../services/api_service.dart';
-import '../models/discount_partner.dart';
-import '../models/medical_accessory_category.dart';
-import '../models/slider_two.dart';
 import '../models/special_doctor.dart';
 
 class SpecialDoctorRepository {

@@ -529,7 +529,7 @@ class _PopularServicesGridState extends State<_PopularServicesGrid> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF2F6FED).withOpacity(0.1),
+                    color: const Color(0xFF2F6FED).withValues(alpha: .1),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Row(
@@ -709,7 +709,7 @@ class _ServiceCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(32),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: .08),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

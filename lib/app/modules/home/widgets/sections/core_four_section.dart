@@ -35,55 +35,6 @@ class CoreFourSection extends StatelessWidget {
     ),
   ];
 
-  Widget _otherMedicalTile(String titleKey, String assetPath,
-      {VoidCallback? onTap}) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(14),
-        onTap: onTap ?? _showComingSoon,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          decoration: BoxDecoration(
-            color: const Color(0xFFE5F0F2),
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x1A000000),
-                blurRadius: 8,
-                offset: Offset(0, 3),
-              ),
-            ],
-          ),
-          child: Row(
-            children: [
-              Image.asset(
-                assetPath,
-                width: 44,
-                height: 44,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  titleKey.tr,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: true,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    height: 1.15,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _bottomTabsRow() {
     const items = [

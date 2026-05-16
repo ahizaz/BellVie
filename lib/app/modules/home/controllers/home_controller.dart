@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../services/api_service.dart';
 import '../data/discount_partner_repository.dart';
-import '../data/medical_accessories_repository.dart';
 import '../data/slider_two_repository.dart';
 import '../data/special_doctor_repository.dart';
 import '../models/discount_partner.dart';
@@ -67,7 +66,7 @@ class HomeController extends GetxController {
     isLoading.value = true;
     try {
       if (discountPartnerData.value?.results?.isNotEmpty == true) {
-        print(
+        debugPrint(
             "==================================discountPartnerData==================   ${discountPartnerData.value!.results![0].name}");
       }
     } catch (_) {
@@ -78,14 +77,14 @@ class HomeController extends GetxController {
   sliderTwo() async {
     sliderTwoData.value = await sliderTwoRepository.fetchSliderTwo();
 
-    print(
+    debugPrint(
         "==================================sliderTwoData==================   ${sliderTwoData}");
   }
 
   specialDoctor() async {
     specialDoctorData.value =
         await specialDoctorRepository.fetchSpecialDoctor();
-    print(
+    debugPrint(
         "==================================specialDoctorData==================   ${specialDoctorData}");
   }
 

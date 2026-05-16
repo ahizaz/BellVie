@@ -70,7 +70,7 @@ class DoctorDetailsView extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE1E8E7)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: .04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -116,7 +116,7 @@ class DoctorDetailsView extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: const Color(0xFFCBF1EF).withOpacity(0.75),
+              color: const Color(0xFFCBF1EF).withValues(alpha:0.75),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 20, color: Colors.black87),
@@ -212,7 +212,7 @@ class DoctorDetailsView extends StatelessWidget {
             borderRadius: BorderRadius.circular(26),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.12),
+                color: Colors.black.withValues(alpha: .12),
                 blurRadius: 24,
                 offset: const Offset(0, 12),
               ),
@@ -343,7 +343,7 @@ class DoctorDetailsView extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: .05),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),

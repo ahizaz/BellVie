@@ -244,7 +244,7 @@ class _ScrollHintArrow extends StatelessWidget {
             child: Icon(
               icon,
               size: 16,
-              color: Color(0xFF2F6FED),
+              color: const Color(0xFF2F6FED),
             ),
           ),
         ),
@@ -439,7 +439,7 @@ class _DoctorCard extends StatelessWidget {
                           child: TextButton(
                             onPressed: onTap,
                             style: TextButton.styleFrom(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 0),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
