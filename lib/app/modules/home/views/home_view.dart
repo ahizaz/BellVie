@@ -1,3 +1,4 @@
+import 'package:bellevie/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../routes/app_routes.dart';
@@ -9,10 +10,23 @@ import '../widgets/home_top_bar.dart';
 class HomeView extends GetView<HomeController> {
   const HomeView({super.key});
 
-  void _onBottomNavTap(BuildContext context, int index) {
+  void _onBottomNavTap(BuildContext context, int index) async {
     if (index == 2) {
       _showCallDrawer(context);
       return;
+    }
+    // Appointment tab (index 1)
+    if (index == 1) {
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+      if (!isLoggedIn) {
+        // Go to login, after login should redirect to appointment list
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      } else {
+        // Go to appointment list view
+        await Get.toNamed('/appointment-list');
+        return;
+      }
     }
     controller.changeTab(index);
   }
@@ -62,8 +76,6 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-
-
         bottomNavigationBar: HomeBottomNav(
           currentIndex: activeIndex,
           onTap: (index) => _onBottomNavTap(context, index),
