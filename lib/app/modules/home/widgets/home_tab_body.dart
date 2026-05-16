@@ -71,6 +71,10 @@ class HomeScrollContent extends StatelessWidget {
           PromotionBanner(),
 
           SizedBox(height: 18),
+          SocialService(),
+          SizedBox(
+            height: 18,
+          ),
           // Promo banner slider (temporary hold)
           // PromoBannerCarousel(),
           // SizedBox(height: 18),
@@ -193,14 +197,150 @@ class SubscriptionPackageSection extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // Text outside the box
+          // Text outside the box (single line, scale to fit)
+          SizedBox(
+            height: 40,
+            child: Center(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SocialService extends StatelessWidget {
+  const SocialService({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Social Services',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // এটাকে start রাখলে ভালো দেখায়
+          children: [
+            _buildPackageColumn(
+              'Community Health Services',
+              'assets/images/community_health_srvice.png',
+            ),
+            _buildPackageColumn(
+              'Bellevie Health Club',
+              'assets/images/bellevie_logo.png',
+            ),
+            _buildPackageColumn(
+              'Charity Partners',
+              'assets/images/charity partners.png',
+            ),
+            _buildPackageColumn(
+              'Health Tourism & Wellness Partners',
+              'assets/images/healthcare.png',
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildPackageColumn(
+    String label,
+    String assetPath,
+  ) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Box container
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 6),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.white24, width: 1),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33FFFFFF),
+                  offset: Offset(-3, -3),
+                  blurRadius: 6,
+                ),
+                BoxShadow(
+                  color: Color(0x22000000),
+                  offset: Offset(3, 4),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: Container(
+              height: 70, // একটু বাড়িয়ে দিলাম যাতে সুন্দর দেখায়
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    assetPath,
+                    height: 42,
+                    width: 42,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.image_not_supported_rounded,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Label
           Text(
             label,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w800,
-              fontSize: 16,
+              fontSize: 15.5, // একটু ছোট করলে ভালো ফিট হয়
             ),
           ),
         ],
