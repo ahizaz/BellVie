@@ -63,11 +63,12 @@ class HomeScrollContent extends StatelessWidget {
             height: 28,
           ),
           //SizedBox(height: 18),
-          PromotionBanner(),
+          ForeignTreatmentSection(),
+
           SizedBox(
             height: 18,
           ),
-          ForeignTreatmentSection(),
+          PromotionBanner(),
 
           SizedBox(height: 18),
           // Promo banner slider (temporary hold)
