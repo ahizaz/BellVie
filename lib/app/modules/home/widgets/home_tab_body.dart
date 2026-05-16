@@ -111,42 +111,90 @@ class SubscriptionPackageSection extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _buildPackageColumn('Platinum', const Color(0xFFE5E4E2)),
-            _buildPackageColumn('Gold', const Color(0xFFFFD700)),
-            _buildPackageColumn('Silver', const Color(0xFFC0C0C0)),
-            _buildPackageColumn('Green', const Color(0xFF4CAF50)),
+            _buildPackageColumn(
+              'Platinum',
+              const Color(0xFFE5E4E2),
+            ),
+            _buildPackageColumn(
+              'Gold',
+              const Color(0xFFFFD700),
+            ),
+            _buildPackageColumn(
+              'Silver',
+              const Color(0xFFC0C0C0),
+            ),
+            _buildPackageColumn(
+              'Green',
+              const Color(0xFF4CAF50),
+            ),
           ],
         ),
       ],
     );
   }
 
-  static Widget _buildPackageColumn(String label, Color color) {
+  static Widget _buildPackageColumn(
+    String label,
+    Color color,
+  ) {
     return Expanded(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
+          // Box container
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 4),
-            height: 48,
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFFBEE9FF),
+                  Color(0xFFDFF8EF),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Colors.white24,
+                width: 1,
+              ),
+              boxShadow: const [
                 BoxShadow(
-                  color: color.withValues(alpha: .2),
+                  color: Color(0x33FFFFFF),
+                  offset: Offset(-3, -3),
                   blurRadius: 6,
-                  offset: const Offset(0, 2),
+                ),
+                BoxShadow(
+                  color: Color(0x22000000),
+                  offset: Offset(3, 4),
+                  blurRadius: 8,
                 ),
               ],
             ),
+            child: Container(
+              height: 45,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: color.withValues(alpha: .2),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+            ),
           ),
+
           const SizedBox(height: 8),
+
+          // Text outside the box
           Text(
             label,
+            textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w800,
