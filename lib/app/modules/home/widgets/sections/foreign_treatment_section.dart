@@ -288,19 +288,34 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           ],
         ),
         const SizedBox(height: 10),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _countries.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 0,
-            childAspectRatio: 0.82,
+        // GridView.builder(
+        //   shrinkWrap: true,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemCount: _countries.length,
+        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //     crossAxisCount: 3,
+        //     crossAxisSpacing: 2,
+        //     mainAxisSpacing: 0,
+        //     childAspectRatio: 0.82,
+        //   ),
+        //   itemBuilder: (context, i) {
+        //     return _ForeignTreatmentCard(item: _countries[i]);
+        //   },
+        // ),
+        SizedBox(
+          height: 140,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _countries.length,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, i) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: _ForeignTreatmentCard(item: _countries[i]),
+              );
+            },
           ),
-          itemBuilder: (context, i) {
-            return _ForeignTreatmentCard(item: _countries[i]);
-          },
         ),
       ],
     );

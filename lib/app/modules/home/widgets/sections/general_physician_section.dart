@@ -147,7 +147,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
         ),
         const SizedBox(height: 6),
         SizedBox(
-          height: 150,
+          height: 135,
           child: _isLoading && _doctors.isEmpty
               ? const SizedBox.shrink()
               : _doctors.isEmpty
@@ -395,7 +395,7 @@ class _DoctorCard extends StatelessWidget {
                         color: Colors.black87,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 1),
                     Text(
                       doctor.designation,
                       maxLines: 1,
@@ -405,7 +405,7 @@ class _DoctorCard extends StatelessWidget {
                         color: Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 1),
                     if (doctor.experience.isNotEmpty)
                       Text(
                         'Experience: ${doctor.experience} year${doctor.experience == 1 ? '' : 's'}',

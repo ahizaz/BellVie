@@ -627,7 +627,7 @@ class _DoctorCard extends StatelessWidget {
                         color: Colors.black87,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 1),
                     Text(
                       subtitle,
                       maxLines: 1,
@@ -637,7 +637,7 @@ class _DoctorCard extends StatelessWidget {
                         color: Colors.black54,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 2),
                     if (doctor.experience.isNotEmpty)
                       Text(
                         'Experience: ${doctor.experience}',

@@ -62,6 +62,8 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
+
+
         bottomNavigationBar: HomeBottomNav(
           currentIndex: activeIndex,
           onTap: (index) => _onBottomNavTap(context, index),

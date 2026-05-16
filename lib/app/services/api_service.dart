@@ -24,7 +24,7 @@ class _PersistentCacheEntry {
 
 class AppApiService {
   //static const String baseUrl = 'http://192.168.0.246:5000';
-  static const String baseUrl = 'https://api.dmatechno.com';
+  static const String baseUrl = 'http://66.29.151.40:6060/';
   static Future<bool>? _ongoingRefresh;
   // Simple in-memory cache for GET responses (path -> body + expiry)
   static final Map<String, _CacheEntry> _getCache = {};

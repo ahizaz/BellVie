@@ -1,3 +1,5 @@
+import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
@@ -58,6 +60,9 @@ class HomeScrollContent extends StatelessWidget {
           SizedBox(
             height: 28,
           ),
+          //SizedBox(height: 18),
+          PromotionBanner(),
+          SizedBox(height: 18,),
           ForeignTreatmentSection(),
 
           SizedBox(height: 18),
@@ -65,13 +70,14 @@ class HomeScrollContent extends StatelessWidget {
           // PromoBannerCarousel(),
           // SizedBox(height: 18),
           PopularServicesSection(),
-          SizedBox(height: 18),
+          SizedBox(height: 28),
           // GeneralPhysicianSection(),
 
           //TopDoctorsSection(),
 
           // CoreFourSection(),
-          // SizedBox(height: 18),
+          DiscountPartner(),
+          SizedBox(height: 18,),
           MedicalAccessoriesSection(),
         ],
       ),
