@@ -53,6 +53,8 @@ class HomeScrollContent extends StatelessWidget {
           HomeBannerCarousel(),
           SizedBox(height: 14),
           QuickActionsBar(),
+          SizedBox(height: 18),
+          PopularServicesSection(),
           SizedBox(height: 28),
           GeneralPhysicianSection(),
           SizedBox(height: 28),
@@ -71,8 +73,7 @@ class HomeScrollContent extends StatelessWidget {
           // Promo banner slider (temporary hold)
           // PromoBannerCarousel(),
           // SizedBox(height: 18),
-          PopularServicesSection(),
-          SizedBox(height: 28),
+
           // GeneralPhysicianSection(),
 
           //TopDoctorsSection(),

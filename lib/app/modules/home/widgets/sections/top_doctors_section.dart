@@ -303,7 +303,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         ),
         const SizedBox(height: 18),
         SizedBox(
-          height: 150,
+          height: 135,
           child: _isLoadingDoctors && _doctors.isEmpty
               ? const Center(
                   child: CircularProgressIndicator(strokeWidth: 2.2),
