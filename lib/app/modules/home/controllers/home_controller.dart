@@ -19,9 +19,11 @@ class HomeController extends GetxController {
   final RxBool dailyTipShown = false.obs;
   final RxBool _isFetchingDailyTip = false.obs;
   final AppApiService _apiService = AppApiService();
-  final DiscountPartnerRepository discountPartnerRepository = DiscountPartnerRepository();
+  final DiscountPartnerRepository discountPartnerRepository =
+      DiscountPartnerRepository();
   final SliderTwoRepository sliderTwoRepository = SliderTwoRepository();
-  final SpecialDoctorRepository specialDoctorRepository = SpecialDoctorRepository();
+  final SpecialDoctorRepository specialDoctorRepository =
+      SpecialDoctorRepository();
   final discountPartnerData = Rxn<DiscountPartner>();
   final sliderTwoData = Rxn<SliderTwo>();
   final specialDoctorData = Rxn<SpecialDoctor>();
@@ -38,7 +40,6 @@ class HomeController extends GetxController {
 
     currentLocale.value = Get.locale ?? const Locale('en', 'US');
     _fetchDailyTip();
-
 
     // If the Home route was opened with a `tab` query parameter or argument,
     // initialize the tab index accordingly (used for redirect-after-login).
@@ -58,26 +59,35 @@ class HomeController extends GetxController {
     }
   }
 
-
-  discountPartner()  async {
-    discountPartnerData.value = await discountPartnerRepository.fetchDiscountPartner();
+  discountPartner() async {
+    final result = await discountPartnerRepository.fetchDiscountPartner();
+    if (result != null) {
+      discountPartnerData.value = result;
+    }
     isLoading.value = true;
-    print("==================================discountPartnerData==================   ${discountPartnerData.value!.results![0].name}");
+    try {
+      if (discountPartnerData.value?.results?.isNotEmpty == true) {
+        print(
+            "==================================discountPartnerData==================   ${discountPartnerData.value!.results![0].name}");
+      }
+    } catch (_) {
+      // ignore print errors
+    }
   }
 
-
-  sliderTwo()  async {
+  sliderTwo() async {
     sliderTwoData.value = await sliderTwoRepository.fetchSliderTwo();
 
-    print("==================================sliderTwoData==================   ${sliderTwoData}");
+    print(
+        "==================================sliderTwoData==================   ${sliderTwoData}");
   }
 
-
-  specialDoctor()  async {
-    specialDoctorData.value = await specialDoctorRepository.fetchSpecialDoctor();
-    print("==================================specialDoctorData==================   ${specialDoctorData}");
+  specialDoctor() async {
+    specialDoctorData.value =
+        await specialDoctorRepository.fetchSpecialDoctor();
+    print(
+        "==================================specialDoctorData==================   ${specialDoctorData}");
   }
-
 
   bool changeTab(int index) {
     tabIndex.value = index;
