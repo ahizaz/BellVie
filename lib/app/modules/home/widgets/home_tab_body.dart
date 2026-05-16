@@ -62,7 +62,9 @@ class HomeScrollContent extends StatelessWidget {
           ),
           //SizedBox(height: 18),
           PromotionBanner(),
-          SizedBox(height: 18,),
+          SizedBox(
+            height: 18,
+          ),
           ForeignTreatmentSection(),
 
           SizedBox(height: 18),
@@ -77,8 +79,80 @@ class HomeScrollContent extends StatelessWidget {
 
           // CoreFourSection(),
           DiscountPartner(),
-          SizedBox(height: 18,),
+          SizedBox(
+            height: 18,
+          ),
+          SubscriptionPackageSection(),
+          SizedBox(
+            height: 18,
+          ),
           MedicalAccessoriesSection(),
+        ],
+      ),
+    );
+  }
+}
+
+class SubscriptionPackageSection extends StatelessWidget {
+  const SubscriptionPackageSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Subscription package',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            _buildPackageColumn('Platinum', const Color(0xFFE5E4E2)),
+            _buildPackageColumn('Gold', const Color(0xFFFFD700)),
+            _buildPackageColumn('Silver', const Color(0xFFC0C0C0)),
+            _buildPackageColumn('Green', const Color(0xFF4CAF50)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildPackageColumn(String label, Color color) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            height: 48,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withOpacity(0.2),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+              fontSize: 16,
+            ),
+          ),
         ],
       ),
     );
