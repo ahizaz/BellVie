@@ -23,8 +23,8 @@ class HomeTopBar extends StatelessWidget {
         final isSmall = constraints.maxWidth < 380;
         final logoSize = isSmall ? 50.0 : 56.0;
         final titleFont = isSmall ? 13.5 : 15.5;
-        final chipHPad = isSmall ? 10.0 : 12.0;
-        final chipVPad = isSmall ? 5.0 : 6.0;
+        final chipHPad = isSmall ? 12.0 : 12.0;
+        final chipVPad = isSmall ? 6.0 : 8.0;
 
         Widget iconBtn(IconData icon) {
           return SizedBox(
@@ -89,7 +89,8 @@ class HomeTopBar extends StatelessWidget {
 
                 return Container(
                   constraints: BoxConstraints(
-                    minWidth: isSmall ? 80 : 92,
+                    minWidth: isSmall ? 100 : 100,
+                    minHeight: isSmall ? 30 : 40,
                   ),
                   padding: EdgeInsets.symmetric(
                     horizontal: chipHPad,
@@ -111,7 +112,7 @@ class HomeTopBar extends StatelessWidget {
                           style: TextStyle(
                             fontSize: isSmall ? 11.5 : 12,
                             fontWeight:
-                                isBangla ? FontWeight.w500 : FontWeight.w700,
+                                isBangla ? FontWeight.w500 : FontWeight.w600,
                             color: Colors.black87,
                           ),
                         ),
@@ -133,7 +134,7 @@ class HomeTopBar extends StatelessWidget {
                           style: TextStyle(
                             fontSize: isSmall ? 11.5 : 12,
                             fontWeight:
-                                isBangla ? FontWeight.w700 : FontWeight.w500,
+                                isBangla ? FontWeight.w600 : FontWeight.w500,
                             color: Colors.black87,
                           ),
                         ),
