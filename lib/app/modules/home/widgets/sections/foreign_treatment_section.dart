@@ -287,7 +287,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 2),
         // GridView.builder(
         //   shrinkWrap: true,
         //   physics: const NeverScrollableScrollPhysics(),
@@ -303,7 +303,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
         //   },
         // ),
         SizedBox(
-          height: 140,
+          height: 125,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: _countries.length,
@@ -355,7 +355,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       onTap: _handleTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

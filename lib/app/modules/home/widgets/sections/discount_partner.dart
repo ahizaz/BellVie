@@ -284,7 +284,7 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                   child: CircularProgressIndicator(),
                 )
               : SizedBox(
-                  height: 130,
+                  height: 120,
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     scrollDirection: Axis.horizontal,

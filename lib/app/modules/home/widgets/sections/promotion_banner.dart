@@ -21,7 +21,7 @@ class _PromotionBannerState extends State<PromotionBanner> {
             fontSize: 16,
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 4),
         // Show the API-driven promo banner carousel
         PromoBannerCarousel(),
       ],

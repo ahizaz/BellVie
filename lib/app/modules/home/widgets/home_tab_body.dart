@@ -24,7 +24,7 @@ class HomeTabBody extends StatelessWidget {
       case 3:
         return const _PlaceholderScreen(title: 'records');
       case 4:
-        return const _PlaceholderScreen(title: 'menu');
+        return const _PlaceholderScreen(title: 'Profile');
       default:
         return const SizedBox.shrink();
     }
@@ -60,13 +60,13 @@ class HomeScrollContent extends StatelessWidget {
           SizedBox(height: 15),
           TopDoctorsSection(),
           SizedBox(
-            height: 15,
+            height: 11,
           ),
           //SizedBox(height: 18),
           ForeignTreatmentSection(),
 
           SizedBox(
-            height: 6,
+            height: 1,
           ),
           PromotionBanner(),
 
@@ -85,12 +85,10 @@ class HomeScrollContent extends StatelessWidget {
 
           // CoreFourSection(),
           DiscountPartner(),
-          SizedBox(
-            height: 2,
-          ),
+
           SubscriptionPackageSection(),
           SizedBox(
-            height: 8,
+            height: 4,
           ),
           MedicalAccessoriesSection(),
         ],
@@ -115,7 +113,7 @@ class SubscriptionPackageSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 6),
         Row(
           children: [
             _buildPackageColumn(
@@ -241,8 +239,7 @@ class SocialService extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // এটাকে start রাখলে ভালো দেখায়
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildPackageColumn(
               'Community Health Services',

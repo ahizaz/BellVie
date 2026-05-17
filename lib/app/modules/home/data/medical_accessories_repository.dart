@@ -51,7 +51,7 @@ class MedicalAccessoriesRepository {
       }
 
       final decoded = await compute(_decodeJson, response.body);
-      debugPrint('Discount Partner => decoded: ${decoded}');
+      debugPrint('Discount Partner => decoded: $decoded');
       final rawList = _extractList(decoded);
       debugPrint('Discount Partner => rawList: ${rawList
           .whereType<Map<String, dynamic>>()
