@@ -107,6 +107,9 @@ import 'dart:convert';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:bellevie/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../home/widgets/home_bottom_nav.dart';
+import '../../../routes/app_routes.dart';
 
 class AppointmentListView extends StatefulWidget {
   const AppointmentListView({super.key});
@@ -330,6 +333,10 @@ class _AppointmentListViewState extends State<AppointmentListView> {
                 );
               },
             ),
+      bottomNavigationBar: HomeBottomNav(
+        currentIndex: 1,
+        onTap: (i) => Get.offAllNamed(Routes.HOME, arguments: {'tab': i}),
+      ),
     );
   }
 

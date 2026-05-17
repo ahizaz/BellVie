@@ -65,7 +65,8 @@ class HomeView extends GetView<HomeController> {
       controller.currentLocale.value;
       final activeIndex =
           controller.tabIndex.value == 2 ? 0 : controller.tabIndex.value;
-      _maybeShowDailyTip(context, activeIndex);
+      // Daily tip popup disabled per request.
+      // _maybeShowDailyTip(context, activeIndex);
       return Scaffold(
         backgroundColor: const Color(0xFFF2F2F2),
         body: SafeArea(
