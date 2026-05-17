@@ -9,7 +9,7 @@ class AuthMiddleware extends GetMiddleware {
   RouteSettings? redirect(String? route) {
     if (!AuthService.to.authenticated) {
       AuthService.to.setPendingRedirect(route);
-      return RouteSettings(
+      return const RouteSettings(
         name: Routes.LOGIN,
       );
     }

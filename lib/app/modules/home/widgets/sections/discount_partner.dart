@@ -297,7 +297,7 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                           .discountPartnerData.value?.results?[index];
 
                       return SizedBox(
-                        width: 125,
+                        width: 100,
                         child: Column(
                           children: [
                             // Updated Gradient Container

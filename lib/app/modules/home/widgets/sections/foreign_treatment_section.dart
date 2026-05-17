@@ -360,8 +360,8 @@ class _ForeignTreatmentCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 100,
-              width: 125,
+              height: 95,
+              width: 110,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [

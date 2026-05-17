@@ -107,10 +107,9 @@ import 'dart:convert';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:bellevie/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class AppointmentListView extends StatefulWidget {
-  const AppointmentListView({Key? key}) : super(key: key);
+  const AppointmentListView({super.key});
 
   @override
   State<AppointmentListView> createState() => _AppointmentListViewState();

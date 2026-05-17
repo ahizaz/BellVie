@@ -239,7 +239,7 @@ class SocialService extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 10),
         Row(
           crossAxisAlignment:
               CrossAxisAlignment.start, // এটাকে start রাখলে ভালো দেখায়
@@ -276,7 +276,7 @@ class SocialService extends StatelessWidget {
         children: [
           // Box container
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 6),
+            margin: const EdgeInsets.symmetric(horizontal: 3),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -299,32 +299,17 @@ class SocialService extends StatelessWidget {
                 ),
               ],
             ),
-            child: Container(
-              height: 70, // একটু বাড়িয়ে দিলাম যাতে সুন্দর দেখায়
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(
-                    assetPath,
-                    height: 42,
-                    width: 42,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      Icons.image_not_supported_rounded,
-                      color: Colors.grey,
-                    ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(
+                  assetPath,
+                  height: 40,
+                  width: 40,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.image_not_supported_rounded,
+                    color: Colors.grey,
                   ),
                 ),
               ),
