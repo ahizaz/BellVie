@@ -51,29 +51,29 @@ class HomeScrollContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           HomeBannerCarousel(),
-          SizedBox(height: 14),
+          SizedBox(height: 8),
           QuickActionsBar(),
-          SizedBox(height: 18),
+          SizedBox(height: 12),
           PopularServicesSection(),
-          SizedBox(height: 28),
+          SizedBox(height: 20),
           GeneralPhysicianSection(),
-          SizedBox(height: 28),
+          SizedBox(height: 20),
           TopDoctorsSection(),
           SizedBox(
-            height: 28,
+            height: 20,
           ),
           //SizedBox(height: 18),
           ForeignTreatmentSection(),
 
           SizedBox(
-            height: 18,
+            height: 6,
           ),
           PromotionBanner(),
 
           SizedBox(height: 18),
           SocialService(),
           SizedBox(
-            height: 18,
+            height: 12,
           ),
           // Promo banner slider (temporary hold)
           // PromoBannerCarousel(),
@@ -86,11 +86,11 @@ class HomeScrollContent extends StatelessWidget {
           // CoreFourSection(),
           DiscountPartner(),
           SizedBox(
-            height: 18,
+            height: 4,
           ),
           SubscriptionPackageSection(),
           SizedBox(
-            height: 18,
+            height: 14,
           ),
           MedicalAccessoriesSection(),
         ],
@@ -120,19 +120,19 @@ class SubscriptionPackageSection extends StatelessWidget {
           children: [
             _buildPackageColumn(
               'Platinum',
-              const Color(0xFFE5E4E2),
+              const Color(0xFF727474),
             ),
             _buildPackageColumn(
               'Gold',
-              const Color(0xFFFFD700),
+              const Color(0xFFB3882B),
             ),
             _buildPackageColumn(
               'Silver',
-              const Color(0xFFC0C0C0),
+              const Color(0xFFAAABB0),
             ),
             _buildPackageColumn(
-              'Green',
-              const Color(0xFF4CAF50),
+              'Bronze',
+              const Color(0xFFB65F36),
             ),
           ],
         ),
@@ -276,7 +276,7 @@ class SocialService extends StatelessWidget {
         children: [
           // Box container
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
+            margin: const EdgeInsets.symmetric(horizontal: 4),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -301,10 +301,10 @@ class SocialService extends StatelessWidget {
             ),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
                   assetPath,
-                  height: 40,
+                  height: 55,
                   width: 40,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) => const Icon(
@@ -324,8 +324,8 @@ class SocialService extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 15.5, // একটু ছোট করলে ভালো ফিট হয়
+              fontWeight: FontWeight.w700,
+              fontSize: 10.7,
             ),
           ),
         ],
