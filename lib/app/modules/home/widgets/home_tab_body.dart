@@ -55,12 +55,12 @@ class HomeScrollContent extends StatelessWidget {
           QuickActionsBar(),
           SizedBox(height: 12),
           PopularServicesSection(),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           GeneralPhysicianSection(),
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           TopDoctorsSection(),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           //SizedBox(height: 18),
           ForeignTreatmentSection(),
@@ -70,7 +70,7 @@ class HomeScrollContent extends StatelessWidget {
           ),
           PromotionBanner(),
 
-          SizedBox(height: 18),
+          SizedBox(height: 15),
           SocialService(),
           SizedBox(
             height: 12,
@@ -86,11 +86,11 @@ class HomeScrollContent extends StatelessWidget {
           // CoreFourSection(),
           DiscountPartner(),
           SizedBox(
-            height: 4,
+            height: 2,
           ),
           SubscriptionPackageSection(),
           SizedBox(
-            height: 14,
+            height: 8,
           ),
           MedicalAccessoriesSection(),
         ],
@@ -257,7 +257,7 @@ class SocialService extends StatelessWidget {
               'assets/images/charity partners.png',
             ),
             _buildPackageColumn(
-              'Health Tourism & Wellness Partners',
+              'Health Tourism',
               'assets/images/healthcare.png',
             ),
           ],
