@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeBottomNav extends StatelessWidget {
   final int currentIndex;
@@ -13,11 +14,11 @@ class HomeBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = <Map<String, dynamic>>[
-      {'icon': Icons.home_filled, 'label': 'Home'},
-      {'icon': Icons.calendar_month, 'label': 'Appointment'},
-      {'icon': Icons.call, 'label': 'Call'},
-      {'icon': Icons.folder_copy, 'label': 'Records'},
-      {'icon': Icons.person, 'label': 'Profile'},
+      {'icon': Icons.home_filled, 'label': 'home'.tr},
+      {'icon': Icons.calendar_month, 'label': 'appointment'.tr},
+      {'icon': Icons.call, 'label': 'call'.tr},
+      {'icon': Icons.folder_copy, 'label': 'records'.tr},
+      {'icon': Icons.person, 'label': 'profile'.tr},
     ];
     const selectedColor = Color(0xFF2F6FED);
     const unselectedColor = Color(0xFF7A7A7A);
@@ -60,8 +61,9 @@ class HomeBottomNav extends StatelessWidget {
                                 child: Icon(
                                   item['icon'] as IconData,
                                   size: selected ? 20 : 18,
-                                  color:
-                                      selected ? selectedColor : unselectedColor,
+                                  color: selected
+                                      ? selectedColor
+                                      : unselectedColor,
                                 ),
                               ),
                             const SizedBox(height: 2),
@@ -150,4 +152,3 @@ class HomeBottomNav extends StatelessWidget {
     );
   }
 }
-

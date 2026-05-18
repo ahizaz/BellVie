@@ -21,7 +21,7 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
         centerTitle: true,
         title: Text(
           controller.categoryLabel.isEmpty
-              ? 'Specialist Doctors'
+              ? 'specialist_doctors'.tr
               : controller.categoryLabel,
           style: const TextStyle(
             fontWeight: FontWeight.w700,
@@ -32,10 +32,10 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
       body: Obx(() {
         // Only show "No doctors" message if explicitly confirmed no data
         if (controller.showNoData.value && controller.doctors.isEmpty) {
-          return const Center(
+          return Center(
             child: Text(
-              'No doctors available right now.',
-              style: TextStyle(
+              'no_doctors_available'.tr,
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black54,
                 fontWeight: FontWeight.w500,
@@ -89,7 +89,7 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
                 child: Obx(() {
                   return ElevatedButton(
                     onPressed: controller.loadMore,
-                    child: const Text('More'),
+                    child: Text('more'.tr),
                   );
                 }),
               ),
@@ -214,17 +214,26 @@ class _DoctorListCard extends StatelessWidget {
                 ),
                 if (item.experience.isNotEmpty || item.fees.isNotEmpty) ...[
                   const SizedBox(height: 4),
-                  Text(
-                    'Experience: ${item.experience}${item.experience.isNotEmpty && item.fees.isNotEmpty ? '  •  ' : ''}${item.fees.isNotEmpty ? 'Fees: ${item.fees}' : ''}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      height: 1.15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black54,
-                    ),
-                  ),
+                  Builder(builder: (context) {
+                    final parts = <String>[];
+                    if (item.experience.isNotEmpty) {
+                      parts.add('${'experience'.tr}: ${item.experience}');
+                    }
+                    if (item.fees.isNotEmpty) {
+                      parts.add('${'fees'.tr}: ${item.fees}');
+                    }
+                    return Text(
+                      parts.join('  •  '),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        height: 1.15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black54,
+                      ),
+                    );
+                  }),
                 ],
                 const SizedBox(height: 4),
                 Text(

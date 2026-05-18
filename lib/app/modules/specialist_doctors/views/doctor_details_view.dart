@@ -11,7 +11,8 @@ class DoctorDetailsView extends StatelessWidget {
   const DoctorDetailsView({super.key});
 
   Future<Map<String, dynamic>> _fetchDoctor(int id) async {
-    final uri = AppApiService().buildUrl('/api/v1/popular-service/doctors/$id/');
+    final uri =
+        AppApiService().buildUrl('/api/v1/popular-service/doctors/$id/');
     final response = await http.get(uri);
 
     if (response.statusCode != 200) {
@@ -116,7 +117,7 @@ class DoctorDetailsView extends StatelessWidget {
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: const Color(0xFFCBF1EF).withValues(alpha:0.75),
+              color: const Color(0xFFCBF1EF).withValues(alpha: 0.75),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 20, color: Colors.black87),
@@ -360,7 +361,7 @@ class DoctorDetailsView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F7F6),
       body: doctorId == null
-          ? const Center(child: Text('Invalid doctor id'))
+          ? Center(child: Text('invalid_doctor_id'.tr))
           : FutureBuilder<Map<String, dynamic>>(
               future: _fetchDoctor(doctorId),
               builder: (context, snapshot) {
@@ -372,7 +373,8 @@ class DoctorDetailsView extends StatelessWidget {
                   return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Text('Could not load details. ${snapshot.error}'),
+                      child: Text(
+                          '${'could_not_load_details'.tr} ${snapshot.error}'),
                     ),
                   );
                 }
@@ -391,20 +393,20 @@ class DoctorDetailsView extends StatelessWidget {
                 final subcategory = _textValue(data['subcategory_name']);
                 final details = _textValue(
                   data['doctor_details'],
-                  fallback: 'No additional details available.',
+                  fallback: 'no_additional_details_available'.tr,
                 );
                 final schedule = _textValue(
                   data['doctor_sedule'] ?? data['doctor_schedule'],
                 );
                 final contacts = _textValue(
                   data['contact_details'],
-                  fallback: 'No contact details available.',
+                  fallback: 'no_contact_details_available'.tr,
                 );
                 final contactLines = _contactLines(contacts);
                 final scheduleLines = _splitLines(schedule);
                 final contactLead = _firstLine(
                   contactLines,
-                  fallback: 'No contact details available.',
+                  fallback: 'no_contact_details_available'.tr,
                 );
 
                 return Stack(
@@ -586,7 +588,7 @@ class DoctorDetailsView extends StatelessWidget {
                                   Row(
                                     children: [
                                       _actionButton(
-                                        label: 'Book Appointment',
+                                        label: 'book_appointment'.tr,
                                         onPressed: () {
                                           Get.toNamed(
                                             '${Routes.DOCTOR_BOOKING}?id=$doctorId',

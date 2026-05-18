@@ -50,19 +50,19 @@ class _GeneralPhysicianPaymentViewState
     final amountText = _amountController.text.trim();
 
     if (bookingId == null) {
-      AppLoader.showError('Booking id is missing.');
+      AppLoader.showError('booking_id_missing'.tr);
       return;
     }
     if (amountText.isEmpty) {
-      AppLoader.showError('Please enter amount.');
+      AppLoader.showError('please_enter_amount'.tr);
       return;
     }
     if (_paymentMethod == null) {
-      AppLoader.showError('Please select a payment method.');
+      AppLoader.showError('please_select_payment_method'.tr);
       return;
     }
     if (transactionId.isEmpty) {
-      AppLoader.showError('Please enter transaction id.');
+      AppLoader.showError('please_enter_transaction_id'.tr);
       return;
     }
 
@@ -70,7 +70,7 @@ class _GeneralPhysicianPaymentViewState
     setState(() {
       _submitting = true;
     });
-    AppLoader.show(status: 'Submitting...');
+    AppLoader.show(status: 'submitting'.tr);
 
     try {
       final accessToken = _authService.accessToken.value.trim();
@@ -90,16 +90,16 @@ class _GeneralPhysicianPaymentViewState
       );
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        AppLoader.showSuccess('Payment submitted successfully.');
+        AppLoader.showSuccess('payment_submitted_successfully'.tr);
         if (mounted) {
           Get.back();
         }
         return;
       }
 
-      AppLoader.showError('Payment failed. Please try again.');
+      AppLoader.showError('payment_failed_try_again'.tr);
     } catch (e) {
-      AppLoader.showError('Payment failed. Please try again.');
+      AppLoader.showError('payment_failed_try_again'.tr);
     } finally {
       if (mounted) {
         setState(() {
@@ -117,7 +117,7 @@ class _GeneralPhysicianPaymentViewState
     return Scaffold(
       backgroundColor: const Color(0xFFF3F7F6),
       appBar: AppBar(
-        title: const Text('Payment'),
+        title: Text('payment'.tr),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -126,14 +126,14 @@ class _GeneralPhysicianPaymentViewState
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          const _InfoField(
-            label: 'Payment Number',
+          _InfoField(
+            label: 'payment_number'.tr,
             value: '+8801805464400',
           ),
           const SizedBox(height: 12),
           _InfoField(
-            label: 'Booking ID',
-            value: _bookingId?.toString() ?? 'Not available',
+            label: 'booking_id'.tr,
+            value: _bookingId?.toString() ?? 'not_available'.tr,
           ),
           const SizedBox(height: 12),
           _PaymentMethodField(
@@ -147,15 +147,15 @@ class _GeneralPhysicianPaymentViewState
           const SizedBox(height: 12),
           _InputField(
             controller: _amountController,
-            label: 'Amount',
-            hintText: 'Enter amount',
+            label: 'amount'.tr,
+            hintText: 'enter_amount'.tr,
             textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 12),
           _InputField(
             controller: _transactionController,
-            label: 'Transaction ID',
-            hintText: 'Enter transaction id',
+            label: 'transaction_id'.tr,
+            hintText: 'enter_transaction_id'.tr,
             textInputAction: TextInputAction.done,
           ),
           const SizedBox(height: 20),
@@ -170,7 +170,7 @@ class _GeneralPhysicianPaymentViewState
                 ),
               ),
               child: Text(
-                _submitting ? 'Submitting...' : 'Submit',
+                _submitting ? 'submitting'.tr : 'submit'.tr,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -289,13 +289,13 @@ class _PaymentMethodField extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value,
-          hint: const Text('Select payment method'),
+          hint: Text('select_payment_method'.tr),
           isExpanded: true,
           onChanged: onChanged,
-          items: const [
-            DropdownMenuItem(value: 'bkash', child: Text('bKash')),
-            DropdownMenuItem(value: 'nagad', child: Text('Nagad')),
-            DropdownMenuItem(value: 'rocket', child: Text('Rocket')),
+          items: [
+            DropdownMenuItem(value: 'bkash', child: Text('bkash'.tr)),
+            DropdownMenuItem(value: 'nagad', child: Text('nagad'.tr)),
+            DropdownMenuItem(value: 'rocket', child: Text('rocket'.tr)),
           ],
         ),
       ),

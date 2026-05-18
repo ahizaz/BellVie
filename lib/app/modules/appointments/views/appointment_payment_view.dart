@@ -115,7 +115,7 @@ class _AppointmentPaymentViewState extends State<AppointmentPaymentView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F7F6),
       appBar: AppBar(
-        title: const Text('Payment'),
+        title: Text('payment'.tr),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -130,8 +130,8 @@ class _AppointmentPaymentViewState extends State<AppointmentPaymentView> {
           ),
           const SizedBox(height: 12),
           _InfoField(
-            label: 'Booking ID',
-            value: _bookingId?.toString() ?? 'Not available',
+            label: 'booking_id'.tr,
+            value: _bookingId?.toString() ?? 'not_available'.tr,
           ),
           const SizedBox(height: 12),
           _PaymentMethodField(
@@ -145,15 +145,15 @@ class _AppointmentPaymentViewState extends State<AppointmentPaymentView> {
           const SizedBox(height: 12),
           _InputField(
             controller: _amountController,
-            label: 'Amount',
-            hintText: 'Enter amount',
+            label: 'amount'.tr,
+            hintText: 'enter_amount'.tr,
             textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 12),
           _InputField(
             controller: _transactionController,
-            label: 'Transaction ID',
-            hintText: 'Enter transaction id',
+            label: 'transaction_id'.tr,
+            hintText: 'enter_transaction_id'.tr,
             textInputAction: TextInputAction.done,
           ),
           const SizedBox(height: 20),
@@ -168,7 +168,7 @@ class _AppointmentPaymentViewState extends State<AppointmentPaymentView> {
                 ),
               ),
               child: Text(
-                _submitting ? 'Submitting...' : 'Submit Payment',
+                _submitting ? 'submitting'.tr : 'submit'.tr,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -204,11 +204,11 @@ class _PaymentMethodField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
             child: Text(
-              'Payment Method',
-              style: TextStyle(
+              'payment_method'.tr,
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
                 color: Colors.black54,
@@ -219,7 +219,7 @@ class _PaymentMethodField extends StatelessWidget {
             value: 'bkash',
             groupValue: value,
             activeColor: const Color(0xFF1DA9A1),
-            title: const Text('bKash'),
+            title: Text('bkash'.tr),
             onChanged: onChanged,
             contentPadding: EdgeInsets.zero,
             dense: true,
@@ -228,7 +228,7 @@ class _PaymentMethodField extends StatelessWidget {
             value: 'nagad',
             groupValue: value,
             activeColor: const Color(0xFF1DA9A1),
-            title: const Text('Nagad'),
+            title: Text('nagad'.tr),
             onChanged: onChanged,
             contentPadding: EdgeInsets.zero,
             dense: true,

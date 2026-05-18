@@ -317,7 +317,7 @@ class _DailyTipDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Close'),
+                    child: Text('close'.tr),
                   ),
                 ),
               ],

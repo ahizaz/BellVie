@@ -24,7 +24,7 @@ class BelleVieApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      title: 'BelleVie Global Health Services',
+      title: 'app_title'.tr,
       translations: AppTranslation(),
       locale: const Locale('en', 'US'),
       fallbackLocale: const Locale('en', 'US'),

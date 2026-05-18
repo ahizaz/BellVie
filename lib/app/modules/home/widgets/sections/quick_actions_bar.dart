@@ -27,12 +27,12 @@ class QuickActionsBar extends StatelessWidget {
         onTap: () => Get.toNamed(Routes.CONTACT_US),
       ),
       _QuickActionItem(
-        label: 'Book Appointment',
+        label: 'book_appointment'.tr,
         icon: Icons.folder_shared,
         onTap: () => Get.toNamed(Routes.BOOK_APPOINTMENT),
       ),
       _QuickActionItem(
-        label: 'My History',
+        label: 'my_appointments'.tr,
         icon: Icons.history,
         onTap: () {
           final auth = AuthService.to;

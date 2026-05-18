@@ -37,7 +37,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       appBar: AppBar(
-        title: const Text('Forgot Password'),
+        title: Text('forgot_password'.tr),
         backgroundColor: const Color(0xFFF2F2F2),
         elevation: 0,
       ),
@@ -48,9 +48,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Reset your password',
-                  style: TextStyle(
+                Text(
+                  'reset_your_password'.tr,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                     color: Colors.black87,
@@ -68,12 +68,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               context: context,
                               showPhoneCode: true,
                               favorite: const ['BD', 'IN'],
-                              countryListTheme: const CountryListThemeData(
+                              countryListTheme: CountryListThemeData(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(16),
                                 ),
                                 inputDecoration: InputDecoration(
-                                  labelText: 'Search country',
+                                  labelText: 'search_country'.tr,
                                   border: OutlineInputBorder(),
                                 ),
                               ),
@@ -124,7 +124,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
-                          labelText: 'Phone number',
+                          labelText: 'phone_number'.tr,
                           border: const OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: context.w(16),
@@ -140,7 +140,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   controller: newPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'New Password',
+                    labelText: 'new_password'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
@@ -153,7 +153,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   controller: confirmPasswordController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Confirm Password',
+                    labelText: 'confirm_password'.tr,
                     border: const OutlineInputBorder(),
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: context.w(16),
@@ -176,7 +176,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: context.h(14)),
                     ),
-                    child: const Text('Reset Password'),
+                    child: Text('reset_password'.tr),
                   ),
                 ),
               ],

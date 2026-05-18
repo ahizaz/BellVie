@@ -35,7 +35,6 @@ class CoreFourSection extends StatelessWidget {
     ),
   ];
 
-
   Widget _bottomTabsRow() {
     const items = [
       _BottomTabItem('air_ambulance', 'assets/images/air_ambulance_logo.png'),
@@ -123,18 +122,18 @@ class CoreFourSection extends StatelessWidget {
             return const SizedBox.shrink();
           }
 
-          return const Column(
+          return Column(
             children: [
               Text(
-                'More',
+                'more'.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Colors.black87,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           );
         }),

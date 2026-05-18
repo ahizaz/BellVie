@@ -19,7 +19,7 @@ class BookAppointmentView extends StatelessWidget {
           onPressed: () => Get.back(),
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
-        title: const Text('Book Appointment'),
+        title: Text('book_appointment'.tr),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -30,17 +30,17 @@ class BookAppointmentView extends StatelessWidget {
           horizontal: horizontalPadding,
           vertical: verticalPadding,
         ),
-        children: const [
+        children: [
           _AppointmentOptionCard(
-            title: 'Foreign Treatment',
-            subtitle: 'Browse hospitals and packages abroad.',
+            title: 'foreign_treatment'.tr,
+            subtitle: 'browse_hospitals_packages_abroad'.tr,
             icon: Icons.public,
             routeName: Routes.FOREIGN_TREATMENT,
           ),
-          SizedBox(height: 12),
+          const SizedBox(height: 12),
           _AppointmentOptionCard(
-            title: 'Top Doctors',
-            subtitle: 'Find a specialist and book quickly.',
+            title: 'top_doctors'.tr,
+            subtitle: 'find_a_specialist_and_book_quickly'.tr,
             icon: Icons.medical_services_outlined,
             routeName: Routes.SPECIALIST_DOCTORS,
           ),

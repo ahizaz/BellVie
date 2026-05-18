@@ -265,11 +265,11 @@ class _DiscountPartnerState extends State<DiscountPartner> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
             Text(
-              "Discount Partner",
-              style: TextStyle(
+              'discount_partner'.tr,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,

@@ -123,23 +123,23 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
     final phone = _phoneController.text.trim();
 
     if (doctorId == null) {
-      AppLoader.showError('Doctor id is missing.');
+      AppLoader.showError('doctor_id_missing'.tr);
       return;
     }
     if (_selectedDate == null) {
-      AppLoader.showError('Please select a date.');
+      AppLoader.showError('please_select_date'.tr);
       return;
     }
     if (_selectedTime == null) {
-      AppLoader.showError('Please select a time.');
+      AppLoader.showError('please_select_time'.tr);
       return;
     }
     if (name.isEmpty) {
-      AppLoader.showError('Please enter patient name.');
+      AppLoader.showError('please_enter_patient_name'.tr);
       return;
     }
     if (phone.isEmpty) {
-      AppLoader.showError('Please enter phone number.');
+      AppLoader.showError('please_enter_phone_number'.tr);
       return;
     }
 
@@ -176,11 +176,11 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
         }
 
         if (bookingId == null) {
-          AppLoader.showError('Booking created but booking id is missing.');
+          AppLoader.showError('booking_id_missing'.tr);
           return;
         }
 
-        AppLoader.showSuccess('Appointment submitted successfully.');
+        AppLoader.showSuccess('appointment_submitted_successfully'.tr);
         if (mounted) {
           Get.offNamed(
             Routes.APPOINTMENT_PAYMENT,
@@ -214,7 +214,7 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F7F6),
       appBar: AppBar(
-        title: const Text('Book Appointment'),
+        title: Text('book_appointment'.tr),
         centerTitle: true,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
@@ -224,14 +224,14 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
         padding: const EdgeInsets.all(16),
         children: [
           _InfoField(
-            label: 'Doctor ID',
+            label: 'doctor_id'.tr,
             value: doctorId?.toString() ?? 'Not available',
           ),
           const SizedBox(height: 12),
           _InputField(
             controller: _dateController,
-            label: 'Date',
-            hintText: 'Select date',
+            label: 'date'.tr,
+            hintText: 'select_date'.tr,
             readOnly: true,
             onTap: _pickDate,
             suffixIcon: Icons.calendar_today_outlined,
@@ -239,8 +239,8 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
           const SizedBox(height: 12),
           _InputField(
             controller: _timeController,
-            label: 'Time',
-            hintText: 'Select time',
+            label: 'time'.tr,
+            hintText: 'select_time'.tr,
             readOnly: true,
             onTap: _pickTime,
             suffixIcon: Icons.access_time_outlined,
@@ -248,15 +248,15 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
           const SizedBox(height: 12),
           _InputField(
             controller: _nameController,
-            label: 'Patient Name',
-            hintText: 'Enter patient name',
+            label: 'patient_name'.tr,
+            hintText: 'enter_patient_name'.tr,
             textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 12),
           _InputField(
             controller: _phoneController,
-            label: 'Phone Number',
-            hintText: 'Enter phone number',
+            label: 'phone_number'.tr,
+            hintText: 'enter_phone_number'.tr,
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
           ),
@@ -272,7 +272,7 @@ class _DoctorBookingViewState extends State<DoctorBookingView> {
                 ),
               ),
               child: Text(
-                _submitting ? 'Submitting...' : 'Submit',
+                _submitting ? 'submitting'.tr : 'submit'.tr,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,

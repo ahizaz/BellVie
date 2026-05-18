@@ -14,7 +14,7 @@ class ComingSoonView extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
         elevation: 0.5,
-        title: const Text('Feature Unavailable'),
+        title: Text('feature_unavailable'.tr),
       ),
       body: SafeArea(
         child: Center(
@@ -31,20 +31,20 @@ class ComingSoonView extends StatelessWidget {
                     color: Color(0xFF2F6FED),
                   ),
                   const SizedBox(height: 16),
-                  const Text(
-                    'This feature is not available yet.',
+                  Text(
+                    'this_feature_not_available'.tr,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: Colors.black87,
                     ),
                   ),
                   const SizedBox(height: 8),
-                  const Text(
-                    'You can continue using the currently available sections from Home.',
+                  Text(
+                    'feature_continue_home'.tr,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: Colors.black54,
                       height: 1.35,
@@ -60,7 +60,7 @@ class ComingSoonView extends StatelessWidget {
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: const Text('Go to Home'),
+                      child: Text('go_to_home'.tr),
                     ),
                   ),
                 ],

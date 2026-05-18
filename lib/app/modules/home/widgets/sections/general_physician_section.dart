@@ -136,10 +136,10 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'General Physician',
+        Text(
+          'general_physician'.tr,
           textAlign: TextAlign.left,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: Colors.black87,
@@ -152,8 +152,8 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
               ? const SizedBox.shrink()
               : _doctors.isEmpty
                   ? (_resolved
-                      ? const Center(
-                          child: Text('No doctors available right now.'),
+                      ? Center(
+                          child: Text('no_doctors_available'.tr),
                         )
                       : const SizedBox.shrink())
                   : Stack(
@@ -408,7 +408,7 @@ class _DoctorCard extends StatelessWidget {
                     const SizedBox(height: 1),
                     if (doctor.experience.isNotEmpty)
                       Text(
-                        'Experience: ${doctor.experience} year${doctor.experience == 1 ? '' : 's'}',
+                        '${'experience'.tr}: ${doctor.experience} year${doctor.experience == '1' ? '' : 's'}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -418,7 +418,7 @@ class _DoctorCard extends StatelessWidget {
                       ),
                     if (doctor.fees.isNotEmpty)
                       Text(
-                        'Fees: ${doctor.fees}',
+                        '${'fees'.tr}: ${doctor.fees}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -445,9 +445,9 @@ class _DoctorCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
-                              'Book Appointment',
-                              style: TextStyle(
+                            child: Text(
+                              'book_appointment'.tr,
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF2F6FED),

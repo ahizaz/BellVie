@@ -70,12 +70,12 @@ class _LoginViewState extends State<LoginView> {
                               context: context,
                               showPhoneCode: true,
                               favorite: const ['BD', 'IN'],
-                              countryListTheme: const CountryListThemeData(
+                              countryListTheme: CountryListThemeData(
                                 borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(16),
                                 ),
                                 inputDecoration: InputDecoration(
-                                  labelText: 'Search country',
+                                  labelText: 'search_country'.tr,
                                   border: OutlineInputBorder(),
                                 ),
                               ),
@@ -165,7 +165,7 @@ class _LoginViewState extends State<LoginView> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
-                    child: const Text('Forgot Password?'),
+                    child: Text('forgot_password_question'.tr),
                   ),
                 ),
                 SizedBox(height: context.h(20)),
@@ -198,9 +198,9 @@ class _LoginViewState extends State<LoginView> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         foregroundColor: const Color(0xFF2F6FED),
                       ),
-                      child: const Text(
-                        'Registration',
-                        style: TextStyle(
+                      child: Text(
+                        'registration'.tr,
+                        style: const TextStyle(
                           color: Color(0xFF2F6FED),
                           fontWeight: FontWeight.w600,
                         ),

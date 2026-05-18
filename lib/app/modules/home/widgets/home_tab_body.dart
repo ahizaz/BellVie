@@ -105,9 +105,9 @@ class SubscriptionPackageSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Subscription package',
-          style: TextStyle(
+        Text(
+          'subscription_package'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -117,19 +117,19 @@ class SubscriptionPackageSection extends StatelessWidget {
         Row(
           children: [
             _buildPackageColumn(
-              'Platinum',
+              'platinum'.tr,
               const Color(0xFF727474),
             ),
             _buildPackageColumn(
-              'Gold',
+              'gold'.tr,
               const Color(0xFFB3882B),
             ),
             _buildPackageColumn(
-              'Silver',
+              'silver'.tr,
               const Color(0xFFAAABB0),
             ),
             _buildPackageColumn(
-              'Bronze',
+              'bronze'.tr,
               const Color(0xFFB65F36),
             ),
           ],
@@ -229,9 +229,9 @@ class SocialService extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Social Services',
-          style: TextStyle(
+        Text(
+          'social_services'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -242,19 +242,19 @@ class SocialService extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildPackageColumn(
-              'Community Health Services',
+              'community_health_services'.tr,
               'assets/images/community_health_srvice.png',
             ),
             _buildPackageColumn(
-              'Bellevie Health Club',
+              'bellevie_health_club'.tr,
               'assets/images/bellevie_logo.png',
             ),
             _buildPackageColumn(
-              'Charity Partners',
+              'charity_partners'.tr,
               'assets/images/charity partners.png',
             ),
             _buildPackageColumn(
-              'Health Tourism',
+              'health_tourism'.tr,
               'assets/images/healthcare.png',
             ),
           ],
@@ -359,10 +359,10 @@ class _PlaceholderScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            const Text(
-              'This section is not available yet.',
+            Text(
+              'section_not_available_yet'.tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: Colors.black54,
               ),
@@ -374,7 +374,7 @@ class _PlaceholderScreen extends StatelessWidget {
                 backgroundColor: const Color(0xFF2F6FED),
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Go to Home'),
+              child: Text('home'.tr),
             ),
           ],
         ),

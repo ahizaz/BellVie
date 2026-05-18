@@ -52,19 +52,19 @@ class SplashScreenView extends GetView<SplashScreenController> {
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'BelleVie',
-                  style: TextStyle(
+                Text(
+                  'brand_name'.tr,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Global Health Services\nYour Global Healthcare Companion',
+                Text(
+                  'app_tagline'.tr,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white70,
                     fontSize: 14,
                   ),

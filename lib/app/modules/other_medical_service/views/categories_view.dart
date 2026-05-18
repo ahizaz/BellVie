@@ -10,7 +10,7 @@ class OtherMedicalCategoriesView extends GetView<OtherMedicalController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Other Medical Services'),
+        title: Text('other_medical_services'.tr),
         centerTitle: true,
       ),
       body: Padding(
@@ -18,7 +18,7 @@ class OtherMedicalCategoriesView extends GetView<OtherMedicalController> {
         child: Obx(() {
           final items = controller.items;
           if (items.isEmpty) {
-            return const Center(child: Text('No categories found'));
+            return Center(child: Text('no_categories_found'.tr));
           }
 
           return GridView.builder(

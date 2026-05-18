@@ -144,7 +144,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           _doctors = [];
           _resolvedDoctors = true;
           _isLoadingDoctors = false;
-          _errorMessage = 'No doctors available right now.';
+          _errorMessage = 'no_doctors_available'.tr;
         });
         return;
       }
@@ -164,8 +164,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         _isLoadingDoctors = false;
         _showScrollHintLeft = false;
         _showScrollHintRight = false;
-        _errorMessage =
-            items.isEmpty ? 'No doctors available right now.' : null;
+        _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
       });
       WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
     } catch (_) {
@@ -176,7 +175,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         _isLoadingDoctors = false;
         _showScrollHintLeft = false;
         _showScrollHintRight = false;
-        _errorMessage = 'No doctors available right now.';
+        _errorMessage = 'no_doctors_available'.tr;
       });
     }
   }
@@ -239,10 +238,10 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Specialist Doctors',
+            Text(
+              'specialist_doctors'.tr,
               textAlign: TextAlign.left,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87,
@@ -256,9 +255,9 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                 minimumSize: Size.zero,
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-              child: const Text(
-                'See All',
-                style: TextStyle(
+              child: Text(
+                'view_all'.tr,
+                style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
@@ -274,7 +273,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
             child: Row(
               children: [
                 _CategoryChip(
-                  label: 'All',
+                  label: 'all'.tr,
                   iconUrl: null,
                   iconFallback: Icons.medical_services_outlined,
                   selected: _selectedSubcategoryId == null,
@@ -311,7 +310,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
               : _doctors.isEmpty
                   ? Center(
                       child: Text(
-                        _errorMessage ?? 'No doctors available right now.',
+                        _errorMessage ?? 'no_doctors_available'.tr,
                         style: const TextStyle(
                           fontSize: 13,
                           color: Colors.black54,
@@ -640,7 +639,7 @@ class _DoctorCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     if (doctor.experience.isNotEmpty)
                       Text(
-                        'Experience: ${doctor.experience}',
+                        '${'experience'.tr}: ${doctor.experience}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -650,7 +649,7 @@ class _DoctorCard extends StatelessWidget {
                       ),
                     if (doctor.fees.isNotEmpty)
                       Text(
-                        'Fees: ৳${doctor.fees}',
+                        '${'fees'.tr}: ৳${doctor.fees}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -679,9 +678,9 @@ class _DoctorCard extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
-                              'Book Appointment',
-                              style: TextStyle(
+                            child: Text(
+                              'book_appointment'.tr,
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF2F6FED),
