@@ -87,10 +87,22 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
 
         final List<_MedicalAccessoryItem> items = results
             .whereType<Map<String, dynamic>>()
-            .map((m) => _MedicalAccessoryItem(
-                  (m['name'] ?? '').toString(),
-                  _resolveImageUrl((m['image'] ?? '').toString()),
-                ))
+            .map((m) {
+              try {
+                final nameEn = (m['name_en'] ?? m['name'] ?? '').toString();
+                final nameBn = (m['name_bn'] ?? '').toString();
+                final image = _resolveImageUrl((m['image'] ?? '').toString());
+                return _MedicalAccessoryItem(
+                  nameEn: nameEn,
+                  nameBn: nameBn,
+                  imageUrl: image,
+                );
+              } catch (e, st) {
+                debugPrint('Medical category parse error for item: $m => $e');
+                return null;
+              }
+            })
+            .whereType<_MedicalAccessoryItem>()
             .where((it) => it.name.isNotEmpty)
             .toList();
 
@@ -142,10 +154,22 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
 
       return decoded
           .whereType<Map<String, dynamic>>()
-          .map((m) => _MedicalAccessoryItem(
-                (m['name'] ?? '').toString(),
-                (m['imageUrl'] ?? '').toString(),
-              ))
+          .map((m) {
+            try {
+              final nameEn = (m['name_en'] ?? m['name'] ?? '').toString();
+              final nameBn = (m['name_bn'] ?? '').toString();
+              final image = (m['imageUrl'] ?? '').toString();
+              return _MedicalAccessoryItem(
+                nameEn: nameEn,
+                nameBn: nameBn,
+                imageUrl: image,
+              );
+            } catch (e) {
+              debugPrint('Medical accessories cache item parse error => $e');
+              return null;
+            }
+          })
+          .whereType<_MedicalAccessoryItem>()
           .where((it) => it.name.isNotEmpty)
           .toList();
     } catch (e) {
@@ -159,7 +183,8 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
       final prefs = await SharedPreferences.getInstance();
       final encoded = jsonEncode(items
           .map((e) => {
-                'name': e.name,
+                'name_en': e.nameEn,
+                'name_bn': e.nameBn,
                 'imageUrl': e.imageUrl,
               })
           .toList());
@@ -292,7 +317,27 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
 }
 
 class _MedicalAccessoryItem {
-  final String name;
+  final String nameEn;
+  final String nameBn;
   final String imageUrl;
-  _MedicalAccessoryItem(this.name, this.imageUrl);
+
+  _MedicalAccessoryItem({
+    required this.nameEn,
+    required this.nameBn,
+    required this.imageUrl,
+  });
+
+  String localizedName(Locale? locale) {
+    final lang = locale?.languageCode ?? 'en';
+    try {
+      if (lang == 'bn' && nameBn.trim().isNotEmpty) return nameBn.trim();
+    } catch (_) {}
+    try {
+      return nameEn.trim();
+    } catch (_) {
+      return '';
+    }
+  }
+
+  String get name => localizedName(Get.locale);
 }
