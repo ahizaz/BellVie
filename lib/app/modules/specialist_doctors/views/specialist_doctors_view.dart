@@ -142,7 +142,7 @@ class _SpecialistDoctorsGrid extends StatelessWidget {
                   final item = items[index];
                   return _SpecialistServiceCard(
                     subcategory: item,
-                    toKey: _toKey(item.name),
+                    toKey: _toKey(item.nameEn),
                     categoryId: item.category,
                     subcategoryId: item.id,
                   );
@@ -185,7 +185,7 @@ class _SpecialistServiceCard extends StatelessWidget {
       onTap: () {
         final Map<String, dynamic> args = {
           'categoryKey': toKey,
-          'categoryLabel': subcategory.name,
+          'categoryLabel': subcategory.localizedName(Get.locale),
           'categoryAssetPath': subcategory.icon ?? '',
         };
         if (categoryId != null) args['categoryId'] = categoryId;
@@ -233,7 +233,7 @@ class _SpecialistServiceCard extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Text(
-              subcategory.name,
+              subcategory.localizedName(Get.locale),
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

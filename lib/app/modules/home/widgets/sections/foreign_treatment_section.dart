@@ -31,36 +31,48 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     const _ForeignTreatmentItem(
       id: 1,
       name: 'India',
+      nameEn: 'India',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Flag_of_India.png',
     ),
     const _ForeignTreatmentItem(
       id: 2,
       name: 'China',
+      nameEn: 'China',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Chaina.png',
     ),
     const _ForeignTreatmentItem(
       id: 3,
       name: 'Thailand',
+      nameEn: 'Thailand',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Thailand.jpg',
     ),
     const _ForeignTreatmentItem(
       id: 4,
       name: 'Turkey',
+      nameEn: 'Turkey',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Turkey.jpg',
     ),
     const _ForeignTreatmentItem(
       id: 5,
       name: 'Singapore',
+      nameEn: 'Singapore',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Singapore.jpg',
     ),
     const _ForeignTreatmentItem(
       id: 6,
       name: 'Malaysia',
+      nameEn: 'Malaysia',
+      nameBn: '',
       flagUrl: '',
       fallbackAssetPath: 'assets/images/Malaysia.jpg',
     ),
@@ -172,6 +184,8 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
                   ? item['id'] as int
                   : int.tryParse((item['id'] ?? '').toString()) ?? 0,
               name: (item['name'] ?? '').toString(),
+              nameEn: (item['name_en'] ?? (item['name'] ?? '')).toString(),
+              nameBn: (item['name_bn'] ?? '').toString(),
               flagUrl: _resolveImageUrl((item['flag'] ?? '').toString()),
               fallbackAssetPath:
                   _fallbackAssetByName((item['name'] ?? '').toString()),
@@ -198,6 +212,8 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
             final incoming = mapped[entry.key];
             return existing.id != incoming.id ||
                 existing.name != incoming.name ||
+                existing.nameEn != incoming.nameEn ||
+                existing.nameBn != incoming.nameBn ||
                 existing.flagUrl != incoming.flagUrl ||
                 existing.fallbackAssetPath != incoming.fallbackAssetPath;
           });
@@ -322,31 +338,15 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
   }
 }
 
-class _ForeignTreatmentItem {
-  final int id;
-  final String name;
-  final String flagUrl;
-  final String fallbackAssetPath;
-
-  const _ForeignTreatmentItem({
-    required this.id,
-    required this.name,
-    required this.flagUrl,
-    required this.fallbackAssetPath,
-  });
-}
-
 class _ForeignTreatmentCard extends StatelessWidget {
   final _ForeignTreatmentItem item;
   const _ForeignTreatmentCard({required this.item});
 
   void _handleTap() {
-    Get.to(
-      () => IndiaHospitalsView(
-        countryId: item.id,
-        countryTitle: item.name,
-      ),
-    );
+    Get.to(() => IndiaHospitalsView(
+          countryId: item.id,
+          countryTitle: item.localizedName(Get.locale),
+        ));
   }
 
   @override
@@ -412,7 +412,7 @@ class _ForeignTreatmentCard extends StatelessWidget {
             const SizedBox(height: 8),
             Flexible(
               child: Text(
-                item.name,
+                item.localizedName(Get.locale),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -441,5 +441,30 @@ List<dynamic> _extractCountriesResults(String body) {
     return const [];
   } catch (_) {
     return const [];
+  }
+}
+
+class _ForeignTreatmentItem {
+  final int id;
+  final String name;
+  final String nameEn;
+  final String nameBn;
+  final String flagUrl;
+  final String fallbackAssetPath;
+
+  const _ForeignTreatmentItem({
+    required this.id,
+    required this.name,
+    required this.nameEn,
+    required this.nameBn,
+    required this.flagUrl,
+    required this.fallbackAssetPath,
+  });
+
+  String localizedName(Locale? locale) {
+    final lang = locale?.languageCode ?? 'en';
+    if (lang == 'bn' && nameBn.trim().isNotEmpty) return nameBn.trim();
+    if (nameEn.trim().isNotEmpty) return nameEn.trim();
+    return name.trim();
   }
 }

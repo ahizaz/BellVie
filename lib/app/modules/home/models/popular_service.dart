@@ -21,7 +21,8 @@ class PopularService {
     final rawIcon = (json['icon'] ?? '').toString();
     final resolvedIcon = _resolveImageUrl(rawIcon);
     final idVal = json['id'];
-    final id = idVal is int ? idVal : int.tryParse(idVal?.toString() ?? '') ?? 0;
+    final id =
+        idVal is int ? idVal : int.tryParse(idVal?.toString() ?? '') ?? 0;
 
     final rawName = (json['name'] ?? '').toString().trim();
     final rawNameEn = (json['name_en'] ?? rawName).toString().trim();

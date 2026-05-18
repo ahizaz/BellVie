@@ -341,7 +341,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
                       child: _CategoryChip(
-                        label: subcategory.name,
+                        label: subcategory.localizedName(Get.locale),
                         iconUrl: _resolveImageUrl(subcategory.icon ?? ''),
                         iconFallback: Icons.local_hospital_outlined,
                         selected: _selectedSubcategoryId == subcategory.id,
