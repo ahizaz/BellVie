@@ -78,21 +78,61 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
     setState(() {
       _isLoading = true;
     });
+    final path =
+        '/api/v1/popular-service/doctors/?subcategory=3&subcategory__category=1';
 
+    // Try to show cached data immediately (persistent or in-memory)
     try {
-      final response = await _apiService.get(
-        path:
-            '/api/v1/popular-service/doctors/?subcategory=3&subcategory__category=1',
-      );
+      final cachedBody = await _apiService.getCachedBody(path: path);
+      if (cachedBody != null && mounted) {
+        try {
+          final decoded = jsonDecode(cachedBody);
+          final rawItems = decoded is Map<String, dynamic>
+              ? (decoded['results'] as List<dynamic>? ?? const <dynamic>[])
+              : const <dynamic>[];
+
+          final items = rawItems
+              .whereType<Map<String, dynamic>>()
+              .map(SpecialistDoctorItem.fromJson)
+              .where((doctor) => doctor.name.isNotEmpty)
+              .toList();
+
+          if (items.isNotEmpty) {
+            setState(() {
+              _doctors = items;
+              _resolved = true;
+              _showScrollHintLeft = false;
+              _showScrollHintRight = false;
+            });
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _updateScrollHint());
+          }
+        } catch (_) {
+          // ignore parse errors from cache
+        }
+      }
+    } catch (_) {
+      // ignore cache read errors
+    }
+
+    // Fetch fresh data and update cache (if possible)
+    try {
+      final response = await _apiService.get(path: path);
 
       if (!mounted) return;
 
       if (response.statusCode < 200 || response.statusCode >= 300) {
-        setState(() {
-          _doctors = [];
-          _resolved = true;
-          _isLoading = false;
-        });
+        if (mounted && _doctors.isEmpty) {
+          setState(() {
+            _doctors = [];
+            _resolved = true;
+            _isLoading = false;
+          });
+        } else if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
         return;
       }
 
@@ -117,13 +157,19 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
       WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
     } catch (_) {
       if (!mounted) return;
-      setState(() {
-        _doctors = [];
-        _resolved = true;
-        _isLoading = false;
-        _showScrollHintLeft = false;
-        _showScrollHintRight = false;
-      });
+      if (_doctors.isEmpty) {
+        setState(() {
+          _doctors = [];
+          _resolved = true;
+          _isLoading = false;
+          _showScrollHintLeft = false;
+          _showScrollHintRight = false;
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

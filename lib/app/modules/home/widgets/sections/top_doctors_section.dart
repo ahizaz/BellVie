@@ -130,12 +130,67 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
       _isLoadingDoctors = true;
       _errorMessage = null;
     });
+    final path = subcategoryId == null
+        ? '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId'
+        : '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId';
+
+    // Attempt to hydrate from cache first so UI shows data when offline.
+    // Try multiple candidate paths so we match what other parts of the app
+    // may have saved (page param, different endpoint variants).
+    try {
+      final candidates = <String>[];
+      if (subcategoryId == null) {
+        candidates.add(
+            '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId');
+        candidates.add('/api/v1/popular-service/doctors/');
+        candidates.add(
+            '/api/v1/popular-service/doctors/?page=1&subcategory__category=$_categoryId');
+        candidates.add('/api/v1/popular-service/doctors/?page=1');
+      } else {
+        candidates.add(
+            '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId');
+        candidates.add(
+            '/api/v1/popular-service/doctors/?page=1&subcategory=$subcategoryId&subcategory__category=$_categoryId');
+        candidates.add(
+            '/api/v1/popular-service/doctors/?page=1&subcategory__category=$_categoryId');
+        candidates.add('/api/v1/popular-service/doctors/');
+      }
+
+      for (final candidate in candidates) {
+        final cachedBody = await _apiService.getCachedBody(path: candidate);
+        if (cachedBody == null) continue;
+        if (!mounted || requestToken != _doctorRequestToken) return;
+        try {
+          final decoded = jsonDecode(cachedBody);
+          final rawItems = _extractList(decoded);
+          final items = rawItems
+              .whereType<Map<String, dynamic>>()
+              .map(SpecialistDoctorItem.fromJson)
+              .where((doctor) => doctor.name.isNotEmpty)
+              .where((doctor) => !_isHiddenDoctor(doctor))
+              .toList();
+
+          if (items.isNotEmpty) {
+            setState(() {
+              _doctors = items;
+              _resolvedDoctors = true;
+              _showScrollHintLeft = false;
+              _showScrollHintRight = false;
+              _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
+            });
+            WidgetsBinding.instance
+                .addPostFrameCallback((_) => _updateScrollHint());
+            break;
+          }
+        } catch (_) {
+          // ignore cache parse errors and try next candidate
+        }
+      }
+    } catch (_) {
+      // ignore cache read errors
+    }
 
     try {
-      final path = subcategoryId == null
-          ? '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId'
-          : '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId';
-
       final response = await _apiService.get(path: path);
       if (!mounted || requestToken != _doctorRequestToken) return;
 
