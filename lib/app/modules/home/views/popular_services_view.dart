@@ -60,9 +60,9 @@ class PopularServicesView extends StatelessWidget {
             if (useApi) {
               final svc = apiItems[i];
               return _ServiceCardFromApi(
-                name: svc.name,
+                name: svc.localizedName(Get.locale),
                 iconUrl: svc.iconUrl,
-                titleKey: svc.name,
+                titleKey: svc.localizedName(Get.locale),
                 serviceId: svc.id,
               );
             }

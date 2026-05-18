@@ -503,9 +503,9 @@ class _PopularServicesGridState extends State<_PopularServicesGrid> {
                 if (widget.useApi) {
                   final svc = widget.apiItems[i];
                   return _ServiceCardFromApi(
-                    name: svc.name,
+                    name: svc.localizedName(Get.locale),
                     iconUrl: svc.iconUrl,
-                    titleKey: svc.name,
+                    titleKey: svc.localizedName(Get.locale),
                     serviceId: svc.id,
                   );
                 }
