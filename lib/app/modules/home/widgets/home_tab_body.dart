@@ -85,6 +85,7 @@ class HomeScrollContent extends StatelessWidget {
 
           // CoreFourSection(),
           DiscountPartner(),
+       
 
           SubscriptionPackageSection(),
           SizedBox(

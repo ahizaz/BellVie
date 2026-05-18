@@ -378,17 +378,31 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                             const SizedBox(height: 8),
 
                             // Text নিচে থাকবে
-                            Text(
-                              item?.name ?? '',
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                              ),
-                            ),
+                            Builder(builder: (context) {
+                              final isBangla = homeController
+                                      .currentLocale.value.languageCode ==
+                                  'bn';
+                              final label = isBangla
+                                  ? (item?.nameBn ?? item?.name ?? '')
+                                  : (item?.name ?? '');
+
+                              return Expanded(
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Text(
+                                    label,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                           ],
                         ),
                       );
