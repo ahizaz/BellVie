@@ -527,6 +527,7 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                   ? item['id'] as int
                   : int.tryParse((item['id'] ?? '').toString()) ?? 0,
               name: (item['name'] ?? '').toString(),
+              nameBn: (item['name_bn'] ?? '').toString(),
               iconUrl: _resolveImageUrl((item['icon'] ?? '').toString()),
               agreementStatus: (item['agreement_status'] ?? 'N/A').toString(),
               publicHospitalCountText: item['public_hospital_count'] == null
@@ -534,6 +535,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
                   : (item['public_hospital_count']).toString(),
               specialties: [
                 (item['speciality'] ?? item['specialty'] ?? '').toString(),
+              ].map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
+              specialtiesBn: [
+                (item['speciality_bn'] ?? '').toString(),
               ].map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
               bannerName: (item['banner_name'] ?? item['banner'] ?? '')
                   .toString()
@@ -662,12 +666,14 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     return {
       'id': item.id,
       'name': item.name,
+      'name_bn': item.nameBn,
       'iconUrl': item.iconUrl,
       'agreementStatus': item.agreementStatus,
       'publicHospitalCountText': item.publicHospitalCountText,
       'bannerName': item.bannerName,
       'description': item.description,
       'specialties': item.specialties,
+      'specialties_bn': item.specialtiesBn,
       'contacts': item.contacts,
     };
   }
@@ -678,6 +684,7 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
           ? json['id'] as int
           : int.tryParse((json['id'] ?? '').toString()) ?? 0,
       name: (json['name'] ?? '').toString(),
+      nameBn: (json['name_bn'] ?? '').toString(),
       iconUrl: (json['iconUrl'] ?? '').toString(),
       agreementStatus: (json['agreementStatus'] ?? '').toString(),
       publicHospitalCountText:
@@ -686,6 +693,9 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       description: (json['description'] ?? '').toString(),
       specialties: (json['specialties'] is List)
           ? (json['specialties'] as List).map((e) => e.toString()).toList()
+          : const <String>[],
+      specialtiesBn: (json['specialties_bn'] is List)
+          ? (json['specialties_bn'] as List).map((e) => e.toString()).toList()
           : const <String>[],
       contacts: (json['contacts'] is List)
           ? (json['contacts'] as List).map((e) => e.toString()).toList()
@@ -807,23 +817,27 @@ class _HospitalCache {
 class _HospitalItem {
   final int id;
   final String name;
+  final String nameBn;
   final String iconUrl;
   final String agreementStatus;
   final String publicHospitalCountText;
   final String bannerName;
   final String description;
   final List<String> specialties;
+  final List<String> specialtiesBn;
   final List<String> contacts;
 
   const _HospitalItem({
     required this.id,
     required this.name,
+    this.nameBn = '',
     required this.iconUrl,
     required this.agreementStatus,
     required this.publicHospitalCountText,
     required this.bannerName,
     required this.description,
     this.specialties = const <String>[],
+    this.specialtiesBn = const <String>[],
     required this.contacts,
   });
 
@@ -842,6 +856,22 @@ class _HospitalItem {
     }
     final fallback = publicHospitalCountText.trim();
     return fallback.isNotEmpty ? fallback : 'N/A';
+  }
+
+  String resolvedSpecialityFor(String lang) {
+    if (lang == 'bn') {
+      final mergedBn = specialtiesBn
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+      if (mergedBn.isNotEmpty) return mergedBn.join(' | ');
+    }
+    return resolvedSpeciality;
+  }
+
+  String resolvedNameFor(String lang) {
+    if (lang == 'bn' && nameBn.trim().isNotEmpty) return nameBn.trim();
+    return name.trim();
   }
 
   List<String> get resolvedContacts {
@@ -963,25 +993,41 @@ class _HospitalTile extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    hospital.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  if (hospital.specialties.isNotEmpty) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      hospital.specialties.join(' | '),
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
+                  Builder(builder: (_) {
+                    final lang = Get.find<HomeController>()
+                        .currentLocale
+                        .value
+                        .languageCode;
+                    final nameLabel = hospital.resolvedNameFor(lang);
+                    final specs = lang == 'bn'
+                        ? hospital.specialtiesBn
+                        : hospital.specialties;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          nameLabel,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        if (specs.isNotEmpty) ...[
+                          const SizedBox(height: 2),
+                          Text(
+                            specs.join(' | '),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ],
+                    );
+                  }),
                   if (showAgreementStatus) ...[
                     const SizedBox(height: 2),
                     Text(
@@ -993,17 +1039,23 @@ class _HospitalTile extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (showPublicHospitalCount &&
-                      hospital.specialties.isEmpty) ...[
+                  if (showPublicHospitalCount) ...[
                     const SizedBox(height: 2),
-                    Text(
-                      'Speciality: ${hospital.resolvedSpeciality}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                      ),
-                    ),
+                    Builder(builder: (_) {
+                      final lang = Get.find<HomeController>()
+                          .currentLocale
+                          .value
+                          .languageCode;
+                      final speciality = hospital.resolvedSpecialityFor(lang);
+                      return Text(
+                        'Speciality: $speciality',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                        ),
+                      );
+                    }),
                   ],
                 ],
               ),
@@ -1125,15 +1177,30 @@ class _HospitalDetailsHome extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _HospitalBannerCard(
-                  bannerName: hospital.resolvedBannerName,
-                  iconUrl: hospital.iconUrl,
-                ),
+                Builder(builder: (_) {
+                  final lang = Get.find<HomeController>()
+                      .currentLocale
+                      .value
+                      .languageCode;
+                  final localizedBanner = hospital.resolvedBannerName;
+                  final localizedName = hospital.resolvedNameFor(lang);
+                  return _HospitalBannerCard(
+                    bannerName: localizedBanner,
+                    iconUrl: hospital.iconUrl,
+                  );
+                }),
                 const SizedBox(height: 12),
-                _HospitalInfoCard(
-                  hospitalName: hospital.name,
-                  description: hospital.resolvedDescription,
-                ),
+                Builder(builder: (_) {
+                  final lang = Get.find<HomeController>()
+                      .currentLocale
+                      .value
+                      .languageCode;
+                  final localizedName = hospital.resolvedNameFor(lang);
+                  return _HospitalInfoCard(
+                    hospitalName: localizedName,
+                    description: hospital.resolvedDescription,
+                  );
+                }),
                 const SizedBox(height: 12),
                 ...hospital.resolvedContacts
                     .map((number) => _HospitalContactCard(number: number)),

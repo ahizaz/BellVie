@@ -47,6 +47,7 @@ class _MainBottomNav extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if (isCenter)
                                 const SizedBox(height: 6)
@@ -78,7 +79,7 @@ class _MainBottomNav extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              const SizedBox(height: 1),
+                              // small spacer removed to avoid fractional overflow
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 220),
                                 height: 2,
