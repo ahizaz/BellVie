@@ -247,6 +247,7 @@ class AppTranslation extends Translations {
           'my_appointments': 'আমার অ্যাপয়েন্টমেন্ট',
           'my_health': 'আমার স্বাস্থ্য',
           'cart': 'কার্ট',
+          'records': 'রেকর্ড',
           'menu': 'মেনু',
           'english': 'ইংরেজি',
           'bangla': 'বাংলা',

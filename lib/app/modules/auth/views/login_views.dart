@@ -71,12 +71,12 @@ class _LoginViewState extends State<LoginView> {
                               showPhoneCode: true,
                               favorite: const ['BD', 'IN'],
                               countryListTheme: CountryListThemeData(
-                                borderRadius: BorderRadius.vertical(
+                                borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(16),
                                 ),
                                 inputDecoration: InputDecoration(
                                   labelText: 'search_country'.tr,
-                                  border: OutlineInputBorder(),
+                                  border: const OutlineInputBorder(),
                                 ),
                               ),
                               onSelect: (Country country) {
