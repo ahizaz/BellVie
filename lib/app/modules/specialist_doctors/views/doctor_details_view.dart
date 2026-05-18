@@ -380,10 +380,18 @@ class DoctorDetailsView extends StatelessWidget {
                 }
 
                 final data = snapshot.data ?? const <String, dynamic>{};
-                final name = _textValue(data['name']);
+                final lang = Get.locale?.languageCode ?? 'en';
+                final name = (lang == 'bn' &&
+                    (data['name_bn']?.toString().trim().isNotEmpty ?? false))
+                  ? _textValue(data['name_bn'])
+                  : _textValue(data['name']);
                 final image =
-                    _resolveImageUrl(data['image']?.toString().trim() ?? '');
-                final designation = _textValue(data['designation']);
+                  _resolveImageUrl(data['image']?.toString().trim() ?? '');
+                final designation = (lang == 'bn' &&
+                    (data['designation_bn']?.toString().trim().isNotEmpty ??
+                      false))
+                  ? _textValue(data['designation_bn'])
+                  : _textValue(data['designation']);
                 final years =
                     _textValue(data['years_of_experience'], fallback: '0');
                 final fees = _textValue(data['doctor_fees']);

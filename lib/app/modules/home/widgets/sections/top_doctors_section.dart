@@ -166,7 +166,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
           final items = rawItems
               .whereType<Map<String, dynamic>>()
               .map(SpecialistDoctorItem.fromJson)
-              .where((doctor) => doctor.name.isNotEmpty)
+              .where((doctor) => doctor.localizedName().trim().isNotEmpty)
               .where((doctor) => !_isHiddenDoctor(doctor))
               .toList();
 
@@ -209,7 +209,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
       final items = rawItems
           .whereType<Map<String, dynamic>>()
           .map(SpecialistDoctorItem.fromJson)
-          .where((doctor) => doctor.name.isNotEmpty)
+          .where((doctor) => doctor.localizedName().trim().isNotEmpty)
           .where((doctor) => !_isHiddenDoctor(doctor))
           .toList();
 
@@ -599,7 +599,7 @@ class _DoctorCard extends StatelessWidget {
 
     final subtitle = doctor.subcategoryName.isNotEmpty
         ? doctor.subcategoryName
-        : doctor.designation;
+        : doctor.localizedDesignation();
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -646,21 +646,21 @@ class _DoctorCard extends StatelessWidget {
                               imageUrl: resolvedImageUrl,
                               fit: BoxFit.cover,
                               placeholder: (_, __) => _DoctorPlaceholder(
-                                name: doctor.name,
+                                name: doctor.localizedName(),
                               ),
                               errorWidget: (_, __, ___) => _DoctorPlaceholder(
-                                name: doctor.name,
+                                name: doctor.localizedName(),
                               ),
                             )
                           : Image.asset(
                               imagePath,
                               fit: BoxFit.cover,
                               errorBuilder: (_, __, ___) => _DoctorPlaceholder(
-                                name: doctor.name,
+                                name: doctor.localizedName(),
                               ),
                             )
                       : _DoctorPlaceholder(
-                          name: doctor.name,
+                          name: doctor.localizedName(),
                         ),
                 ),
               ),
@@ -672,7 +672,7 @@ class _DoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      doctor.name,
+                      doctor.localizedName(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

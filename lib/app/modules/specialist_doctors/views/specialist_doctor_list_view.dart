@@ -191,7 +191,7 @@ class _DoctorListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.name,
+                  item.localizedName(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -202,7 +202,7 @@ class _DoctorListCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  item.designation,
+                  item.localizedDesignation(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

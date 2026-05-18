@@ -233,6 +233,8 @@ class SpecialistDoctorsRepository {
               id: base.id,
               name: base.name,
               designation: base.designation,
+              nameBn: base.nameBn,
+              designationBn: base.designationBn,
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
@@ -244,7 +246,7 @@ class SpecialistDoctorsRepository {
           }
         })
         .whereType<SpecialistDoctorItem>()
-        .where((doctor) => doctor.name.isNotEmpty)
+        .where((doctor) => doctor.localizedName().trim().isNotEmpty)
         .toList();
 
     bool hasNext = false;
@@ -280,6 +282,8 @@ class SpecialistDoctorsRepository {
               id: base.id,
               name: base.name,
               designation: base.designation,
+              nameBn: base.nameBn,
+              designationBn: base.designationBn,
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
@@ -291,7 +295,7 @@ class SpecialistDoctorsRepository {
           }
         })
         .whereType<SpecialistDoctorItem>()
-        .where((doctor) => doctor.name.isNotEmpty)
+        .where((doctor) => doctor.localizedName().trim().isNotEmpty)
         .toList();
 
     bool hasNext = false;
@@ -376,6 +380,8 @@ class SpecialistDoctorsRepository {
               id: base.id,
               name: base.name,
               designation: base.designation,
+              nameBn: base.nameBn,
+              designationBn: base.designationBn,
               imageAssetPath: _resolveImageUrl(base.imageAssetPath),
               hospitalName: base.hospitalName,
               subcategoryName: base.subcategoryName,
@@ -387,7 +393,7 @@ class SpecialistDoctorsRepository {
           }
         })
         .whereType<SpecialistDoctorItem>()
-        .where((doctor) => doctor.name.isNotEmpty)
+        .where((doctor) => doctor.localizedName().trim().isNotEmpty)
         .toList();
   }
 }

@@ -94,7 +94,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
           final items = rawItems
               .whereType<Map<String, dynamic>>()
               .map(SpecialistDoctorItem.fromJson)
-              .where((doctor) => doctor.name.isNotEmpty)
+              .where((doctor) => doctor.localizedName().trim().isNotEmpty)
               .toList();
 
           if (items.isNotEmpty) {
@@ -144,7 +144,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
       final items = rawItems
           .whereType<Map<String, dynamic>>()
           .map(SpecialistDoctorItem.fromJson)
-          .where((doctor) => doctor.name.isNotEmpty)
+          .where((doctor) => doctor.localizedName().trim().isNotEmpty)
           .toList();
 
       setState(() {
@@ -372,7 +372,7 @@ class _DoctorCard extends StatelessWidget {
                                 color: const Color(0xFFDFF8EF),
                                 child: Center(
                                   child: Text(
-                                    _initialsFromName(doctor.name),
+                                    _initialsFromName(doctor.localizedName()),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -384,7 +384,7 @@ class _DoctorCard extends StatelessWidget {
                                 color: const Color(0xFFDFF8EF),
                                 child: Center(
                                   child: Text(
-                                    _initialsFromName(doctor.name),
+                                    _initialsFromName(doctor.localizedName()),
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -413,7 +413,7 @@ class _DoctorCard extends StatelessWidget {
                           color: const Color(0xFFDFF8EF),
                           child: Center(
                             child: Text(
-                              _initialsFromName(doctor.name),
+                              _initialsFromName(doctor.localizedName()),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w700,
@@ -432,7 +432,7 @@ class _DoctorCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      doctor.name,
+                      doctor.localizedName(),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -443,7 +443,7 @@ class _DoctorCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      doctor.designation,
+                      doctor.localizedDesignation(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(

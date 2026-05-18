@@ -1,7 +1,11 @@
+import 'package:get/get.dart';
+
 class SpecialistDoctorItem {
   final String id;
   final String name;
+  final String nameBn;
   final String designation;
+  final String designationBn;
   final String imageAssetPath;
   final String hospitalName;
   final String subcategoryName;
@@ -12,6 +16,8 @@ class SpecialistDoctorItem {
     required this.id,
     required this.name,
     required this.designation,
+    this.nameBn = '',
+    this.designationBn = '',
     required this.imageAssetPath,
     this.hospitalName = '',
     this.subcategoryName = '',
@@ -25,12 +31,14 @@ class SpecialistDoctorItem {
     return SpecialistDoctorItem(
       id: (json['id'] ?? json['uuid'] ?? '').toString(),
       name: (json['name'] ?? json['doctor_name'] ?? '').toString(),
+      nameBn: (json['name_bn'] ?? '').toString(),
       designation: (json['designation'] ??
               json['designations'] ??
               json['speciality'] ??
               json['title'] ??
               '')
           .toString(),
+      designationBn: (json['designation_bn'] ?? '').toString(),
       imageAssetPath: (json['imageAssetPath'] ??
               json['image'] ??
               json['profile_picture'] ??
@@ -51,11 +59,25 @@ class SpecialistDoctorItem {
     );
   }
 
+  String localizedName() {
+    final lang = Get.locale?.languageCode ?? 'en';
+    if (lang == 'bn' && nameBn.isNotEmpty) return nameBn;
+    return name;
+  }
+
+  String localizedDesignation() {
+    final lang = Get.locale?.languageCode ?? 'en';
+    if (lang == 'bn' && designationBn.isNotEmpty) return designationBn;
+    return designation;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
+      'name_bn': nameBn,
       'designation': designation,
+      'designation_bn': designationBn,
       'imageAssetPath': imageAssetPath,
       'hospital_name': hospitalName,
       'subcategory_name': subcategoryName,
