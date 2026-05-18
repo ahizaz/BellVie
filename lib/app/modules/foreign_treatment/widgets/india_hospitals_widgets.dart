@@ -1039,24 +1039,7 @@ class _HospitalTile extends StatelessWidget {
                       ),
                     ),
                   ],
-                  if (showPublicHospitalCount) ...[
-                    const SizedBox(height: 2),
-                    Builder(builder: (_) {
-                      final lang = Get.find<HomeController>()
-                          .currentLocale
-                          .value
-                          .languageCode;
-                      final speciality = hospital.resolvedSpecialityFor(lang);
-                      return Text(
-                        'Speciality: $speciality',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
-                        ),
-                      );
-                    }),
-                  ],
+                  // Removed duplicate speciality display (it's shown above)
                 ],
               ),
             ),
@@ -1183,7 +1166,7 @@ class _HospitalDetailsHome extends StatelessWidget {
                       .value
                       .languageCode;
                   final localizedBanner = hospital.resolvedBannerName;
-                  final localizedName = hospital.resolvedNameFor(lang);
+                  hospital.resolvedNameFor(lang);
                   return _HospitalBannerCard(
                     bannerName: localizedBanner,
                     iconUrl: hospital.iconUrl,
