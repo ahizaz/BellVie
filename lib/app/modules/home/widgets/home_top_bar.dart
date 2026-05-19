@@ -89,7 +89,7 @@ class HomeTopBar extends StatelessWidget {
 
                 return Container(
                   constraints: BoxConstraints(
-                    minWidth: isSmall ? 100 : 100,
+                    minWidth: isSmall ? 115 : 115,
                     minHeight: isSmall ? 30 : 40,
                   ),
                   padding: EdgeInsets.symmetric(
@@ -101,7 +101,7 @@ class HomeTopBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Row(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
                         onTap: () => homeController
