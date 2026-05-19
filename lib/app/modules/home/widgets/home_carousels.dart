@@ -70,7 +70,7 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     if (cachedBody == null || cachedBody.isEmpty) return;
 
     final results = await compute(_extractBannerResults, cachedBody);
-    if (results is! List || results.isEmpty) return;
+    if (results.isEmpty) return;
 
     final List<String> urls = results
         .whereType<Map<String, dynamic>>()
