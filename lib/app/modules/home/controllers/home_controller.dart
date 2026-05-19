@@ -85,7 +85,7 @@ class HomeController extends GetxController {
     specialDoctorData.value =
         await specialDoctorRepository.fetchSpecialDoctor();
     debugPrint(
-        "==================================specialDoctorData==================   ${specialDoctorData}");
+        "==================================specialDoctorData==================   $specialDoctorData");
   }
 
   bool changeTab(int index) {
