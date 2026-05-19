@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:bellevie/app/services/auth_service.dart';
@@ -94,6 +93,7 @@ class _AppointmentListViewState extends State<AppointmentListView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8FB),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
