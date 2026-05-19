@@ -21,7 +21,7 @@ class SpecialistDoctorsView extends GetView<HomeController> {
       body: const SafeArea(
         child: Column(
           children: [
-            _HomeTopBar(),
+            HomeTopBar(),
             Expanded(child: _SpecialistDoctorsGrid()),
           ],
         ),
@@ -253,8 +253,8 @@ class _SpecialistServiceCard extends StatelessWidget {
 
 // -------------------- TOP BAR (same as Home) --------------------
 
-class _HomeTopBar extends StatelessWidget {
-  const _HomeTopBar();
+class HomeTopBar extends StatelessWidget {
+  const HomeTopBar({super.key});
 
   void _showComingSoon() {
     Get.toNamed(Routes.COMING_SOON);
@@ -268,22 +268,24 @@ class _HomeTopBar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isSmall = constraints.maxWidth < 380;
-        final logoSize = isSmall ? 50.0 : 56.0;
-        final titleFont = isSmall ? 13.5 : 15.5;
-        final chipHPad = isSmall ? 10.0 : 12.0;
-        final chipVPad = isSmall ? 5.0 : 6.0;
+
+        // UPDATED
+        final logoSize = isSmall ? 42.0 : 46.0;
+        final titleFont = isSmall ? 12.5 : 14.0;
+        final chipHPad = isSmall ? 20.0 : 20.0;
+        final chipVPad = isSmall ? 8.0 : 8.0;
 
         Widget iconBtn(IconData icon) {
           return SizedBox(
-            width: isSmall ? 32 : 36,
-            height: isSmall ? 32 : 36,
+            width: isSmall ? 30 : 32,
+            height: isSmall ? 40 : 32,
             child: IconButton(
               padding: EdgeInsets.zero,
-              splashRadius: isSmall ? 18 : 20,
+              splashRadius: isSmall ? 16 : 18,
               onPressed: _showComingSoon,
               icon: Icon(
                 icon,
-                size: isSmall ? 20 : 22,
+                size: isSmall ? 18 : 20,
                 color: Colors.black87,
               ),
             ),
@@ -292,12 +294,15 @@ class _HomeTopBar extends StatelessWidget {
 
         return Container(
           color: Colors.white,
+
+          // HEIGHT INCREASED
           padding: EdgeInsets.fromLTRB(
             12,
             isSmall ? 8 : 10,
             12,
-            isSmall ? 10 : 12,
+            isSmall ? 8 : 10,
           ),
+
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -314,39 +319,36 @@ class _HomeTopBar extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  'app_title'.tr,
-                  maxLines: 2,
-                  overflow: TextOverflow.clip,
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: titleFont,
-                    height: 1.1,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Text(
+                    'app_title'.tr,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: titleFont,
+                      height: 1.05,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              PopupMenuButton<Locale>(
-                onSelected: homeController.changeLanguage,
-                offset: const Offset(0, 42),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    value: const Locale('en', 'US'),
-                    child: Text('english'.tr),
+              const SizedBox(width: 3),
+              Obx(() {
+                final isBangla =
+                    homeController.currentLocale.value.languageCode == 'bn';
+
+                return Container(
+                  constraints: BoxConstraints(
+                    minWidth: isSmall ? 100 : 100,
+
+                    // HEIGHT INCREASED
+                    minHeight: isSmall ? 40 : 40,
                   ),
-                  PopupMenuItem(
-                    value: const Locale('bn', 'BD'),
-                    child: Text('bangla'.tr),
-                  ),
-                ],
-                child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: chipHPad,
                     vertical: chipVPad,
@@ -355,48 +357,52 @@ class _HomeTopBar extends StatelessWidget {
                     color: const Color(0xFFBFEFE2),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Obx(() {
-                    final isBangla =
-                        homeController.currentLocale.value.languageCode == 'bn';
-
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () => homeController
+                            .changeLanguage(const Locale('en', 'US')),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Text(
                           'Eng',
                           style: TextStyle(
-                            fontSize: isSmall ? 11.5 : 12,
+                            fontSize: isSmall ? 13 : 13,
                             fontWeight:
                                 isBangla ? FontWeight.w500 : FontWeight.w700,
                             color: Colors.black87,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 6),
-                          child: Container(
-                            width: 1,
-                            height: isSmall ? 12 : 14,
-                            color: Colors.black26,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Container(
+                          width: 1,
+                          height: isSmall ? 13 : 13,
+                          color: Colors.black26,
                         ),
-                        Text(
+                      ),
+                      InkWell(
+                        onTap: () => homeController
+                            .changeLanguage(const Locale('bn', 'BD')),
+                        borderRadius: BorderRadius.circular(10),
+                        child: Text(
                           'Ban',
                           style: TextStyle(
-                            fontSize: isSmall ? 11.5 : 12,
+                            fontSize: isSmall ? 13 : 13,
                             fontWeight:
                                 isBangla ? FontWeight.w700 : FontWeight.w500,
                             color: Colors.black87,
                           ),
                         ),
-                      ],
-                    );
-                  }),
-                ),
-              ),
-              const SizedBox(width: 6),
-              iconBtn(Icons.search),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+              const SizedBox(width: 4),
               iconBtn(Icons.notifications_none),
-              const SizedBox(width: 6),
+              const SizedBox(width: 4),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -426,13 +432,13 @@ class _HomeTopBar extends StatelessWidget {
                                   fit: BoxFit.cover,
                                   errorWidget: (_, __, ___) => Icon(
                                     Icons.person,
-                                    size: isSmall ? 18 : 20,
+                                    size: isSmall ? 17 : 18,
                                     color: Colors.black54,
                                   ),
                                 )
                               : Icon(
                                   Icons.person,
-                                  size: isSmall ? 18 : 20,
+                                  size: isSmall ? 17 : 18,
                                   color: Colors.black54,
                                 ),
                     );

@@ -215,12 +215,15 @@ class _SpecialistDoctorBookingViewState
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3F7F6),
-      appBar: AppBar(
-        title: Text('book_appointment'.tr),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 0.6,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100.0), // Increased height
+        child: AppBar(
+          title: Text('book_appointment'.tr),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          elevation: 0.6,
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
