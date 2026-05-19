@@ -341,62 +341,37 @@ class HomeTopBar extends StatelessWidget {
               Obx(() {
                 final isBangla =
                     homeController.currentLocale.value.languageCode == 'bn';
-
-                return Container(
-                  constraints: BoxConstraints(
-                    minWidth: isSmall ? 100 : 100,
-
-                    // HEIGHT INCREASED
-                    minHeight: isSmall ? 40 : 40,
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: chipHPad,
-                    vertical: chipVPad,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFBFEFE2),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: () => homeController
-                            .changeLanguage(const Locale('en', 'US')),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Text(
-                          'Eng',
-                          style: TextStyle(
-                            fontSize: isSmall ? 13 : 13,
-                            fontWeight:
-                                isBangla ? FontWeight.w500 : FontWeight.w700,
-                            color: Colors.black87,
-                          ),
-                        ),
+                return InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () {
+                    if (isBangla) {
+                      homeController.changeLanguage(const Locale('en', 'US'));
+                    } else {
+                      homeController.changeLanguage(const Locale('bn', 'BD'));
+                    }
+                  },
+                  child: Container(
+                    constraints: BoxConstraints(
+                      minWidth: isSmall ? 60 : 70,
+                      minHeight: isSmall ? 30 : 40,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: chipHPad,
+                      vertical: chipVPad,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFBFEFE2),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      isBangla ? 'Ban' : 'Eng',
+                      style: TextStyle(
+                        fontSize: isSmall ? 12 : 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Container(
-                          width: 1,
-                          height: isSmall ? 13 : 13,
-                          color: Colors.black26,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () => homeController
-                            .changeLanguage(const Locale('bn', 'BD')),
-                        borderRadius: BorderRadius.circular(10),
-                        child: Text(
-                          'Ban',
-                          style: TextStyle(
-                            fontSize: isSmall ? 13 : 13,
-                            fontWeight:
-                                isBangla ? FontWeight.w700 : FontWeight.w500,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 );
               }),

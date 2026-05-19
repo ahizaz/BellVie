@@ -677,7 +677,7 @@ class DoctorDetailsView extends StatelessWidget {
                                             padding: const EdgeInsets.all(14),
                                             decoration: BoxDecoration(
                                               color: const Color(0xFFCBF1EF)
-                                                  .withOpacity(0.32),
+                                                  .withValues(alpha: .32),
                                               borderRadius:
                                                   BorderRadius.circular(14),
                                             ),

@@ -159,7 +159,7 @@ class _AppointmentListViewState extends State<AppointmentListView> {
                         height: 65,
                         width: 65,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.4),
+                          color: Colors.white.withValues(alpha: .4),
                           borderRadius: BorderRadius.circular(14),
                         ),
                         child: const Icon(
@@ -210,7 +210,7 @@ class _AppointmentListViewState extends State<AppointmentListView> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(.5),
+                                color: Colors.white.withValues(alpha: .5),
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: Text(

@@ -90,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.PROFILE,
-      page: () =>  ProfileView(),
+      page: () =>  const ProfileView(),
       binding: ProfileBinding(),
       middlewares: [AuthMiddleware()],
     ),

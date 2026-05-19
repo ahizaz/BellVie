@@ -78,7 +78,7 @@ class HomeController extends GetxController {
     sliderTwoData.value = await sliderTwoRepository.fetchSliderTwo();
 
     debugPrint(
-        "==================================sliderTwoData==================   ${sliderTwoData}");
+        "==================================sliderTwoData==================   $sliderTwoData");
   }
 
   specialDoctor() async {
