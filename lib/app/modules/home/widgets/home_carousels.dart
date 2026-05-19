@@ -351,7 +351,7 @@ class PromoBannerCarousel extends StatefulWidget {
 }
 
 class _PromoBannerCarouselState extends State<PromoBannerCarousel> {
-  static const bool _useApiBanners = false;
+  static const bool _useApiBanners = true;
   static const List<String> _localBanners = <String>[
     'assets/images/banners/promo1.png',
     'assets/images/banners/promo2.png',

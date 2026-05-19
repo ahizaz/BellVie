@@ -1,5 +1,7 @@
 import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
+import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
+import 'package:bellevie/app/modules/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
@@ -24,7 +26,9 @@ class HomeTabBody extends StatelessWidget {
       case 3:
         return const _PlaceholderScreen(title: 'records');
       case 4:
-        return const _PlaceholderScreen(title: 'Profile');
+        // Show the ProfileView in the last tab
+        Get.lazyPut<ProfileController>(() => ProfileController());
+        return  const ProfileView();
       default:
         return const SizedBox.shrink();
     }
@@ -85,7 +89,6 @@ class HomeScrollContent extends StatelessWidget {
 
           // CoreFourSection(),
           DiscountPartner(),
-       
 
           SubscriptionPackageSection(),
           SizedBox(

@@ -1,256 +1,399 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../services/auth_service.dart';
-import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authService = AuthService.to;
+    if (!Get.isRegistered<ProfileController>()) {
+      Get.put(ProfileController());
+    }
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F2),
-      body: SafeArea(
-        child: Obx(
-          () {
-            final name = authService.profileName.value;
-            final phone = authService.profilePhone.value;
-            final email = authService.profileEmail.value;
-            final profilePictureUrl = authService.profilePictureUrl.value;
-            final avatarBytes = authService.profileAvatarBytes.value;
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: () => Get.back(),
-                      icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF0F6F5F), Color(0xFF1C9A82)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+      return Scaffold(
+        backgroundColor: const Color(0xffF7F7FB),
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: const Color(0xffF7F7FB),
+          title: const Text(
+            'Profile',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          centerTitle: false,
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+
+                /// Profile Image
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.deepPurple.shade100,
+                          width: 3,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              const Color(0xFF0F6F5F).withValues(alpha: 0.18),
-                          blurRadius: 24,
-                          offset: const Offset(0, 12),
-                        ),
-                      ],
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                            controller.profilePicture.value.isNotEmpty
+                                ? NetworkImage(
+                                    controller.profilePicture.value,
+                                  )
+                                : null,
+                        child: controller.profilePicture.value.isEmpty
+                            ? const Icon(
+                                Icons.person,
+                                size: 55,
+                                color: Colors.grey,
+                              )
+                            : null,
+                      ),
                     ),
-                    child: Column(
-                      children: [
-                        Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            CircleAvatar(
-                              radius: 54,
-                              backgroundColor:
-                                  Colors.white.withValues(alpha: 0.22),
-                              child: avatarBytes != null
-                                  ? ClipOval(
-                                      child: Image.memory(
-                                        avatarBytes,
-                                        width: 108,
-                                        height: 108,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : profilePictureUrl.isNotEmpty
-                                      ? ClipOval(
-                                          child: CachedNetworkImage(
-                                          imageUrl: profilePictureUrl,
-                                          width: 108,
-                                          height: 108,
-                                          fit: BoxFit.cover,
-                                          errorWidget: (_, __, ___) =>
-                                              const Icon(
-                                            Icons.person,
-                                            size: 54,
-                                            color: Colors.white,
-                                          ),
-                                        ))
-                                      : const Icon(
-                                          Icons.person,
-                                          size: 54,
-                                          color: Colors.white,
-                                        ),
-                            ),
-                            Material(
-                              color: Colors.white,
-                              shape: const CircleBorder(),
-                              elevation: 2,
-                              child: InkWell(
-                                customBorder: const CircleBorder(),
-                                onTap: controller.pickAvatar,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(
-                                    Icons.photo_camera_outlined,
-                                    size: 18,
-                                    color: Color(0xFF0F6F5F),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 18),
-                        Text(
-                          name.isEmpty ? 'Not set' : name,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Personal details',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.88),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
+
+                    /// Edit profile image icon
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurple,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 18),
-                  _InfoCard(
-                    icon: Icons.person_outline,
-                    label: 'Name',
-                    value: name.isEmpty ? 'Not set' : name,
-                  ),
-                  const SizedBox(height: 12),
-                  _InfoCard(
-                    icon: Icons.phone_outlined,
-                    label: 'Phone',
-                    value: phone.isEmpty ? 'Not set' : phone,
-                  ),
-                  const SizedBox(height: 12),
-                  _InfoCard(
-                    icon: Icons.email_outlined,
-                    label: 'Email',
-                    value: email.isEmpty ? 'Not set' : email,
-                  ),
-                  const SizedBox(height: 24),
+                  ],
+                ),
+
+                const SizedBox(height: 30),
+
+                /// Fields
+                _profileField(
+                  label: 'Name',
+                  controller: controller.nameCtrl,
+                  editable: controller.isEditing.value,
+                  onEditTap: () {
+                    controller.isEditing.value = true;
+                  },
+                ),
+
+                const SizedBox(height: 18),
+
+                _profileField(
+                  label: 'Email',
+                  controller: controller.emailCtrl,
+                  editable: controller.isEditing.value,
+                  onEditTap: () {
+                    controller.isEditing.value = true;
+                  },
+                ),
+
+                const SizedBox(height: 18),
+
+                _profileField(
+                  label: 'District',
+                  controller: controller.districtCtrl,
+                  editable: controller.isEditing.value,
+                  onEditTap: () {
+                    controller.isEditing.value = true;
+                  },
+                ),
+
+                const SizedBox(height: 18),
+
+                _readonlyField(
+                  'Phone',
+                  controller.phoneNumber.value,
+                ),
+
+                const SizedBox(height: 40),
+
+                /// Save Button
+                if (controller.isEditing.value)
                   SizedBox(
-                    height: 52,
-                    child: ElevatedButton.icon(
-                      onPressed: controller.logout,
+                    width: double.infinity,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: controller.updateProfile,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFB42318),
-                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.deepPurple,
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        elevation: 0,
                       ),
-                      icon: const Icon(Icons.logout_rounded),
-                      label: const Text(
-                        'Logout',
+                      child: const Text(
+                        'Save Changes',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
 
-class _InfoCard extends StatelessWidget {
-  const _InfoCard({
-    required this.icon,
-    required this.label,
-    required this.value,
-  });
+                if (controller.isEditing.value) const SizedBox(height: 16),
 
-  final IconData icon;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: const Color(0xFFE7F4F1),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFF0F6F5F),
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54,
+                /// Logout Button
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: controller.logout,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Logout',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
-                ),
+
+                const SizedBox(height: 20),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      );
+    });
+  }
+
+  // Widget _profileField({
+  //   required String label,
+  //   required TextEditingController controller,
+  //   required bool editable,
+  //   required VoidCallback onEditTap,
+  // }) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Padding(
+  //         padding: const EdgeInsets.only(left: 4, bottom: 8),
+  //         child: Text(
+  //           label,
+  //           style: TextStyle(
+  //             fontSize: 14,
+  //             color: Colors.grey.shade700,
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //       ),
+  //       TextField(
+  //         controller: controller,
+  //         enabled: editable,
+  //         style: const TextStyle(
+  //           fontSize: 16,
+  //           fontWeight: FontWeight.w500,
+  //         ),
+  //         decoration: InputDecoration(
+  //           filled: true,
+  //           fillColor: Colors.white,
+  //           contentPadding: const EdgeInsets.symmetric(
+  //             horizontal: 18,
+  //             vertical: 18,
+  //           ),
+  //           suffixIcon: InkWell(
+  //             onTap: onEditTap,
+  //             child: const Icon(
+  //               Icons.edit_outlined,
+  //               color: Colors.deepPurple,
+  //             ),
+  //           ),
+  //           border: OutlineInputBorder(
+  //             borderRadius: BorderRadius.circular(18),
+  //             borderSide: BorderSide.none,
+  //           ),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.circular(18),
+  //             borderSide: BorderSide(
+  //               color: Colors.grey.shade200,
+  //             ),
+  //           ),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.circular(18),
+  //             borderSide: const BorderSide(
+  //               color: Colors.deepPurple,
+  //               width: 1.5,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+  Widget _profileField({
+    required String label,
+    required TextEditingController controller,
+    required bool editable,
+    required VoidCallback onEditTap,
+  }) {
+    final focusNode = FocusNode();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        TextField(
+          controller: controller,
+          focusNode: focusNode,
+          readOnly: !editable,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 18,
+              vertical: 18,
+            ),
+
+            /// Pencil Icon
+            suffixIcon: InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () {
+                onEditTap();
+
+                Future.delayed(
+                  const Duration(milliseconds: 100),
+                  () {
+                    focusNode.requestFocus();
+                  },
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(
+                  Icons.edit_outlined,
+                  color: Colors.deepPurple,
+                  size: 20,
+                ),
+              ),
+            ),
+
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
+
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(
+                color: Colors.grey.shade200,
+              ),
+            ),
+
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: const BorderSide(
+                color: Colors.deepPurple,
+                width: 1.5,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _readonlyField(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        TextField(
+          controller: TextEditingController(text: value),
+          enabled: false,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey.shade100,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 18,
+              vertical: 18,
+            ),
+            suffixIcon: const Icon(
+              Icons.lock_outline,
+              color: Colors.grey,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide.none,
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(
+                color: Colors.grey.shade200,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
