@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../home/controllers/home_controller.dart';
+import '../../home/widgets/home_top_bar.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
 import '../../../services/auth_service.dart';
@@ -87,7 +88,7 @@ class IndiaHospitalsView extends GetView<HomeController> {
         body: SafeArea(
           child: Column(
             children: [
-              if (controller.tabIndex.value == 0) const _HomeTopBarClone(),
+              if (controller.tabIndex.value == 0) const HomeTopBar(),
               Expanded(
                 child: _IndiaHospitalsTabBody(
                   index: controller.tabIndex.value,
