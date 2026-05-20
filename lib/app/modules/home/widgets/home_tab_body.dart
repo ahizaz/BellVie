@@ -408,7 +408,7 @@ class Savour extends StatelessWidget {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.white24, width: 1),
               boxShadow: const [
                 BoxShadow(
@@ -425,7 +425,7 @@ class Savour extends StatelessWidget {
             ),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(3.0),
+                padding: const EdgeInsets.all(1.0),
                 child: Image.asset(
                   assetPath,
                   height: 50,
