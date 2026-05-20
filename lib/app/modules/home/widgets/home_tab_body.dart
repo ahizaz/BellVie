@@ -358,7 +358,7 @@ class Savour extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Bellevie Health Saver Skims",
+          "Bellevie Health Saver Scheme",
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -397,15 +397,18 @@ class Savour extends StatelessWidget {
         children: [
           // Box container
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
+            margin: const EdgeInsets.symmetric(horizontal: 3),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+                colors: [
+                  Color(0xFF79C7F2),
+                  Color(0xFFA4E4B5),
+                ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.white24, width: 1),
               boxShadow: const [
                 BoxShadow(
@@ -414,19 +417,19 @@ class Savour extends StatelessWidget {
                   blurRadius: 6,
                 ),
                 BoxShadow(
-                  color: Color(0x22000000),
-                  offset: Offset(3, 4),
-                  blurRadius: 8,
+                  color: Color(0xFF79C7F2),
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
                 ),
               ],
             ),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(3.0),
                 child: Image.asset(
                   assetPath,
-                  height: 55,
-                  width: 40,
+                  height: 50,
+                  width: 80,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) => Column(
                     mainAxisSize: MainAxisSize.min,
