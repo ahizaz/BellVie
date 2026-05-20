@@ -28,7 +28,7 @@ class HomeTabBody extends StatelessWidget {
       case 4:
         // Show the ProfileView in the last tab
         Get.lazyPut<ProfileController>(() => ProfileController());
-        return  const ProfileView();
+        return const ProfileView();
       default:
         return const SizedBox.shrink();
     }
@@ -58,10 +58,13 @@ class HomeScrollContent extends StatelessWidget {
           SizedBox(height: 8),
           QuickActionsBar(),
           SizedBox(height: 12),
+          Savour(),
+          SizedBox(height: 12),
+
           PopularServicesSection(),
-          SizedBox(height: 15),
+          SizedBox(height: 12),
           GeneralPhysicianSection(),
-          SizedBox(height: 15),
+          SizedBox(height: 12),
           TopDoctorsSection(),
           SizedBox(
             height: 11,
@@ -327,6 +330,112 @@ class SocialService extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.w700,
               fontSize: 10.7,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Savour extends StatelessWidget {
+  const Savour({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Bellevie Health Saver Skims",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildPackageColumn(
+              'Freemium Package',
+              'assets/images/banners/freemium.png',
+            ),
+            _buildPackageColumn(
+              'Premium Package',
+              'assets/images/banners/premium.png',
+            ),
+            _buildPackageColumn(
+              'Subscribed Package',
+              'assets/images/banners/subscription-package.png',
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  static Widget _buildPackageColumn(
+    String label,
+    String assetPath,
+  ) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Box container
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 4),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.white24, width: 1),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x33FFFFFF),
+                  offset: Offset(-3, -3),
+                  blurRadius: 6,
+                ),
+                BoxShadow(
+                  color: Color(0x22000000),
+                  offset: Offset(3, 4),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  assetPath,
+                  height: 55,
+                  width: 40,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) => const Icon(
+                    Icons.image_not_supported_rounded,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
+          // Label
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+              fontSize: 12,
             ),
           ),
         ],

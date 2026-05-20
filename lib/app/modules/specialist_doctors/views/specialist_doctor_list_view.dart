@@ -87,9 +87,16 @@ class SpecialistDoctorListView extends GetView<SpecialistDoctorListController> {
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Center(
                 child: Obx(() {
+                  final loading = controller.isLoadingMore.value;
                   return ElevatedButton(
-                    onPressed: controller.loadMore,
-                    child: Text('more'.tr),
+                    onPressed: loading ? null : controller.loadMore,
+                    child: loading
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text('more'.tr),
                   );
                 }),
               ),
