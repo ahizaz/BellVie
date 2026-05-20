@@ -311,9 +311,20 @@ class SocialService extends StatelessWidget {
                   height: 55,
                   width: 40,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.image_not_supported_rounded,
-                    color: Colors.grey,
+                  errorBuilder: (context, error, stackTrace) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.image_not_supported_rounded,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        error.toString(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 10, color: Colors.red),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -417,9 +428,20 @@ class Savour extends StatelessWidget {
                   height: 55,
                   width: 40,
                   fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.image_not_supported_rounded,
-                    color: Colors.grey,
+                  errorBuilder: (context, error, stackTrace) => Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.image_not_supported_rounded,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        error.toString(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 10, color: Colors.red),
+                      ),
+                    ],
                   ),
                 ),
               ),
