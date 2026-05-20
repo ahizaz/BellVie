@@ -143,18 +143,82 @@ class HomeTopBar extends StatelessWidget {
               //     ),
               //   );
               // }),
+              // Obx(() {
+              //   final isBangla =
+              //       homeController.currentLocale.value.languageCode == 'bn';
+              //   return InkWell(
+              //     borderRadius: BorderRadius.circular(14),
+              //     onTap: () {
+              //       if (isBangla) {
+              //         homeController.changeLanguage(const Locale('en', 'US'));
+              //       } else {
+              //         homeController.changeLanguage(const Locale('bn', 'BD'));
+              //       }
+              //     },
+              //     child: Container(
+              //       constraints: BoxConstraints(
+              //         minWidth: isSmall ? 80 : 72,
+              //         minHeight: isSmall ? 50 : 45,
+              //       ),
+              //       padding: EdgeInsets.symmetric(
+              //         horizontal: chipHPad,
+              //         vertical: chipVPad,
+              //       ),
+              //       decoration: BoxDecoration(
+              //         color: const Color(0xFFBFEFE2),
+              //         borderRadius: BorderRadius.circular(14),
+              //       ),
+              //       alignment: Alignment.center,
+              //       child: Text(
+              //         isBangla ? 'Ban' : 'Eng',
+              //         style: TextStyle(
+              //           fontSize: isSmall ? 12 : 13,
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black87,
+              //         ),
+              //       ),
+              //     ),
+              //   );
+              // }),
               Obx(() {
                 final isBangla =
                     homeController.currentLocale.value.languageCode == 'bn';
-                return InkWell(
-                  borderRadius: BorderRadius.circular(14),
-                  onTap: () {
-                    if (isBangla) {
+
+                return PopupMenuButton<String>(
+                  offset: const Offset(0, 50), // niche dropdown ashbe
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  color: const Color(0xFFE9E1EA),
+                  onSelected: (value) {
+                    if (value == 'en') {
                       homeController.changeLanguage(const Locale('en', 'US'));
                     } else {
                       homeController.changeLanguage(const Locale('bn', 'BD'));
                     }
                   },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 'en',
+                      child: Text(
+                        'Eng',
+                        style: TextStyle(
+                          fontSize: isSmall ? 12 : 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'bn',
+                      child: Text(
+                        'বাংলা',
+                        style: TextStyle(
+                          fontSize: isSmall ? 12 : 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
                   child: Container(
                     constraints: BoxConstraints(
                       minWidth: isSmall ? 80 : 72,
@@ -170,7 +234,7 @@ class HomeTopBar extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      isBangla ? 'Ban' : 'Eng',
+                      isBangla ? 'বাংলা' : 'Eng',
                       style: TextStyle(
                         fontSize: isSmall ? 12 : 13,
                         fontWeight: FontWeight.w600,
