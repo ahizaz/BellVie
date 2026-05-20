@@ -51,13 +51,13 @@ class SpecialistDoctorsRepository {
     }
 
     // If numeric ids are provided, prefer calling the popular-service doctors
-    // endpoint with page/subcategory__category/subcategory query params for exact results.
+    // endpoint with page/subcategories__category/subcategories query params for exact results.
     if (categoryId != null && subcategoryId != null) {
       final encodedCategory = Uri.encodeQueryComponent(categoryId.toString());
       final encodedSub = Uri.encodeQueryComponent(subcategoryId.toString());
       final encodedPage = Uri.encodeQueryComponent(page.toString());
-      final path =
-          '/api/v1/popular-service/doctors/?page=$encodedPage&subcategory__category=$encodedCategory&subcategory=$encodedSub';
+        final path =
+          '/api/v1/popular-service/doctors/?page=$encodedPage&subcategories__category=$encodedCategory&subcategories=$encodedSub';
 
       try {
         final response = await _apiService.get(path: path);
@@ -70,8 +70,10 @@ class SpecialistDoctorsRepository {
       } catch (e) {
         debugPrint('Direct specialist doctors API error => $e');
       }
-      // if the direct call failed or returned empty, fall through to older
-      // heuristics below so app still works with other backends.
+      // If numeric ids were provided, do not fall back to legacy endpoints.
+      // Only return results from the popular-service endpoint for exact
+      // category/subcategory filtering.
+      return emptyPage;
     }
 
     // Backwards-compatible behavior: accept a string categoryKey and try
@@ -187,7 +189,7 @@ class SpecialistDoctorsRepository {
   }) {
     if (categoryId != null && subcategoryId != null) {
       return [
-        '/api/v1/popular-service/doctors/?subcategory__category=${Uri.encodeQueryComponent(categoryId.toString())}&subcategory=${Uri.encodeQueryComponent(subcategoryId.toString())}',
+        '/api/v1/popular-service/doctors/?subcategories__category=${Uri.encodeQueryComponent(categoryId.toString())}&subcategories=${Uri.encodeQueryComponent(subcategoryId.toString())}',
       ];
     }
 

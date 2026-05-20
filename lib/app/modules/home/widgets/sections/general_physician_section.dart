@@ -79,7 +79,7 @@ class _GeneralPhysicianSectionState extends State<GeneralPhysicianSection> {
       _isLoading = true;
     });
     const path =
-        '/api/v1/popular-service/doctors/?subcategory=3&subcategory__category=1';
+      '/api/v1/popular-service/doctors/?subcategories=3&subcategories__category=1';
 
     // Try to show cached data immediately (persistent or in-memory)
     try {

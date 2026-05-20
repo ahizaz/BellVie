@@ -131,30 +131,30 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
       _errorMessage = null;
     });
     final path = subcategoryId == null
-        ? '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId'
-        : '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId';
+      ? '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId'
+      : '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId';
 
     // Attempt to hydrate from cache first so UI shows data when offline.
     // Try multiple candidate paths so we match what other parts of the app
     // may have saved (page param, different endpoint variants).
     try {
       final candidates = <String>[];
-      if (subcategoryId == null) {
+        if (subcategoryId == null) {
         candidates.add(
-            '/api/v1/popular-service/doctors/?subcategory__category=$_categoryId');
+          '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId');
         candidates.add('/api/v1/popular-service/doctors/');
         candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategory__category=$_categoryId');
+          '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
         candidates.add('/api/v1/popular-service/doctors/?page=1');
-      } else {
+        } else {
         candidates.add(
-            '/api/v1/popular-service/doctors/?subcategory=$subcategoryId&subcategory__category=$_categoryId');
+          '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId');
         candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategory=$subcategoryId&subcategory__category=$_categoryId');
+          '/api/v1/popular-service/doctors/?page=1&subcategories=$subcategoryId&subcategories__category=$_categoryId');
         candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategory__category=$_categoryId');
+          '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
         candidates.add('/api/v1/popular-service/doctors/');
-      }
+        }
 
       for (final candidate in candidates) {
         final cachedBody = await _apiService.getCachedBody(path: candidate);
