@@ -44,7 +44,7 @@ class _RecordsPlaceholder extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Text(
-          "You don't have any records yet.",
+          "You don't have any medical records yet.",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
