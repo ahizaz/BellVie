@@ -284,7 +284,7 @@ class SocialService extends StatelessWidget {
             ),
             _buildPackageColumn(
               'bellevie_health_club'.tr,
-              'assets/images/bellevie_logo.png',
+              'assets/images/healthy.png',
               onTap: () => Get.toNamed(Routes.SOCIAL_SERVICE_DETAIL,
                   arguments: socialServicesStatic[1].toJson()),
             ),
