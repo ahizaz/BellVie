@@ -125,19 +125,23 @@ class SubscriptionPackageSection extends StatelessWidget {
           children: [
             _buildPackageColumn(
               "BelleVie Family Care",
-              const Color(0xFF727474),
+              null,
+              imagePath: "assets/images/banners/bellevie _family.png",
             ),
             _buildPackageColumn(
               "BelleVie Elit Members",
-              const Color(0xFFB3882B),
+              null,
+              imagePath: "assets/images/banners/vip-card.png",
             ),
             _buildPackageColumn(
               "Grow with BelleVie",
-              const Color(0xFFAAABB0),
+              null,
+              imagePath: "assets/images/banners/growth_wtih_bellevie.png",
             ),
             _buildPackageColumn(
               "BelleVie Area Leaders",
-              const Color(0xFFB65F36),
+              null,
+              imagePath: "assets/images/banners/leadership.png",
             ),
           ],
         ),
@@ -147,8 +151,9 @@ class SubscriptionPackageSection extends StatelessWidget {
 
   static Widget _buildPackageColumn(
     String label,
-    Color color,
-  ) {
+    Color? color, {
+    String? imagePath,
+  }) {
     return Expanded(
       child: Column(
         children: [
@@ -184,25 +189,32 @@ class SubscriptionPackageSection extends StatelessWidget {
               ],
             ),
             child: Container(
-              height: 45,
+              height: 60,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: color,
+                color: imagePath == null ? color : null,
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: color.withValues(alpha: .2),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                image: imagePath != null
+                    ? DecorationImage(
+                        image: AssetImage(imagePath),
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+                boxShadow: color != null
+                    ? [
+                        BoxShadow(
+                          color: color.withValues(alpha: .2),
+                          blurRadius: 6,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : [],
               ),
             ),
           ),
 
           const SizedBox(height: 8),
 
-          // Label: match SocialService style (small, centered, up to 2 lines)
           Text(
             label,
             textAlign: TextAlign.center,
