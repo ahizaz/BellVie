@@ -4,8 +4,7 @@ class PackageDetails extends StatelessWidget {
   final String title;
   final String assetPath;
 
-  const PackageDetails({Key? key, required this.title, required this.assetPath})
-      : super(key: key);
+  const PackageDetails({super.key, required this.title, required this.assetPath});
 
   @override
   Widget build(BuildContext context) {

@@ -37,6 +37,46 @@ class HomeTabBody extends StatelessWidget {
   }
 }
 
+class ComingSoonPage extends StatelessWidget {
+  final String title;
+  const ComingSoonPage({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: const Color(0xFF2F6FED),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(
+              Icons.construction_rounded,
+              size: 64,
+              color: Color(0xFF2F6FED),
+            ),
+            SizedBox(height: 12),
+            Text(
+              'Coming soon',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'This section will be available soon.',
+              style: TextStyle(color: Colors.black54),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _RecordsPlaceholder extends StatelessWidget {
   const _RecordsPlaceholder({super.key});
 
@@ -151,21 +191,29 @@ class SubscriptionPackageSection extends StatelessWidget {
               "BelleVie Family Care",
               null,
               imagePath: "assets/images/banners/bellevie _family.png",
+              onTap: () =>
+                  Get.to(() => ComingSoonPage(title: "BelleVie Family Care")),
             ),
             _buildPackageColumn(
               "BelleVie Elit Members",
               null,
               imagePath: "assets/images/banners/vip-card.png",
+              onTap: () =>
+                  Get.to(() => ComingSoonPage(title: "BelleVie Elit Members")),
             ),
             _buildPackageColumn(
               "Grow with BelleVie",
               null,
               imagePath: "assets/images/banners/growth_wtih_bellevie.png",
+              onTap: () =>
+                  Get.to(() => ComingSoonPage(title: "Grow with BelleVie")),
             ),
             _buildPackageColumn(
               "BelleVie Area Leaders",
               null,
               imagePath: "assets/images/banners/leadership.png",
+              onTap: () =>
+                  Get.to(() => ComingSoonPage(title: "BelleVie Area Leaders")),
             ),
           ],
         ),
@@ -177,62 +225,67 @@ class SubscriptionPackageSection extends StatelessWidget {
     String label,
     Color? color, {
     String? imagePath,
+    VoidCallback? onTap,
   }) {
     return Expanded(
       child: Column(
         children: [
           // Box container
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFFBEE9FF),
-                  Color(0xFFDFF8EF),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: Colors.white24,
-                width: 1,
-              ),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33FFFFFF),
-                  offset: Offset(-3, -3),
-                  blurRadius: 6,
-                ),
-                BoxShadow(
-                  color: Color(0x22000000),
-                  offset: Offset(3, 4),
-                  blurRadius: 8,
-                ),
-              ],
-            ),
+          InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onTap,
             child: Container(
-              height: 60,
-              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: imagePath == null ? color : null,
-                borderRadius: BorderRadius.circular(12),
-                image: imagePath != null
-                    ? DecorationImage(
-                        image: AssetImage(imagePath),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-                boxShadow: color != null
-                    ? [
-                        BoxShadow(
-                          color: color.withValues(alpha: .2),
-                          blurRadius: 6,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : [],
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFFBEE9FF),
+                    Color(0xFFDFF8EF),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white24,
+                  width: 1,
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33FFFFFF),
+                    offset: Offset(-3, -3),
+                    blurRadius: 6,
+                  ),
+                  BoxShadow(
+                    color: Color(0x22000000),
+                    offset: Offset(3, 4),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: imagePath == null ? color : null,
+                  borderRadius: BorderRadius.circular(12),
+                  image: imagePath != null
+                      ? DecorationImage(
+                          image: AssetImage(imagePath),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  boxShadow: color != null
+                      ? [
+                          BoxShadow(
+                            color: color.withValues(alpha: .2),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : [],
+                ),
               ),
             ),
           ),
