@@ -21,6 +21,8 @@ import '../modules/profile/views/profile_view.dart';
 import '../modules/foreign_treatment/bindings/foreign_treatment_binding.dart';
 import '../modules/foreign_treatment/views/foreign_treatment_view.dart';
 import '../modules/home/views/popular_services_view.dart';
+import '../modules/social_services/views/social_services_list_view.dart';
+import '../modules/social_services/views/social_service_detail_view.dart';
 
 import '../modules/specialist_doctors/bindings/specialist_doctors_binding.dart';
 import '../modules/specialist_doctors/bindings/specialist_doctor_list_binding.dart';
@@ -90,7 +92,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.PROFILE,
-      page: () =>  const ProfileView(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
       middlewares: [AuthMiddleware()],
     ),
@@ -104,6 +106,14 @@ class AppPages {
       name: Routes.POPULAR_SERVICES,
       page: () => const PopularServicesView(),
       middlewares: [AuthMiddleware()],
+    ),
+    GetPage(
+      name: Routes.SOCIAL_SERVICES,
+      page: () => const SocialServicesListView(),
+    ),
+    GetPage(
+      name: Routes.SOCIAL_SERVICE_DETAIL,
+      page: () => const SocialServiceDetailView(),
     ),
     GetPage(
       name: Routes.SPECIALIST_DOCTORS,

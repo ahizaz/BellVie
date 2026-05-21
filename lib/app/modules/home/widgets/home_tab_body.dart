@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
 import '../../../routes/app_routes.dart';
+import '../../social_services/data/social_services_data.dart';
 import 'home_carousels.dart';
 import 'home_sections.dart';
 
@@ -278,18 +279,26 @@ class SocialService extends StatelessWidget {
             _buildPackageColumn(
               'community_health_services'.tr,
               'assets/images/community_health_srvice.png',
+              onTap: () => Get.toNamed(Routes.SOCIAL_SERVICE_DETAIL,
+                  arguments: socialServicesStatic[0].toJson()),
             ),
             _buildPackageColumn(
               'bellevie_health_club'.tr,
               'assets/images/bellevie_logo.png',
+              onTap: () => Get.toNamed(Routes.SOCIAL_SERVICE_DETAIL,
+                  arguments: socialServicesStatic[1].toJson()),
             ),
             _buildPackageColumn(
               'charity_partners'.tr,
               'assets/images/charity partners.png',
+              onTap: () => Get.toNamed(Routes.SOCIAL_SERVICE_DETAIL,
+                  arguments: socialServicesStatic[2].toJson()),
             ),
             _buildPackageColumn(
               'health_tourism'.tr,
               'assets/images/healthcare.png',
+              onTap: () => Get.toNamed(Routes.SOCIAL_SERVICE_DETAIL,
+                  arguments: socialServicesStatic[3].toJson()),
             ),
           ],
         ),
@@ -299,59 +308,64 @@ class SocialService extends StatelessWidget {
 
   static Widget _buildPackageColumn(
     String label,
-    String assetPath,
-  ) {
+    String assetPath, {
+    VoidCallback? onTap,
+  }) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Box container
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
+          InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onTap,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white24, width: 1),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33FFFFFF),
+                    offset: Offset(-3, -3),
+                    blurRadius: 6,
+                  ),
+                  BoxShadow(
+                    color: Color(0x22000000),
+                    offset: Offset(3, 4),
+                    blurRadius: 8,
+                  ),
+                ],
               ),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white24, width: 1),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33FFFFFF),
-                  offset: Offset(-3, -3),
-                  blurRadius: 6,
-                ),
-                BoxShadow(
-                  color: Color(0x22000000),
-                  offset: Offset(3, 4),
-                  blurRadius: 8,
-                ),
-              ],
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Image.asset(
-                  assetPath,
-                  height: 58,
-                  width: 45,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.image_not_supported_rounded,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        error.toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 10, color: Colors.red),
-                      ),
-                    ],
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Image.asset(
+                    assetPath,
+                    height: 58,
+                    width: 45,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.image_not_supported_rounded,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          error.toString(),
+                          textAlign: TextAlign.center,
+                          style:
+                              const TextStyle(fontSize: 10, color: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
