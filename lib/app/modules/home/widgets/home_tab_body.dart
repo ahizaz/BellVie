@@ -223,8 +223,8 @@ class SubscriptionPackageSection extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              fontSize: 12.4,
             ),
           ),
         ],
@@ -383,7 +383,7 @@ class Savour extends StatelessWidget {
               'assets/images/banners/premium.png',
             ),
             _buildPackageColumn(
-              'Probashi Shukrokkha Package',
+              'Probashi Package',
               'assets/images/banners/nrb_package.png',
             ),
           ],

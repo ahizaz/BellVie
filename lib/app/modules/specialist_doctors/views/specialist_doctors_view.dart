@@ -416,23 +416,23 @@ class HomeTopBar extends StatelessWidget {
                   ],
                   child: Container(
                     constraints: BoxConstraints(
-                      minWidth: isSmall ? 80 : 72,
-                      minHeight: isSmall ? 50 : 45,
+                      minWidth: isSmall ? 70 : 60,
+                      minHeight: isSmall ? 40 : 45,
                     ),
                     padding: EdgeInsets.symmetric(
                       horizontal: chipHPad,
                       vertical: chipVPad,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFBFEFE2),
+                      color: const Color(0xFFEFEFEF),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       isBangla ? 'বাংলা' : 'Eng',
                       style: TextStyle(
-                        fontSize: isSmall ? 12 : 13,
-                        fontWeight: FontWeight.w600,
+                        fontSize: isSmall ? 15 : 15,
+                        fontWeight: FontWeight.w800,
                         color: Colors.black87,
                       ),
                     ),
