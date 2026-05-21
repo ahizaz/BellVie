@@ -24,7 +24,7 @@ class HomeTabBody extends StatelessWidget {
       case 2:
         return const _PlaceholderScreen(title: 'my_health');
       case 3:
-        return const _PlaceholderScreen(title: 'records');
+        return const _RecordsPlaceholder();
       case 4:
         // Show the ProfileView in the last tab
         Get.lazyPut<ProfileController>(() => ProfileController());
@@ -32,6 +32,28 @@ class HomeTabBody extends StatelessWidget {
       default:
         return const SizedBox.shrink();
     }
+  }
+}
+
+class _RecordsPlaceholder extends StatelessWidget {
+  const _RecordsPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.0),
+        child: Text(
+          "You don't have any records yet.",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18,
+            color: Colors.black54,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    );
   }
 }
 
