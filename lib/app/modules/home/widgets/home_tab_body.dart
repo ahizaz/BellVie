@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/package_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:bellevie/app/modules/profile/views/profile_view.dart';
@@ -413,14 +414,26 @@ class Savour extends StatelessWidget {
             _buildPackageColumn(
               'Freemium Package',
               'assets/images/banners/freemium.png',
+              onTap: () => Get.to(() => const PackageDetails(
+                    title: 'Freemium Package',
+                    assetPath: 'assets/images/banners/freemium.png',
+                  )),
             ),
             _buildPackageColumn(
               'Premium Package',
               'assets/images/banners/premium.png',
+              onTap: () => Get.to(() => const PackageDetails(
+                    title: 'Premium Package',
+                    assetPath: 'assets/images/banners/premium.png',
+                  )),
             ),
             _buildPackageColumn(
               'Probashi Package',
               'assets/images/banners/nrb_package.png',
+              onTap: () => Get.to(() => const PackageDetails(
+                    title: 'Probashi Package',
+                    assetPath: 'assets/images/banners/nrb_package.png',
+                  )),
             ),
           ],
         ),
@@ -430,68 +443,73 @@ class Savour extends StatelessWidget {
 
   static Widget _buildPackageColumn(
     String label,
-    String assetPath,
-  ) {
+    String assetPath, {
+    VoidCallback? onTap,
+  }) {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Box container
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 3),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF79C7F2),
-                  Color(0xFFA4E4B5),
+          InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: onTap,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 3),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF79C7F2),
+                    Color(0xFFA4E4B5),
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.white24, width: 1),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33FFFFFF),
+                    offset: Offset(-3, -3),
+                    blurRadius: 6,
+                  ),
+                  BoxShadow(
+                    color: Color(0xFF79C7F2),
+                    offset: Offset(2, 4),
+                    blurRadius: 5,
+                  ),
                 ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
               ),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.white24, width: 1),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x33FFFFFF),
-                  offset: Offset(-3, -3),
-                  blurRadius: 6,
-                ),
-                BoxShadow(
-                  color: Color(0xFF79C7F2),
-                  offset: Offset(2, 4),
-                  blurRadius: 5,
-                ),
-              ],
-            ),
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: Image.asset(
-                  assetPath,
-                  height: 50,
-                  width: 80,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.image_not_supported_rounded,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        error.toString(),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 10, color: Colors.red),
-                      ),
-                    ],
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(1.0),
+                  child: Image.asset(
+                    assetPath,
+                    height: 50,
+                    width: 80,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.image_not_supported_rounded,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          error.toString(),
+                          textAlign: TextAlign.center,
+                          style:
+                              const TextStyle(fontSize: 10, color: Colors.red),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-
           const SizedBox(height: 8),
 
           // Label
