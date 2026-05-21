@@ -32,7 +32,7 @@ class ProfileView extends GetView<ProfileController> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          centerTitle: false,
+          centerTitle: true,
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -346,7 +346,7 @@ class ProfileView extends GetView<ProfileController> {
                 width: 1.5,
               ),
             ),
-        ),
+          ),
         ),
       ],
     );

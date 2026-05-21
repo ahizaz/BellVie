@@ -421,7 +421,7 @@ class PopularServicesSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 4),
         Obx(() {
           final apiItems = controller.items;
           final isLoading = controller.isLoading.value;

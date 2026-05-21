@@ -59,7 +59,7 @@ class HomeScrollContent extends StatelessWidget {
           QuickActionsBar(),
           SizedBox(height: 12),
           Savour(),
-          SizedBox(height: 12),
+          SizedBox(height: 5),
 
           PopularServicesSection(),
           SizedBox(height: 12),
@@ -280,7 +280,7 @@ class SocialService extends StatelessWidget {
         children: [
           // Box container
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 4),
+            margin: const EdgeInsets.symmetric(horizontal: 3),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
@@ -308,8 +308,8 @@ class SocialService extends StatelessWidget {
                 padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
                   assetPath,
-                  height: 55,
-                  width: 40,
+                  height: 58,
+                  width: 45,
                   fit: BoxFit.contain,
                   errorBuilder: (context, error, stackTrace) => Column(
                     mainAxisSize: MainAxisSize.min,
@@ -358,7 +358,7 @@ class Savour extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Bellevie Health Saver Scheme",
+          "Bellevie HealthSaver Scheme",
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -378,8 +378,8 @@ class Savour extends StatelessWidget {
               'assets/images/banners/premium.png',
             ),
             _buildPackageColumn(
-              'Subscribed Package',
-              'assets/images/banners/subscription-package.png',
+              'Probashi Shukrokkha Package',
+              'assets/images/banners/nrb_package.png',
             ),
           ],
         ),
