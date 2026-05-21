@@ -124,19 +124,19 @@ class SubscriptionPackageSection extends StatelessWidget {
         Row(
           children: [
             _buildPackageColumn(
-              'platinum'.tr,
+              "BelleVie Family Care",
               const Color(0xFF727474),
             ),
             _buildPackageColumn(
-              'gold'.tr,
+              "BelleVie Elit Members",
               const Color(0xFFB3882B),
             ),
             _buildPackageColumn(
-              'silver'.tr,
+              "Grow with BelleVie",
               const Color(0xFFAAABB0),
             ),
             _buildPackageColumn(
-              'bronze'.tr,
+              "BelleVie Area Leaders",
               const Color(0xFFB65F36),
             ),
           ],
@@ -202,24 +202,17 @@ class SubscriptionPackageSection extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // Text outside the box (single line, scale to fit)
-          SizedBox(
-            height: 40,
-            child: Center(
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  label,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+          // Label: match SocialService style (small, centered, up to 2 lines)
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
             ),
           ),
         ],
