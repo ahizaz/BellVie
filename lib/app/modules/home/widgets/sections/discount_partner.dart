@@ -242,6 +242,7 @@ import 'package:bellevie/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'discount_partner_details.dart';
 
 class DiscountPartner extends StatefulWidget {
   const DiscountPartner({super.key});
@@ -296,114 +297,122 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                       final item = homeController
                           .discountPartnerData.value?.results?[index];
 
-                      return SizedBox(
-                        width: 100,
-                        child: Column(
-                          children: [
-                            // Updated Gradient Container
-                            Container(
-                              height: 80,
-                              width: 115,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFBEE9FF),
-                                    Color(0xFFDFF8EF),
+                      return InkWell(
+                        onTap: () {
+                          Get.to(() => DiscountPartnerDetails(
+                                name: item?.name ?? '',
+                                iconUrl: item?.icon ?? '',
+                              ));
+                        },
+                        child: SizedBox(
+                          width: 100,
+                          child: Column(
+                            children: [
+                              // Updated Gradient Container
+                              Container(
+                                height: 80,
+                                width: 115,
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFFBEE9FF),
+                                      Color(0xFFDFF8EF),
+                                    ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: Colors.white24,
+                                    width: 1,
+                                  ),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color(0x33FFFFFF),
+                                      offset: Offset(-3, -3),
+                                      blurRadius: 6,
+                                    ),
+                                    BoxShadow(
+                                      color: Color(0x22000000),
+                                      offset: Offset(3, 4),
+                                      blurRadius: 8,
+                                    ),
                                   ],
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
                                 ),
-                                borderRadius: BorderRadius.circular(16),
-                                border: Border.all(
-                                  color: Colors.white24,
-                                  width: 1,
-                                ),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color(0x33FFFFFF),
-                                    offset: Offset(-3, -3),
-                                    blurRadius: 6,
-                                  ),
-                                  BoxShadow(
-                                    color: Color(0x22000000),
-                                    offset: Offset(3, 4),
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: SizedBox(
-                                  height: 55,
-                                  width: 78,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: item?.icon != null &&
-                                            item!.icon!.isNotEmpty
-                                        ? CachedNetworkImage(
-                                            imageUrl: item.icon!,
-                                            fit: BoxFit.contain,
-                                            placeholder: (
-                                              context,
-                                              url,
-                                            ) =>
-                                                Container(
-                                              color: Colors.grey.shade200,
-                                              child: const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 2,
+                                child: Center(
+                                  child: SizedBox(
+                                    height: 55,
+                                    width: 78,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(4),
+                                      child: item?.icon != null &&
+                                              item!.icon!.isNotEmpty
+                                          ? CachedNetworkImage(
+                                              imageUrl: item.icon!,
+                                              fit: BoxFit.contain,
+                                              placeholder: (
+                                                context,
+                                                url,
+                                              ) =>
+                                                  Container(
+                                                color: Colors.grey.shade200,
+                                                child: const Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth: 2,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            errorWidget: (
-                                              context,
-                                              url,
-                                              error,
-                                            ) =>
-                                                Container(
-                                              color: Colors.grey.shade200,
-                                              child: const Icon(
-                                                Icons.broken_image,
+                                              errorWidget: (
+                                                context,
+                                                url,
+                                                error,
+                                              ) =>
+                                                  Container(
+                                                color: Colors.grey.shade200,
+                                                child: const Icon(
+                                                  Icons.broken_image,
+                                                ),
                                               ),
+                                            )
+                                          : Container(
+                                              color: Colors.grey.shade200,
                                             ),
-                                          )
-                                        : Container(
-                                            color: Colors.grey.shade200,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 8),
-
-                            // Text নিচে থাকবে
-                            Builder(builder: (context) {
-                              final isBangla = homeController
-                                      .currentLocale.value.languageCode ==
-                                  'bn';
-                              final label = isBangla
-                                  ? (item?.nameBn ?? item?.name ?? '')
-                                  : (item?.name ?? '');
-
-                              return Expanded(
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Text(
-                                    label,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15,
                                     ),
                                   ),
                                 ),
-                              );
-                            }),
-                          ],
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              // Text নিচে থাকবে
+                              Builder(builder: (context) {
+                                final isBangla = homeController
+                                        .currentLocale.value.languageCode ==
+                                    'bn';
+                                final label = isBangla
+                                    ? (item?.nameBn ?? item?.name ?? '')
+                                    : (item?.name ?? '');
+
+                                return Expanded(
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Text(
+                                      label,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
                         ),
                       );
                     },
