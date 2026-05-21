@@ -10,7 +10,7 @@ final List<SocialServiceModel> socialServicesStatic = [
   SocialServiceModel(
     id: 'bellevie_health_club',
     title: 'Bellevie Health Club',
-    image: 'assets/images/bellevie_logo.png',
+    image: 'assets/images/healthy.png',
     description: 'Membership benefits and wellness activities.',
   ),
   SocialServiceModel(
