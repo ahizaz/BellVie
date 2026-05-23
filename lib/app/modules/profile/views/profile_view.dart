@@ -26,7 +26,7 @@ class ProfileView extends GetView<ProfileController> {
           elevation: 0,
           backgroundColor: const Color(0xffF7F7FB),
           title: const Text(
-            'Profile',
+            'Account',
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
