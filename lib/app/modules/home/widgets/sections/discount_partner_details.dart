@@ -6,8 +6,7 @@ class DiscountPartnerDetails extends StatelessWidget {
   final String iconUrl;
 
   const DiscountPartnerDetails(
-      {Key? key, required this.name, required this.iconUrl})
-      : super(key: key);
+      {super.key, required this.name, required this.iconUrl});
 
   @override
   Widget build(BuildContext context) {

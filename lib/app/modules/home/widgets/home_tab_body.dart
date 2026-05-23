@@ -48,10 +48,10 @@ class ComingSoonPage extends StatelessWidget {
         title: Text(title),
         backgroundColor: const Color(0xFF2F6FED),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             Icon(
               Icons.construction_rounded,
               size: 64,

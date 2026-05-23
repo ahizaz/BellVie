@@ -97,7 +97,7 @@ class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
                   nameBn: nameBn,
                   imageUrl: image,
                 );
-              } catch (e, st) {
+              } catch (e) {
                 debugPrint('Medical category parse error for item: $m => $e');
                 return null;
               }
