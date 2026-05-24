@@ -61,6 +61,19 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
     ],
   };
 
+  // Static info for the second banner (promo) — matches the provided promo
+  // artwork. Will be replaced by API later.
+  static const Map<String, dynamic> _staticSecondBannerInfo = {
+    'title': 'Be a member of BelleVie health club',
+    'description':
+        'Be a member of BelleVie health club and take the opportunity of getting 15 FREE doctor\'s consultation.',
+    'offer': '15 FREE',
+    'phone': '+8801805464400',
+    'services': [
+      "Free Doctor's Consultation",
+    ],
+  };
+
   @override
   void initState() {
     super.initState();
@@ -318,7 +331,7 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                               );
                             }
 
-                            // Only the first banner should open details now.
+                            // The first banner opens the first static details.
                             if (i == 0) {
                               return GestureDetector(
                                 behavior: HitTestBehavior.opaque,
@@ -328,6 +341,34 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                                     MaterialPageRoute(
                                       builder: (_) => BannerDetailPage(
                                         initialData: _staticFirstBannerInfo,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: imageChild,
+                              );
+                            }
+
+                            // The second banner shows only static info (no image) from the provided design
+                            if (i == 1) {
+                              return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  if (!mounted) return;
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => BannerDetailPage(
+                                        initialData: const {
+                                          'title':
+                                              'Be a member of BelleVie health club',
+                                          'description':
+                                              'Be a member of BelleVie health club and take the opportunity of getting 15 FREE doctor\'s consultation.',
+                                          'offer': '15 FREE',
+                                          'phone': '01805464400',
+                                          'services': [
+                                            "Free Doctor's Consultation",
+                                          ],
+                                        },
                                       ),
                                     ),
                                   );
