@@ -42,90 +42,90 @@ Future<void> showTermsBottomSheet(BuildContext context) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Introduction',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Welcome to Bellevie (the "App") operated by Bellevie Global Health Services ("we", "us", "our"). These Terms & Conditions ("Terms") govern your use of the App and services. By downloading, installing, or using the App you agree to these Terms.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
-                      Text(
+                      const SizedBox(height: 12),
+                      const Text(
                         'Definitions',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Service(s): Features available in the App including content and in‑app functionality.\nUser / You: Anyone who uses the App.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
-                      Text(
+                      const SizedBox(height: 12),
+                      const Text(
                         'Service Availability',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'The App is offered worldwide. You are responsible for complying with local laws where you use the App.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
-                      Text(
+                      const SizedBox(height: 12),
+                      const Text(
                         'Payment and In‑App Purchases',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Currently the App includes some in‑app purchases, paid features, and/or subscriptions. If paid features are offered, you will be presented with the price and purchase flow in the App. All payments are processed by the platform store (Google Play / App Store) and are subject to their terms. Refunds, billing, and other payment-related questions are handled in accordance with the platform store policies.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
-                      Text(
+                      const SizedBox(height: 12),
+                      const Text(
                         'Acceptance of Terms',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'You must be of legal age in your jurisdiction to accept these Terms. If using the App on behalf of an organization, you confirm you have authority to bind that organization.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
-                      Text(
+                      const SizedBox(height: 12),
+                      const Text(
                         'Changes to Terms',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'We may modify these Terms. We will notify you of material changes via the App or email. Continued use after notice constitutes acceptance.',
                         textAlign: TextAlign.justify,
                       ),
                       SizedBox(height: 12),
-                      Text(
+                      const Text(
                         'Access and Use of the App',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'License: We grant a limited, non‑exclusive, revocable license to use the App according to these Terms.\nRestrictions: You must not reverse engineer, modify, redistribute, or use the App to infringe third‑party rights.',
                         textAlign: TextAlign.justify,
                       ),
                       SizedBox(height: 12),
-                      Text(
+                      const Text(
                         'Accounts and Registration',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'You may need an account for some features. Provide accurate information and safeguard credentials. We may suspend or terminate accounts for violations.',
                         textAlign: TextAlign.justify,
                       ),
@@ -135,7 +135,7 @@ Future<void> showTermsBottomSheet(BuildContext context) {
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         'We may integrate third‑party services (analytics, ad networks). Those third parties have their own terms and privacy practices. You consent to data sharing required for these services. We are not responsible for third‑party content or services.',
                         textAlign: TextAlign.justify,
@@ -239,18 +239,18 @@ Future<void> showTermsBottomSheet(BuildContext context) {
                         'If a provision is unenforceable, remaining provisions remain in effect.',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Text(
                         'Contact',
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         'Questions or notices: info.belleviebd@gmail.com',
                         textAlign: TextAlign.justify,
                       ),
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                       TextButton(
                         onPressed: () => Navigator.of(context).pop(),
                         child: Text('Close',
