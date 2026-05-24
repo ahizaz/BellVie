@@ -98,73 +98,112 @@ class ProfileView extends GetView<ProfileController> {
 
                 const SizedBox(height: 30),
 
-                /// Fields
-                _profileField(
-                  label: 'Name',
-                  controller: controller.nameCtrl,
-                  editable: controller.isEditing.value,
-                  onEditTap: () {
-                    controller.isEditing.value = true;
-                  },
-                ),
-
-                const SizedBox(height: 18),
-
-                _profileField(
-                  label: 'Email',
-                  controller: controller.emailCtrl,
-                  editable: controller.isEditing.value,
-                  onEditTap: () {
-                    controller.isEditing.value = true;
-                  },
-                ),
-
-                const SizedBox(height: 18),
-
-                _profileField(
-                  label: 'District',
-                  controller: controller.districtCtrl,
-                  editable: controller.isEditing.value,
-                  onEditTap: () {
-                    controller.isEditing.value = true;
-                  },
-                ),
-
-                const SizedBox(height: 18),
-
-                _readonlyField(
-                  'Phone',
-                  controller.phoneNumber.value,
-                ),
-
-                const SizedBox(height: 40),
-
-                /// Save Button
-                if (controller.isEditing.value)
-                  SizedBox(
-                    width: double.infinity,
-                    height: 55,
-                    child: ElevatedButton(
-                      onPressed: controller.updateProfile,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      child: const Text(
-                        'Save Changes',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                /// Account option: User Account (opens bottom sheet)
+                _accountOption(
+                  leading: const Icon(
+                    Icons.person,
+                    color: Colors.deepPurple,
+                    size: 20,
                   ),
-
-                if (controller.isEditing.value) const SizedBox(height: 16),
+                  title: 'User Account',
+                  onTap: () {
+                    Get.bottomSheet(
+                      Obx(
+                        () => Container(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                            left: 20,
+                            right: 20,
+                            top: 16,
+                          ),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16),
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 40,
+                                  height: 4,
+                                  margin: const EdgeInsets.only(bottom: 12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                _profileField(
+                                  label: 'Name',
+                                  controller: controller.nameCtrl,
+                                  editable: controller.isEditing.value,
+                                  onEditTap: () {
+                                    controller.isEditing.value = true;
+                                  },
+                                ),
+                                const SizedBox(height: 18),
+                                _profileField(
+                                  label: 'Email',
+                                  controller: controller.emailCtrl,
+                                  editable: controller.isEditing.value,
+                                  onEditTap: () {
+                                    controller.isEditing.value = true;
+                                  },
+                                ),
+                                const SizedBox(height: 18),
+                                _profileField(
+                                  label: 'District',
+                                  controller: controller.districtCtrl,
+                                  editable: controller.isEditing.value,
+                                  onEditTap: () {
+                                    controller.isEditing.value = true;
+                                  },
+                                ),
+                                const SizedBox(height: 18),
+                                _readonlyField(
+                                  'Phone',
+                                  controller.phoneNumber.value,
+                                ),
+                                const SizedBox(height: 20),
+                                if (controller.isEditing.value)
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: 55,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await controller.updateProfile();
+                                        Get.back();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.deepPurple,
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        'Save Changes',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                const SizedBox(height: 12),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      isScrollControlled: true,
+                    );
+                  },
+                ),
 
                 /// Account options (Terms / Privacy)
                 const SizedBox(height: 16),
