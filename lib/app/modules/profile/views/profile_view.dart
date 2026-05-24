@@ -1,5 +1,6 @@
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:flutter/material.dart';
+import '../../../widgets/terms_bottom_sheet.dart';
 import 'package:get/get.dart';
 
 class ProfileView extends GetView<ProfileController> {
@@ -216,7 +217,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   title: 'Terms & Conditions',
                   onTap: () {
-                    // TODO: navigate to Terms & Conditions
+                    showTermsBottomSheet(context);
                   },
                 ),
 
