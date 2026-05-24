@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../services/api_service.dart';
+import 'banner_detail_page.dart';
 
 class HomeBannerCarousel extends StatefulWidget {
   const HomeBannerCarousel({super.key});
@@ -44,6 +45,21 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
   bool _isInitialLoading = true;
   bool _hasError = false;
   List<String> _apiBanners = <String>[];
+  // Static info to show for the first banner for now. In future this
+  // should come from the API.
+  static const Map<String, dynamic> _staticFirstBannerInfo = {
+    'title': 'Get World-Class Medical Treatment Abroad',
+    'description':
+        'Your Trusted Partner for Global Healthcare. We provide doctor consultation, hospital appointment, medical visa support, treatment planning and full patient assistance for China, India and Thailand.',
+    'phone': '+8801805464400',
+    'services': [
+      'Doctor Consultation',
+      'Hospital Appointment',
+      'Medical Visa Support',
+      'Treatment Planning',
+      'Full Patient Assistance',
+    ],
+  };
 
   @override
   void initState() {
@@ -256,8 +272,9 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                             final isNetwork = source.startsWith('http://') ||
                                 source.startsWith('https://');
 
+                            Widget imageChild;
                             if (isNetwork) {
-                              return CachedNetworkImage(
+                              imageChild = CachedNetworkImage(
                                 imageUrl: source,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
@@ -277,30 +294,49 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                                   ),
                                 ),
                               );
+                            } else {
+                              imageChild = Image.asset(
+                                source,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                frameBuilder: (context, child, frame, _) {
+                                  final visible = frame != null;
+                                  return AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 250),
+                                    opacity: visible ? 1 : 0,
+                                    child: child,
+                                  );
+                                },
+                                errorBuilder: (_, __, ___) {
+                                  return const Center(
+                                    child: Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.black38,
+                                    ),
+                                  );
+                                },
+                              );
                             }
 
-                            // Treat as local asset
-                            return Image.asset(
-                              source,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              frameBuilder: (context, child, frame, _) {
-                                final visible = frame != null;
-                                return AnimatedOpacity(
-                                  duration: const Duration(milliseconds: 250),
-                                  opacity: visible ? 1 : 0,
-                                  child: child,
-                                );
-                              },
-                              errorBuilder: (_, __, ___) {
-                                return const Center(
-                                  child: Icon(
-                                    Icons.image_not_supported,
-                                    color: Colors.black38,
-                                  ),
-                                );
-                              },
-                            );
+                            // Only the first banner should open details now.
+                            if (i == 0) {
+                              return GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: () {
+                                  if (!mounted) return;
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => BannerDetailPage(
+                                        initialData: _staticFirstBannerInfo,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: imageChild,
+                              );
+                            }
+
+                            return imageChild;
                           },
                         )
                       : Center(
