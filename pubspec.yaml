@@ -1,6 +1,6 @@
 name: bellevie
 description: BelleVie Global Health Services
-version: 1.0.4+7
+version: 1.0.6+9
 publish_to: 'none'
 
 environment:

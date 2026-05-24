@@ -166,6 +166,38 @@ class ProfileView extends GetView<ProfileController> {
 
                 if (controller.isEditing.value) const SizedBox(height: 16),
 
+                /// Account options (Terms / Privacy)
+                const SizedBox(height: 16),
+                _accountOption(
+                  leading: Image.asset(
+                    'assets/images/banners/term&condition.png',
+                    width: 28,
+                    height: 28,
+                    fit: BoxFit.contain,
+                  ),
+                  title: 'Terms & Conditions',
+                  onTap: () {
+                    // TODO: navigate to Terms & Conditions
+                  },
+                ),
+
+                const SizedBox(height: 12),
+
+                _accountOption(
+                  leading: Image.asset(
+                    'assets/images/banners/privacy_policy.png',
+                    width: 28,
+                    height: 28,
+                    fit: BoxFit.contain,
+                  ),
+                  title: 'Privacy & Policy',
+                  onTap: () {
+                    // TODO: navigate to Privacy & Policy
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
                 /// Logout Button
                 SizedBox(
                   width: double.infinity,
@@ -394,6 +426,61 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _accountOption({
+    required Widget leading,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.03),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.blue.withOpacity(0.06),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: leading,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.chevron_right,
+              color: Colors.grey,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
