@@ -188,32 +188,32 @@ class SubscriptionPackageSection extends StatelessWidget {
         Row(
           children: [
             _buildPackageColumn(
-              "BelleVie Family Care",
+              'bellevie_family_care'.tr,
               null,
               imagePath: "assets/images/banners/bellevie _family.png",
               onTap: () => Get.to(
-                  () => const ComingSoonPage(title: "BelleVie Family Care")),
+                  () => ComingSoonPage(title: 'bellevie_family_care'.tr)),
             ),
             _buildPackageColumn(
-              "BelleVie Elit Members",
+              'bellevie_elit_members'.tr,
               null,
               imagePath: "assets/images/banners/vip-card.png",
               onTap: () => Get.to(
-                  () => const ComingSoonPage(title: "BelleVie Elit Members")),
+                  () => ComingSoonPage(title: 'bellevie_elit_members'.tr)),
             ),
             _buildPackageColumn(
-              "Grow with BelleVie",
+              'grow_with_bellevie'.tr,
               null,
               imagePath: "assets/images/banners/growth_wtih_bellevie.png",
-              onTap: () => Get.to(
-                  () => const ComingSoonPage(title: "Grow with BelleVie")),
+              onTap: () =>
+                  Get.to(() => ComingSoonPage(title: 'grow_with_bellevie'.tr)),
             ),
             _buildPackageColumn(
-              "BelleVie Area Leaders",
+              'bellevie_area_leaders'.tr,
               null,
               imagePath: "assets/images/banners/leadership.png",
               onTap: () => Get.to(
-                  () => const ComingSoonPage(title: "BelleVie Area Leaders")),
+                  () => ComingSoonPage(title: 'bellevie_area_leaders'.tr)),
             ),
           ],
         ),

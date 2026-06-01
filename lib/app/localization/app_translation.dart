@@ -236,6 +236,11 @@ class AppTranslation extends Translations {
           'china': 'China',
           'singapore': 'Singapore',
           'malaysia': 'Malaysia',
+          // Subscription package items
+          'bellevie_family_care': 'BelleVie Family Care',
+          'bellevie_elit_members': 'BelleVie Elit Members',
+          'grow_with_bellevie': 'Grow with BelleVie',
+          'bellevie_area_leaders': 'BelleVie Area Leaders',
         },
         'bn_BD': {
           'app_title': 'BelleVie Global Health Services',
@@ -472,6 +477,11 @@ class AppTranslation extends Translations {
           'china': 'চীন',
           'singapore': 'সিঙ্গাপুর',
           'malaysia': 'মালয়েশিয়া',
+          // Subscription package items
+          'bellevie_family_care': 'বেলেভি ফ্যামিলি কেয়ার',
+          'bellevie_elit_members': 'বেলেভি এলিট মেম্বার্স',
+          'grow_with_bellevie': 'বেলেভি-র সাথে বৃদ্ধি',
+          'bellevie_area_leaders': 'বেলেভি এরিয়া লিডারস',
         },
       };
 }
