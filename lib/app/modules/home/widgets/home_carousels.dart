@@ -339,7 +339,7 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                                   if (!mounted) return;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (_) => BannerDetailPage(
+                                      builder: (_) => const BannerDetailPage(
                                         initialData: _staticFirstBannerInfo,
                                       ),
                                     ),
@@ -357,8 +357,8 @@ class _HomeBannerCarouselState extends State<HomeBannerCarousel> {
                                   if (!mounted) return;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (_) => BannerDetailPage(
-                                        initialData: const {
+                                      builder: (_) => const BannerDetailPage(
+                                        initialData: {
                                           'title':
                                               'Be a member of BelleVie health club',
                                           'description':
