@@ -22,6 +22,14 @@ class PackageDetails extends StatelessWidget {
 
     const rows = [
       [
+        'Yearly Premium',
+        'BDT 549',
+        'BDT 999',
+        'BDT 1499',
+        'BDT 2399',
+        'BDT 3599',
+      ],
+      [
         'Life',
         '100,000',
         '150,000',
@@ -84,14 +92,6 @@ class PackageDetails extends StatelessWidget {
         '',
         '',
         '',
-      ],
-      [
-        'Yearly Premium',
-        'BDT 549',
-        'BDT 999',
-        'BDT 1499',
-        'BDT 2399',
-        'BDT 3599',
       ],
     ];
 
