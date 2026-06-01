@@ -33,6 +33,13 @@ class DoctorDetailsView extends StatelessWidget {
     return text.isEmpty ? fallback : text;
   }
 
+  String _cleanValue(dynamic value) {
+    final text = value?.toString().trim() ?? '';
+    if (text.isEmpty) return '';
+    if (text.toLowerCase() == 'not available') return '';
+    return text;
+  }
+
   String _resolveImageUrl(String raw) {
     final value = raw.trim();
     if (value.isEmpty) return '';
@@ -382,23 +389,23 @@ class DoctorDetailsView extends StatelessWidget {
                 final data = snapshot.data ?? const <String, dynamic>{};
                 final lang = Get.locale?.languageCode ?? 'en';
                 final name = (lang == 'bn' &&
-                    (data['name_bn']?.toString().trim().isNotEmpty ?? false))
-                  ? _textValue(data['name_bn'])
-                  : _textValue(data['name']);
+                        (data['name_bn']?.toString().trim().isNotEmpty ??
+                            false))
+                    ? _textValue(data['name_bn'])
+                    : _textValue(data['name']);
                 final image =
-                  _resolveImageUrl(data['image']?.toString().trim() ?? '');
+                    _resolveImageUrl(data['image']?.toString().trim() ?? '');
                 final designation = (lang == 'bn' &&
-                    (data['designation_bn']?.toString().trim().isNotEmpty ??
-                      false))
-                  ? _textValue(data['designation_bn'])
-                  : _textValue(data['designation']);
-                final years =
-                    _textValue(data['years_of_experience'], fallback: '0');
-                final fees = _textValue(data['doctor_fees']);
+                        (data['designation_bn']?.toString().trim().isNotEmpty ??
+                            false))
+                    ? _textValue(data['designation_bn'])
+                    : _textValue(data['designation']);
+                final years = _cleanValue(data['years_of_experience']);
+                final fees = _cleanValue(data['doctor_fees']);
                 final hospital = data['hospital'] is Map
-                    ? _textValue(data['hospital']['name'])
-                    : _textValue(data['hospital']);
-                final subcategory = _textValue(data['subcategory_name']);
+                    ? _cleanValue(data['hospital']['name'])
+                    : _cleanValue(data['hospital']);
+                final subcategory = _cleanValue(data['subcategory_name']);
                 final details = _textValue(
                   data['doctor_details'],
                   fallback: 'no_additional_details_available'.tr,
@@ -513,19 +520,27 @@ class DoctorDetailsView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 14),
-                                  Center(
-                                    child: Wrap(
-                                      alignment: WrapAlignment.center,
-                                      spacing: 10,
-                                      runSpacing: 10,
-                                      children: [
-                                        _chip('Specialty', subcategory),
-                                        _chip('Experience', '$years years'),
-                                        _chip('Fees', fees),
-                                      ],
+                                  if (subcategory.isNotEmpty ||
+                                      years.isNotEmpty ||
+                                      fees.isNotEmpty) ...[
+                                    const SizedBox(height: 14),
+                                    Center(
+                                      child: Wrap(
+                                        alignment: WrapAlignment.center,
+                                        spacing: 10,
+                                        runSpacing: 10,
+                                        children: [
+                                          if (subcategory.isNotEmpty)
+                                            _chip('Specialty', subcategory),
+                                          if (years.isNotEmpty)
+                                            _chip('Experience',
+                                                '${years.trim()} years'),
+                                          if (fees.isNotEmpty)
+                                            _chip('Fees', fees),
+                                        ],
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                   const SizedBox(height: 16),
                                   Container(
                                     width: double.infinity,
@@ -695,39 +710,53 @@ class DoctorDetailsView extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 14),
-                                  _sectionCard(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _sectionTitle('Doctor Information'),
-                                        _infoTile(
-                                          icon: Icons.local_hospital_outlined,
-                                          label: 'Hospital',
-                                          value: hospital,
-                                        ),
-                                        const SizedBox(height: 12),
-                                        _infoTile(
-                                          icon: Icons.medical_services_outlined,
-                                          label: 'Specialty',
-                                          value: subcategory,
-                                        ),
-                                        const SizedBox(height: 12),
-                                        _infoTile(
-                                          icon: Icons.timer_outlined,
-                                          label: 'Experience',
-                                          value: '$years years',
-                                        ),
-                                        const SizedBox(height: 12),
-                                        _infoTile(
-                                          icon: Icons.payments_outlined,
-                                          label: 'Consultation Fee',
-                                          value: fees,
-                                        ),
-                                      ],
+                                  if (hospital.isNotEmpty ||
+                                      subcategory.isNotEmpty ||
+                                      years.isNotEmpty ||
+                                      fees.isNotEmpty) ...[
+                                    _sectionCard(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          _sectionTitle('Doctor Information'),
+                                          if (hospital.isNotEmpty) ...[
+                                            _infoTile(
+                                              icon:
+                                                  Icons.local_hospital_outlined,
+                                              label: 'Hospital',
+                                              value: hospital,
+                                            ),
+                                            const SizedBox(height: 12),
+                                          ],
+                                          if (subcategory.isNotEmpty) ...[
+                                            _infoTile(
+                                              icon: Icons
+                                                  .medical_services_outlined,
+                                              label: 'Specialty',
+                                              value: subcategory,
+                                            ),
+                                            const SizedBox(height: 12),
+                                          ],
+                                          if (years.isNotEmpty) ...[
+                                            _infoTile(
+                                              icon: Icons.timer_outlined,
+                                              label: 'Experience',
+                                              value: '${years.trim()} years',
+                                            ),
+                                            const SizedBox(height: 12),
+                                          ],
+                                          if (fees.isNotEmpty)
+                                            _infoTile(
+                                              icon: Icons.payments_outlined,
+                                              label: 'Consultation Fee',
+                                              value: fees,
+                                            ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 14),
+                                    const SizedBox(height: 14),
+                                  ],
                                   _sectionCard(
                                     child: Column(
                                       crossAxisAlignment:
