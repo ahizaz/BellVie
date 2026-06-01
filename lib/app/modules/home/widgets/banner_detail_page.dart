@@ -7,8 +7,7 @@ class BannerDetailPage extends StatefulWidget {
   final String? bannerId;
   final Map<String, dynamic>? initialData;
 
-  const BannerDetailPage({Key? key, this.bannerId, this.initialData})
-      : super(key: key);
+  const BannerDetailPage({super.key, this.bannerId, this.initialData});
 
   @override
   State<BannerDetailPage> createState() => _BannerDetailPageState();
