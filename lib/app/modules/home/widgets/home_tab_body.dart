@@ -191,29 +191,29 @@ class SubscriptionPackageSection extends StatelessWidget {
               "BelleVie Family Care",
               null,
               imagePath: "assets/images/banners/bellevie _family.png",
-              onTap: () =>
-                  Get.to(() => const ComingSoonPage(title: "BelleVie Family Care")),
+              onTap: () => Get.to(
+                  () => const ComingSoonPage(title: "BelleVie Family Care")),
             ),
             _buildPackageColumn(
               "BelleVie Elit Members",
               null,
               imagePath: "assets/images/banners/vip-card.png",
-              onTap: () =>
-                  Get.to(() => const ComingSoonPage(title: "BelleVie Elit Members")),
+              onTap: () => Get.to(
+                  () => const ComingSoonPage(title: "BelleVie Elit Members")),
             ),
             _buildPackageColumn(
               "Grow with BelleVie",
               null,
               imagePath: "assets/images/banners/growth_wtih_bellevie.png",
-              onTap: () =>
-                  Get.to(() => const ComingSoonPage(title: "Grow with BelleVie")),
+              onTap: () => Get.to(
+                  () => const ComingSoonPage(title: "Grow with BelleVie")),
             ),
             _buildPackageColumn(
               "BelleVie Area Leaders",
               null,
               imagePath: "assets/images/banners/leadership.png",
-              onTap: () =>
-                  Get.to(() => const ComingSoonPage(title: "BelleVie Area Leaders")),
+              onTap: () => Get.to(
+                  () => const ComingSoonPage(title: "BelleVie Area Leaders")),
             ),
           ],
         ),
@@ -467,10 +467,7 @@ class Savour extends StatelessWidget {
             _buildPackageColumn(
               'Freemium Package',
               'assets/images/banners/freemium.png',
-              onTap: () => Get.to(() => const PackageDetails(
-                    title: 'Freemium Package',
-                    assetPath: 'assets/images/banners/freemium.png',
-                  )),
+              onTap: () => Get.to(() => const FreemiumBenefitsPage()),
             ),
             _buildPackageColumn(
               'Premium Package',
@@ -573,6 +570,88 @@ class Savour extends StatelessWidget {
               color: Colors.black,
               fontWeight: FontWeight.w700,
               fontSize: 12,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FreemiumBenefitsPage extends StatelessWidget {
+  const FreemiumBenefitsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Freemium Package'),
+        backgroundColor: const Color(0xFF2F6FED),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Benefits',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 12),
+            _buildBenefitRow(
+              assetPath: 'assets/images/banners/hospital_discounts.png',
+              label: 'Hospital Discounts',
+            ),
+            _buildBenefitRow(
+              assetPath: 'assets/images/banners/discount_on_diagnostics.png',
+              label: 'Discount on Diagnostics',
+            ),
+            _buildBenefitRow(
+              assetPath: 'assets/images/banners/free_consultancy.png',
+              label: 'Free Consultancy',
+            ),
+            _buildBenefitRow(
+              assetPath: 'assets/images/banners/other_discount_services.png',
+              label: 'Other Discount Services',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _buildBenefitRow({
+    required String assetPath,
+    required String label,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Image.asset(
+            assetPath,
+            height: 28,
+            width: 28,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => const Icon(
+              Icons.image_not_supported_rounded,
+              size: 28,
+              color: Colors.grey,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
             ),
           ),
         ],
