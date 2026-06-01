@@ -9,9 +9,10 @@ class PackageDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const caption = 'Bellevie Guardian Health Programme';
+    final isProbashi = title == 'Probashi Package';
+    final caption = isProbashi ? null : 'Bellevie Guardian Health Programme';
 
-    const header = [
+    const premiumHeader = [
       'Category',
       'Product 1',
       'Product 2',
@@ -20,7 +21,7 @@ class PackageDetails extends StatelessWidget {
       'Product 5',
     ];
 
-    const rows = [
+    const premiumRows = [
       [
         'Yearly Premium',
         'BDT 549',
@@ -95,6 +96,29 @@ class PackageDetails extends StatelessWidget {
       ],
     ];
 
+    const probashiHeader = ['Category', 'Coverage'];
+
+    const probashiRows = [
+      ['Life', '500,000'],
+      ['PTD', '500,000'],
+      ['PPD', '50,000-200,000'],
+      ['Funeral Benefit', 'Up to 20,000'],
+      ['Dead Body Repatriation', '15,000'],
+      ['Loss of Income (Up to six Months) Month', '50,000'],
+      ['Hospitalization', '50,000 (BDT 5000/day, up to 5 days in a row)'],
+      [
+        'Telemedicine',
+        '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
+      ],
+      ['Yearly Premium (BDT)', '6250'],
+    ];
+
+    final header = isProbashi ? probashiHeader : premiumHeader;
+    final rows = isProbashi ? probashiRows : premiumRows;
+    final widths = isProbashi
+        ? const [180.0, 240.0]
+        : const [120.0, 140.0, 140.0, 140.0, 140.0, 140.0];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -127,17 +151,19 @@ class PackageDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 14),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                caption,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+            if (caption != null) ...[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  caption,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
+            ],
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(10),
@@ -170,10 +196,10 @@ class PackageDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildTableRow(header, isHeader: true),
+                    _buildTableRow(header, widths, isHeader: true),
                     const SizedBox(height: 6),
                     for (final row in rows) ...[
-                      _buildTableRow(row),
+                      _buildTableRow(row, widths),
                       const SizedBox(height: 6),
                     ]
                   ],
@@ -186,15 +212,19 @@ class PackageDetails extends StatelessWidget {
     );
   }
 
-  static Widget _buildTableRow(List<String> cells, {bool isHeader = false}) {
+  static Widget _buildTableRow(
+    List<String> cells,
+    List<double> widths, {
+    bool isHeader = false,
+  }) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: List.generate(
         cells.length,
         (index) => _buildCell(
           cells[index],
+          width: widths[index],
           isHeader: isHeader,
-          isFirst: index == 0,
         ),
       ),
     );
@@ -202,10 +232,9 @@ class PackageDetails extends StatelessWidget {
 
   static Widget _buildCell(
     String text, {
+    required double width,
     bool isHeader = false,
-    bool isFirst = false,
   }) {
-    final width = isFirst ? 120.0 : 140.0;
     final background = isHeader ? const Color(0xFFE6F4FF) : Colors.white;
     final borderColor = isHeader ? const Color(0xFFD6E8F6) : Colors.black12;
 
