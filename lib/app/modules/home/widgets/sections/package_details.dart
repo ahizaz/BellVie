@@ -10,7 +10,9 @@ class PackageDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isProbashi = title == 'Probashi Package';
-    final caption = isProbashi ? null : 'Bellevie Guardian Health Programme';
+    final caption = isProbashi
+        ? 'Bellevie Guardian NRB Health Support'
+        : 'Bellevie Guardian Health Programme';
 
     const premiumHeader = [
       'Category',

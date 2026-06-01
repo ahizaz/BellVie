@@ -483,7 +483,8 @@ class Savour extends StatelessWidget {
               'assets/images/banners/nrb_package.png',
               onTap: () => Get.to(() => PackageDetails(
                     title: 'probashi_package'.tr,
-                    assetPath: 'assets/images/banners/nrb_package.png',
+                    assetPath:
+                        'assets/images/banners/guardian_life_insurance.jpg',
                   )),
             ),
           ],
