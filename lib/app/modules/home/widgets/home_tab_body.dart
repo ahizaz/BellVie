@@ -474,7 +474,8 @@ class Savour extends StatelessWidget {
               'assets/images/banners/premium.png',
               onTap: () => Get.to(() => const PackageDetails(
                     title: 'Premium Package',
-                    assetPath: 'assets/images/banners/premium.png',
+                    assetPath:
+                        'assets/images/banners/guardian_life_insurance.jpg',
                   )),
             ),
             _buildPackageColumn(

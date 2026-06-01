@@ -106,33 +106,27 @@ class PackageDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 8),
-            // Container(
-            //   height: 120,
-            //   width: 140,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(16),
-            //     color: Colors.grey.shade100,
-            //   ),
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(16),
-            //     child: Image.asset(
-            //       assetPath,
-            //       fit: BoxFit.contain,
-            //       errorBuilder: (context, error, stackTrace) => Center(
-            //         child: Icon(
-            //           Icons.image_not_supported_rounded,
-            //           color: Colors.grey[400],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-
-            // Text(
-            //   title,
-            //   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-            // ),
-            // const SizedBox(height: 14),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(14),
+              child: Image.asset(
+                assetPath,
+                width: double.infinity,
+                height: 190,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: double.infinity,
+                  height: 110,
+                  color: Colors.grey.shade100,
+                  child: Center(
+                    child: Icon(
+                      Icons.image_not_supported_rounded,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
