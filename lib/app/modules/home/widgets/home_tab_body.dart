@@ -452,9 +452,9 @@ class Savour extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Bellevie HealthSaver Scheme",
-          style: TextStyle(
+        Text(
+          'bellevie_healthsaver_scheme'.tr,
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -465,24 +465,24 @@ class Savour extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildPackageColumn(
-              'Freemium Package',
+              'freemium_package'.tr,
               'assets/images/banners/freemium.png',
               onTap: () => Get.to(() => const FreemiumBenefitsPage()),
             ),
             _buildPackageColumn(
-              'Premium Package',
+              'premium_package'.tr,
               'assets/images/banners/premium.png',
-              onTap: () => Get.to(() => const PackageDetails(
-                    title: 'Premium Package',
+              onTap: () => Get.to(() => PackageDetails(
+                    title: 'premium_package'.tr,
                     assetPath:
                         'assets/images/banners/guardian_life_insurance.jpg',
                   )),
             ),
             _buildPackageColumn(
-              'Probashi Package',
+              'probashi_package'.tr,
               'assets/images/banners/nrb_package.png',
-              onTap: () => Get.to(() => const PackageDetails(
-                    title: 'Probashi Package',
+              onTap: () => Get.to(() => PackageDetails(
+                    title: 'probashi_package'.tr,
                     assetPath: 'assets/images/banners/nrb_package.png',
                   )),
             ),
@@ -586,7 +586,7 @@ class FreemiumBenefitsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Freemium Package'),
+        title: Text('freemium_package'.tr),
         backgroundColor: const Color(0xFF2F6FED),
       ),
       body: Padding(
@@ -594,9 +594,9 @@ class FreemiumBenefitsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Benefits',
-              style: TextStyle(
+            Text(
+              'benefits'.tr,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -605,19 +605,19 @@ class FreemiumBenefitsPage extends StatelessWidget {
             const SizedBox(height: 12),
             _buildBenefitRow(
               assetPath: 'assets/images/banners/hospital_discounts.png',
-              label: 'Hospital Discounts',
+              label: 'hospital_discounts'.tr,
             ),
             _buildBenefitRow(
               assetPath: 'assets/images/banners/discount_on_diagnostics.png',
-              label: 'Discount on Diagnostics',
+              label: 'discount_on_diagnostics'.tr,
             ),
             _buildBenefitRow(
               assetPath: 'assets/images/banners/free_consultancy.png',
-              label: 'Free Consultancy',
+              label: 'free_consultancy'.tr,
             ),
             _buildBenefitRow(
               assetPath: 'assets/images/banners/other_discount_services.png',
-              label: 'Other Discount Services',
+              label: 'other_discount_services'.tr,
             ),
           ],
         ),
