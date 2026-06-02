@@ -12,7 +12,9 @@ class SocialServiceDetailView extends StatelessWidget {
         SocialServiceModel.fromJson(Map<String, dynamic>.from(args));
 
     return Scaffold(
-      appBar: AppBar(title: Text(service.title)),
+      appBar: AppBar(
+        title: Text(service.titleKey.tr),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -24,16 +26,28 @@ class SocialServiceDetailView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.grey.shade100,
                 image: DecorationImage(
-                    image: AssetImage(service.image), fit: BoxFit.contain),
+                  image: AssetImage(service.image),
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const SizedBox(height: 12),
-            Text(service.title,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              service.titleKey.tr,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text(service.description,
-                style: const TextStyle(fontSize: 14, color: Colors.black87)),
+            Text(
+              service.descriptionKey.tr,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                height: 1.5,
+              ),
+            ),
           ],
         ),
       ),

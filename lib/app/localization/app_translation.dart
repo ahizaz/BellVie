@@ -16,6 +16,69 @@ class AppTranslation extends Translations {
           'shoshti_bn': 'শস্তি',
           'aastha_bn': 'আস্থা',
           'prottoy_bn': 'প্রত্যয়',
+          'community_health_services_title':
+    'BelleVie Community Health Service',
+
+'community_health_services_description':
+    '''BelleVie Community Health Service
+
+Together for Health Protection, Towards a Safer Future
+
+BelleVie Community Health Service is a people-centered healthcare protection initiative designed to provide affordable, accessible, and reliable healthcare support at the doorstep of every community.
+
+Through this service, individuals, families, friends, social organizations, and communities can collectively enroll in the BelleVie Health Protection Card program and become part of a strong network of mutual support.
+
+Members within this network are protected from unexpected healthcare-related financial risks. This means that when illness strikes unexpectedly, they do not have to worry about the financial burden of medical treatment.
+
+How It Works
+
+Through community-based registration, members of society can collectively obtain BelleVie Health Protection Cards, making healthcare protection more accessible, organized, and effective.
+
+Community Volunteer Support
+
+Each community will be supported by trained BelleVie Community Volunteers who will assist members in:
+
+• Understanding the benefits and features of the Health Protection Card
+• Completing the registration process
+• Collecting and activating their cards
+• Receiving guidance on accessing healthcare services when needed
+• Connecting with the BelleVie Support Team whenever required
+
+Support When It Matters Most
+
+Whenever a cardholder requires medical assistance, healthcare consultation, hospital-related support, or service coordination, BelleVie Volunteers and our Support Team will be there to assist them.
+
+The Role of Community Volunteers
+
+The driving force behind BelleVie Community Health Service is our dedicated Community Volunteers.
+
+They help spread awareness about healthcare protection within their communities and provide support whenever needed.
+
+In recognition of their valuable contribution, volunteers receive commission benefits based on the designated tariff of the Health Protection Cards they distribute.
+
+This creates a sustainable ecosystem where:
+
+• Communities benefit from affordable healthcare protection.
+• Cardholders benefit from reliable support and easy access to healthcare services.
+• Volunteers benefit from fair compensation for their service and dedication.
+
+Why Join?
+
+• Affordable healthcare protection
+• Trusted support from your own community
+• Quick assistance when needed
+• Simple registration and guidance process
+• Opportunity to serve society while earning an income
+
+Our Commitment
+
+We believe that healthcare protection is a fundamental right for everyone.
+
+BelleVie Community Health Service is committed to building a new culture of mutual support, awareness, and healthcare security within communities.
+
+BelleVie Community Health Service
+
+Together in Protection, Together in Support, Together in Prosperity.''',
 
           'yearly_premium': 'Yearly Premium',
           'life_coverage': 'Life Coverage',
@@ -270,6 +333,67 @@ class AppTranslation extends Translations {
           'bellevie_area_leaders': 'BelleVie Area Leaders',
         },
         'bn_BD': {
+          'community_health_services_title':
+    'বেলভি কমিউনিটি হেলথ সার্ভিস',
+
+'community_health_services_description':
+    '''একসাথে স্বাস্থ্য সুরক্ষা, নিরাপদ আগামী.....
+
+বেলভি কমিউনিটি হেলথ সার্ভিস হলো একটি জনকেন্দ্রিক স্বাস্থ্য সুরক্ষা উদ্যোগ, যার লক্ষ্য হলো সাশ্রয়ী, সহজলভ্য এবং নির্ভরযোগ্য স্বাস্থ্য সুরক্ষা সেবা মানুষের দোরগোড়ায় পৌঁছে দেওয়া।
+
+এই সেবার মাধ্যমে একটি এলাকার মানুষ, পরিবার, বন্ধু-বান্ধব, সামাজিক সংগঠন বা কমিউনিটি একসাথে যুক্ত হয়ে বেলভি হেলথ প্রোটেকশন কার্ড গ্রহণ করতে পারবেন এবং একটি শক্তিশালী পারস্পরিক সহায়তার নেটওয়ার্ক গড়ে তুলতে পারবেন।
+
+এই নেটওয়ার্কে যুক্ত সদস্যদের স্বাস্থ্যগত আর্থিক ঝুঁকি থাকবে না। অর্থাৎ হঠাৎ অসুস্থ হলে চিকিৎসার ব্যয় নিয়ে ভাবতে হবে না।
+
+কীভাবে কাজ করেঃ
+
+কমিউনিটিভিত্তিক নিবন্ধনের মাধ্যমে সমাজের সদস্যরা সম্মিলিতভাবে বেলভি হেলথ প্রোটেকশন কার্ড গ্রহণ করবেন, যাতে স্বাস্থ্য সুরক্ষা আরও সহজ ও কার্যকর হবে।
+
+কমিউনিটি ভলান্টিয়ার সহায়তাঃ
+
+প্রতিটি কমিউনিটির জন্য থাকবেন প্রশিক্ষিত বেলভি কমিউনিটি ভলান্টিয়ার, যারা সদস্যদের সহায়তা করবেন—
+
+• হেলথ কার্ড সম্পর্কে বিস্তারিত বুঝতে
+• নিবন্ধন সম্পন্ন করতে
+• কার্ড সংগ্রহ ও সক্রিয় করতে
+• প্রয়োজনের সময় স্বাস্থ্যসেবা গ্রহণে দিকনির্দেশনা দিতে
+• প্রয়োজন অনুযায়ী বেলভির সাপোর্ট টিমের সঙ্গে সংযুক্ত করতে
+
+প্রয়োজনের সময় পাশে থাকা:
+
+যখন কোনো কার্ডধারী চিকিৎসা সহায়তা, পরামর্শ, হাসপাতাল সংক্রান্ত সহযোগিতা বা সেবা গ্রহণে সহায়তা চাইবেন, তখন বেলভি ভলান্টিয়ার ও আমাদের সাপোর্ট টিম তার পাশে থাকবে।
+
+কমিউনিটি ভলান্টিয়ারদের ভূমিকা
+
+বেলভি কমিউনিটি হেলথ সার্ভিসের প্রাণশক্তি হলেন আমাদের কমিউনিটি ভলান্টিয়াররা।
+
+তারা নিজ নিজ এলাকার মানুষের কাছে স্বাস্থ্য সুরক্ষার বার্তা পৌঁছে দেন এবং তাদের প্রয়োজনের সময় সহায়তা করেন।
+
+তাদের এই গুরুত্বপূর্ণ অবদানের স্বীকৃতি হিসেবে, তারা বিতরণকৃত হেলথ কার্ডের নির্ধারিত ট্যারিফ থেকে কমিশন সুবিধা লাভ করেন।
+
+এর ফলে একটি টেকসই ব্যবস্থা গড়ে ওঠে যেখানেঃ
+
+• কমিউনিটি লাভবান হবে সাশ্রয়ী স্বাস্থ্য সুরক্ষার মাধ্যমে।
+• কার্ডধারীরা লাভবান হন নির্ভরযোগ্য সহায়তা ও সহজ সেবা প্রাপ্তিতে।
+• ভলান্টিয়াররা লাভবান হন তাদের সেবার ন্যায্য সম্মানী পেয়ে।
+
+কেন যুক্ত হবেন?
+
+• সাশ্রয়ী স্বাস্থ্য সুরক্ষা।
+• নিজ কমিউনিটির বিশ্বস্ত সহায়তা।
+• প্রয়োজনের সময় দ্রুত সহযোগিতা।
+• সহজ নিবন্ধন ও দিকনির্দেশনা।
+• সমাজসেবা করার পাশাপাশি আয়ের সুযোগ।
+
+আমাদের অঙ্গীকার
+
+আমরা বিশ্বাস করি, স্বাস্থ্য সুরক্ষা সবার অধিকার।
+
+বেলভি কমিউনিটি হেলথ সার্ভিস মানুষের মাঝে পারস্পরিক সহযোগিতা, সচেতনতা ও স্বাস্থ্য নিরাপত্তার এক নতুন সংস্কৃতি গড়ে তুলতে কাজ করছে।
+
+বেলভি কমিউনিটি হেলথ সার্ভিস
+
+একসাথে সুরক্ষা, একসাথে সহায়তা, একসাথে সমৃদ্ধি।''',
           'yearly_premium_bdt': 'বার্ষিক প্রিমিয়াম (বিডিটি)',
           'life': 'লাইফ',
           'permanent_total_disability': 'স্থায়ী সম্পূর্ণ প্রতিবন্ধকতা',
@@ -550,5 +674,6 @@ class AppTranslation extends Translations {
           'grow_with_bellevie': 'বেলেভি-র সাথে বৃদ্ধি',
           'bellevie_area_leaders': 'বেলেভি এরিয়া লিডারস',
         },
+        
       };
 }
