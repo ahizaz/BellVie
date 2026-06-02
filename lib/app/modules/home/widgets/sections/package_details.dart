@@ -101,6 +101,7 @@ class PackageDetails extends StatelessWidget {
     const probashiHeader = ['Category', 'Coverage'];
 
     const probashiRows = [
+      ['Yearly Premium (BDT)', '6250'],
       ['Life', '500,000'],
       ['PTD', '500,000'],
       ['PPD', '50,000-200,000'],
@@ -112,7 +113,6 @@ class PackageDetails extends StatelessWidget {
         'Telemedicine',
         '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
       ],
-      ['Yearly Premium (BDT)', '6250'],
     ];
 
     final header = isProbashi ? probashiHeader : premiumHeader;
@@ -168,18 +168,18 @@ class PackageDetails extends StatelessWidget {
             ],
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
                     Color(0xFFBEE9FF),
                     Color(0xFFDFF8EF),
                   ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.white24, width: 1),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white30, width: 1),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x33FFFFFF),
@@ -189,24 +189,26 @@ class PackageDetails extends StatelessWidget {
                   BoxShadow(
                     color: Color(0x22000000),
                     offset: Offset(3, 4),
-                    blurRadius: 8,
+                    blurRadius: 10,
                   ),
                 ],
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTableRow(header, widths, isHeader: true),
-                    const SizedBox(height: 6),
-                    for (final row in rows) ...[
-                      _buildTableRow(row, widths),
-                      const SizedBox(height: 6),
-                    ]
-                  ],
-                ),
-              ),
+              child: isProbashi
+                  ? _buildProbashiList(rows)
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTableRow(header, widths, isHeader: true),
+                          const SizedBox(height: 5),
+                          for (final row in rows) ...[
+                            _buildTableRow(row, widths),
+                            const SizedBox(height: 6),
+                          ]
+                        ],
+                      ),
+                    ),
             ),
           ],
         ),
@@ -264,6 +266,94 @@ class PackageDetails extends StatelessWidget {
           color: Colors.black87,
         ),
       ),
+    );
+  }
+
+  static Widget _buildProbashiList(List<List<String>> rows) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isNarrow = constraints.maxWidth < 360;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < rows.length; i++) ...[
+              _buildProbashiCard(
+                label: rows[i][0],
+                value: rows[i][1],
+                emphasize: i == 0,
+                isNarrow: isNarrow,
+              ),
+              if (i != rows.length - 1) const SizedBox(height: 10),
+            ],
+          ],
+        );
+      },
+    );
+  }
+
+  static Widget _buildProbashiCard({
+    required String label,
+    required String value,
+    required bool emphasize,
+    required bool isNarrow,
+  }) {
+    final labelStyle = TextStyle(
+      fontSize: 12.5,
+      fontWeight: FontWeight.w700,
+      color: emphasize ? const Color(0xFF0F4C6E) : Colors.black87,
+    );
+
+    final valueStyle = TextStyle(
+      fontSize: 12.5,
+      fontWeight: emphasize ? FontWeight.w800 : FontWeight.w600,
+      color: emphasize ? const Color(0xFF0F4C6E) : Colors.black87,
+    );
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: emphasize ? const Color(0xFF9CCEE8) : const Color(0xFFE1EDF5),
+          width: 1,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            offset: Offset(0, 2),
+            blurRadius: 6,
+          ),
+        ],
+      ),
+      child: isNarrow
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(label, style: labelStyle),
+                const SizedBox(height: 6),
+                Text(value, style: valueStyle),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Text(label, style: labelStyle),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    value,
+                    style: valueStyle,
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
