@@ -152,7 +152,130 @@
 //     );
 //   }
 // }
+// import 'package:flutter/material.dart';
+
+// class PremiumPlanDetails extends StatelessWidget {
+//   final Map<String, String> plan;
+
+//   const PremiumPlanDetails({super.key, required this.plan});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(plan['name'] ?? 'Plan Details'),
+//         elevation: 0,
+//       ),
+//       body: SingleChildScrollView(
+//         padding: const EdgeInsets.all(16),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             // Header
+//             Container(
+//               width: double.infinity,
+//               padding: const EdgeInsets.all(20),
+//               decoration: BoxDecoration(
+//                 gradient: const LinearGradient(
+//                   colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+//                   begin: Alignment.topLeft,
+//                   end: Alignment.bottomRight,
+//                 ),
+//                 borderRadius: BorderRadius.circular(16),
+//               ),
+//               child: Column(
+//                 children: [
+//                   Text(
+//                     plan['name']!,
+//                     style: const TextStyle(
+//                       fontSize: 26,
+//                       fontWeight: FontWeight.bold,
+//                       color: Color(0xFF0F4C6E),
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     'Yearly Premium: ${plan['premium']}',
+//                     style: const TextStyle(
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.w700,
+//                       color: Colors.black87,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+
+//             const SizedBox(height: 24),
+
+//             // Details Cards
+//             _buildDetailCard('Life Coverage', plan['life'] ?? 'N/A'),
+//             _buildDetailCard('Accidental Death Benefit',
+//                 plan['accidental death benefit'] ?? 'N/A'),
+//             _buildDetailCard(
+//               'Permanent Partial Disability & Permanent Total Disability',
+//               plan['permanent total disability'] ?? 'N/A',
+//             ),
+//             _buildDetailCard('Critical Illness', plan['critical'] ?? 'N/A'),
+//             _buildDetailCard('Hospicash', plan['hospicash'] ?? 'N/A'),
+//             _buildDetailCard('OPD', plan['opd'] ?? 'N/A'),
+//             _buildDetailCard(
+//               'Telemedicine',
+//               '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
+//             ),
+//             _buildDetailCard(
+//               'Discount Facilities',
+//               'Up to 50% Discount facilities at 50+ Hospitals & Diagnostic centers all around Bangladesh.',
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildDetailCard(String title, String value) {
+//     return Container(
+//       margin: const EdgeInsets.only(bottom: 12),
+//       padding: const EdgeInsets.all(16),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(14),
+//         border: Border.all(color: const Color(0xFF9CCEE8), width: 1.2),
+//         boxShadow: const [
+//           BoxShadow(
+//             color: Color(0x14000000),
+//             offset: Offset(0, 2),
+//             blurRadius: 6,
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             title,
+//             style: const TextStyle(
+//               fontSize: 14,
+//               fontWeight: FontWeight.w700,
+//               color: Color(0xFF0F4C6E),
+//             ),
+//           ),
+//           const SizedBox(height: 8),
+//           Text(
+//             value,
+//             style: const TextStyle(
+//               fontSize: 16,
+//               fontWeight: FontWeight.w600,
+//               color: Colors.black87,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PremiumPlanDetails extends StatelessWidget {
   final Map<String, String> plan;
@@ -161,9 +284,12 @@ class PremiumPlanDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final name = plan['key']!.tr;
+    final nameBn = '${plan['key']}_bn'.tr;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(plan['name'] ?? 'Plan Details'),
+        title: Text('$name ($nameBn)'),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -171,7 +297,6 @@ class PremiumPlanDetails extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -186,47 +311,36 @@ class PremiumPlanDetails extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    plan['name']!,
+                    '$name ($nameBn)',
                     style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF0F4C6E),
-                    ),
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF0F4C6E)),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Yearly Premium: ${plan['premium']}',
+                    '${'yearly_premium'.tr}: ${plan['premium']}',
                     style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black87,
-                    ),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black87),
                   ),
                 ],
               ),
             ),
-
             const SizedBox(height: 24),
-
-            // Details Cards
-            _buildDetailCard('Life Coverage', plan['life'] ?? 'N/A'),
-            _buildDetailCard('Accidental Death Benefit',
-                plan['accidental death benefit'] ?? 'N/A'),
+            _buildDetailCard('life_coverage'.tr, plan['life'] ?? 'N/A'),
             _buildDetailCard(
-              'Permanent Partial Disability & Permanent Total Disability',
-              plan['permanent total disability'] ?? 'N/A',
-            ),
-            _buildDetailCard('Critical Illness', plan['critical'] ?? 'N/A'),
-            _buildDetailCard('Hospicash', plan['hospicash'] ?? 'N/A'),
-            _buildDetailCard('OPD', plan['opd'] ?? 'N/A'),
+                'accidental_death_benefit'.tr, plan['accidental'] ?? 'N/A'),
             _buildDetailCard(
-              'Telemedicine',
-              '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
-            ),
-            _buildDetailCard(
-              'Discount Facilities',
-              'Up to 50% Discount facilities at 50+ Hospitals & Diagnostic centers all around Bangladesh.',
-            ),
+                'permanent_disability'.tr, plan['disability'] ?? 'N/A'),
+            _buildDetailCard('critical_illness'.tr, plan['critical'] ?? 'N/A'),
+            _buildDetailCard('hospicash'.tr, plan['hospicash'] ?? 'N/A'),
+            _buildDetailCard('opd'.tr, plan['opd'] ?? 'N/A'),
+            _buildDetailCard('telemedicine'.tr,
+                '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)'),
+            _buildDetailCard('discount_facilities'.tr,
+                'Up to 50% Discount facilities at 50+ Hospitals & Diagnostic centers all around Bangladesh.'),
           ],
         ),
       ),
@@ -243,32 +357,23 @@ class PremiumPlanDetails extends StatelessWidget {
         border: Border.all(color: const Color(0xFF9CCEE8), width: 1.2),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x14000000),
-            offset: Offset(0, 2),
-            blurRadius: 6,
-          ),
+              color: Color(0x14000000), offset: Offset(0, 2), blurRadius: 6)
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0F4C6E),
-            ),
-          ),
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0F4C6E))),
           const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
+          Text(value,
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87)),
         ],
       ),
     );

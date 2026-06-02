@@ -4,6 +4,32 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+          // Premium Plans
+  'shohay': 'Shohay',
+  'nirbhor': 'Nirbhor',
+  'shoshti': 'Shoshti',
+  'aastha': 'Aastha',
+  'prottoy': 'Prottoy',
+
+  'shohay_bn': 'সহায়',
+  'nirbhor_bn': 'নির্ভর',
+  'shoshti_bn': 'শস্তি',
+  'aastha_bn': 'আস্থা',
+  'prottoy_bn': 'প্রত্যয়',
+
+  'yearly_premium': 'Yearly Premium',
+  'life_coverage': 'Life Coverage',
+  'accidental_death_benefit': 'Accidental Death Benefit',
+  'permanent_disability': 'Permanent Partial Disability & Permanent Total Disability',
+  'critical_illness': 'Critical Illness',
+  'hospicash': 'Hospicash',
+  'opd': 'OPD',
+  'telemedicine': 'Telemedicine',
+  'discount_facilities': 'Discount Facilities',
+
+  // Probashi
+  'bellevie_guardian_nrb': 'Bellevie Guardian NRB Health Support',
+  'bellevie_guardian': 'Bellevie Guardian Health Programme',
           'app_title': 'BelleVie Global Health Services',
           'login': 'Login',
           'sign_in': 'Sign In',
@@ -243,6 +269,32 @@ class AppTranslation extends Translations {
           'bellevie_area_leaders': 'BelleVie Area Leaders',
         },
         'bn_BD': {
+          // Premium Plans
+  'shohay': 'সহায়',
+  'nirbhor': 'নির্ভর',
+  'shoshti': 'শস্তি',
+  'aastha': 'আস্থা',
+  'prottoy': 'প্রত্যয়',
+
+  'shohay_bn': 'সহায়',
+  'nirbhor_bn': 'নির্ভর',
+  'shoshti_bn': 'শস্তি',
+  'aastha_bn': 'আস্থা',
+  'prottoy_bn': 'প্রত্যয়',
+
+  'yearly_premium': 'বার্ষিক প্রিমিয়াম',
+  'life_coverage': 'লাইফ কভারেজ',
+  'accidental_death_benefit': 'দুর্ঘটনাজনিত মৃত্যু সুবিধা',
+  'permanent_disability': 'স্থায়ী আংশিক ও সম্পূর্ণ প্রতিবন্ধকতা',
+  'critical_illness': 'ক্রিটিক্যাল ইলনেস',
+  'hospicash': 'হসপিক্যাশ',
+  'opd': 'ওপিডি',
+  'telemedicine': 'টেলিমেডিসিন',
+  'discount_facilities': 'ডিসকাউন্ট সুবিধা',
+
+  // Probashi
+  'bellevie_guardian_nrb': 'বেলেভি গার্ডিয়ান এনআরবি হেলথ সাপোর্ট',
+  'bellevie_guardian': 'বেলেভি গার্ডিয়ান হেলথ প্রোগ্রাম',
           'app_title': 'BelleVie Global Health Services',
           'login': 'লগইন',
           'sign_in': 'সাইন ইন',
