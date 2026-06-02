@@ -458,10 +458,13 @@ class PackageDetails extends StatelessWidget {
   }
 
   // ====================== PREMIUM VERTICAL PLANS ======================
+  
+  // ====================== PREMIUM VERTICAL PLANS ======================
   Widget _buildPremiumVerticalPlans() {
     final List<Map<String, String>> plans = [
       {
         'name': 'Shohay',
+        'name_bn': 'সহায়', // Added Bengali name
         'premium': 'BDT 549',
         'life': '100,000',
         'accidental death benefit': '200,000',
@@ -472,6 +475,7 @@ class PackageDetails extends StatelessWidget {
       },
       {
         'name': 'Nirbhor',
+        'name_bn': 'নির্ভর',
         'premium': 'BDT 999',
         'life': '150,000',
         'accidental death benefit': '300,000',
@@ -482,6 +486,7 @@ class PackageDetails extends StatelessWidget {
       },
       {
         'name': 'Shoshti',
+        'name_bn': 'শস্তি',
         'premium': 'BDT 1499',
         'life': '175,000',
         'accidental death benefit': '350,000',
@@ -492,6 +497,7 @@ class PackageDetails extends StatelessWidget {
       },
       {
         'name': 'Aastha',
+        'name_bn': 'আস্থা',
         'premium': 'BDT 2399',
         'life': '200,000',
         'accidental death benefit': '400,000',
@@ -502,6 +508,7 @@ class PackageDetails extends StatelessWidget {
       },
       {
         'name': 'Prottoy',
+        'name_bn': 'প্রত্যয়',
         'premium': 'BDT 3599',
         'life': '350,000',
         'accidental death benefit': '700,000',
@@ -539,8 +546,9 @@ class PackageDetails extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // English + Bengali Name
                         Text(
-                          plan['name']!,
+                          '${plan['name']!} (${plan['name_bn']!})',
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
