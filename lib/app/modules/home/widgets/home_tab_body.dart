@@ -474,8 +474,7 @@ class Savour extends StatelessWidget {
               'assets/images/banners/premium.png',
               onTap: () => Get.to(() => PackageDetails(
                     title: 'premium_package'.tr,
-                    assetPath:
-                        'assets/images/banners/bellevie_work.jpg',
+                    assetPath: 'assets/images/banners/bellevie_wroktwo.jpg',
                   )),
             ),
             _buildPackageColumn(
@@ -483,8 +482,7 @@ class Savour extends StatelessWidget {
               'assets/images/banners/nrb_package.png',
               onTap: () => Get.to(() => PackageDetails(
                     title: 'probashi_package'.tr,
-                    assetPath:
-                        'assets/images/banners/bellevie_work.jpg',
+                    assetPath: 'assets/images/banners/bellevie_wroktwo.jpg',
                   )),
             ),
           ],
