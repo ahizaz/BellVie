@@ -103,8 +103,8 @@ class PackageDetails extends StatelessWidget {
     const probashiRows = [
       ['Yearly Premium (BDT)', '6250'],
       ['Life', '500,000'],
-      ['PTD', '500,000'],
-      ['PPD', '50,000-200,000'],
+      ['Permanent Total Disability', '500,000'],
+      ['Permanent Partial Disability', '50,000-200,000'],
       ['Funeral Benefit', 'Up to 20,000'],
       ['Dead Body Repatriation', '15,000'],
       ['Loss of Income (Up to six Months) Month', '50,000'],
@@ -137,7 +137,7 @@ class PackageDetails extends StatelessWidget {
               child: Image.asset(
                 assetPath,
                 width: double.infinity,
-                height: 190,
+                height: 235,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
                   width: double.infinity,

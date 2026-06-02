@@ -475,7 +475,7 @@ class Savour extends StatelessWidget {
               onTap: () => Get.to(() => PackageDetails(
                     title: 'premium_package'.tr,
                     assetPath:
-                        'assets/images/banners/guardian_life_insurance.jpg',
+                        'assets/images/banners/bellevie_work.jpg',
                   )),
             ),
             _buildPackageColumn(
@@ -484,7 +484,7 @@ class Savour extends StatelessWidget {
               onTap: () => Get.to(() => PackageDetails(
                     title: 'probashi_package'.tr,
                     assetPath:
-                        'assets/images/banners/guardian_life_insurance.jpg',
+                        'assets/images/banners/bellevie_work.jpg',
                   )),
             ),
           ],
