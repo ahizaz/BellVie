@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/home/widgets/sections/belleve_community_leader.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/bellevie_family_care.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/eliete_member_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/growth_with_bellevie.dart';
@@ -194,8 +195,7 @@ class SubscriptionPackageSection extends StatelessWidget {
               'bellevie_family_care'.tr,
               null,
               imagePath: "assets/images/banners/bellevie _family.png",
-              onTap: () => Get.to(
-                  () => ComingSoonPage(title: 'bellevie_family_care'.tr)),
+              onTap: () => Get.to(() => const BellevieFamilyCare()),
             ),
             _buildPackageColumn(
               'bellevie_elit_members'.tr,

@@ -484,7 +484,7 @@ class ProfileView extends GetView<ProfileController> {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: .03),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -495,7 +495,7 @@ class ProfileView extends GetView<ProfileController> {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.06),
+                color: Colors.blue.withValues(alpha: .06),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: SizedBox(
