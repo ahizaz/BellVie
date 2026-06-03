@@ -17,10 +17,10 @@ class AppTranslation extends Translations {
           'aastha_bn': 'আস্থা',
           'prottoy_bn': 'প্রত্যয়',
           'community_health_services_title':
-    'BelleVie Community Health Service',
+              'BelleVie Community Health Service',
 
-'community_health_services_description':
-    '''BelleVie Community Health Service
+          'community_health_services_description':
+              '''BelleVie Community Health Service
 
 Together for Health Protection, Towards a Safer Future
 
@@ -331,13 +331,86 @@ Together in Protection, Together in Support, Together in Prosperity.''',
           'bellevie_elit_members': 'BelleVie Elit Members',
           'grow_with_bellevie': 'Grow with BelleVie',
           'bellevie_area_leaders': 'BelleVie Area Leaders',
+          'bellevie_health_club_title': 'BelleVie Health Club',
+
+          'bellevie_health_club_description':
+              '''BelleVie Health Club is a Community-Based Health & Wellness Ecosystem. It is a health-focused social network that combines health protection, health education, medical assistance, and discount benefits, making it easier for people to access safe and affordable healthcare services.
+
+Key Roles of BelleVie Health Club
+
+1. Health Protection Platform
+
+• Affordable Health Protection Cards
+• Hospital Admission Assistance
+• Telemedicine Services
+• Health Consultation
+• Second Opinion Services
+• Local and International Medical Assistance
+
+2. Community Health Network
+
+• Health Ambassadors in Every Community
+• Health Awareness Programs
+• Free Health Camps
+• Family-Based Health Registration
+
+3. Preventive Healthcare Movement
+
+• Regular Health Checkups
+• Screening for Diabetes, Hypertension, and Heart Disease
+• Nutrition and Lifestyle Counseling
+• Maternal and Child Healthcare Services
+
+4. Health Concierge Service
+
+• Doctor Appointment Scheduling
+• Hospital Booking Assistance
+• Ambulance Support
+• Medical Report Interpretation
+• Medical Tourism Assistance''',
         },
         'bn_BD': {
-          'community_health_services_title':
-    'বেলভি কমিউনিটি হেলথ সার্ভিস',
+          'bellevie_health_club_title': 'বেলেভি হেলথ ক্লাব',
 
-'community_health_services_description':
-    '''একসাথে স্বাস্থ্য সুরক্ষা, নিরাপদ আগামী.....
+          'bellevie_health_club_description':
+              '''BelleVie Health Club একটি Community-Based Health & Wellness Ecosystem. এটি স্বাস্থ্য সুরক্ষা, স্বাস্থ্য শিক্ষা, চিকিৎসা সহায়তা, ডিসকাউন্ট সুবিধা সম্বলিত একটি স্বাস্থ্য বিষয়ক সামাজিক নেটওয়ার্ক যার মাধ্যমে অতি সহজেই নিরাপদ চিকিৎসা নিশ্চিত করা সম্ভব।
+
+BelleVie Health Club-এর মূল ভূমিকাঃ
+
+১. Health Protection Platform
+
+• কম খরচে স্বাস্থ্য সুরক্ষা কার্ড
+• হাসপাতাল ভর্তি সহায়তা
+• টেলিমেডিসিন
+• স্বাস্থ্য পরামর্শ
+• দ্বিতীয় মতামত (Second Opinion)
+• দেশ ও বিদেশে চিকিৎসা সহায়তা
+
+২. Community Health Network
+
+• প্রতিটি এলাকায় Health Ambassador
+• স্বাস্থ্য সচেতনতা সভা
+• ফ্রি স্বাস্থ্য ক্যাম্প
+• পরিবারভিত্তিক স্বাস্থ্য নিবন্ধন
+
+৩. Preventive Healthcare Movement
+
+• নিয়মিত স্বাস্থ্য পরীক্ষা
+• ডায়াবেটিস, উচ্চ রক্তচাপ ও হৃদরোগ স্ক্রিনিং
+• পুষ্টি ও জীবনযাপন পরামর্শ
+• মাতৃ ও শিশু স্বাস্থ্য সেবা
+
+৪. Health Concierge Service
+
+• ডাক্তার অ্যাপয়েন্টমেন্ট
+• হাসপাতাল বুকিং
+• অ্যাম্বুলেন্স সাপোর্ট
+• মেডিকেল রিপোর্ট ব্যাখ্যা
+• চিকিৎসা ভ্রমণ (Medical Tourism)''',
+          'community_health_services_title': 'বেলভি কমিউনিটি হেলথ সার্ভিস',
+
+          'community_health_services_description':
+              '''একসাথে স্বাস্থ্য সুরক্ষা, নিরাপদ আগামী.....
 
 বেলভি কমিউনিটি হেলথ সার্ভিস হলো একটি জনকেন্দ্রিক স্বাস্থ্য সুরক্ষা উদ্যোগ, যার লক্ষ্য হলো সাশ্রয়ী, সহজলভ্য এবং নির্ভরযোগ্য স্বাস্থ্য সুরক্ষা সেবা মানুষের দোরগোড়ায় পৌঁছে দেওয়া।
 
@@ -674,6 +747,5 @@ Together in Protection, Together in Support, Together in Prosperity.''',
           'grow_with_bellevie': 'বেলেভি-র সাথে বৃদ্ধি',
           'bellevie_area_leaders': 'বেলেভি এরিয়া লিডারস',
         },
-        
       };
 }
