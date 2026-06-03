@@ -4,6 +4,52 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+
+
+          'bellevie_compassion_fund_title': 'BelleVie Compassion Fund',
+
+'bellevie_compassion_fund_description': '''Together for Health, Together for Humanity…
+
+Every day, countless families face the harsh reality of serious illnesses, yet many lack the financial means to access timely medical treatment.
+
+For many people, a critical illness is not only a threat to their health—it also jeopardizes their dignity, stability, and hope.
+
+To address this urgent social need, BelleVie is establishing the BelleVie Compassion Fund, a dedicated charitable initiative aimed at providing financial assistance and medical support to underprivileged individuals suffering from serious illnesses.
+
+The purpose of this fund is to bridge the gap between medical needs and financial capability. By harnessing the collective generosity of individuals, businesses, and organizations, we aspire to build a society where access to healthcare is not determined by economic status.
+
+Why is this Fund Important?
+
+Life-threatening diseases such as cancer, heart disease, stroke, kidney failure, and other critical illnesses place an unbearable burden on families.
+
+Many patients delay treatment or discontinue it midway simply because they cannot afford the cost of medical care.
+
+Through the BelleVie Compassion Fund, our goals are to:
+
+• Help financially disadvantaged patients access the medical treatment they need
+• Restore hope and dignity to families facing health crises
+• Foster a culture of social responsibility and mutual support
+• Create a sustainable platform where every contribution can make a meaningful difference
+
+Categories of Donors
+
+Corporate Partners
+
+Corporate organizations, businesses, and institutions are invited to join the BelleVie Compassion Fund as Corporate Partners. Through financial contributions, sponsorships, and CSR initiatives, they can play a vital role in making healthcare more accessible to underserved communities while demonstrating their commitment to social responsibility.
+
+Individual Donors
+
+Individuals who wish to make a difference can contribute to this fund according to their capacity. Every donation—large or small—gives someone renewed hope for life. By participating in this initiative, individuals become part of a compassionate community committed to standing beside people during their most difficult times.
+
+Join This Noble Initiative
+
+Healthcare is not merely a service—it is a shared humanitarian responsibility.
+
+By contributing to the BelleVie Compassion Fund, you become part of a movement that transforms compassion into action and generosity into healing.
+
+Together, we can ensure that no one is deprived of a life-saving opportunity because of financial hardship.
+
+Join us today as a Corporate Partner or Individual Donor and help build a healthier, more compassionate society.''',
           // Premium Plans
           'shohay': 'Shohay',
           'nirbhor': 'Nirbhor',
@@ -746,6 +792,52 @@ BelleVie Health Club-এর মূল ভূমিকাঃ
           'bellevie_elit_members': 'বেলেভি এলিট মেম্বার্স',
           'grow_with_bellevie': 'বেলেভি-র সাথে বৃদ্ধি',
           'bellevie_area_leaders': 'বেলেভি এরিয়া লিডারস',
+
+
+          'bellevie_compassion_fund_title': 'বেলভি কমপ্যাশন ফান্ড',
+
+'bellevie_compassion_fund_description': '''একসাথে স্বাস্থ্য, একসাথে মানবতা…
+
+প্রতিদিন অসংখ্য পরিবার গুরুতর রোগের কঠিন বাস্তবতার মুখোমুখি হয়, অথচ সময়মতো চিকিৎসা নেওয়ার মতো আর্থিক সামর্থ্য তাদের থাকে না।
+
+অনেকের জন্য একটি গুরুতর অসুস্থতা শুধু স্বাস্থ্যের জন্য হুমকি নয়—এটি তাদের মর্যাদা, স্থিতিশীলতা এবং আশাকেও হুমকির মুখে ফেলে।
+
+এই জরুরি সামাজিক প্রয়োজন মোকাবিলায়, বেলভি প্রতিষ্ঠা করছে বেলভি কমপ্যাশন ফান্ড, যা একটি নিবেদিত দাতব্য উদ্যোগ। এর লক্ষ্য হলো গুরুতর অসুস্থতায় আক্রান্ত অসচ্ছল মানুষের জন্য আর্থিক সহায়তা ও চিকিৎসা সহায়তা প্রদান করা।
+
+এই ফান্ডের উদ্দেশ্য হলো চিকিৎসার প্রয়োজন এবং আর্থিক সামর্থ্যের মধ্যে যে ব্যবধান রয়েছে তা দূর করা। ব্যক্তি, ব্যবসা প্রতিষ্ঠান এবং সংগঠনের সম্মিলিত উদারতা কাজে লাগিয়ে আমরা এমন একটি সমাজ গড়ে তুলতে চাই, যেখানে স্বাস্থ্যসেবা পাওয়ার অধিকার অর্থনৈতিক অবস্থার উপর নির্ভর করবে না।
+
+এই ফান্ড কেন গুরুত্বপূর্ণ?
+
+ক্যান্সার, হৃদরোগ, স্ট্রোক, কিডনি ফেইলিওরসহ বিভিন্ন জীবন-ঝুঁকিপূর্ণ রোগ পরিবারগুলোর উপর অসহনীয় চাপ সৃষ্টি করে।
+
+অনেক রোগী শুধুমাত্র চিকিৎসার খরচ বহন করতে না পারার কারণে চিকিৎসা নিতে দেরি করেন অথবা মাঝপথে বন্ধ করে দেন।
+
+বেলভি কমপ্যাশন ফান্ডের মাধ্যমে আমাদের লক্ষ্য:
+
+• আর্থিকভাবে অসচ্ছল রোগীদের প্রয়োজনীয় চিকিৎসা পেতে সহায়তা করা
+• স্বাস্থ্য সংকটে থাকা পরিবারগুলোর মাঝে আশা ও মর্যাদা ফিরিয়ে আনা
+• সামাজিক দায়িত্ববোধ ও পারস্পরিক সহযোগিতার সংস্কৃতি গড়ে তোলা
+• এমন একটি টেকসই প্ল্যাটফর্ম তৈরি করা, যেখানে প্রতিটি অবদান অর্থবহ পরিবর্তন আনতে পারে
+
+দাতাদের বিভাগসমূহ
+
+কর্পোরেট পার্টনার
+
+কর্পোরেট প্রতিষ্ঠান, ব্যবসা ও বিভিন্ন সংগঠনকে বেলভি কমপ্যাশন ফান্ডের কর্পোরেট পার্টনার হিসেবে যুক্ত হওয়ার আমন্ত্রণ জানানো হচ্ছে। আর্থিক অনুদান, স্পন্সরশিপ এবং CSR কার্যক্রমের মাধ্যমে তারা সমাজের সুবিধাবঞ্চিত মানুষের জন্য স্বাস্থ্যসেবা সহজলভ্য করতে গুরুত্বপূর্ণ ভূমিকা রাখতে পারে এবং একই সাথে তাদের সামাজিক দায়বদ্ধতা প্রদর্শন করতে পারে।
+
+ব্যক্তিগত দাতা
+
+যারা পরিবর্তন আনতে চান, তারা নিজেদের সামর্থ্য অনুযায়ী এই ফান্ডে অনুদান দিতে পারেন। প্রতিটি অনুদান—ছোট বা বড়—কাউকে নতুন করে বাঁচার আশা দেয়। এই উদ্যোগে অংশগ্রহণের মাধ্যমে ব্যক্তিরা একটি সহানুভূতিশীল সমাজের অংশ হয়ে ওঠেন, যারা কঠিন সময়ে মানুষের পাশে দাঁড়াতে প্রতিশ্রুতিবদ্ধ।
+
+এই মহৎ উদ্যোগে যুক্ত হোন
+
+স্বাস্থ্যসেবা শুধুমাত্র একটি সেবা নয়—এটি আমাদের সবার সম্মিলিত মানবিক দায়িত্ব।
+
+বেলভি কমপ্যাশন ফান্ডে অবদান রেখে আপনি এমন একটি আন্দোলনের অংশ হয়ে উঠবেন, যা সহানুভূতিকে বাস্তব কর্মে রূপান্তর করে এবং উদারতাকে আরোগ্যে পরিণত করে।
+
+একসাথে আমরা নিশ্চিত করতে পারি, আর্থিক সংকটের কারণে যেন কোনো মানুষ জীবন রক্ষার সুযোগ থেকে বঞ্চিত না হয়।
+
+কর্পোরেট পার্টনার বা ব্যক্তিগত দাতা হিসেবে আজই আমাদের সাথে যুক্ত হোন এবং একটি সুস্থ, সহানুভূতিশীল সমাজ গড়ে তুলতে সহায়তা করুন।''',
         },
       };
 }

@@ -1,13 +1,4 @@
-// import '../models/social_service_model.dart';
 
-// final List<SocialServiceModel> socialServicesStatic = [
-//   SocialServiceModel(
-//     id: 'community_health_services',
-//     titleKey: 'community_health_services_title',
-//     image: 'assets/images/community_health_srvice.png',
-//     descriptionKey: 'community_health_services_description',
-//   ),
-// ];
 import '../models/social_service_model.dart';
 
 final List<SocialServiceModel> socialServicesStatic = [
@@ -25,9 +16,9 @@ final List<SocialServiceModel> socialServicesStatic = [
   ),
   SocialServiceModel(
     id: 'charity_partners',
-    titleKey: 'charity_partners',
+    titleKey: 'bellevie_compassion_fund_title',
     image: 'assets/images/charity partners.png',
-    descriptionKey: 'section_not_available_yet',
+    descriptionKey: 'bellevie_compassion_fund_description',
   ),
   SocialServiceModel(
     id: 'health_tourism',
