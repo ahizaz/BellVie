@@ -35,6 +35,35 @@ class DiscountPartnerRepository {
       return null;
     }
   }
+  Future<Map<String, dynamic>?> fetchDiscountPartnerDetails(int id) async {
+  try {
+    debugPrint(
+      'Discount Partner Details => GET ${AppApiService.baseUrl}/api/v1/package/collaborations/$id/',
+    );
+
+    final response = await _apiService.get(
+      path: '/api/v1/package/collaborations/$id/',
+    );
+
+    debugPrint('Discount Partner Details => status: ${response.statusCode}');
+    debugPrint('Discount Partner Details => body: ${response.body}');
+
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      return null;
+    }
+
+    final decoded = await compute(_decodeJson, response.body);
+
+    if (decoded is Map<String, dynamic>) {
+      return decoded;
+    }
+
+    return null;
+  } catch (e) {
+    debugPrint('DiscountPartner Details API error => $e');
+    return null;
+  }
+}
 
   List<dynamic> _extractList(dynamic decoded) {
     if (decoded is List) return decoded;
