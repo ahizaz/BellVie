@@ -1,6 +1,7 @@
 import 'package:bellevie/app/modules/home/widgets/sections/belleve_community_leader.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/eliete_member_details.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/growth_with_bellevie.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/package_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
@@ -206,8 +207,7 @@ class SubscriptionPackageSection extends StatelessWidget {
               'grow_with_bellevie'.tr,
               null,
               imagePath: "assets/images/banners/growth_wtih_bellevie.png",
-              onTap: () =>
-                  Get.to(() => ComingSoonPage(title: 'grow_with_bellevie'.tr)),
+              onTap: () => Get.to(() => const GrowthWithBellevie()),
             ),
             _buildPackageColumn(
               'bellevie_area_leaders'.tr,
