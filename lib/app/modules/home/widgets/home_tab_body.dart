@@ -1,4 +1,6 @@
+import 'package:bellevie/app/modules/home/widgets/sections/belleve_community_leader.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/discount_partner.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/eliete_member_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/package_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
@@ -198,8 +200,7 @@ class SubscriptionPackageSection extends StatelessWidget {
               'bellevie_elit_members'.tr,
               null,
               imagePath: "assets/images/banners/vip-card.png",
-              onTap: () => Get.to(
-                  () => ComingSoonPage(title: 'bellevie_elit_members'.tr)),
+              onTap: () => Get.to(() => const EliteMembershipPage()),
             ),
             _buildPackageColumn(
               'grow_with_bellevie'.tr,
@@ -212,8 +213,7 @@ class SubscriptionPackageSection extends StatelessWidget {
               'bellevie_area_leaders'.tr,
               null,
               imagePath: "assets/images/banners/leadership.png",
-              onTap: () => Get.to(
-                  () => ComingSoonPage(title: 'bellevie_area_leaders'.tr)),
+              onTap: () => Get.to(() => const BelleveCommunityLeader()),
             ),
           ],
         ),
