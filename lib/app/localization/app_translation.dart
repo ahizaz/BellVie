@@ -13,7 +13,7 @@ class AppTranslation extends Translations {
 
           'shohay_bn': 'সহায়',
           'nirbhor_bn': 'নির্ভর',
-          'shoshti_bn': 'শস্তি',
+          'shoshti_bn': 'স্বস্তি',
           'aastha_bn': 'আস্থা',
           'prottoy_bn': 'প্রত্যয়',
           'community_health_services_title':
