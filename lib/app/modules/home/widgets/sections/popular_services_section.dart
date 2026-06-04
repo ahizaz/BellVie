@@ -345,6 +345,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
+import '../../controllers/home_controller.dart';
 import '../../controllers/popular_services_controller.dart';
 
 class PopularServicesSection extends StatelessWidget {
@@ -371,8 +372,13 @@ class PopularServicesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(PopularServicesController());
+    final homeController = Get.find<HomeController>();
 
-    return Column(
+    return Obx(() {
+      // Rebuild section when user switches Eng / বাংলা (Show More, titles, etc.).
+      homeController.currentLocale.value;
+
+      return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
@@ -394,9 +400,9 @@ class PopularServicesSection extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'All',
-                    style: TextStyle(
+                  Text(
+                    'all'.tr,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF2F6FED),
@@ -444,6 +450,7 @@ class PopularServicesSection extends StatelessWidget {
         }),
       ],
     );
+    });
   }
 }
 
@@ -536,7 +543,7 @@ class _PopularServicesGridState extends State<_PopularServicesGrid> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        _isExpanded ? 'Close' : 'Show More',
+                        _isExpanded ? 'close'.tr : 'show_more'.tr,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
