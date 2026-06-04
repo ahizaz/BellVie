@@ -60,6 +60,21 @@ class DoctorDetailsView extends StatelessWidget {
         .toList();
   }
 
+  bool _isUnavailableLine(String line) {
+    final normalized = line.trim().toLowerCase();
+    return normalized == 'not available' ||
+        normalized == 'n/a' ||
+        normalized == 'na' ||
+        line.trim() == 'not_available'.tr;
+  }
+
+  List<String> _scheduleLinesFrom(dynamic scheduleData) {
+    final schedule = _cleanValue(scheduleData);
+    return _splitLines(schedule)
+        .where((line) => !_isUnavailableLine(line))
+        .toList();
+  }
+
   List<String> _contactLines(String text) {
     return _splitLines(text);
   }
@@ -410,15 +425,14 @@ class DoctorDetailsView extends StatelessWidget {
                   data['doctor_details'],
                   fallback: 'no_additional_details_available'.tr,
                 );
-                final schedule = _textValue(
-                  data['doctor_sedule'] ?? data['doctor_schedule'],
-                );
                 final contacts = _textValue(
                   data['contact_details'],
                   fallback: 'no_contact_details_available'.tr,
                 );
                 final contactLines = _contactLines(contacts);
-                final scheduleLines = _splitLines(schedule);
+                final scheduleLines = _scheduleLinesFrom(
+                  data['doctor_sedule'] ?? data['doctor_schedule'],
+                );
                 final contactLead = _firstLine(
                   contactLines,
                   fallback: 'no_contact_details_available'.tr,
@@ -640,16 +654,17 @@ class DoctorDetailsView extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 18),
-                                  _sectionCard(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        _sectionTitle('OPD Timings'),
-                                        if (scheduleLines.isNotEmpty)
+                                  if (scheduleLines.isNotEmpty) ...[
+                                    const SizedBox(height: 18),
+                                    _sectionCard(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          _sectionTitle('OPD Timings'),
                                           Column(
-                                            children: scheduleLines.map((line) {
+                                            children:
+                                                scheduleLines.map((line) {
                                               final normalized = line
                                                   .replaceAll('–', '-')
                                                   .replaceAll('—', '-')
@@ -681,35 +696,18 @@ class DoctorDetailsView extends StatelessWidget {
 
                                               return _scheduleRow(
                                                 left: left,
-                                                right:
-                                                    right.isEmpty ? ' ' : right,
+                                                right: right.isEmpty
+                                                    ? ' '
+                                                    : right,
                                               );
                                             }).toList(),
-                                          )
-                                        else
-                                          Container(
-                                            width: double.infinity,
-                                            padding: const EdgeInsets.all(14),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFFCBF1EF)
-                                                  .withValues(alpha: .32),
-                                              borderRadius:
-                                                  BorderRadius.circular(14),
-                                            ),
-                                            child: Text(
-                                              schedule,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                height: 1.5,
-                                                color: Color(0xFF17302F),
-                                              ),
-                                            ),
                                           ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 14),
+                                    const SizedBox(height: 14),
+                                  ] else
+                                    const SizedBox(height: 18),
                                   if (hospital.isNotEmpty ||
                                       subcategory.isNotEmpty ||
                                       years.isNotEmpty ||
