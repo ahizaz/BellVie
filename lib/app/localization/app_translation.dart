@@ -151,6 +151,20 @@ Together in Protection, Together in Support, Together in Prosperity.''',
           'discount_facilities': 'Discount Facilities',
 
           // Probashi
+          'yearly_premium_bdt': 'Annual Premium (BDT)',
+          'life': 'Life',
+          'permanent_total_disability': 'Permanent Total Disability',
+          'permanent_partial_disability': 'Permanent Partial Disability',
+          'funeral_benefit': 'Funeral Benefit',
+          'dead_body_repatriation': 'Repatriation of Mortal Remains',
+          'loss_of_income': 'Loss of Income (max six months)',
+          'hospitalization': 'Hospitalization',
+          'telemedicine_24_7': 'Telemedicine',
+          'probashi_value_funeral': 'Up to 20,000',
+          'probashi_value_hospitalization':
+              '50,000 (BDT 5000/day, up to 5 days in a row)',
+          'probashi_value_telemedicine':
+              '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
           'bellevie_guardian_nrb': 'Bellevie Guardian NRB Health Support',
           'bellevie_guardian': 'Bellevie Guardian Health Programme',
           'app_title': 'BelleVie Global Health Services',
@@ -535,6 +549,11 @@ BelleVie Health Club-এর মূল ভূমিকাঃ
           'loss_of_income': 'আয়ের ক্ষতি (সর্বোচ্চ ছয় মাস)',
           'hospitalization': 'হাসপাতালে ভর্তি',
           'telemedicine_24_7': 'টেলিমেডিসিন',
+          'probashi_value_funeral': 'সর্বোচ্চ ২০,০০০',
+          'probashi_value_hospitalization':
+              '৫০,০০০ (দৈনিক ৫,০০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
+          'probashi_value_telemedicine':
+              '২৪/৭ আনলিমিটেড অডিও ও ভিডিও ডাক্তার পরামর্শ (পরিবারের সর্বোচ্চ ছয়জন সদস্য)',
 
           // (আপনার আগের _bn কীগুলো রাখতে পারেন, কিন্তু মূল কীগুলোই যথেষ্ট)
           'yearly_premium_bdt_bn': 'বার্ষিক প্রিমিয়াম (বিডিটি)',

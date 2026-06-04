@@ -1014,14 +1014,11 @@ class PackageDetails extends StatelessWidget {
     ['life', '500,000'],
     ['permanent_total_disability', '500,000'],
     ['permanent_partial_disability', '50,000-200,000'],
-    ['funeral_benefit', 'Up to 20,000'],
+    ['funeral_benefit', 'probashi_value_funeral'],
     ['dead_body_repatriation', '15,000'],
     ['loss_of_income', '50,000'],
-    ['hospitalization', '50,000 (BDT 5000/day, up to 5 days in a row)'],
-    [
-      'telemedicine_24_7',
-      '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)'
-    ],
+    ['hospitalization', 'probashi_value_hospitalization'],
+    ['telemedicine_24_7', 'probashi_value_telemedicine'],
   ];
   // =======================================================================================
 
@@ -1238,7 +1235,7 @@ class PackageDetails extends StatelessWidget {
             for (var i = 0; i < rowKeys.length; i++) ...[
               _buildProbashiCard(
                 label: rowKeys[i][0].tr,
-                value: rowKeys[i][1],
+                value: rowKeys[i][1].tr,
                 emphasize: i == 0,
                 isNarrow: isNarrow,
               ),
