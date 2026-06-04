@@ -63,14 +63,9 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                       child: CircleAvatar(
                         radius: 55,
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                            controller.profilePicture.value.isNotEmpty
-                                ? NetworkImage(
-                                    controller.profilePicture.value,
-                                  )
-                                : null,
-                        child: controller.profilePicture.value.isEmpty
+                        backgroundColor: Colors.grey.shade300,
+                        backgroundImage: _profileImageProvider(controller),
+                        child: _profileImageProvider(controller) == null
                             ? const Icon(
                                 Icons.person,
                                 size: 55,
@@ -81,17 +76,20 @@ class ProfileView extends GetView<ProfileController> {
                     ),
 
                     /// Edit profile image icon
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.deepPurple,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white, width: 2),
-                      ),
-                      child: const Icon(
-                        Icons.camera_alt,
-                        color: Colors.white,
-                        size: 18,
+                    GestureDetector(
+                      onTap: controller.pickAndUploadProfilePicture,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurple,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: const Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: 18,
+                        ),
                       ),
                     ),
                   ],
@@ -467,6 +465,34 @@ class ProfileView extends GetView<ProfileController> {
         ),
       ],
     );
+  }
+
+  ImageProvider? _profileImageProvider(ProfileController controller) {
+    final bytes = controller.profileAvatarBytes.value;
+    if (bytes != null && bytes.isNotEmpty) {
+      return MemoryImage(bytes);
+    }
+    final url = controller.profilePicture.value;
+    if (url.isNotEmpty) {
+      return NetworkImage(url);
+    }
+    return null;
+  }
+
+  ImageProvider? _profileBackgroundImage(ProfileController controller) {
+    final bytes = controller.profileAvatarBytes.value;
+    if (bytes != null) {
+      return MemoryImage(bytes);
+    }
+    if (controller.profilePicture.value.isNotEmpty) {
+      return NetworkImage(controller.profilePicture.value);
+    }
+    return null;
+  }
+
+  bool _showProfilePlaceholder(ProfileController controller) {
+    return controller.profileAvatarBytes.value == null &&
+        controller.profilePicture.value.isEmpty;
   }
 
   Widget _accountOption({
