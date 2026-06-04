@@ -1,4 +1,17 @@
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/internacionalization.dart';
+
+String localizedPremiumPlanName(String key) {
+  final isBn = Get.locale?.languageCode == 'bn';
+  if (isBn) {
+    final bnName = '${key}_bn'.tr;
+    final enName = Get.translations['en_US']?[key] ?? key;
+    return '$bnName ($enName)';
+  }
+  final enName = key.tr;
+  final bnName = '${key}_bn'.tr;
+  return '$enName ($bnName)';
+}
 
 class AppTranslation extends Translations {
   @override

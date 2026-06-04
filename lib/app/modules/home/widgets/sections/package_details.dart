@@ -993,6 +993,7 @@
 //     );
 //   }
 // }
+import 'package:bellevie/app/localization/app_translation.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/premium_package_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -1167,8 +1168,7 @@ class PackageDetails extends StatelessWidget {
 
     return Column(
       children: plans.map((plan) {
-        final name = plan['key']!.tr;
-        final nameBn = '${plan['key']}_bn'.tr;
+        final displayName = localizedPremiumPlanName(plan['key']!);
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
@@ -1196,7 +1196,7 @@ class PackageDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$name ($nameBn)',
+                          displayName,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

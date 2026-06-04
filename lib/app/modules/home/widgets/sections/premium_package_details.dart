@@ -274,6 +274,7 @@
 //     );
 //   }
 // }
+import 'package:bellevie/app/localization/app_translation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -284,12 +285,11 @@ class PremiumPlanDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = plan['key']!.tr;
-    final nameBn = '${plan['key']}_bn'.tr;
+    final displayName = localizedPremiumPlanName(plan['key']!);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$name ($nameBn)'),
+        title: Text(displayName),
         elevation: 0,
       ),
       body: SingleChildScrollView(
@@ -311,7 +311,7 @@ class PremiumPlanDetails extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '$name ($nameBn)',
+                    displayName,
                     style: const TextStyle(
                         fontSize: 26,
                         fontWeight: FontWeight.bold,
