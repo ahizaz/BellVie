@@ -263,9 +263,11 @@
 // }
 import 'dart:convert';
 
+import 'package:bellevie/app/modules/home/controllers/home_controller.dart';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BannerDetailPage extends StatefulWidget {
   final int bannerId;
@@ -348,39 +350,51 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
     return widget.initialImage ?? '';
   }
 
-  String get _title {
-    final normalTitle = _text(_data?['title']);
-    final titleEn = _text(_data?['title_en']);
-    final titleBn = _text(_data?['title_bn']);
-
-    if (normalTitle.isNotEmpty) return normalTitle;
-    if (titleEn.isNotEmpty) return titleEn;
-    if (titleBn.isNotEmpty) return titleBn;
-
+  String _localizedTitle(bool isBangla) {
+    if (isBangla) {
+      final bn = _text(_data?['title_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
+    final en = _text(_data?['title_en']);
+    if (en.isNotEmpty) return en;
+    final fallback = _text(_data?['title']);
+    if (fallback.isNotEmpty) return fallback;
+    if (!isBangla) {
+      final bn = _text(_data?['title_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
     return 'BelleVie Health Banner';
   }
 
-  String get _description {
-    final normalDescription = _text(_data?['description']);
-    final descriptionEn = _text(_data?['description_en']);
-    final descriptionBn = _text(_data?['description_bn']);
-
-    if (normalDescription.isNotEmpty) return normalDescription;
-    if (descriptionEn.isNotEmpty) return descriptionEn;
-    if (descriptionBn.isNotEmpty) return descriptionBn;
-
+  String _localizedDescription(bool isBangla) {
+    if (isBangla) {
+      final bn = _text(_data?['description_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
+    final en = _text(_data?['description_en']);
+    if (en.isNotEmpty) return en;
+    final fallback = _text(_data?['description']);
+    if (fallback.isNotEmpty) return fallback;
+    if (!isBangla) {
+      final bn = _text(_data?['description_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
     return 'Explore BelleVie health services, offers and latest updates.';
   }
 
-  String get _altText {
-    final normalAlt = _text(_data?['alt_text']);
-    final altEn = _text(_data?['alt_text_en']);
-    final altBn = _text(_data?['alt_text_bn']);
-
-    if (normalAlt.isNotEmpty) return normalAlt;
-    if (altEn.isNotEmpty) return altEn;
-    if (altBn.isNotEmpty) return altBn;
-
+  String _localizedAltText(bool isBangla) {
+    if (isBangla) {
+      final bn = _text(_data?['alt_text_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
+    final en = _text(_data?['alt_text_en']);
+    if (en.isNotEmpty) return en;
+    final fallback = _text(_data?['alt_text']);
+    if (fallback.isNotEmpty) return fallback;
+    if (!isBangla) {
+      final bn = _text(_data?['alt_text_bn']);
+      if (bn.isNotEmpty) return bn;
+    }
     return '';
   }
 
@@ -394,9 +408,19 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final homeController = Get.isRegistered<HomeController>()
+        ? Get.find<HomeController>()
+        : Get.put(HomeController());
     final image = _image;
 
-    return Scaffold(
+    return Obx(() {
+      final isBangla =
+          homeController.currentLocale.value.languageCode == 'bn';
+      final title = _localizedTitle(isBangla);
+      final description = _localizedDescription(isBangla);
+      final altText = _localizedAltText(isBangla);
+
+      return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
       appBar: AppBar(
         title: const Text('Banner Details'),
@@ -504,7 +528,7 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _title,
+                                title,
                                 style: const TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w800,
@@ -513,17 +537,17 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
                               ),
                               const SizedBox(height: 12),
                               Text(
-                                _description,
+                                description,
                                 style: const TextStyle(
                                   fontSize: 14,
                                   height: 1.55,
                                   color: Color(0xFF555B66),
                                 ),
                               ),
-                              if (_altText.isNotEmpty) ...[
+                              if (altText.isNotEmpty) ...[
                                 const SizedBox(height: 14),
                                 Text(
-                                  _altText,
+                                  altText,
                                   style: const TextStyle(
                                     fontSize: 13,
                                     height: 1.5,
@@ -580,5 +604,6 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
                   ),
                 ),
     );
+    });
   }
 }
