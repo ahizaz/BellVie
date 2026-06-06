@@ -230,7 +230,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   title: 'Privacy & Policy',
                   onTap: () {
-                    // TODO: navigate to Privacy & Policy
+                   
                   },
                 ),
 
