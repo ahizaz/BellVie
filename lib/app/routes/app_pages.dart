@@ -142,7 +142,7 @@ class AppPages {
     GetPage(
       name: Routes.COMING_SOON,
       page: () => const ComingSoonView(),
-      middlewares: [AuthMiddleware()],
+      //middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.BOOK_APPOINTMENT,

@@ -1,4 +1,3 @@
-
 import '../models/social_service_model.dart';
 
 final List<SocialServiceModel> socialServicesStatic = [
@@ -24,6 +23,6 @@ final List<SocialServiceModel> socialServicesStatic = [
     id: 'health_tourism',
     titleKey: 'health_tourism',
     image: 'assets/images/healthcare.png',
-    descriptionKey: 'section_not_available_yet',
+    descriptionKey: 'health_tourism_description',
   ),
 ];

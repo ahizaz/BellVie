@@ -16,6 +16,43 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+
+
+          'health_tourism_description': '''BelleVie Global Health Services proudly presents a unique travel experience that combines Islamic heritage, Chinese history, modern healthcare excellence, and Traditional Chinese Medicine (TCM). These specially designed packages are tailored for Muslim travelers, ensuring halal food, prayer facilities, cultural comfort, and opportunities to explore China's advanced medical and wellness systems.
+
+Package 1
+
+Beijing Islamic Heritage, Healthcare & Wellness Tour
+
+5 Nights / 6 Days
+
+Tour Overview
+
+Discover the rich Islamic heritage of Beijing while exploring China's imperial history, world-renowned healthcare institutions, and Traditional Chinese Medicine centers.
+
+Highlights
+
+• Visit historic mosques and Muslim communities
+• Explore Beijing's iconic historical landmarks
+• Hospital visits and healthcare exchange opportunities
+• Traditional Chinese Medicine consultations
+• Daily halal dining arrangements
+• Dedicated Muslim-friendly tour assistance
+• Prayer time and mosque access arrangements
+
+Package 2
+
+Kunming Islamic Heritage, Medical Excellence & Wellness Tour
+
+5 Nights / 6 Days
+
+Tour Overview
+
+Kunming, known as the "City of Eternal Spring," offers a unique blend of Islamic heritage, advanced medical facilities, and Traditional Chinese Medicine institutions.
+
+BelleVie Global Health Services
+
+Connecting Bangladesh with China's advanced healthcare, Traditional Chinese Medicine, and rich Islamic heritage through safe, halal, and professionally managed travel experiences.''',
           'my_account': 'My Account',
 
           'bellevie_compassion_fund_title': 'BelleVie Compassion Fund',
@@ -444,6 +481,46 @@ Key Roles of BelleVie Health Club
 • Medical Tourism Assistance''',
         },
         'bn_BD': {
+
+          'health_tourism_description': '''BelleVie Global Health Services
+
+ইসলামিক ঐতিহ্য, আধুনিক স্বাস্থ্যসেবা ও ট্র্যাডিশনাল চাইনিজ মেডিসিন (TCM) ভ্রমণ প্যাকেজ
+
+BelleVie Global Health Services গর্বের সাথে উপস্থাপন করছে একটি অনন্য ভ্রমণ অভিজ্ঞতা, যেখানে ইসলামিক ঐতিহ্য, চীনের সমৃদ্ধ ইতিহাস, বিশ্বমানের আধুনিক স্বাস্থ্যসেবা এবং ট্র্যাডিশনাল চাইনিজ মেডিসিন (TCM)-এর সমন্বয় ঘটেছে।
+
+প্যাকেজ – ১
+
+বেইজিং ইসলামিক হেরিটেজ, হেলথকেয়ার ও ওয়েলনেস ট্যুর
+
+সময়কাল: ৫ রাত / ৬ দিন
+
+বিশেষ আকর্ষণ
+
+• ঐতিহাসিক মসজিদ ও মুসলিম কমিউনিটি পরিদর্শন
+• বেইজিংয়ের বিখ্যাত ঐতিহাসিক স্থাপনা ভ্রমণ
+• হাসপাতাল পরিদর্শন ও স্বাস্থ্যসেবা বিষয়ক অভিজ্ঞতা বিনিময়
+• ট্র্যাডিশনাল চাইনিজ মেডিসিন (TCM) পরামর্শ গ্রহণ
+• প্রতিদিন হালাল খাবারের ব্যবস্থা
+
+প্যাকেজ – ২
+
+কুনমিং ইসলামিক হেরিটেজ, মেডিকেল এক্সেলেন্স ও ওয়েলনেস ট্যুর
+
+সময়কাল: ৫ রাত / ৬ দিন
+
+BelleVie-এর বিশেষ সেবা
+
+• চিকিৎসা অ্যাপয়েন্টমেন্ট সমন্বয়
+• হাসপাতাল পরিচিতি ও সংযোগ স্থাপন
+• বিশেষজ্ঞ চিকিৎসকের পরামর্শের ব্যবস্থা
+• বাংলা ও আরবি ভাষা সহায়তা
+• স্বাস্থ্য পরীক্ষা
+• আকুপাংচার
+• হারবাল পরামর্শ
+
+BelleVie Global Health Services
+
+বাংলাদেশের মানুষকে চীনের উন্নত স্বাস্থ্যসেবা, ট্র্যাডিশনাল চাইনিজ মেডিসিন (TCM) এবং সমৃদ্ধ ইসলামিক ঐতিহ্যের সাথে সংযুক্ত করছে নিরাপদ, হালাল এবং পেশাদারভাবে পরিচালিত ভ্রমণ অভিজ্ঞতার মাধ্যমে।''',
           'bellevie_health_club_title': 'বেলেভি হেলথ ক্লাব',
 
           'bellevie_health_club_description':
