@@ -100,12 +100,12 @@ class AppPages {
       name: Routes.FOREIGN_TREATMENT,
       page: () => const ForeignTreatmentView(),
       binding: ForeignTreatmentBinding(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.POPULAR_SERVICES,
       page: () => const PopularServicesView(),
-      middlewares: [AuthMiddleware()],
+      // middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: Routes.SOCIAL_SERVICES,
