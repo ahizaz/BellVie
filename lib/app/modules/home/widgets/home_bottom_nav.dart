@@ -18,7 +18,7 @@ class HomeBottomNav extends StatelessWidget {
       {'icon': Icons.calendar_month, 'label': 'appointment'.tr},
       {'icon': Icons.call, 'label': 'call'.tr},
       {'icon': Icons.folder_copy, 'label': 'records'.tr},
-      {'icon': Icons.person, 'label': 'My Account'.tr},
+      {'icon': Icons.person, 'label': 'my_account'.tr},
     ];
     const selectedColor = Color(0xFF2F6FED);
     const unselectedColor = Color(0xFF7A7A7A);

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/internacionalization.dart';
 
 String localizedPremiumPlanName(String key) {
   final isBn = Get.locale?.languageCode == 'bn';
@@ -17,11 +16,12 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
-
+          'my_account': 'My Account',
 
           'bellevie_compassion_fund_title': 'BelleVie Compassion Fund',
 
-'bellevie_compassion_fund_description': '''Together for Health, Together for Humanity…
+          'bellevie_compassion_fund_description':
+              '''Together for Health, Together for Humanity…
 
 Every day, countless families face the harsh reality of serious illnesses, yet many lack the financial means to access timely medical treatment.
 
@@ -827,10 +827,10 @@ BelleVie Health Club-এর মূল ভূমিকাঃ
           'grow_with_bellevie': 'বেলেভি-র সাথে বৃদ্ধি',
           'bellevie_area_leaders': 'বেলেভি এরিয়া লিডারস',
 
-
           'bellevie_compassion_fund_title': 'বেলভি কমপ্যাশন ফান্ড',
 
-'bellevie_compassion_fund_description': '''একসাথে স্বাস্থ্য, একসাথে মানবতা…
+          'bellevie_compassion_fund_description':
+              '''একসাথে স্বাস্থ্য, একসাথে মানবতা…
 
 প্রতিদিন অসংখ্য পরিবার গুরুতর রোগের কঠিন বাস্তবতার মুখোমুখি হয়, অথচ সময়মতো চিকিৎসা নেওয়ার মতো আর্থিক সামর্থ্য তাদের থাকে না।
 
@@ -872,6 +872,7 @@ BelleVie Health Club-এর মূল ভূমিকাঃ
 একসাথে আমরা নিশ্চিত করতে পারি, আর্থিক সংকটের কারণে যেন কোনো মানুষ জীবন রক্ষার সুযোগ থেকে বঞ্চিত না হয়।
 
 কর্পোরেট পার্টনার বা ব্যক্তিগত দাতা হিসেবে আজই আমাদের সাথে যুক্ত হোন এবং একটি সুস্থ, সহানুভূতিশীল সমাজ গড়ে তুলতে সহায়তা করুন।''',
+          'my_account': 'আমার অ্যাকাউন্ট',
         },
       };
 }
