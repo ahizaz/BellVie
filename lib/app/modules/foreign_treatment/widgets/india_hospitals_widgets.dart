@@ -877,12 +877,20 @@ class _HospitalItem {
   List<String> get resolvedContacts {
     final normalized = contacts
         .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
+        .where((e) => e.isNotEmpty && e.toLowerCase() != 'n/a')
         .take(3)
         .toList();
+
+    const defaultNumbers = [
+      '01805-464400',
+      '01805-464391',
+      '01805-464392',
+    ];
+
     while (normalized.length < 3) {
-      normalized.add('N/A');
+      normalized.add(defaultNumbers[normalized.length]);
     }
+
     return normalized;
   }
 

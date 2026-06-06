@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import '../../../../services/api_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
 import '../../../../routes/app_routes.dart';
-
+///ssss
 class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
 
