@@ -16,9 +16,13 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+          'premium_telemedicine_value':
+              '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
 
-
-          'health_tourism_description': '''BelleVie Global Health Services proudly presents a unique travel experience that combines Islamic heritage, Chinese history, modern healthcare excellence, and Traditional Chinese Medicine (TCM). These specially designed packages are tailored for Muslim travelers, ensuring halal food, prayer facilities, cultural comfort, and opportunities to explore China's advanced medical and wellness systems.
+          'premium_discount_facilities_value':
+              'Up to 50% Discount facilities at 50+ Hospitals & Diagnostic centers all around Bangladesh.',
+          'health_tourism_description':
+              '''BelleVie Global Health Services proudly presents a unique travel experience that combines Islamic heritage, Chinese history, modern healthcare excellence, and Traditional Chinese Medicine (TCM). These specially designed packages are tailored for Muslim travelers, ensuring halal food, prayer facilities, cultural comfort, and opportunities to explore China's advanced medical and wellness systems.
 
 Package 1
 
@@ -481,7 +485,11 @@ Key Roles of BelleVie Health Club
 • Medical Tourism Assistance''',
         },
         'bn_BD': {
+          'premium_telemedicine_value':
+              '২৪/৭ আনলিমিটেড অডিও ও ভিডিও ডাক্তার পরামর্শ (পরিবারের সর্বোচ্চ ছয়জন সদস্য)',
 
+          'premium_discount_facilities_value':
+              'বাংলাদেশের ৫০+ হাসপাতাল ও ডায়াগনস্টিক সেন্টারে সর্বোচ্চ ৫০% পর্যন্ত ডিসকাউন্ট সুবিধা।',
           'health_tourism_description': '''BelleVie Global Health Services
 
 ইসলামিক ঐতিহ্য, আধুনিক স্বাস্থ্যসেবা ও ট্র্যাডিশনাল চাইনিজ মেডিসিন (TCM) ভ্রমণ প্যাকেজ
