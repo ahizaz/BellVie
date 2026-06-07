@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -83,7 +84,8 @@ class ProfileController extends GetxController {
         AppApiService().buildUrl('/api/v1/auth/profile/'),
       );
       request.headers['Authorization'] = 'Bearer $token';
-      request.fields['name'] = nameCtrl.text.isNotEmpty ? nameCtrl.text : name.value;
+      request.fields['name'] =
+          nameCtrl.text.isNotEmpty ? nameCtrl.text : name.value;
       request.fields['email'] =
           emailCtrl.text.isNotEmpty ? emailCtrl.text : email.value;
       request.fields['district'] =
@@ -146,8 +148,12 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
+  // void logout() {
+  //   AuthService.to.logout();
+  //   Get.offAllNamed('/login');
+  // }
   void logout() {
     AuthService.to.logout();
-    Get.offAllNamed('/login');
+    Get.offAllNamed(Routes.HOME);
   }
 }
