@@ -446,7 +446,10 @@ class PremiumPlanDetails extends StatelessWidget {
               plan['disability'] ?? 'N/A',
             ),
             _buildDetailCard('critical_illness'.tr, plan['critical'] ?? 'N/A'),
-            _buildDetailCard('hospicash'.tr, plan['hospicash'] ?? 'N/A'),
+            _buildDetailCard(
+              'hospicash'.tr,
+              '${plan['key']}_hospicash_value'.tr,
+            ),
             _buildDetailCard('opd'.tr, plan['opd'] ?? 'N/A'),
 
             // changed: hardcoded English removed

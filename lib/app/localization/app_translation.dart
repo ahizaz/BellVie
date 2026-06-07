@@ -16,6 +16,11 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+          'shohay_hospicash_value': 'BDT 5000 (BDT 500/day, up to 5 days in a row)',
+'nirbhor_hospicash_value': 'BDT 15,000 (BDT 1000/day, up to 5 days in a row)',
+'shoshti_hospicash_value': 'BDT 25,000 (BDT 1500/day, up to 5 days in a row)',
+'aastha_hospicash_value': 'BDT 50,000 (BDT 2000/day, up to 5 days in a row)',
+'prottoy_hospicash_value': 'BDT 75,000 (BDT 2500/day, up to 5 days in a row)',
           'premium_telemedicine_value':
               '24/7 Unlimited Audio & Video Doctor Consultancy (Up to Six member of Family)',
 
@@ -485,6 +490,11 @@ Key Roles of BelleVie Health Club
 • Medical Tourism Assistance''',
         },
         'bn_BD': {
+          'shohay_hospicash_value': '৫,০০০ টাকা (দৈনিক ৫০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
+'nirbhor_hospicash_value': '১৫,০০০ টাকা (দৈনিক ১,০০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
+'shoshti_hospicash_value': '২৫,০০০ টাকা (দৈনিক ১,৫০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
+'aastha_hospicash_value': '৫০,০০০ টাকা (দৈনিক ২,০০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
+'prottoy_hospicash_value': '৭৫,০০০ টাকা (দৈনিক ২,৫০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
           'premium_telemedicine_value':
               '২৪/৭ আনলিমিটেড অডিও ও ভিডিও ডাক্তার পরামর্শ (পরিবারের সর্বোচ্চ ছয়জন সদস্য)',
 
