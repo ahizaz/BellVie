@@ -147,7 +147,7 @@ class AppPages {
     GetPage(
       name: Routes.BOOK_APPOINTMENT,
       page: () => const BookAppointmentView(),
-      middlewares: [AuthMiddleware()],
+  
     ),
     GetPage(
       name: Routes.DOCTOR_BOOKING,
