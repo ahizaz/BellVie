@@ -16,6 +16,16 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+
+          'account': 'Account',
+'user_account': 'User Account',
+'login_required': 'Login Required',
+'please_login_to_view_account': 'Please login to view your account.',
+'phone': 'Phone',
+'save_changes': 'Save Changes',
+'terms_conditions': 'Terms & Conditions',
+'privacy_policy': 'Privacy & Policy',
+'logout': 'Logout',
           'shohay_hospicash_value': 'BDT 5000 (BDT 500/day, up to 5 days in a row)',
 'nirbhor_hospicash_value': 'BDT 15,000 (BDT 1000/day, up to 5 days in a row)',
 'shoshti_hospicash_value': 'BDT 25,000 (BDT 1500/day, up to 5 days in a row)',
@@ -490,6 +500,15 @@ Key Roles of BelleVie Health Club
 • Medical Tourism Assistance''',
         },
         'bn_BD': {
+          'account': 'অ্যাকাউন্ট',
+'user_account': 'ইউজার অ্যাকাউন্ট',
+'login_required': 'লগইন প্রয়োজন',
+'please_login_to_view_account': 'আপনার অ্যাকাউন্ট দেখতে লগইন করুন।',
+'phone': 'ফোন',
+'save_changes': 'পরিবর্তন সংরক্ষণ করুন',
+'terms_conditions': 'শর্তাবলী',
+'privacy_policy': 'প্রাইভেসি পলিসি',
+'logout': 'লগআউট',
           'shohay_hospicash_value': '৫,০০০ টাকা (দৈনিক ৫০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
 'nirbhor_hospicash_value': '১৫,০০০ টাকা (দৈনিক ১,০০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
 'shoshti_hospicash_value': '২৫,০০০ টাকা (দৈনিক ১,৫০০ টাকা, একটানা সর্বোচ্চ ৫ দিন)',
