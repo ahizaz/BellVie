@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
+import 'package:bellevie/app/widgets/privacy_policy_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import '../../../widgets/terms_bottom_sheet.dart';
 import '../../../services/auth_service.dart';
@@ -104,7 +105,7 @@ class ProfileView extends GetView<ProfileController> {
 
                     if (!isLoggedIn) {
                       Get.snackbar(
-                       'login_required'.tr,
+                        'login_required'.tr,
                         'please_login_to_view_account'.tr,
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.redAccent,
@@ -142,7 +143,7 @@ class ProfileView extends GetView<ProfileController> {
                                   ),
                                 ),
                                 _profileField(
-                                label: 'name'.tr,
+                                  label: 'name'.tr,
                                   controller: controller.nameCtrl,
                                   editable: controller.isEditing.value,
                                   onEditTap: () {
@@ -151,7 +152,7 @@ class ProfileView extends GetView<ProfileController> {
                                 ),
                                 const SizedBox(height: 18),
                                 _profileField(
-                                 label: 'email'.tr,
+                                  label: 'email'.tr,
                                   controller: controller.emailCtrl,
                                   editable: controller.isEditing.value,
                                   onEditTap: () {
@@ -169,7 +170,7 @@ class ProfileView extends GetView<ProfileController> {
                                 ),
                                 const SizedBox(height: 18),
                                 _readonlyField(
-                                 'phone'.tr,
+                                  'phone'.tr,
                                   controller.phoneNumber.value,
                                 ),
                                 const SizedBox(height: 20),
@@ -190,7 +191,7 @@ class ProfileView extends GetView<ProfileController> {
                                               BorderRadius.circular(16),
                                         ),
                                       ),
-                                      child:  Text(
+                                      child: Text(
                                         'save_changes'.tr,
                                         style: const TextStyle(
                                           fontSize: 16,
@@ -218,12 +219,22 @@ class ProfileView extends GetView<ProfileController> {
                     height: 28,
                     fit: BoxFit.contain,
                   ),
-                 title: 'terms_conditions'.tr,
+                  title: 'terms_conditions'.tr,
                   onTap: () {
                     showTermsBottomSheet(context);
                   },
                 ),
                 const SizedBox(height: 12),
+                //     _accountOption(
+                //       leading: Image.asset(
+                //         'assets/images/banners/privacy_policy.png',
+                //         width: 28,
+                //         height: 28,
+                //         fit: BoxFit.contain,
+                //       ),
+                //  title: 'privacy_policy'.tr,
+                //       onTap: () {},
+                //     ),
                 _accountOption(
                   leading: Image.asset(
                     'assets/images/banners/privacy_policy.png',
@@ -231,8 +242,10 @@ class ProfileView extends GetView<ProfileController> {
                     height: 28,
                     fit: BoxFit.contain,
                   ),
-             title: 'privacy_policy'.tr,
-                  onTap: () {},
+                  title: 'privacy_policy'.tr,
+                  onTap: () {
+                    showPrivacyPolicyBottomSheet(context);
+                  },
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
@@ -247,7 +260,7 @@ class ProfileView extends GetView<ProfileController> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child:  Text(
+                    child: Text(
                       'logout'.tr,
                       style: const TextStyle(
                         fontSize: 16,

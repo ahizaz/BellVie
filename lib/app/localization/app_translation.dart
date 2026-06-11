@@ -16,6 +16,47 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_US': {
+
+          'privacy_intro_title': 'BelleVie Health Care Services – Privacy Policy',
+'privacy_effective_date': 'Effective Date: June 11, 2026',
+'privacy_welcome':
+    'Welcome to BelleVie Health Care Services. We value your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, and protect your information when you use our services, website, mobile application, or communicate with us.',
+'privacy_info_collect': '1. Information We Collect',
+'privacy_info_collect_desc':
+    'We may collect the following information:\n\nPersonal Information\n• Full name\n• Phone number\n• Email address\n• Address\n• Passport or National ID information (if required for medical travel)\n• Emergency contact information\n\nMedical Information\n• Medical reports\n• Diagnostic results\n• Treatment history\n• Doctor prescriptions\n• Hospital preferences\n\nTechnical Information\n• IP address\n• Device information\n• Browser type\n• App usage data',
+'privacy_use_info': '2. How We Use Your Information',
+'privacy_use_info_desc':
+    'We use your information to:\n• Arrange medical consultations and treatments\n• Connect patients with hospitals and doctors\n• Process appointments and medical inquiries\n• Provide customer support\n• Improve our services and platform\n• Communicate important updates and treatment information\n• Maintain legal and regulatory compliance',
+'privacy_sharing': '3. Information Sharing',
+'privacy_sharing_desc':
+    'BelleVie Health Care Services may share information with:\n• Hospitals and healthcare providers\n• Doctors and medical consultants\n• Diagnostic centers\n• Travel and visa support partners (when necessary)\n\nWe do not sell or rent your personal information to third parties.',
+'privacy_data_protection': '4. Data Protection',
+'privacy_data_protection_desc':
+    'We implement appropriate security measures to protect your personal and medical information from:\n• Unauthorized access\n• Misuse\n• Loss\n• Disclosure\n• Alteration\n\nHowever, no online system can guarantee complete security.',
+'privacy_medical_records': '5. Confidentiality of Medical Records',
+'privacy_medical_records_desc':
+    'All medical records and reports shared with BelleVie Health Care Services are treated as confidential and are only shared with authorized healthcare professionals involved in the patient’s treatment process.',
+'privacy_patient_consent': '6. Patient Consent',
+'privacy_patient_consent_desc':
+    'By using our services, you consent to:\n• Collection and processing of your information\n• Sharing medical records with relevant healthcare providers\n• Communication through phone calls, email, WhatsApp, or other platforms regarding your treatment',
+'privacy_cookies': '7. Cookies and Tracking Technologies',
+'privacy_cookies_desc':
+    'Our website or app may use cookies and similar technologies to improve user experience and analyze platform performance.',
+'privacy_third_party': '8. Third-Party Services',
+'privacy_third_party_desc':
+    'Our platform may contain links to third-party websites, hospitals, or healthcare providers. BelleVie Health Care Services is not responsible for the privacy practices of external websites or organizations.',
+'privacy_retention': '9. Data Retention',
+'privacy_retention_desc':
+    'We retain personal and medical information only for as long as necessary to provide services, comply with legal obligations, and resolve disputes.',
+'privacy_rights': '10. Your Rights',
+'privacy_rights_desc':
+    'You may request to:\n• Access your personal data\n• Correct inaccurate information\n• Delete your information (subject to legal requirements)\n• Withdraw consent for communication',
+'privacy_changes': '11. Changes to This Privacy Policy',
+'privacy_changes_desc':
+    'BelleVie Health Care Services may update this Privacy Policy from time to time. Updated versions will be posted on our official platform.',
+'privacy_contact': '12. Contact Us',
+'privacy_contact_desc':
+    'BelleVie Health Care Services\nEmail: info@belleviehealth.com\nPhone: +8801805464400\nAddress: Dhaka, Bangladesh',
           'service_role': 'Service Role',
 'service_role_desc': 'BelleVie provides healthcare assistance (doctor appointments, hospital coordination, medical support). We do not provide direct medical treatment.',
 'patient_responsibility': 'Patient Responsibility',
@@ -515,6 +556,48 @@ Key Roles of BelleVie Health Club
 • Medical Tourism Assistance''',
         },
         'bn_BD': {
+
+          'privacy_intro_title':
+    'BelleVie Health Care Services – গোপনীয়তা নীতি (Privacy Policy)',
+'privacy_effective_date': 'কার্যকর তারিখ (Effective Date): ১১ জুন, ২০২৬',
+'privacy_welcome':
+    'BelleVie Health Care Services-এ আপনাকে স্বাগতম। আমরা আপনার গোপনীয়তাকে অত্যন্ত গুরুত্ব দিই এবং আপনার ব্যক্তিগত তথ্য সুরক্ষিত রাখতে প্রতিশ্রুতিবদ্ধ। এই গোপনীয়তা নীতিতে ব্যাখ্যা করা হয়েছে যে আপনি যখন আমাদের সেবা, ওয়েবসাইট, মোবাইল অ্যাপ ব্যবহার করেন বা আমাদের সাথে যোগাযোগ করেন, তখন আমরা কীভাবে আপনার তথ্য সংগ্রহ, ব্যবহার, সংরক্ষণ এবং সুরক্ষিত করি।',
+'privacy_info_collect': '১. আমরা যে তথ্য সংগ্রহ করি',
+'privacy_info_collect_desc':
+    'আমরা নিম্নলিখিত তথ্য সংগ্রহ করতে পারি:\n\nব্যক্তিগত তথ্য (Personal Information)\n• পূর্ণ নাম\n• ফোন নম্বর\n• ইমেইল ঠিকানা\n• ঠিকানা\n• পাসপোর্ট বা জাতীয় পরিচয়পত্রের তথ্য (যদি চিকিৎসা ভ্রমণের জন্য প্রয়োজন হয়)\n• জরুরি যোগাযোগের তথ্য\n\nচিকিৎসা সম্পর্কিত তথ্য (Medical Information)\n• মেডিকেল রিপোর্ট\n• ডায়াগনস্টিক ফলাফল\n• চিকিৎসার ইতিহাস\n• ডাক্তারদের প্রেসক্রিপশন\n• হাসপাতাল পছন্দ সম্পর্কিত তথ্য\n\nপ্রযুক্তিগত তথ্য (Technical Information)\n• IP ঠিকানা\n• ডিভাইসের তথ্য\n• ব্রাউজারের ধরন\n• অ্যাপ ব্যবহারের তথ্য',
+'privacy_use_info': '২. আমরা আপনার তথ্য কীভাবে ব্যবহার করি',
+'privacy_use_info_desc':
+    'আমরা আপনার তথ্য ব্যবহার করি:\n• চিকিৎসা পরামর্শ ও চিকিৎসা ব্যবস্থা করার জন্য\n• রোগীদের হাসপাতাল ও ডাক্তারদের সাথে যুক্ত করতে\n• অ্যাপয়েন্টমেন্ট ও চিকিৎসা অনুরোধ প্রক্রিয়াকরণ করতে\n• গ্রাহক সহায়তা প্রদান করতে\n• আমাদের সেবা ও প্ল্যাটফর্ম উন্নত করতে\n• গুরুত্বপূর্ণ আপডেট ও চিকিৎসা তথ্য জানাতে\n• আইনগত ও নিয়ন্ত্রক প্রয়োজনীয়তা পূরণ করতে',
+'privacy_sharing': '৩. তথ্য শেয়ার করা',
+'privacy_sharing_desc':
+    'BelleVie Health Care Services নিম্নলিখিতদের সাথে তথ্য শেয়ার করতে পারে:\n• হাসপাতাল ও স্বাস্থ্যসেবা প্রদানকারী\n• ডাক্তার ও চিকিৎসা পরামর্শদাতা\n• ডায়াগনস্টিক সেন্টার\n• প্রয়োজন অনুযায়ী ভিসা ও ট্রাভেল সাপোর্ট পার্টনার\n\nআমরা আপনার ব্যক্তিগত তথ্য তৃতীয় পক্ষের কাছে বিক্রি বা ভাড়া দিই না।',
+'privacy_data_protection': '৪. তথ্য সুরক্ষা (Data Protection)',
+'privacy_data_protection_desc':
+    'আমরা আপনার ব্যক্তিগত ও চিকিৎসা সম্পর্কিত তথ্য সুরক্ষার জন্য যথাযথ নিরাপত্তা ব্যবস্থা গ্রহণ করি:\n• অননুমোদিত প্রবেশ প্রতিরোধ\n• অপব্যবহার প্রতিরোধ\n• তথ্য হারানো প্রতিরোধ\n• তথ্য ফাঁস প্রতিরোধ\n• তথ্য পরিবর্তন প্রতিরোধ\n\nতবে, কোনো অনলাইন সিস্টেমই ১০০% নিরাপত্তা নিশ্চিত করতে পারে না।',
+'privacy_medical_records': '৫. চিকিৎসা রেকর্ডের গোপনীয়তা',
+'privacy_medical_records_desc':
+    'BelleVie Health Care Services-এ শেয়ার করা সকল মেডিকেল রেকর্ড ও রিপোর্ট গোপনীয় হিসেবে বিবেচিত হয় এবং শুধুমাত্র রোগীর চিকিৎসার সাথে যুক্ত অনুমোদিত স্বাস্থ্যসেবা প্রদানকারীদের সাথে শেয়ার করা হয়।',
+'privacy_patient_consent': '৬. রোগীর সম্মতি (Patient Consent)',
+'privacy_patient_consent_desc':
+    'আমাদের সেবা ব্যবহার করার মাধ্যমে আপনি সম্মতি প্রদান করেন যে:\n• আপনার তথ্য সংগ্রহ ও প্রক্রিয়াকরণ করা হবে\n• চিকিৎসা সংক্রান্ত তথ্য সংশ্লিষ্ট স্বাস্থ্যসেবা প্রদানকারীদের সাথে শেয়ার করা হবে\n• ফোন, ইমেইল, WhatsApp বা অন্যান্য মাধ্যমে চিকিৎসা সম্পর্কিত যোগাযোগ করা হবে',
+'privacy_cookies': '৭. কুকিজ ও ট্র্যাকিং প্রযুক্তি',
+'privacy_cookies_desc':
+    'আমাদের ওয়েবসাইট বা অ্যাপে কুকিজ এবং অনুরূপ প্রযুক্তি ব্যবহার করা হতে পারে, যা ব্যবহারকারীর অভিজ্ঞতা উন্নত করতে এবং প্ল্যাটফর্মের কার্যকারিতা বিশ্লেষণ করতে সাহায্য করে।',
+'privacy_third_party': '৮. তৃতীয় পক্ষের সেবা (Third-Party Services)',
+'privacy_third_party_desc':
+    'আমাদের প্ল্যাটফর্মে তৃতীয় পক্ষের ওয়েবসাইট, হাসপাতাল বা স্বাস্থ্যসেবা প্রদানকারীর লিঙ্ক থাকতে পারে। এসব বাহ্যিক ওয়েবসাইট বা প্রতিষ্ঠানের গোপনীয়তা নীতির জন্য BelleVie Health Care Services দায়ী নয়।',
+'privacy_retention': '৯. তথ্য সংরক্ষণ (Data Retention)',
+'privacy_retention_desc':
+    'আমরা ব্যক্তিগত ও চিকিৎসা তথ্য শুধুমাত্র প্রয়োজন অনুযায়ী সংরক্ষণ করি:\n• সেবা প্রদান করার জন্য\n• আইনগত বাধ্যবাধকতা পূরণের জন্য\n• বিরোধ নিষ্পত্তির জন্য',
+'privacy_rights': '১০. আপনার অধিকার',
+'privacy_rights_desc':
+    'আপনি চাইলে:\n• আপনার ব্যক্তিগত তথ্য দেখতে পারেন\n• ভুল তথ্য সংশোধন করতে পারেন\n• তথ্য মুছে ফেলার অনুরোধ করতে পারেন (আইনগত সীমাবদ্ধতার মধ্যে)\n• যোগাযোগের সম্মতি প্রত্যাহার করতে পারেন',
+'privacy_changes': '১১. এই নীতির পরিবর্তন',
+'privacy_changes_desc':
+    'BelleVie Health Care Services সময়ে সময়ে এই গোপনীয়তা নীতি আপডেট করতে পারে। আপডেট করা সংস্করণ আমাদের অফিসিয়াল প্ল্যাটফর্মে প্রকাশ করা হবে।',
+'privacy_contact': '১২. যোগাযোগ করুন',
+'privacy_contact_desc':
+    'BelleVie Health Care Services\nইমেইল: info@belleviehealth.com\nফোন: +8801805464400\nঠিকানা: ঢাকা, বাংলাদেশ',
 
           'service_role': 'সেবার ভূমিকা',
 'service_role_desc': 'BelleVie স্বাস্থ্যসেবা সহায়তা প্রদান করে যেমন ডাক্তার অ্যাপয়েন্টমেন্ট, হাসপাতাল সমন্বয় এবং মেডিকেল সাপোর্ট। আমরা সরাসরি চিকিৎসা প্রদান করি না।',
