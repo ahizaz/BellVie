@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactUsView extends StatelessWidget {
   const ContactUsView({super.key});
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri uri = Uri.parse('tel:$phoneNumber');
+
+    await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+  }
+
+  Future<void> _sendEmail(String email) async {
+    final Uri uri = Uri.parse('mailto:$email');
+
+    await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +74,7 @@ class ContactUsView extends StatelessWidget {
                       'assets/images/banners/contact_us_final.png',
                       fit: BoxFit.contain,
                     ),
-                  ), //
+                  ),
                   const SizedBox(width: 14),
                   const Expanded(
                     child: Column(
@@ -94,19 +113,22 @@ class ContactUsView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const _ContactTile(
+            _ContactTile(
               icon: Icons.call,
               label: '+880 1805-464400',
+              onTap: () => _makePhoneCall('+8801805464400'),
             ),
             const SizedBox(height: 10),
-            const _ContactTile(
+            _ContactTile(
               icon: Icons.call,
               label: '01805464392',
+              onTap: () => _makePhoneCall('01805464392'),
             ),
             const SizedBox(height: 10),
-            const _ContactTile(
+            _ContactTile(
               icon: Icons.call,
               label: '01805464391',
+              onTap: () => _makePhoneCall('01805464391'),
             ),
             const SizedBox(height: 18),
             const Text(
@@ -118,9 +140,10 @@ class ContactUsView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const _ContactTile(
+            _ContactTile(
               icon: Icons.email_outlined,
               label: 'info.belleviebd@gmail.com',
+              onTap: () => _sendEmail('info.belleviebd@gmail.com'),
             ),
           ],
         ),
@@ -132,52 +155,66 @@ class ContactUsView extends StatelessWidget {
 class _ContactTile extends StatelessWidget {
   final IconData icon;
   final String label;
+  final VoidCallback? onTap;
 
-  const _ContactTile({required this.icon, required this.label});
+  const _ContactTile({
+    required this.icon,
+    required this.label,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      decoration: BoxDecoration(
-        color: const Color(0xff87CEFA),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE5E5E5)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0F000000),
-            blurRadius: 8,
-            offset: Offset(0, 4),
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xff87CEFA),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFE5E5E5),
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 42,
-            height: 42,
-            decoration: const BoxDecoration(
-              color: Color(0xFFCDEFF2),
-              shape: BoxShape.circle,
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x0F000000),
+              blurRadius: 8,
+              offset: Offset(0, 4),
             ),
-            child: Icon(
-              icon,
-              size: 22,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: const BoxDecoration(
+                color: Color(0xFFCDEFF2),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: 22,
                 color: Colors.black87,
               ),
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
