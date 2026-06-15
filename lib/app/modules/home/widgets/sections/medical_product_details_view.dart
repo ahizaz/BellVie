@@ -12,11 +12,48 @@ class MedicalAccessoryProductDetailsView extends StatelessWidget {
   final String categoryName;
   final String categoryImage;
 
+  String get _details {
+    final name = categoryName.toLowerCase().trim();
+
+    if (name.contains('bed wedge')) {
+      return 'Bed Wedges are specially designed support pillows that elevate the upper body, legs, or feet to improve comfort and promote better posture. They help reduce acid reflux, snoring, back pain, swelling, and circulation problems while sleeping, resting, or recovering after surgery. Made from high-density foam, bed wedges provide ergonomic support for enhanced relaxation and health benefits.';
+    }
+
+    if (name.contains('respiratory')) {
+      return 'Respiratory Units help patients with breathing support, oxygen therapy, nebulization, and respiratory care. These devices are useful for people with asthma, COPD, breathing difficulty, or post-treatment recovery needs.';
+    }
+
+    if (name.contains('mobility')) {
+      return 'Mobility Aids are designed to support safe movement for elderly people, patients, and individuals recovering from injury or surgery. They help improve balance, independence, comfort, and confidence during daily activities.';
+    }
+
+    if (name.contains('face mask') || name.contains('glove')) {
+      return 'Face Masks and Gloves help protect users from germs, dust, infection, and contamination. They are commonly used in hospitals, clinics, home care, and daily hygiene practices to maintain safety and cleanliness.';
+    }
+
+    if (name.contains('first aid')) {
+      return 'First Aid Supplies include essential medical items for treating minor injuries, cuts, burns, wounds, and emergency situations. They are useful for homes, offices, travel, clinics, and quick medical response.';
+    }
+
+    if (name.contains('wound')) {
+      return 'Wound Care and Personal Care products help clean, protect, and heal wounds while maintaining personal hygiene. These items support safe recovery, infection prevention, and daily patient care.';
+    }
+
+    if (name.contains('home care') || name.contains('furniture')) {
+      return 'Home Care and Furniture products are designed to make patient care easier, safer, and more comfortable at home. They support resting, movement, treatment, and recovery for elderly or physically weak patients.';
+    }
+
+    if (name.contains('diagnostic')) {
+      return 'Diagnostic Devices help monitor important health conditions such as blood pressure, temperature, oxygen level, blood sugar, and other vital signs. They are useful for regular health checking at home, clinics, and hospitals.';
+    }
+
+    return 'This medical accessory is designed to support better health, comfort, safety, and daily care. It is useful for patients, caregivers, hospitals, clinics, and home medical needs.';
+  }
+
   @override
   Widget build(BuildContext context) {
     const productName = 'Premium Medical Product';
     const price = '৳ 1,250';
-    const oldPrice = '৳ 1,500';
 
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
@@ -97,10 +134,10 @@ class MedicalAccessoryProductDetailsView extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(18),
               ),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Price',
                     style: TextStyle(
                       fontSize: 15,
@@ -108,31 +145,17 @@ class MedicalAccessoryProductDetailsView extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        price,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF2F6FED),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      // Text(
-                      //   oldPrice,
-                      //   style: TextStyle(
-                      //     fontSize: 14,
-                      //     color: Colors.black38,
-                      //     decoration: TextDecoration.lineThrough,
-                      //     fontWeight: FontWeight.w600,
-                      //   ),
-                      // ),
-                    ],
+                  const SizedBox(height: 8),
+                  const Text(
+                    price,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF2F6FED),
+                    ),
                   ),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     'Details',
                     style: TextStyle(
                       fontSize: 15,
@@ -140,10 +163,10 @@ class MedicalAccessoryProductDetailsView extends StatelessWidget {
                       color: Colors.black87,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
-                    'This is a static medical accessory product details design. Product image, name, description and price will be loaded from API in future.',
-                    style: TextStyle(
+                    _details,
+                    style: const TextStyle(
                       fontSize: 13,
                       height: 1.5,
                       color: Colors.black54,
@@ -156,29 +179,6 @@ class MedicalAccessoryProductDetailsView extends StatelessWidget {
           ],
         ),
       ),
-      // bottomNavigationBar: SafeArea(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(16),
-      //     child: ElevatedButton(
-      //       onPressed: () {},
-      //       style: ElevatedButton.styleFrom(
-      //         backgroundColor: const Color(0xFF2F6FED),
-      //         minimumSize: const Size(double.infinity, 52),
-      //         shape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(14),
-      //         ),
-      //       ),
-      //       child: const Text(
-      //         'Add to Cart',
-      //         style: TextStyle(
-      //           fontSize: 15,
-      //           fontWeight: FontWeight.w800,
-      //           color: Colors.white,
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
