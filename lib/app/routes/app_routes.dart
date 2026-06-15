@@ -1,4 +1,5 @@
 abstract class Routes {
+  static const NOTIFICATIONS = '/notifications';
   static const SPLASH = '/';
   static const LOGIN = '/login';
   static const ONBOARDING = '/onboarding';

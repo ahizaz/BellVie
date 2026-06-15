@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/auth/views/regester_views.dart';
+import 'package:bellevie/app/modules/notification/views/notification_view.dart';
 import 'package:get/get.dart';
 
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
@@ -183,5 +184,10 @@ class AppPages {
       name: '/appointment-list',
       page: () => const AppointmentListView(),
     ),
+    GetPage(
+  name: Routes.NOTIFICATIONS,
+  page: () => const NotificationView(),
+  
+),
   ];
 }
