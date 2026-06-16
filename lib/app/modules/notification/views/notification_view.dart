@@ -323,16 +323,16 @@ class NotificationView extends StatelessWidget {
                       end: Alignment.centerRight,
                     ),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: item.isRead
-                          ? Colors.white.withOpacity(0.70)
-                          : const Color(0xFF42A5F5).withOpacity(0.55),
-                    ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
-                        color: const Color(0xFF7EC8E3).withOpacity(0.22),
-                        blurRadius: 14,
-                        offset: const Offset(0, 6),
+                        color: Color(0x33FFFFFF),
+                        offset: Offset(-3, -3),
+                        blurRadius: 6,
+                      ),
+                      BoxShadow(
+                        color: Color(0x22000000),
+                        offset: Offset(3, 3),
+                        blurRadius: 8,
                       ),
                     ],
                   ),
