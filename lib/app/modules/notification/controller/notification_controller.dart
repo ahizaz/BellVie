@@ -300,7 +300,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bellevie/app/modules/notification/model/notification_model.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
