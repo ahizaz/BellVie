@@ -4,9 +4,29 @@ class _MainBottomNav extends StatelessWidget {
   final HomeController controller;
   const _MainBottomNav({required this.controller});
 
+  Future<void> _goToMainBottomNavTab(int index) async {
+    if (index == 1) {
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+
+      if (!isLoggedIn) {
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      }
+
+      await Get.toNamed('/appointment-list');
+      return;
+    }
+
+    if (index == 4) {
+      await Get.toNamed(Routes.PROFILE);
+      return;
+    }
+
+    controller.changeTab(index);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Crystal-style capsule bottom navigation
     final items = <Map<String, dynamic>>[
       {'icon': Icons.home_filled, 'label': 'home'.tr},
       {'icon': Icons.calendar_month, 'label': 'appointment'.tr},
@@ -14,6 +34,7 @@ class _MainBottomNav extends StatelessWidget {
       {'icon': Icons.folder_copy, 'label': 'records'.tr},
       {'icon': Icons.person, 'label': 'profile'.tr},
     ];
+
     const selectedColor = Color(0xFF2F6FED);
     const unselectedColor = Color(0xFF7A7A7A);
 
@@ -21,6 +42,7 @@ class _MainBottomNav extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
       child: Obx(() {
         final current = controller.tabIndex.value;
+
         return SizedBox(
           height: 64,
           child: Stack(
@@ -39,10 +61,11 @@ class _MainBottomNav extends StatelessWidget {
                     final item = items[i];
                     final selected = i == current;
                     final isCenter = i == 2;
+
                     return Expanded(
                       child: InkWell(
                         borderRadius: BorderRadius.circular(28),
-                        onTap: () => controller.changeTab(i),
+                        onTap: () => _goToMainBottomNavTab(i),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
                           child: Column(
@@ -79,7 +102,6 @@ class _MainBottomNav extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
-                              // small spacer removed to avoid fractional overflow
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 220),
                                 height: 2,
@@ -102,7 +124,7 @@ class _MainBottomNav extends StatelessWidget {
                 child: Material(
                   color: Colors.transparent,
                   child: InkResponse(
-                    onTap: () => controller.changeTab(2),
+                    onTap: () => _goToMainBottomNavTab(2),
                     radius: 28,
                     child: Container(
                       width: 46,
