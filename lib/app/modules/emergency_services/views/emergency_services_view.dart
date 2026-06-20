@@ -128,44 +128,7 @@ class EmergencyServicesView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            // Container(
-            //   padding: const EdgeInsets.all(16),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(16),
-            //     border: Border.all(color: const Color(0xFFE5E5E5)),
-            //     boxShadow: const [
-            //       BoxShadow(
-            //         color: Color(0x0F000000),
-            //         blurRadius: 8,
-            //         offset: Offset(0, 4),
-            //       ),
-            //     ],
-            //   ),
-            //   child: Column(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       Text(
-            //         'emergency_contact_guidance'.tr,
-            //         style: const TextStyle(
-            //           fontSize: 14,
-            //           height: 1.4,
-            //           color: Colors.black54,
-            //         ),
-            //       ),
-            //       const SizedBox(height: 10),
-            //       Text(
-            //         'emergency_call_instruction'.tr,
-            //         style: const TextStyle(
-            //           fontSize: 14,
-            //           height: 1.4,
-            //           fontWeight: FontWeight.w600,
-            //           color: Colors.black87,
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+           
             Container(
   padding: const EdgeInsets.all(16),
   decoration: BoxDecoration(

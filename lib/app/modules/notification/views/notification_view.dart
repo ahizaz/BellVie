@@ -139,7 +139,7 @@ class NotificationView extends StatelessWidget {
                         height: 44,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.75),
+                         color: Colors.white.withValues(alpha: 0.75),
                         ),
                         child: Icon(
                           Icons.notifications_none,
