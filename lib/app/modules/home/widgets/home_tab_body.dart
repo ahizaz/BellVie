@@ -82,7 +82,7 @@ class ComingSoonPage extends StatelessWidget {
 }
 
 class _RecordsPlaceholder extends StatelessWidget {
-  const _RecordsPlaceholder({super.key});
+  const _RecordsPlaceholder();
 
   @override
   Widget build(BuildContext context) {
