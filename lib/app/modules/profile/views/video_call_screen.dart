@@ -248,7 +248,7 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
         backgroundColor: Colors.black,
         body: Center(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(
               _errorMessage!,
               textAlign: TextAlign.center,
