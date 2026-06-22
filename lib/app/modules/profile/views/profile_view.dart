@@ -1,4 +1,3 @@
-
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:bellevie/app/modules/profile/service/video_room_service.dart';
 import 'package:bellevie/app/modules/profile/views/video_call_screen.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../../../widgets/terms_bottom_sheet.dart';
 import '../../../services/auth_service.dart';
 import 'package:get/get.dart';
-
 
 class ProfileView extends GetView<ProfileController> {
   const ProfileView({super.key});
@@ -240,7 +238,7 @@ class ProfileView extends GetView<ProfileController> {
                     color: Colors.deepPurple,
                     size: 28,
                   ),
-                  title: 'Video Calling',
+                  title: 'Video Consultation',
                   onTap: () async {
                     final isLoggedIn = AuthService.to.authenticated;
 
