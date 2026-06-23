@@ -150,15 +150,7 @@ class _CallDrawer extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: 180,
                         height: 5,
-                        // errorBuilder: (c, e, s) => Container(
-                        //   color: const Color(0xFFDFF8EF),
-                        //   child: const Center(
-                        //       child: Icon(
-                        //     Icons.emergency_rounded,
-                        //     color: Colors.white,
-                        //     // size: 36,
-                        //   )),
-                        // ),
+                  
                       ),
                     ),
                   );
@@ -248,76 +240,3 @@ class _CallDrawerCard extends StatelessWidget {
   }
 }
 
-// class _DailyTipDialog extends StatelessWidget {
-//   final DailyTip tip;
-
-//   const _DailyTipDialog({required this.tip});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final title = tip.title.isNotEmpty ? tip.title : 'Daily health tips';
-//     final quote = tip.quote.isNotEmpty
-//         ? tip.quote
-//         : 'Take a moment for a healthy habit today.';
-
-//     return Dialog(
-//       insetPadding: const EdgeInsets.symmetric(horizontal: 22),
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(14),
-//       ),
-//       child: Stack(
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.fromLTRB(18, 22, 18, 14),
-//             child: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               children: [
-//                 Text(
-//                   title,
-//                   textAlign: TextAlign.center,
-//                   style: const TextStyle(
-//                     fontSize: 20,
-//                     fontWeight: FontWeight.w800,
-//                     color: Color(0xFF0B5394),
-//                   ),
-//                 ),
-//                 const SizedBox(height: 12),
-//                 Text(
-//                   quote,
-//                   textAlign: TextAlign.center,
-//                   style: const TextStyle(fontSize: 14),
-//                 ),
-//                 const SizedBox(height: 16),
-//                 SizedBox(
-//                   width: double.infinity,
-//                   child: ElevatedButton(
-//                     onPressed: () => Navigator.of(context).pop(),
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: const Color(0xFFE6E6E6),
-//                       foregroundColor: Colors.black87,
-//                       elevation: 0,
-//                       padding: const EdgeInsets.symmetric(vertical: 10),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                     ),
-//                     child: Text('close'.tr),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//           Positioned(
-//             top: 6,
-//             right: 6,
-//             child: IconButton(
-//               onPressed: () => Navigator.of(context).pop(),
-//               icon: const Icon(Icons.close),
-//               splashRadius: 18,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
