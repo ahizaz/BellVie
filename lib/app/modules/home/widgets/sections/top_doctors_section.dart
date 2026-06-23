@@ -302,22 +302,7 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
                 color: Colors.black87,
               ),
             ),
-            // TextButton(
-            //   onPressed: _openAllDoctors,
-            //   style: TextButton.styleFrom(
-            //     foregroundColor: const Color(0xFF2F6FED),
-            //     padding: EdgeInsets.zero,
-            //     minimumSize: Size.zero,
-            //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            //   ),
-            //   child: Text(
-            //     'view_all'.tr,
-            //     style: const TextStyle(
-            //       fontSize: 13,
-            //       fontWeight: FontWeight.w600,
-            //     ),
-            //   ),
-            // ),
+            
           ],
         ),
         const SizedBox(height: 12),

@@ -312,28 +312,7 @@ class _BannerDetailPageState extends State<BannerDetailPage> {
                                   ),
                                 ),
                               ],
-                              // if (_createdAt.isNotEmpty) ...[
-                              //   const SizedBox(height: 16),
-                              //   Row(
-                              //     children: [
-                              //       const Icon(
-                              //         Icons.calendar_today_outlined,
-                              //         size: 16,
-                              //         color: Colors.black45,
-                              //       ),
-                              //       const SizedBox(width: 8),
-                              //       Expanded(
-                              //         child: Text(
-                              //           _createdAt,
-                              //           style: const TextStyle(
-                              //             fontSize: 12,
-                              //             color: Colors.black45,
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ],
+                              
                             ],
                           ),
                         ),

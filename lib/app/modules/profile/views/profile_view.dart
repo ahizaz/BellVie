@@ -87,6 +87,7 @@ class ProfileView extends GetView<ProfileController> {
                   ],
                 ),
                 const SizedBox(height: 30),
+                //user account
                 _accountOption(
                   leading: const Icon(
                     Icons.person,
@@ -205,6 +206,7 @@ class ProfileView extends GetView<ProfileController> {
                     );
                   },
                 ),
+                //terms and condition
                 const SizedBox(height: 16),
                 _accountOption(
                   leading: Image.asset(
@@ -219,6 +221,7 @@ class ProfileView extends GetView<ProfileController> {
                   },
                 ),
                 const SizedBox(height: 12),
+                //privacy policy
                 _accountOption(
                   leading: Image.asset(
                     'assets/images/banners/privacy_policy.png',
@@ -231,6 +234,7 @@ class ProfileView extends GetView<ProfileController> {
                     showPrivacyPolicyBottomSheet(context);
                   },
                 ),
+                //video_consultation
                 const SizedBox(height: 12),
                 _accountOption(
                   leading: const Icon(
@@ -279,6 +283,20 @@ class ProfileView extends GetView<ProfileController> {
                         colorText: Colors.white,
                       );
                     }
+                  },
+                ),
+                const SizedBox(height: 20),
+                //medical records
+                _accountOption(
+                  leading: Image.asset(
+                    'assets/images/banners/records.png',
+                    width: 28,
+                    height: 28,
+                    fit: BoxFit.contain,
+                  ),
+                  title: 'Meidcal Records',
+                  onTap: () {
+                    
                   },
                 ),
                 const SizedBox(height: 20),
