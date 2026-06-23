@@ -5,6 +5,7 @@ import 'package:bellevie/app/modules/home/widgets/sections/eliete_member_details
 import 'package:bellevie/app/modules/home/widgets/sections/growth_with_bellevie.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/package_details.dart';
 import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart';
+import 'package:bellevie/app/modules/medical/view/medical_records_view.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:bellevie/app/modules/profile/views/profile_view.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class HomeTabBody extends StatelessWidget {
       case 2:
         return const _PlaceholderScreen(title: 'my_health');
       case 3:
-        return const _RecordsPlaceholder();
+        return MedicalRecordsView();
       case 4:
         // Show the ProfileView in the last tab
         Get.lazyPut<ProfileController>(() => ProfileController());
@@ -150,7 +151,7 @@ class HomeScrollContent extends StatelessWidget {
           SizedBox(
             height: 12,
           ),
-       
+
           DiscountPartner(),
 
           SubscriptionPackageSection(),
