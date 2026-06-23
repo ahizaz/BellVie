@@ -123,117 +123,233 @@ class _TopDoctorsSectionState extends State<TopDoctorsSection> {
     }
   }
 
+  // Future<void> _fetchDoctors({int? subcategoryId}) async {
+  //   final requestToken = ++_doctorRequestToken;
+  //   if (!mounted) return;
+  //   setState(() {
+  //     _isLoadingDoctors = true;
+  //     _errorMessage = null;
+  //   });
+  //   final path = subcategoryId == null
+  //       ? '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId'
+  //       : '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId';
+
+  //   // Attempt to hydrate from cache first so UI shows data when offline.
+  //   // Try multiple candidate paths so we match what other parts of the app
+  //   // may have saved (page param, different endpoint variants).
+  //   try {
+  //     final candidates = <String>[];
+  //     if (subcategoryId == null) {
+  //       candidates.add(
+  //           '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId');
+  //       candidates.add('/api/v1/popular-service/doctors/');
+  //       candidates.add(
+  //           '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
+  //       candidates.add('/api/v1/popular-service/doctors/?page=1');
+  //     } else {
+  //       candidates.add(
+  //           '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId');
+  //       candidates.add(
+  //           '/api/v1/popular-service/doctors/?page=1&subcategories=$subcategoryId&subcategories__category=$_categoryId');
+  //       candidates.add(
+  //           '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
+  //       candidates.add('/api/v1/popular-service/doctors/');
+  //     }
+
+  //     for (final candidate in candidates) {
+  //       final cachedBody = await _apiService.getCachedBody(path: candidate);
+  //       if (cachedBody == null) continue;
+  //       if (!mounted || requestToken != _doctorRequestToken) return;
+  //       try {
+  //         final decoded = jsonDecode(cachedBody);
+  //         final rawItems = _extractList(decoded);
+  //         final items = rawItems
+  //             .whereType<Map<String, dynamic>>()
+  //             .map(SpecialistDoctorItem.fromJson)
+  //             .where((doctor) => doctor.localizedName().trim().isNotEmpty)
+  //             .where((doctor) => !_isHiddenDoctor(doctor))
+  //             .toList();
+
+  //         if (items.isNotEmpty) {
+  //           setState(() {
+  //             _doctors = items;
+  //             _resolvedDoctors = true;
+  //             _showScrollHintLeft = false;
+  //             _showScrollHintRight = false;
+  //             _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
+  //           });
+  //           WidgetsBinding.instance
+  //               .addPostFrameCallback((_) => _updateScrollHint());
+  //           break;
+  //         }
+  //       } catch (_) {
+  //         // ignore cache parse errors and try next candidate
+  //       }
+  //     }
+  //   } catch (_) {
+  //     // ignore cache read errors
+  //   }
+
+  //   try {
+  //     final response = await _apiService.get(path: path);
+  //     if (!mounted || requestToken != _doctorRequestToken) return;
+
+  //     if (response.statusCode < 200 || response.statusCode >= 300) {
+  //       setState(() {
+  //         _doctors = [];
+  //         _resolvedDoctors = true;
+  //         _isLoadingDoctors = false;
+  //         _errorMessage = 'no_doctors_available'.tr;
+  //       });
+  //       return;
+  //     }
+
+  //     final decoded = jsonDecode(response.body);
+  //     final rawItems = _extractList(decoded);
+  //     final items = rawItems
+  //         .whereType<Map<String, dynamic>>()
+  //         .map(SpecialistDoctorItem.fromJson)
+  //         .where((doctor) => doctor.localizedName().trim().isNotEmpty)
+  //         .where((doctor) => !_isHiddenDoctor(doctor))
+  //         .toList();
+
+  //     setState(() {
+  //       _doctors = items;
+  //       _resolvedDoctors = true;
+  //       _isLoadingDoctors = false;
+  //       _showScrollHintLeft = false;
+  //       _showScrollHintRight = false;
+  //       _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
+  //     });
+  //     WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
+  //   } catch (_) {
+  //     if (!mounted || requestToken != _doctorRequestToken) return;
+  //     setState(() {
+  //       _doctors = [];
+  //       _resolvedDoctors = true;
+  //       _isLoadingDoctors = false;
+  //       _showScrollHintLeft = false;
+  //       _showScrollHintRight = false;
+  //       _errorMessage = 'no_doctors_available'.tr;
+  //     });
+  //   }
+  // }
   Future<void> _fetchDoctors({int? subcategoryId}) async {
-    final requestToken = ++_doctorRequestToken;
-    if (!mounted) return;
-    setState(() {
-      _isLoadingDoctors = true;
-      _errorMessage = null;
-    });
-    final path = subcategoryId == null
-        ? '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId'
-        : '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId';
+  final requestToken = ++_doctorRequestToken;
+  if (!mounted) return;
+  setState(() {
+    _isLoadingDoctors = true;
+    _errorMessage = null;
+  });
 
-    // Attempt to hydrate from cache first so UI shows data when offline.
-    // Try multiple candidate paths so we match what other parts of the app
-    // may have saved (page param, different endpoint variants).
-    try {
-      final candidates = <String>[];
-      if (subcategoryId == null) {
-        candidates.add(
-            '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId');
-        candidates.add('/api/v1/popular-service/doctors/');
-        candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
-        candidates.add('/api/v1/popular-service/doctors/?page=1');
-      } else {
-        candidates.add(
-            '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId');
-        candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategories=$subcategoryId&subcategories__category=$_categoryId');
-        candidates.add(
-            '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
-        candidates.add('/api/v1/popular-service/doctors/');
-      }
+  final path = subcategoryId == null
+      ? '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId'
+      : '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId';
 
-      for (final candidate in candidates) {
-        final cachedBody = await _apiService.getCachedBody(path: candidate);
-        if (cachedBody == null) continue;
-        if (!mounted || requestToken != _doctorRequestToken) return;
-        try {
-          final decoded = jsonDecode(cachedBody);
-          final rawItems = _extractList(decoded);
-          final items = rawItems
+  try {
+    final candidates = <String>[];
+    if (subcategoryId == null) {
+      candidates.add(
+          '/api/v1/popular-service/doctors/?subcategories__category=$_categoryId');
+      candidates.add('/api/v1/popular-service/doctors/');
+      candidates.add(
+          '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
+      candidates.add('/api/v1/popular-service/doctors/?page=1');
+    } else {
+      candidates.add(
+          '/api/v1/popular-service/doctors/?subcategories=$subcategoryId&subcategories__category=$_categoryId');
+      candidates.add(
+          '/api/v1/popular-service/doctors/?page=1&subcategories=$subcategoryId&subcategories__category=$_categoryId');
+      candidates.add(
+          '/api/v1/popular-service/doctors/?page=1&subcategories__category=$_categoryId');
+      candidates.add('/api/v1/popular-service/doctors/');
+    }
+
+    for (final candidate in candidates) {
+      final cachedBody = await _apiService.getCachedBody(path: candidate);
+      if (cachedBody == null) continue;
+      if (!mounted || requestToken != _doctorRequestToken) return;
+
+      try {
+        final decoded = jsonDecode(cachedBody);
+        final rawItems = _extractList(decoded);
+
+        final items = {
+          for (final doctor in rawItems
               .whereType<Map<String, dynamic>>()
               .map(SpecialistDoctorItem.fromJson)
               .where((doctor) => doctor.localizedName().trim().isNotEmpty)
-              .where((doctor) => !_isHiddenDoctor(doctor))
-              .toList();
+              .where((doctor) => !_isHiddenDoctor(doctor)))
+            doctor.id: doctor,
+        }.values.toList();
 
-          if (items.isNotEmpty) {
-            setState(() {
-              _doctors = items;
-              _resolvedDoctors = true;
-              _showScrollHintLeft = false;
-              _showScrollHintRight = false;
-              _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
-            });
-            WidgetsBinding.instance
-                .addPostFrameCallback((_) => _updateScrollHint());
-            break;
-          }
-        } catch (_) {
-          // ignore cache parse errors and try next candidate
+        if (items.isNotEmpty) {
+          setState(() {
+            _doctors = items;
+            _resolvedDoctors = true;
+            _showScrollHintLeft = false;
+            _showScrollHintRight = false;
+            _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
+          });
+          WidgetsBinding.instance
+              .addPostFrameCallback((_) => _updateScrollHint());
+          break;
         }
+      } catch (_) {
+        // ignore cache parse errors and try next candidate
       }
-    } catch (_) {
-      // ignore cache read errors
     }
+  } catch (_) {
+    // ignore cache read errors
+  }
 
-    try {
-      final response = await _apiService.get(path: path);
-      if (!mounted || requestToken != _doctorRequestToken) return;
+  try {
+    final response = await _apiService.get(path: path);
+    if (!mounted || requestToken != _doctorRequestToken) return;
 
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        setState(() {
-          _doctors = [];
-          _resolvedDoctors = true;
-          _isLoadingDoctors = false;
-          _errorMessage = 'no_doctors_available'.tr;
-        });
-        return;
-      }
-
-      final decoded = jsonDecode(response.body);
-      final rawItems = _extractList(decoded);
-      final items = rawItems
-          .whereType<Map<String, dynamic>>()
-          .map(SpecialistDoctorItem.fromJson)
-          .where((doctor) => doctor.localizedName().trim().isNotEmpty)
-          .where((doctor) => !_isHiddenDoctor(doctor))
-          .toList();
-
-      setState(() {
-        _doctors = items;
-        _resolvedDoctors = true;
-        _isLoadingDoctors = false;
-        _showScrollHintLeft = false;
-        _showScrollHintRight = false;
-        _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
-      });
-      WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
-    } catch (_) {
-      if (!mounted || requestToken != _doctorRequestToken) return;
+    if (response.statusCode < 200 || response.statusCode >= 300) {
       setState(() {
         _doctors = [];
         _resolvedDoctors = true;
         _isLoadingDoctors = false;
-        _showScrollHintLeft = false;
-        _showScrollHintRight = false;
         _errorMessage = 'no_doctors_available'.tr;
       });
+      return;
     }
+
+    final decoded = jsonDecode(response.body);
+    final rawItems = _extractList(decoded);
+
+    final items = {
+      for (final doctor in rawItems
+          .whereType<Map<String, dynamic>>()
+          .map(SpecialistDoctorItem.fromJson)
+          .where((doctor) => doctor.localizedName().trim().isNotEmpty)
+          .where((doctor) => !_isHiddenDoctor(doctor)))
+        doctor.id: doctor,
+    }.values.toList();
+
+    setState(() {
+      _doctors = items;
+      _resolvedDoctors = true;
+      _isLoadingDoctors = false;
+      _showScrollHintLeft = false;
+      _showScrollHintRight = false;
+      _errorMessage = items.isEmpty ? 'no_doctors_available'.tr : null;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _updateScrollHint());
+  } catch (_) {
+    if (!mounted || requestToken != _doctorRequestToken) return;
+    setState(() {
+      _doctors = [];
+      _resolvedDoctors = true;
+      _isLoadingDoctors = false;
+      _showScrollHintLeft = false;
+      _showScrollHintRight = false;
+      _errorMessage = 'no_doctors_available'.tr;
+    });
   }
+}
 
   List<dynamic> _extractList(dynamic decoded) {
     if (decoded is List) return decoded;

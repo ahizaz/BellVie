@@ -41,63 +41,7 @@ class ProfileController extends GetxController {
       selectedRecordFile.value = file;
     }
   }
-//   Future<void> uploadMedicalRecord() async {
-//   try {
-//     if (recordTypeCtrl.text.trim().isEmpty) {
-//       AppLoader.showError('Please enter document type.');
-//       return;
-//     }
 
-//     if (selectedRecordFile.value == null) {
-//       AppLoader.showError('Please select a document.');
-//       return;
-//     }
-
-//     isUploadingRecord.value = true;
-//     AppLoader.show(status: 'Uploading record...');
-
-//     final token = AuthService.to.accessToken.value;
-
-//     final request = http.MultipartRequest(
-//       'POST',
-//       AppApiService().buildUrl('/api/v1/auth/record-documents/create/'),
-//     );
-
-//     request.headers['Authorization'] = 'Bearer $token';
-
-//     request.fields['documents_type'] = recordTypeCtrl.text.trim();
-
-//     request.files.add(
-//       await http.MultipartFile.fromPath(
-//         'document',
-//         selectedRecordFile.value!.path,
-//       ),
-//     );
-
-//     final streamed = await request.send();
-//     final response = await http.Response.fromStream(streamed);
-
-//     if (response.statusCode >= 200 && response.statusCode < 300) {
-//       recordTypeCtrl.clear();
-//       selectedRecordFile.value = null;
-
-//       Get.back();
-
-//       AppLoader.showSuccess('Medical record uploaded successfully.');
-//     } else {
-//       AppLoader.showError('Could not upload medical record.');
-//     }
-//   } catch (e) {
-//     debugPrint('Medical record upload error => $e');
-//     AppLoader.showError('Could not upload medical record.');
-//   } finally {
-//     isUploadingRecord.value = false;
-
-//     if (AppLoader.isShow) {
-//       AppLoader.dismiss();
-//     }
-//   }
-// }
 Future<void> uploadMedicalRecord() async {
   try {
     if (recordTypeCtrl.text.trim().isEmpty) {
