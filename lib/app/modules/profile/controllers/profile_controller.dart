@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -28,7 +27,175 @@ class ProfileController extends GetxController {
   final districtCtrl = TextEditingController();
 
   final ImagePicker _imagePicker = ImagePicker();
+  final recordTypeCtrl = TextEditingController();
+  final selectedRecordFile = Rx<XFile?>(null);
+  var isUploadingRecord = false.obs;
 
+  //record file
+  Future<void> pickRecordFile() async {
+    final file = await _imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 85,
+    );
+    if (file != null) {
+      selectedRecordFile.value = file;
+    }
+  }
+//   Future<void> uploadMedicalRecord() async {
+//   try {
+//     if (recordTypeCtrl.text.trim().isEmpty) {
+//       AppLoader.showError('Please enter document type.');
+//       return;
+//     }
+
+//     if (selectedRecordFile.value == null) {
+//       AppLoader.showError('Please select a document.');
+//       return;
+//     }
+
+//     isUploadingRecord.value = true;
+//     AppLoader.show(status: 'Uploading record...');
+
+//     final token = AuthService.to.accessToken.value;
+
+//     final request = http.MultipartRequest(
+//       'POST',
+//       AppApiService().buildUrl('/api/v1/auth/record-documents/create/'),
+//     );
+
+//     request.headers['Authorization'] = 'Bearer $token';
+
+//     request.fields['documents_type'] = recordTypeCtrl.text.trim();
+
+//     request.files.add(
+//       await http.MultipartFile.fromPath(
+//         'document',
+//         selectedRecordFile.value!.path,
+//       ),
+//     );
+
+//     final streamed = await request.send();
+//     final response = await http.Response.fromStream(streamed);
+
+//     if (response.statusCode >= 200 && response.statusCode < 300) {
+//       recordTypeCtrl.clear();
+//       selectedRecordFile.value = null;
+
+//       Get.back();
+
+//       AppLoader.showSuccess('Medical record uploaded successfully.');
+//     } else {
+//       AppLoader.showError('Could not upload medical record.');
+//     }
+//   } catch (e) {
+//     debugPrint('Medical record upload error => $e');
+//     AppLoader.showError('Could not upload medical record.');
+//   } finally {
+//     isUploadingRecord.value = false;
+
+//     if (AppLoader.isShow) {
+//       AppLoader.dismiss();
+//     }
+//   }
+// }
+Future<void> uploadMedicalRecord() async {
+  try {
+    if (recordTypeCtrl.text.trim().isEmpty) {
+      Get.snackbar(
+        'Required',
+        'Please enter document type.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    if (selectedRecordFile.value == null) {
+      Get.snackbar(
+        'Required',
+        'Please select a document.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    isUploadingRecord.value = true;
+
+    final token = AuthService.to.accessToken.value.trim();
+
+    if (token.isEmpty) {
+      Get.snackbar(
+        'Login Required',
+        'Please login again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    final request = http.MultipartRequest(
+      'POST',
+      AppApiService().buildUrl('/api/v1/auth/record-documents/create/'),
+    );
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.fields['documents_type'] = recordTypeCtrl.text.trim();
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'document',
+        selectedRecordFile.value!.path,
+      ),
+    );
+
+    final streamed = await request.send();
+    final response = await http.Response.fromStream(streamed);
+
+    debugPrint('Medical record status => ${response.statusCode}');
+    debugPrint('Medical record response => ${response.body}');
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      recordTypeCtrl.clear();
+      selectedRecordFile.value = null;
+
+      if (Get.isBottomSheetOpen == true) {
+        Get.back();
+      }
+
+      Get.snackbar(
+        'Success',
+        'Medical record uploaded successfully.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+    } else {
+      Get.snackbar(
+        'Upload Failed',
+        'Could not upload medical record.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
+    }
+  } catch (e) {
+    debugPrint('Medical record upload error => $e');
+
+    Get.snackbar(
+      'Error',
+      'Could not upload medical record.',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.redAccent,
+      colorText: Colors.white,
+    );
+  } finally {
+    isUploadingRecord.value = false;
+  }
+}
   @override
   void onInit() {
     super.onInit();
@@ -226,6 +393,8 @@ class ProfileController extends GetxController {
     nameCtrl.dispose();
     emailCtrl.dispose();
     districtCtrl.dispose();
-    super.onClose();
+   
+    recordTypeCtrl.dispose();
+     super.onClose();
   }
 }
