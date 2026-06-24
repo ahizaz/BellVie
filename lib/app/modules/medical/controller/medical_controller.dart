@@ -64,4 +64,40 @@ class MedicalRecordsController extends GetxController {
       isLoading.value = false;
     }
   }
+  //delete
+  Future<void> deleteRecord(int recordId) async {
+  final token = AuthService.to.accessToken.value.trim();
+
+  try {
+    final response = await http.delete(
+      Uri.parse(
+        '${AppApiService.baseUrl}/api/v1/auth/record-documents/$recordId/',
+      ),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 204) {
+      records.removeWhere((e) => e.id == recordId);
+
+      Get.snackbar(
+        'Success',
+        'Medical record deleted successfully',
+      );
+    } else {
+      Get.snackbar(
+        'Error',
+        'Failed to delete medical record',
+      );
+    }
+  } catch (e) {
+    Get.snackbar(
+      'Error',
+      'Something went wrong',
+    );
+  }
+}
 }
