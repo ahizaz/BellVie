@@ -243,8 +243,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     }
   }
 
-// NOTE: _extractCountriesResults moved to top-level below to be
-// sendable to `compute()` without capturing `this`.
 
   @override
   void dispose() {
@@ -304,20 +302,7 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           ],
         ),
         const SizedBox(height: 2),
-        // GridView.builder(
-        //   shrinkWrap: true,
-        //   physics: const NeverScrollableScrollPhysics(),
-        //   itemCount: _countries.length,
-        //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //     crossAxisCount: 3,
-        //     crossAxisSpacing: 2,
-        //     mainAxisSpacing: 0,
-        //     childAspectRatio: 0.82,
-        //   ),
-        //   itemBuilder: (context, i) {
-        //     return _ForeignTreatmentCard(item: _countries[i]);
-        //   },
-        // ),
+        
         SizedBox(
           height: 125,
           child: ListView.builder(

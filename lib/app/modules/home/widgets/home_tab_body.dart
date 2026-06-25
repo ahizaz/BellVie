@@ -82,27 +82,7 @@ class ComingSoonPage extends StatelessWidget {
   }
 }
 
-class _RecordsPlaceholder extends StatelessWidget {
-  const _RecordsPlaceholder();
 
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Text(
-          "You don't have any medical records yet.",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black54,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class HomeScrollContent extends StatelessWidget {
   const HomeScrollContent({super.key});
