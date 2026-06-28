@@ -1,6 +1,8 @@
+
 // import 'package:bellevie/app/services/auth_service.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
+
 // import '../../../routes/app_routes.dart';
 // import '../controllers/home_controller.dart';
 // import '../widgets/home_bottom_nav.dart';
@@ -15,19 +17,33 @@
 //       _showCallDrawer(context);
 //       return;
 //     }
-//     // Appointment tab (index 1)
+
+//     // Appointment tab
 //     if (index == 1) {
 //       final isLoggedIn = Get.find<AuthService>().authenticated;
+
 //       if (!isLoggedIn) {
-//         // Go to login, after login should redirect to appointment list
 //         await Get.toNamed(Routes.LOGIN);
 //         return;
-//       } else {
-//         // Go to appointment list view
-//         await Get.toNamed('/appointment-list');
+//       }
+
+//       await Get.toNamed('/appointment-list');
+//       return;
+//     }
+
+//     // Records tab
+//     if (index == 3) {
+//       final isLoggedIn = Get.find<AuthService>().authenticated;
+
+//       if (!isLoggedIn) {
+//         await Get.toNamed(Routes.LOGIN);
 //         return;
 //       }
+
+//       controller.changeTab(index);
+//       return;
 //     }
+
 //     controller.changeTab(index);
 //   }
 
@@ -46,10 +62,10 @@
 //   Widget build(BuildContext context) {
 //     return Obx(() {
 //       controller.currentLocale.value;
+
 //       final activeIndex =
 //           controller.tabIndex.value == 2 ? 0 : controller.tabIndex.value;
-//       // Daily tip popup disabled per request.
-//       // _maybeShowDailyTip(context, activeIndex);
+
 //       return Scaffold(
 //         backgroundColor: const Color(0xFFF2F2F2),
 //         body: SafeArea(
@@ -74,6 +90,21 @@
 
 //   @override
 //   Widget build(BuildContext context) {
+//     final items = [
+//       {
+//         'route': Routes.EMERGENCY_SERVICES,
+//         'image': 'assets/images/banners/Emergency_service_banner.jpg',
+//       },
+//       {
+//         'route': Routes.SPECIALIST_DOCTORS,
+//         'image': 'assets/images/banners/special_service_banner.jpg',
+//       },
+//       {
+//         'route': Routes.CONTACT_US,
+//         'image': 'assets/images/banners/call_us_need.jpg',
+//       },
+//     ];
+
 //     return SafeArea(
 //       top: false,
 //       child: Container(
@@ -89,6 +120,7 @@
 //             Center(
 //               child: Container(
 //                 width: 42,
+//                 height: 4,
 //                 decoration: BoxDecoration(
 //                   color: const Color(0xFFCFD8E2),
 //                   borderRadius: BorderRadius.circular(99),
@@ -110,32 +142,9 @@
 //               child: ListView.separated(
 //                 scrollDirection: Axis.horizontal,
 //                 padding: const EdgeInsets.symmetric(horizontal: 4),
-//                 itemCount: 3,
+//                 itemCount: items.length,
 //                 separatorBuilder: (_, __) => const SizedBox(width: 12),
 //                 itemBuilder: (context, index) {
-//                   final items = [
-//                     {
-//                       'title': 'Emergency Doctor',
-//                       'subtitle': 'Get urgent medical support quickly.',
-//                       'route': Routes.EMERGENCY_SERVICES,
-//                       'image':
-//                           'assets/images/banners/Emergency_service_banner.jpg',
-//                     },
-//                     {
-//                       'title': 'Special Doctor',
-//                       'subtitle': 'Connect with specialist consultation.',
-//                       'route': Routes.SPECIALIST_DOCTORS,
-//                       'image':
-//                           'assets/images/banners/special_service_banner.jpg',
-//                     },
-//                     {
-//                       'title': 'Call Us For Other Need',
-//                       'subtitle': 'Reach BelleVie support for any other help.',
-//                       'route': Routes.CONTACT_US,
-//                       'image': 'assets/images/banners/call_us_need.jpg',
-//                     },
-//                   ];
-
 //                   final item = items[index];
 
 //                   return GestureDetector(
@@ -143,13 +152,13 @@
 //                       Navigator.of(context).pop();
 //                       Get.toNamed(item['route'] as String);
 //                     },
-//                     child: SizedBox(
+//                     child: ClipRRect(
+//                       borderRadius: BorderRadius.circular(14),
 //                       child: Image.asset(
 //                         item['image'] as String,
 //                         fit: BoxFit.cover,
 //                         width: 180,
-//                         height: 5,
-
+//                         height: 84,
 //                       ),
 //                     ),
 //                   );
@@ -163,81 +172,6 @@
 //   }
 // }
 
-// class _CallDrawerCard extends StatelessWidget {
-//   final String title;
-//   final String subtitle;
-//   final IconData icon;
-//   final Color iconBg;
-//   final VoidCallback onTap;
-
-//   const _CallDrawerCard({
-//     required this.title,
-//     required this.subtitle,
-//     required this.icon,
-//     required this.iconBg,
-//     required this.onTap,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Material(
-//       color: const Color(0xFFF5F8FC),
-//       borderRadius: BorderRadius.circular(14),
-//       child: InkWell(
-//         borderRadius: BorderRadius.circular(14),
-//         onTap: onTap,
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-//           child: Row(
-//             children: [
-//               Container(
-//                 width: 42,
-//                 height: 42,
-//                 decoration: BoxDecoration(
-//                   color: iconBg,
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//                 child: Icon(
-//                   icon,
-//                   color: const Color(0xFF2C6CB8),
-//                   size: 22,
-//                 ),
-//               ),
-//               const SizedBox(width: 10),
-//               Expanded(
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text(
-//                       title,
-//                       style: const TextStyle(
-//                         fontSize: 15,
-//                         fontWeight: FontWeight.w700,
-//                         color: Colors.black87,
-//                       ),
-//                     ),
-//                     const SizedBox(height: 2),
-//                     Text(
-//                       subtitle,
-//                       style: const TextStyle(
-//                         fontSize: 12,
-//                         color: Colors.black54,
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               const Icon(
-//                 Icons.chevron_right_rounded,
-//                 color: Color(0xFF8693A2),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 import 'package:bellevie/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -281,6 +215,19 @@ class HomeView extends GetView<HomeController> {
       }
 
       controller.changeTab(index);
+      return;
+    }
+
+    // My Account tab
+    if (index == 4) {
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+
+      if (!isLoggedIn) {
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      }
+
+      await Get.toNamed(Routes.PROFILE);
       return;
     }
 

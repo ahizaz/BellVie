@@ -153,8 +153,8 @@ class _DoctorListCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 66,
-            height: 66,
+            width: 68,
+            height: 79,
             decoration: BoxDecoration(
               color: const Color(0xFFCDEFF2),
               borderRadius: BorderRadius.circular(10),
