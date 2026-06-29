@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -245,92 +244,90 @@ class DoctorDetailsView extends StatelessWidget {
     );
   }
 
+  Widget _heroAvatar(String imageUrl, String name, String designation) {
+    final bool hasDesignation = designation.trim().isNotEmpty &&
+        designation.trim().toLowerCase() != 'not available';
 
-Widget _heroAvatar(String imageUrl, String name, String designation) {
-  final bool hasDesignation =
-      designation.trim().isNotEmpty &&
-      designation.trim().toLowerCase() != 'not available';
-
-  return Column(
-    children: [
-      Container(
-        width: 116,
-        height: 116,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(26),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: .12),
-              blurRadius: 24,
-              offset: const Offset(0, 12),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(6),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: imageUrl.isNotEmpty
-              ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      color: const Color(0xFFEFF6F5),
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: const Color(0xFFEFF6F5),
-                      alignment: Alignment.center,
-                      child: const Icon(
-                        Icons.person,
-                        size: 56,
-                        color: Colors.black26,
-                      ),
-                    );
-                  },
-                )
-              : Container(
-                  color: const Color(0xFFEFF6F5),
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.person,
-                    size: 56,
-                    color: Colors.black26,
+    return Column(
+      children: [
+        Container(
+          width: 110,
+          height: 125,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(26),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: .12),
+                blurRadius: 24,
+                offset: const Offset(0, 12),
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(6),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Container(
+                        color: const Color(0xFFEFF6F5),
+                        alignment: Alignment.center,
+                        child: const CircularProgressIndicator(),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: const Color(0xFFEFF6F5),
+                        alignment: Alignment.center,
+                        child: const Icon(
+                          Icons.person,
+                          size: 56,
+                          color: Colors.black26,
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    color: const Color(0xFFEFF6F5),
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.person,
+                      size: 56,
+                      color: Colors.black26,
+                    ),
                   ),
-                ),
-        ),
-      ),
-      const SizedBox(height: 14),
-      Text(
-        name,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          color: Color(0xFF17302F),
-          fontSize: 21,
-          fontWeight: FontWeight.w800,
-        ),
-      ),
-
-      if (hasDesignation) ...[
-        const SizedBox(height: 6),
-        Text(
-          designation,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xFF6B7B7A),
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
           ),
         ),
+        const SizedBox(height: 14),
+        Text(
+          name,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF17302F),
+            fontSize: 21,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        if (hasDesignation) ...[
+          const SizedBox(height: 6),
+          Text(
+            designation,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Color(0xFF6B7B7A),
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ],
-    ],
-  );
-}
+    );
+  }
+
   Widget _scheduleRow({required String left, required String right}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -561,27 +558,7 @@ Widget _heroAvatar(String imageUrl, String name, String designation) {
                                         color: Colors.black87,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 48,
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Get.snackbar(
-                                              'More options',
-                                              'Additional actions are not available yet.',
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                            );
-                                          },
-                                          icon: const Icon(Icons.menu),
-                                          color: Colors.black87,
-                                        ),
-                                      ),
-                                    ),
+                                   
                                   ],
                                 ),
                                 const Center(
@@ -610,38 +587,26 @@ Widget _heroAvatar(String imageUrl, String name, String designation) {
                                         _heroAvatar(image, name, designation),
                                   ),
                                   const SizedBox(height: 18),
-                                  // Center(
-                                  //   child: Text(
-                                  //     subcategory.isEmpty
-                                  //         ? designation
-                                  //         : subcategory,
-                                  //     textAlign: TextAlign.center,
-                                  //     style: const TextStyle(
-                                  //       fontSize: 15,
-                                  //       fontWeight: FontWeight.w700,
-                                  //       color: Color(0xFF2C6D69),
-                                  //     ),
-                                  //   ),
-                                  // ),
+                        
                                   if ((subcategory.isEmpty
-        ? designation
-        : subcategory)
-    .trim()
-    .toLowerCase() !=
-    'not available')
-  Center(
-    child: Text(
-      subcategory.isEmpty
-          ? designation
-          : subcategory,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
-        color: Color(0xFF2C6D69),
-      ),
-    ),
-  ),
+                                              ? designation
+                                              : subcategory)
+                                          .trim()
+                                          .toLowerCase() !=
+                                      'not available')
+                                    Center(
+                                      child: Text(
+                                        subcategory.isEmpty
+                                            ? designation
+                                            : subcategory,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF2C6D69),
+                                        ),
+                                      ),
+                                    ),
                                   if (subcategory.isNotEmpty ||
                                       years.isNotEmpty ||
                                       fees.isNotEmpty) ...[
