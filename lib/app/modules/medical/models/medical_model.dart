@@ -22,4 +22,14 @@ class MedicalRecordModel {
       uploadedAt: json['uploaded_at'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'documents_type': documentsType,
+      'document': document,
+      'document_details': documentDetails,
+      'uploaded_at': uploadedAt,
+    };
+  }
 }

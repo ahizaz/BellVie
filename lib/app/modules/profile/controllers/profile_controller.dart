@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bellevie/app/routes/app_routes.dart';
+import 'package:bellevie/app/modules/medical/controller/medical_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -117,6 +118,10 @@ Future<void> uploadMedicalRecord() async {
         backgroundColor: Colors.green,
         colorText: Colors.white,
       );
+
+      if (Get.isRegistered<MedicalRecordsController>()) {
+        await Get.find<MedicalRecordsController>().fetchRecords();
+      }
     } else {
       Get.snackbar(
         'Upload Failed',

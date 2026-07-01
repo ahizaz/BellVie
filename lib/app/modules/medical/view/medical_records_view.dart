@@ -2,10 +2,8 @@ import 'package:bellevie/app/modules/medical/controller/medical_controller.dart'
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MedicalRecordsView extends StatelessWidget {
+class MedicalRecordsView extends GetView<MedicalRecordsController> {
   MedicalRecordsView({super.key});
-
-  final controller = Get.put(MedicalRecordsController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class MedicalRecordsView extends StatelessWidget {
         surfaceTintColor: Colors.white,
       ),
       body: Obx(() {
-        if (controller.isLoading.value) {
+        if (controller.isFirstLoading.value && controller.records.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(),
           );

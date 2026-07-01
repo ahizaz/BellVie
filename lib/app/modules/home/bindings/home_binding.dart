@@ -1,3 +1,4 @@
+import 'package:bellevie/app/modules/medical/controller/medical_controller.dart';
 import 'package:bellevie/app/modules/notification/controller/notification_controller.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,11 @@ class HomeBinding extends Bindings {
 
     Get.put<NotificationController>(
       NotificationController(),
+      permanent: true,
+    );
+
+    Get.put<MedicalRecordsController>(
+      MedicalRecordsController(),
       permanent: true,
     );
 
