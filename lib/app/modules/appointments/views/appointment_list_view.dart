@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:bellevie/app/services/api_service.dart';
 import 'package:bellevie/app/services/auth_service.dart';
@@ -261,7 +260,13 @@ class _AppointmentListViewState extends State<AppointmentListView> {
             ),
       bottomNavigationBar: HomeBottomNav(
         currentIndex: 1,
-        onTap: (i) => Get.offAllNamed(Routes.HOME, arguments: {'tab': i}),
+        onTap: (i) {
+          if (i == 1) {
+            return;
+          }
+
+          Get.offAllNamed(Routes.HOME, arguments: {'tab': i});
+        },
       ),
     );
   }
