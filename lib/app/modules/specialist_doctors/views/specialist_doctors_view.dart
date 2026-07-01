@@ -15,6 +15,39 @@ import '../../../services/api_service.dart';
 class SpecialistDoctorsView extends GetView<HomeController> {
   const SpecialistDoctorsView({super.key});
 
+  Future<void> _onBottomNavTap(BuildContext context, int index) async {
+    if (index == 2) {
+      await showBelleVieCallDrawer(context);
+      return;
+    }
+
+    if (index == 1) {
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+
+      if (!isLoggedIn) {
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      }
+
+      await Get.toNamed('/appointment-list');
+      return;
+    }
+
+    if (index == 3 || index == 4) {
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+
+      if (!isLoggedIn) {
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      }
+
+      Get.offAllNamed(Routes.HOME, arguments: {'tab': index});
+      return;
+    }
+
+    Get.offAllNamed(Routes.HOME, arguments: {'tab': index});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,16 +63,7 @@ class SpecialistDoctorsView extends GetView<HomeController> {
       bottomNavigationBar: Obx(
         () => HomeBottomNav(
           currentIndex: controller.tabIndex.value,
-          onTap: (i) {
-            if (i == 2) {
-              showBelleVieCallDrawer(context);
-              return;
-            }
-
-            if (controller.changeTab(i)) {
-              Get.offAllNamed(Routes.HOME);
-            }
-          },
+          onTap: (i) => _onBottomNavTap(context, i),
         ),
       ),
     );

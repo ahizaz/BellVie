@@ -1,8 +1,8 @@
-
 import 'package:bellevie/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../views/discount_partners_view.dart';
 import 'discount_partner_details.dart';
 
 class DiscountPartner extends StatefulWidget {
@@ -28,13 +28,44 @@ class _DiscountPartnerState extends State<DiscountPartner> {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'discount_partner'.tr,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            const Expanded(
+              child: Text(
+                'Discount Partner',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(18),
+              onTap: () {
+                Get.to(() => const DiscountPartnersView());
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'See all',
+                      style: TextStyle(
+                        color: Color(0xFF2F6FED),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(width: 4),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                      color: Color(0xFF2F6FED),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -143,13 +174,7 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                               ),
                               const SizedBox(height: 8),
                               Builder(builder: (context) {
-                                final isBangla = homeController
-                                        .currentLocale.value.languageCode ==
-                                    'bn';
-
-                                final label = isBangla
-                                    ? (item?.nameBn ?? item?.name ?? '')
-                                    : (item?.name ?? '');
+                                final label = item?.nameEn ?? item?.name ?? '';
 
                                 return Expanded(
                                   child: Align(
