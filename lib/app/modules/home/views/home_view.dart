@@ -27,7 +27,7 @@ class HomeView extends GetView<HomeController> {
         return;
       }
 
-      await Get.toNamed('/appointment-list');
+      controller.changeTab(index);
       return;
     }
 
@@ -70,6 +70,21 @@ class HomeView extends GetView<HomeController> {
 
       return Scaffold(
         backgroundColor: const Color(0xFFF2F2F2),
+        appBar: activeIndex == 1
+            ? AppBar(
+                automaticallyImplyLeading: false,
+                elevation: 0,
+                backgroundColor: Colors.white,
+                title: const Text(
+                  'My Appointments',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                centerTitle: true,
+              )
+            : null,
         body: SafeArea(
           child: Column(
             children: [

@@ -8,6 +8,7 @@ import 'package:bellevie/app/modules/home/widgets/sections/promotion_banner.dart
 import 'package:bellevie/app/modules/medical/view/medical_records_view.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:bellevie/app/modules/profile/views/profile_view.dart';
+import 'package:bellevie/app/modules/appointments/views/appointments_tab_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../theme/responsive.dart';
@@ -27,7 +28,7 @@ class HomeTabBody extends StatelessWidget {
       case 0:
         return const HomeScrollContent();
       case 1:
-        return const _PlaceholderScreen(title: 'my_appointments');
+        return const AppointmentsTabView();
       case 2:
         return const _PlaceholderScreen(title: 'my_health');
       case 3:
@@ -81,8 +82,6 @@ class ComingSoonPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class HomeScrollContent extends StatelessWidget {
   const HomeScrollContent({super.key});

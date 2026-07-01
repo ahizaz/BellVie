@@ -96,29 +96,6 @@ class _AppointmentListViewState extends State<AppointmentListView> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
-
-    if (_loading) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('My Appointments'),
-        ),
-        body: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (_error != null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('My Appointments'),
-        ),
-        body: Center(
-          child: Text(_error!),
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F8FB),
       appBar: AppBar(
@@ -134,131 +111,141 @@ class _AppointmentListViewState extends State<AppointmentListView> {
         ),
         centerTitle: true,
       ),
-      body: _appointments.isEmpty
+      body: _loading
           ? const Center(
-              child: Text(
-                'No appointments found.',
-              ),
+              child: CircularProgressIndicator(),
             )
-          : ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              itemCount: _appointments.length,
-              itemBuilder: (context, index) {
-                final appt = _appointments[index];
-                final payment = appt['payment'] ?? {};
-                final service = appt['service_details'] ?? {};
-                final status = appt['status']?.toString() ?? '';
+          : _error != null
+              ? Center(
+                  child: Text(_error!),
+                )
+              : _appointments.isEmpty
+                  ? const Center(
+                      child: Text(
+                        'No appointments found.',
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      itemCount: _appointments.length,
+                      itemBuilder: (context, index) {
+                        final appt = _appointments[index];
+                        final payment = appt['payment'] ?? {};
+                        final service = appt['service_details'] ?? {};
+                        final status = appt['status']?.toString() ?? '';
 
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 13),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFBEE9FF),
-                        Color(0xFFDFF8EF),
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Colors.white24,
-                      width: 1,
-                    ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x33FFFFFF),
-                        offset: Offset(-3, -3),
-                        blurRadius: 6,
-                      ),
-                      BoxShadow(
-                        color: Color(0x22000000),
-                        offset: Offset(3, 4),
-                        blurRadius: 8,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 65,
-                        width: 65,
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: .4),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: const Icon(
-                          Icons.calendar_month_rounded,
-                          size: 34,
-                          color: Color(0xFF1565C0),
-                        ),
-                      ),
-                      SizedBox(width: mediaQuery.width * .04),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              service['name'] ?? 'Unknown Doctor',
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 13),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFBEE9FF),
+                                Color(0xFFDFF8EF),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: Colors.white24,
+                              width: 1,
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x33FFFFFF),
+                                offset: Offset(-3, -3),
+                                blurRadius: 6,
                               ),
-                            ),
-                            const SizedBox(height: 5),
-                            _buildInfoRow(
-                              icon: Icons.person,
-                              text: 'Patient: ${appt['patient_name'] ?? ''}',
-                            ),
-                            const SizedBox(height: 3),
-                            _buildInfoRow(
-                              icon: Icons.access_time,
-                              text:
-                                  '${appt['appointment_date'] ?? ''} ${appt['appointment_time'] ?? ''}',
-                            ),
-                            const SizedBox(height: 3),
-                            _buildInfoRow(
-                              icon: Icons.local_hospital,
-                              text: 'Hospital: ${service['hospital'] ?? ''}',
-                            ),
-                            const SizedBox(height: 3),
-                            _buildInfoRow(
-                              icon: Icons.payments_outlined,
-                              text:
-                                  'Payment: ${payment['amount'] ?? ''} (${payment['status'] ?? ''})',
-                            ),
-                            const SizedBox(height: 5),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
+                              BoxShadow(
+                                color: Color(0x22000000),
+                                offset: Offset(3, 4),
+                                blurRadius: 8,
                               ),
-                              decoration: BoxDecoration(
-                                color: _getStatusBgColor(status),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Text(
-                                status,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: _getStatusTextColor(status),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 65,
+                                width: 65,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: .4),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                child: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  size: 34,
+                                  color: Color(0xFF1565C0),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                              SizedBox(width: mediaQuery.width * .04),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      service['name'] ?? 'Unknown Doctor',
+                                      style: const TextStyle(
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    _buildInfoRow(
+                                      icon: Icons.person,
+                                      text:
+                                          'Patient: ${appt['patient_name'] ?? ''}',
+                                    ),
+                                    const SizedBox(height: 3),
+                                    _buildInfoRow(
+                                      icon: Icons.access_time,
+                                      text:
+                                          '${appt['appointment_date'] ?? ''} ${appt['appointment_time'] ?? ''}',
+                                    ),
+                                    const SizedBox(height: 3),
+                                    _buildInfoRow(
+                                      icon: Icons.local_hospital,
+                                      text:
+                                          'Hospital: ${service['hospital'] ?? ''}',
+                                    ),
+                                    const SizedBox(height: 3),
+                                    _buildInfoRow(
+                                      icon: Icons.payments_outlined,
+                                      text:
+                                          'Payment: ${payment['amount'] ?? ''} (${payment['status'] ?? ''})',
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 6,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: _getStatusBgColor(status),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Text(
+                                        status,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: _getStatusTextColor(status),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
       bottomNavigationBar: HomeBottomNav(
         currentIndex: 1,
         onTap: (i) {
