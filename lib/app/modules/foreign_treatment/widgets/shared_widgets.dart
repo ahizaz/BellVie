@@ -5,6 +5,14 @@ class _MainBottomNav extends StatelessWidget {
   const _MainBottomNav({required this.controller});
 
   Future<void> _goToMainBottomNavTab(int index) async {
+    if (index == 2) {
+      final context = Get.context;
+      if (context != null) {
+        await showBelleVieCallDrawer(context);
+      }
+      return;
+    }
+
     if (index == 1) {
       final isLoggedIn = Get.find<AuthService>().authenticated;
 
@@ -166,46 +174,6 @@ class _MainBottomNav extends StatelessWidget {
       }),
     );
   }
-}
-
-class _BottomNavClipper extends CustomClipper<Path> {
-  static const double _notchRadius = 26;
-  static const double _notchDepth = 12;
-  static const double _notchSmooth = 10;
-
-  @override
-  Path getClip(Size size) {
-    final centerX = size.width / 2;
-    final path = Path()..moveTo(0, 0);
-
-    path.lineTo(centerX - _notchRadius - _notchSmooth, 0);
-    path.quadraticBezierTo(
-      centerX - _notchRadius,
-      0,
-      centerX - _notchRadius + 4,
-      _notchDepth,
-    );
-    path.arcToPoint(
-      Offset(centerX + _notchRadius - 4, _notchDepth),
-      radius: const Radius.circular(_notchRadius),
-      clockwise: false,
-    );
-    path.quadraticBezierTo(
-      centerX + _notchRadius,
-      0,
-      centerX + _notchRadius + _notchSmooth,
-      0,
-    );
-
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
 }
 
 class _PlaceholderScreen extends StatelessWidget {

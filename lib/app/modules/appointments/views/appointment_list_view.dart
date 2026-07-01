@@ -3,6 +3,7 @@ import 'package:bellevie/app/services/api_service.dart';
 import 'package:bellevie/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../home/widgets/call_drawer.dart';
 import '../../home/widgets/home_bottom_nav.dart';
 import '../../../routes/app_routes.dart';
 
@@ -261,6 +262,11 @@ class _AppointmentListViewState extends State<AppointmentListView> {
       bottomNavigationBar: HomeBottomNav(
         currentIndex: 1,
         onTap: (i) {
+          if (i == 2) {
+            showBelleVieCallDrawer(context);
+            return;
+          }
+
           if (i == 1) {
             return;
           }

@@ -1,8 +1,8 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../home/widgets/call_drawer.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../home/widgets/home_bottom_nav.dart';
 import '../controllers/specialist_doctors_controller.dart';
@@ -31,6 +31,11 @@ class SpecialistDoctorsView extends GetView<HomeController> {
         () => HomeBottomNav(
           currentIndex: controller.tabIndex.value,
           onTap: (i) {
+            if (i == 2) {
+              showBelleVieCallDrawer(context);
+              return;
+            }
+
             if (controller.changeTab(i)) {
               Get.offAllNamed(Routes.HOME);
             }
