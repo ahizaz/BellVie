@@ -54,7 +54,7 @@ class HomeView extends GetView<HomeController> {
         return;
       }
 
-      await Get.toNamed(Routes.PROFILE);
+      controller.changeTab(index);
       return;
     }
 

@@ -195,7 +195,13 @@ class HomeTopBar extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () => Get.toNamed(Routes.PROFILE),
+                  onTap: () {
+                    if (!authService.authenticated) {
+                      Get.toNamed(Routes.LOGIN);
+                      return;
+                    }
+                    homeController.changeTab(4);
+                  },
                   customBorder: const CircleBorder(),
                   child: Obx(() {
                     final avatarBytes = authService.profileAvatarBytes.value;

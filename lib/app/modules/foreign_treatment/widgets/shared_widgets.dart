@@ -18,7 +18,15 @@ class _MainBottomNav extends StatelessWidget {
     }
 
     if (index == 4) {
-      await Get.toNamed(Routes.PROFILE);
+      final isLoggedIn = Get.find<AuthService>().authenticated;
+
+      if (!isLoggedIn) {
+        await Get.toNamed(Routes.LOGIN);
+        return;
+      }
+
+      controller.changeTab(index);
+      await Get.offAllNamed(Routes.HOME, arguments: {'tab': index});
       return;
     }
 

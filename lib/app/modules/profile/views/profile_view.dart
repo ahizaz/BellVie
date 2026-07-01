@@ -13,7 +13,7 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     if (!Get.isRegistered<ProfileController>()) {
-      Get.put(ProfileController());
+      Get.put(ProfileController()); //profile controller
     }
 
     return Obx(() {
