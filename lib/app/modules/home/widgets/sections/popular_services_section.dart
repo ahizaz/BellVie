@@ -17,7 +17,7 @@ class PopularServicesSection extends StatelessWidget {
       'assets/images/Hospitals Booking.png',
       whiteIconBackground: true,
     ),
-    _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
+  _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
     _ServiceItem('pharmacy', 'assets/images/Pharmacy.png'),
     _ServiceItem('video_consultancy', 'assets/images/Video Consultancy.png'),
     _ServiceItem('ambulance_services', 'assets/images/Ambulance.png'),
