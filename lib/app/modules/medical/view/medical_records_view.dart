@@ -9,9 +9,9 @@ class MedicalRecordsView extends GetView<MedicalRecordsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Medical Records',
-          style: TextStyle(
+        title: Text(
+          'medical_records'.tr,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
             color: Colors.black87,
@@ -96,9 +96,9 @@ class MedicalRecordsView extends GetView<MedicalRecordsController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Medical Records',
-                            style: TextStyle(
+                          Text(
+                            'medical_records'.tr,
+                            style: const TextStyle(
                               fontSize: 13,
                               color: Color(0xFF7A7A7A),
                               fontWeight: FontWeight.w600,

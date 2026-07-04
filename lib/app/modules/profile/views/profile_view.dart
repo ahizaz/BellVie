@@ -242,7 +242,7 @@ class ProfileView extends GetView<ProfileController> {
                     color: Colors.deepPurple,
                     size: 28,
                   ),
-                  title: 'Video Consultation',
+                  title: 'video_consultation'.tr,
                   onTap: () async {
                     final isLoggedIn = AuthService.to.authenticated;
 
@@ -294,7 +294,7 @@ class ProfileView extends GetView<ProfileController> {
                     height: 28,
                     fit: BoxFit.contain,
                   ),
-                  title: 'Medical Records',
+                  title: 'medical_records'.tr,
                   onTap: () {
                     final isLoggedIn = AuthService.to.authenticated;
 
