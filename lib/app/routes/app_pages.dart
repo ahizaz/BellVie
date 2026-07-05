@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/auth/views/regester_views.dart';
+import 'package:bellevie/app/modules/home/widgets/sections/bangladeshi_hospital_package.dart';
 import 'package:bellevie/app/modules/notification/views/notification_view.dart';
 import 'package:get/get.dart';
 
@@ -189,5 +190,10 @@ class AppPages {
   page: () => const NotificationView(),
   
 ),
+GetPage(
+  name: Routes.HOSPITAL_PACKAGE,
+  page: () => const HospitalPackageView(),
+),
+
   ];
 }

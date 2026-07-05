@@ -27,4 +27,6 @@ abstract class Routes {
   static const APPOINTMENT_PAYMENT = '/appointment-payment';
   static const SOCIAL_SERVICES = '/social-services';
   static const SOCIAL_SERVICE_DETAIL = '/social-service-detail';
+  static const HOSPITAL_PACKAGE = '/hospital-package';
+  
 }

@@ -807,7 +807,7 @@ class _HospitalPackageCard extends StatelessWidget {
           return;
         }
 
-        Get.toNamed(Routes.COMING_SOON);
+        Get.toNamed(Routes.HOSPITAL_PACKAGE);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(
@@ -839,7 +839,7 @@ class _HospitalPackageCard extends StatelessWidget {
                   height: thumbSize,
                   width: thumbSize,
                   child: Image.asset(
-                    'assets/images/Hospitals Booking.png',
+                    'assets/images/special doctors/hospital (1).png',
                     fit: BoxFit.contain,
                   ),
                 ),
