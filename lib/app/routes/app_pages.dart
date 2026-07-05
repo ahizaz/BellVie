@@ -192,7 +192,7 @@ class AppPages {
 ),
 GetPage(
   name: Routes.HOSPITAL_PACKAGE,
-  page: () => const HospitalPackageView(),
+  page: () =>  HospitalPackageView(),
 ),
 
   ];
