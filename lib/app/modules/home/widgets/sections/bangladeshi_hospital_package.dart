@@ -1,4 +1,5 @@
 import 'package:bellevie/app/modules/home/controllers/bangladehi_hospital_controller.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,12 +66,54 @@ class HospitalPackageView extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(
-        () => ListView.separated(
+      body: Obx(() {
+        if (controller.isLoading.value && controller.hospitals.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return ListView.separated(
           padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
-          itemCount: controller.hospitals.length,
+          itemCount: controller.hospitals.length + (controller.hasMore ? 1 : 0),
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, index) {
+            if (index == controller.hospitals.length) {
+              return Center(
+                child: ElevatedButton(
+                  onPressed: controller.isMoreLoading.value
+                      ? null
+                      : controller.loadMoreHospitals,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFC0E2E3),
+                    foregroundColor: Colors.black87,
+                    elevation: 2,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 34,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: controller.isMoreLoading.value
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.black87,
+                          ),
+                        )
+                      : const Text(
+                          'More',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                ),
+              );
+            }
+
             final hospital = controller.hospitals[index];
 
             return Container(
@@ -86,10 +129,7 @@ class HospitalPackageView extends StatelessWidget {
                   end: Alignment.centerRight,
                 ),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Colors.white24,
-                  width: 1,
-                ),
+                border: Border.all(color: Colors.white24, width: 1),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x33FFFFFF),
@@ -103,7 +143,6 @@ class HospitalPackageView extends StatelessWidget {
                   ),
                 ],
               ),
-              
               child: Row(
                 children: [
                   Container(
@@ -131,11 +170,11 @@ class HospitalPackageView extends StatelessWidget {
                             size: 34,
                           )
                         : ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              hospital.image,
+                            borderRadius: BorderRadius.circular(32),
+                            child: CachedNetworkImage(
+                              imageUrl: hospital.image,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
+                              errorWidget: (context, error, stackTrace) {
                                 return const Icon(
                                   Icons.local_hospital,
                                   color: Colors.redAccent,
@@ -152,7 +191,9 @@ class HospitalPackageView extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          hospital.name,
+                          controller.isBangla
+                              ? hospital.nameBn
+                              : hospital.nameEn,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -163,7 +204,7 @@ class HospitalPackageView extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          hospital.district,
+                          hospital.area,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -173,7 +214,9 @@ class HospitalPackageView extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          hospital.division,
+                          controller.isBangla
+                              ? hospital.addressBn
+                              : hospital.addressEn,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -194,8 +237,8 @@ class HospitalPackageView extends StatelessWidget {
               ),
             );
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 }
