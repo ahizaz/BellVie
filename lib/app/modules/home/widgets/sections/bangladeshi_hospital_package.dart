@@ -52,8 +52,10 @@ class HospitalPackageView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child: TextField(
+                    controller: controller.searchCtrl,
+                    onChanged: controller.onSearchChanged,
+                    decoration: const InputDecoration(
                       hintText: "Search Hospital",
                       prefixIcon: Icon(Icons.search, color: Colors.grey),
                       border: InputBorder.none,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,36 +39,40 @@ class HospitalItem {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name_en': nameEn,
-      'name_bn': nameBn,
-      'area': area,
-      'address_en': addressEn,
-      'address_bn': addressBn,
-      'image': image,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name_en': nameEn,
+        'name_bn': nameBn,
+        'area': area,
+        'address_en': addressEn,
+        'address_bn': addressBn,
+        'image': image,
+      };
 }
 
 class HospitalPackageController extends GetxController {
-  static const String _cacheKey = 'bangladesh_hospitals_cache_v2';
+  static const String _cacheKey = 'bangladesh_hospitals_cache_v3';
 
   static final List<HospitalItem> _memoryCache = [];
   static final List<HospitalItem> _allMemoryCache = [];
   static String? _memoryNextUrl;
+
+  final searchCtrl = TextEditingController();
 
   final hospitals = <HospitalItem>[].obs;
   final allHospitals = <HospitalItem>[].obs;
 
   final isLoading = false.obs;
   final isMoreLoading = false.obs;
+  final searchText = ''.obs;
 
   String? nextUrl;
   bool hasLoadedOnce = false;
 
+  bool get isSearching => searchText.value.trim().isNotEmpty;
+
   bool get hasMore {
+    if (isSearching) return false;
     if (nextUrl != null && nextUrl!.isNotEmpty) return true;
     return hospitals.length < allHospitals.length;
   }
@@ -79,6 +84,55 @@ class HospitalPackageController extends GetxController {
   void onInit() {
     super.onInit();
     loadInitialHospitals();
+  }
+
+  @override
+  void onClose() {
+    searchCtrl.dispose();
+    super.onClose();
+  }
+
+  void onSearchChanged(String value) {
+    searchText.value = value.trim();
+    _applySearch();
+  }
+
+  void _applySearch() {
+    final query = searchText.value.toLowerCase();
+
+    if (query.isEmpty) {
+      hospitals.assignAll(allHospitals.take(10).toList());
+      return;
+    }
+
+    final matched = allHospitals.where((item) {
+      final nameEn = item.nameEn.toLowerCase();
+      final nameBn = item.nameBn.toLowerCase();
+      final area = item.area.toLowerCase();
+      final addressEn = item.addressEn.toLowerCase();
+      final addressBn = item.addressBn.toLowerCase();
+
+      return nameEn.contains(query) ||
+          nameBn.contains(query) ||
+          area.contains(query) ||
+          addressEn.contains(query) ||
+          addressBn.contains(query);
+    }).toList();
+
+    matched.sort((a, b) {
+      final aName = isBangla ? a.nameBn : a.nameEn;
+      final bName = isBangla ? b.nameBn : b.nameEn;
+
+      final aStarts = aName.toLowerCase().startsWith(query);
+      final bStarts = bName.toLowerCase().startsWith(query);
+
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+
+      return aName.toLowerCase().compareTo(bName.toLowerCase());
+    });
+
+    hospitals.assignAll(matched);
   }
 
   Future<void> loadInitialHospitals() async {
@@ -103,9 +157,7 @@ class HospitalPackageController extends GetxController {
 
   Future<void> fetchHospitals({bool backgroundRefresh = false}) async {
     try {
-      if (!backgroundRefresh) {
-        isLoading.value = true;
-      }
+      if (!backgroundRefresh) isLoading.value = true;
 
       final url = Uri.parse(
         '${AppApiService.baseUrl}/api/v1/foreign-treatments/bangladesh-hospitals/?page_size=10',
@@ -115,19 +167,19 @@ class HospitalPackageController extends GetxController {
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
-
         final List list = body is List ? body : (body['results'] ?? []);
+
         nextUrl = body is Map ? body['next']?.toString() : null;
 
         final data = list.map((e) => HospitalItem.fromJson(e)).toList();
 
         if (nextUrl == null || nextUrl!.isEmpty) {
           allHospitals.assignAll(data);
-          hospitals.assignAll(allHospitals.take(10).toList());
         } else {
-          hospitals.assignAll(data);
           allHospitals.assignAll(data);
         }
+
+        _applySearch();
 
         _memoryCache
           ..clear()
@@ -147,16 +199,10 @@ class HospitalPackageController extends GetxController {
   }
 
   Future<void> loadMoreHospitals() async {
-    if (isMoreLoading.value) return;
+    if (isMoreLoading.value || !hasMore) return;
 
     if (nextUrl == null || nextUrl!.isEmpty) {
-      final nextItems = allHospitals.take(hospitals.length + 10).toList();
-      hospitals.assignAll(nextItems);
-
-      _memoryCache
-        ..clear()
-        ..addAll(hospitals);
-
+      hospitals.assignAll(allHospitals.take(hospitals.length + 10).toList());
       await _saveCache();
       return;
     }
@@ -168,14 +214,14 @@ class HospitalPackageController extends GetxController {
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
-
         final List list = body is List ? body : (body['results'] ?? []);
+
         nextUrl = body is Map ? body['next']?.toString() : null;
 
         final newData = list.map((e) => HospitalItem.fromJson(e)).toList();
 
-        hospitals.addAll(newData);
         allHospitals.addAll(newData);
+        _applySearch();
 
         _memoryCache
           ..clear()
@@ -197,13 +243,14 @@ class HospitalPackageController extends GetxController {
   Future<void> _saveCache() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final data = {
-      'next': nextUrl,
-      'items': hospitals.map((e) => e.toJson()).toList(),
-      'all_items': allHospitals.map((e) => e.toJson()).toList(),
-    };
-
-    await prefs.setString(_cacheKey, jsonEncode(data));
+    await prefs.setString(
+      _cacheKey,
+      jsonEncode({
+        'next': nextUrl,
+        'items': hospitals.map((e) => e.toJson()).toList(),
+        'all_items': allHospitals.map((e) => e.toJson()).toList(),
+      }),
+    );
   }
 
   Future<void> _loadCache() async {
@@ -219,13 +266,8 @@ class HospitalPackageController extends GetxController {
     final List items = body['items'] ?? [];
     final List allItems = body['all_items'] ?? [];
 
-    hospitals.assignAll(
-      items.map((e) => HospitalItem.fromJson(e)).toList(),
-    );
-
-    allHospitals.assignAll(
-      allItems.map((e) => HospitalItem.fromJson(e)).toList(),
-    );
+    hospitals.assignAll(items.map((e) => HospitalItem.fromJson(e)).toList());
+    allHospitals.assignAll(allItems.map((e) => HospitalItem.fromJson(e)).toList());
 
     _memoryCache
       ..clear()
