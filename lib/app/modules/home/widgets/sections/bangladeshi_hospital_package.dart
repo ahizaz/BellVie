@@ -245,6 +245,7 @@
 //   }
 // }
 import 'package:bellevie/app/modules/home/controllers/bangladehi_hospital_controller.dart';
+import 'package:bellevie/app/modules/home/data/hospital_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -416,134 +417,139 @@ class HospitalPackageView extends StatelessWidget {
 
             final hospital = controller.hospitals[index];
 
-            return Container(
-              height: 110,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [
-                    Color(0xFFBEE9FF),
-                    Color(0xFFDFF8EF),
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.white24, width: 1),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x33FFFFFF),
-                    offset: Offset(-3, -3),
-                    blurRadius: 6,
+            return InkWell(
+              onTap: () {
+                Get.to(() => HospitalDetailsPage(hospitalId: hospital.id));
+              },
+              child: Container(
+                height: 110,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [
+                      Color(0xFFBEE9FF),
+                      Color(0xFFDFF8EF),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
                   ),
-                  BoxShadow(
-                    color: Color(0x22000000),
-                    offset: Offset(3, 4),
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Color(0xFFE0F7FA), Color(0xFFE8F8FB)],
-                      ),
-                      borderRadius: BorderRadius.circular(32),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: .08),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.white24, width: 1),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x33FFFFFF),
+                      offset: Offset(-3, -3),
+                      blurRadius: 6,
                     ),
-                    child: hospital.image.isEmpty
-                        ? const Icon(
-                            Icons.local_hospital,
-                            color: Colors.redAccent,
-                            size: 34,
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(32),
-                            child: CachedNetworkImage(
-                              imageUrl: hospital.image,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, error, stackTrace) {
-                                return const Icon(
-                                  Icons.local_hospital,
-                                  color: Colors.redAccent,
-                                  size: 34,
-                                );
-                              },
+                    BoxShadow(
+                      color: Color(0x22000000),
+                      offset: Offset(3, 4),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xFFE0F7FA), Color(0xFFE8F8FB)],
+                        ),
+                        borderRadius: BorderRadius.circular(32),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: .08),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: hospital.image.isEmpty
+                          ? const Icon(
+                              Icons.local_hospital,
+                              color: Colors.redAccent,
+                              size: 34,
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(32),
+                              child: CachedNetworkImage(
+                                imageUrl: hospital.image,
+                                fit: BoxFit.cover,
+                                errorWidget: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.local_hospital,
+                                    color: Colors.redAccent,
+                                    size: 34,
+                                  );
+                                },
+                              ),
+                            ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            controller.isBangla
+                                ? hospital.nameBn
+                                : hospital.nameEn,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
                             ),
                           ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          controller.isBangla
-                              ? hospital.nameBn
-                              : hospital.nameEn,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black87,
+                          const SizedBox(height: 4),
+                          Text(
+                            hospital.district,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          hospital.district,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black54,
+                          const SizedBox(height: 2),
+                          Text(
+                            hospital.division,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          hospital.division,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black54,
+                          const SizedBox(height: 2),
+                          Text(
+                            controller.isBangla
+                                ? hospital.addressBn
+                                : hospital.addressEn,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          controller.isBangla
-                              ? hospital.addressBn
-                              : hospital.addressEn,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.black54,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 17,
-                    color: Colors.black54,
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 17,
+                      color: Colors.black54,
+                    ),
+                  ],
+                ),
               ),
             );
           },
