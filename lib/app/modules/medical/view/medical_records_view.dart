@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MedicalRecordsView extends GetView<MedicalRecordsController> {
-  MedicalRecordsView({super.key});
+  const MedicalRecordsView({super.key});
 
   @override
   Widget build(BuildContext context) {
