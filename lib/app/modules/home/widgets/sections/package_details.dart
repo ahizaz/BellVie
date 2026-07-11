@@ -14,7 +14,7 @@ class PackageDetails extends StatelessWidget {
     required this.assetPath,
   });
 
-  // ====================== PROBASHI PACKAGE KEYS (Translation Support) ======================
+  // Probashi Package data
   static const List<List<String>> _probashiRowKeys = [
     ['yearly_premium_bdt', '6250'],
     ['life', '500,000'],
@@ -26,15 +26,87 @@ class PackageDetails extends StatelessWidget {
     ['hospitalization', 'probashi_value_hospitalization'],
     ['telemedicine_24_7', 'probashi_value_telemedicine'],
   ];
-  // =======================================================================================
+
+  // Premium Package data from the new PDF
+static const List<Map<String, String>> _premiumPlans = [
+  {
+    'key': 'shohay',
+    'premium': 'BDT 900',
+    'monthlyPremium': 'BDT 75',
+    'life': '100,000',
+    'accidental': '200,000',
+    'disability': '100,000',
+    'critical': 'N/A',
+    'hospicash': '5,000',
+    'opd': 'N/A',
+  },
+  {
+    'key': 'nirbhor',
+    'premium': 'BDT 1,620',
+    'monthlyPremium': 'BDT 135',
+    'life': '150,000',
+    'accidental': '300,000',
+    'disability': '150,000',
+    'critical': 'N/A',
+    'hospicash': '10,000',
+    'opd': 'N/A',
+  },
+  {
+    'key': 'shoshti',
+    'premium': 'BDT 2,580',
+    'monthlyPremium': 'BDT 215',
+    'life': '175,000',
+    'accidental': '350,000',
+    'disability': '175,000',
+    'critical': '50,000',
+    'hospicash': '20,000',
+    'opd': 'N/A',
+  },
+  {
+    'key': 'aastha',
+    'premium': 'BDT 4,500',
+    'monthlyPremium': 'BDT 375',
+    'life': '250,000',
+    'accidental': '500,000',
+    'disability': '200,000',
+    'critical': '250,000',
+    'hospicash': '30,000',
+    'opd': '2,000',
+  },
+  {
+    'key': 'prottoy',
+    'premium': 'BDT 6,240',
+    'monthlyPremium': 'BDT 520',
+    'life': '350,000',
+    'accidental': '700,000',
+    'disability': '250,000',
+    'critical': '300,000',
+    'hospicash': '50,000',
+    'opd': '5,000',
+  },
+  {
+    'key': 'shurokkha',
+    'nameEn': 'Shurokkha',
+    'nameBn': 'সুরক্ষা',
+    'premium': 'BDT 3,000',
+    'monthlyPremium': 'BDT 250',
+    'life': '300,000',
+    'accidental': 'N/A',
+    'disability': 'N/A',
+    'critical': '300,000',
+    'hospicash': 'N/A',
+    'opd': 'N/A',
+  },
+];
 
   @override
   Widget build(BuildContext context) {
     final bool isProbashi = title == 'probashi_package'.tr ||
         title.toLowerCase().contains('probashi');
 
-    final String caption =
-        isProbashi ? 'bellevie_guardian_nrb'.tr : 'bellevie_guardian'.tr;
+    final String caption = isProbashi
+        ? 'bellevie_guardian_nrb'.tr
+        : 'bellevie_guardian'.tr;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +114,7 @@ class PackageDetails extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -54,19 +126,22 @@ class PackageDetails extends StatelessWidget {
                 width: double.infinity,
                 height: 235,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: double.infinity,
-                  height: 110,
-                  color: Colors.grey.shade100,
-                  child: const Center(
-                    child: Icon(Icons.image_not_supported_rounded,
-                        color: Colors.grey),
-                  ),
-                ),
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    height: 110,
+                    color: Colors.grey.shade100,
+                    child: const Center(
+                      child: Icon(
+                        Icons.image_not_supported_rounded,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 14),
-
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -78,19 +153,23 @@ class PackageDetails extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-            // Main Content
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
-                  colors: [Color(0xFFBEE9FF), Color(0xFFDFF8EF)],
+                  colors: [
+                    Color(0xFFBEE9FF),
+                    Color(0xFFDFF8EF),
+                  ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.white30, width: 1),
+                border: Border.all(
+                  color: Colors.white30,
+                  width: 1,
+                ),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x33FFFFFF),
@@ -114,76 +193,40 @@ class PackageDetails extends StatelessWidget {
     );
   }
 
-  // ====================== PREMIUM VERTICAL PLANS ======================
   Widget _buildPremiumVerticalPlans() {
-    final List<Map<String, String>> plans = [
-      {
-        'key': 'shohay',
-        'premium': 'BDT 549',
-        'life': '100,000',
-        'accidental death benefit': '200,000',
-        'permanent total disability': '100,000',
-        'critical': 'N/A',
-        'hospicash': 'BDT 5000 (BDT 500/day, up to 5 days in a row)',
-        'opd': 'N/A',
-      },
-      {
-        'key': 'nirbhor',
-        'premium': 'BDT 999',
-        'life': '150,000',
-        'accidental death benefit': '300,000',
-        'permanent total disability': 'N/A',
-        'critical': '25,000',
-        'hospicash': 'BDT 15,000 (BDT 1000/day, up to 5 days in a row)',
-        'opd': 'N/A',
-      },
-      {
-        'key': 'shoshti',
-        'premium': 'BDT 1499',
-        'life': '175,000',
-        'accidental death benefit': '350,000',
-        'permanent total disability': '175,000',
-        'critical': '50,000',
-        'hospicash': 'BDT 15,000 (BDT 1500/day, up to 5 days in a row)',
-        'opd': 'N/A',
-      },
-      {
-        'key': 'aastha',
-        'premium': 'BDT 2399',
-        'life': '200,000',
-        'accidental death benefit': '400,000',
-        'permanent partial disability': '200,000',
-        'critical': '100,000',
-        'hospicash': 'BDT 20,000 (BDT 1500/day, up to 5 days in a row)',
-        'opd': '2000',
-      },
-      {
-        'key': 'prottoy',
-        'premium': 'BDT 3599',
-        'life': '350,000',
-        'accidental death benefit': '700,000',
-        'permanent partial disability': '250,000',
-        'critical': '150,000',
-        'hospicash': 'BDT 35,000 (BDT 2000/day, up to 5 days in a row)',
-        'opd': '5000',
-      },
-    ];
+    final bool isBn = Get.locale?.languageCode == 'bn';
 
     return Column(
-      children: plans.map((plan) {
-        final displayName = localizedPremiumPlanName(plan['key']!);
+      children: _premiumPlans.map((plan) {
+        final String displayName;
+
+        if (plan['key'] == 'shurokkha') {
+          displayName = isBn
+              ? '${plan['nameBn']} (${plan['nameEn']})'
+              : '${plan['nameEn']} (${plan['nameBn']})';
+        } else {
+          displayName = localizedPremiumPlanName(plan['key']!);
+        }
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () => Get.to(() => PremiumPlanDetails(plan: plan)),
+            onTap: () {
+              Get.to(
+                () => PremiumPlanDetails(plan: plan),
+              );
+            },
             child: Container(
+              width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF9CCEE8), width: 1.5),
+                border: Border.all(
+                  color: const Color(0xFF9CCEE8),
+                  width: 1.5,
+                ),
                 boxShadow: const [
                   BoxShadow(
                     color: Color(0x14000000),
@@ -206,7 +249,7 @@ class PackageDetails extends StatelessWidget {
                             color: Color(0xFF0F4C6E),
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 8),
                         Text(
                           '${'yearly_premium'.tr}: ${plan['premium']}',
                           style: const TextStyle(
@@ -215,11 +258,25 @@ class PackageDetails extends StatelessWidget {
                             color: Colors.black87,
                           ),
                         ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '${isBn ? 'মাসিক প্রিমিয়াম' : 'Monthly Premium'}: '
+                          '${plan['monthlyPremium']}',
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const Icon(Icons.arrow_forward_ios_rounded,
-                      color: Color(0xFF0F4C6E), size: 20),
+                  const SizedBox(width: 12),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Color(0xFF0F4C6E),
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -229,11 +286,10 @@ class PackageDetails extends StatelessWidget {
     );
   }
 
-  // ====================== PROBASHI PACKAGE ======================
   static Widget _buildProbashiList(List<List<String>> rowKeys) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isNarrow = constraints.maxWidth < 360;
+        final bool isNarrow = constraints.maxWidth < 360;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -245,8 +301,9 @@ class PackageDetails extends StatelessWidget {
                 emphasize: i == 0,
                 isNarrow: isNarrow,
               ),
-              if (i != rowKeys.length - 1) const SizedBox(height: 10),
-            ]
+              if (i != rowKeys.length - 1)
+                const SizedBox(height: 10),
+            ],
           ],
         );
       },
@@ -259,25 +316,36 @@ class PackageDetails extends StatelessWidget {
     required bool emphasize,
     required bool isNarrow,
   }) {
-    final labelStyle = TextStyle(
+    final TextStyle labelStyle = TextStyle(
       fontSize: 12.5,
       fontWeight: FontWeight.w700,
-      color: emphasize ? const Color(0xFF0F4C6E) : Colors.black87,
+      color: emphasize
+          ? const Color(0xFF0F4C6E)
+          : Colors.black87,
     );
 
-    final valueStyle = TextStyle(
+    final TextStyle valueStyle = TextStyle(
       fontSize: 12.5,
-      fontWeight: emphasize ? FontWeight.w800 : FontWeight.w600,
-      color: emphasize ? const Color(0xFF0F4C6E) : Colors.black87,
+      fontWeight: emphasize
+          ? FontWeight.w800
+          : FontWeight.w600,
+      color: emphasize
+          ? const Color(0xFF0F4C6E)
+          : Colors.black87,
     );
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 12,
+      ),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: emphasize ? const Color(0xFF9CCEE8) : const Color(0xFFE1EDF5),
+          color: emphasize
+              ? const Color(0xFF9CCEE8)
+              : const Color(0xFFE1EDF5),
           width: 1,
         ),
         boxShadow: const [
@@ -292,22 +360,34 @@ class PackageDetails extends StatelessWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: labelStyle),
+                Text(
+                  label,
+                  style: labelStyle,
+                ),
                 const SizedBox(height: 6),
-                Text(value, style: valueStyle),
+                Text(
+                  value,
+                  style: valueStyle,
+                ),
               ],
             )
           : Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(flex: 5, child: Text(label, style: labelStyle)),
+                Expanded(
+                  flex: 5,
+                  child: Text(
+                    label,
+                    style: labelStyle,
+                  ),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   flex: 4,
                   child: Text(
                     value,
-                    style: valueStyle,
                     textAlign: TextAlign.right,
+                    style: valueStyle,
                   ),
                 ),
               ],
