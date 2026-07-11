@@ -849,4 +849,5 @@ class HospitalDetailsController extends GetxController {
       isLoading.value = false;
     }
   }
+  
 }

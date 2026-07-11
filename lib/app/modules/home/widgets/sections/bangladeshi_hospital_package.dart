@@ -37,8 +37,7 @@ class HospitalPackageView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(185),
           child: Obx(() {
-            final bool isInternational =
-                controller.isInternational.value;
+            final bool isInternational = controller.isInternational.value;
 
             return Container(
               color: const Color(0xFFC0E2E3),
@@ -113,8 +112,7 @@ class HospitalPackageView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _filterButton(
-                            title: controller
-                                    .selectedDistrict.value.isEmpty
+                            title: controller.selectedDistrict.value.isEmpty
                                 ? 'District'
                                 : controller.selectedDistrict.value,
                             onTap: () {
@@ -130,8 +128,7 @@ class HospitalPackageView extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _filterButton(
-                            title: controller
-                                    .selectedDivision.value.isEmpty
+                            title: controller.selectedDivision.value.isEmpty
                                 ? 'Division'
                                 : controller.selectedDivision.value,
                             onTap: () {
@@ -169,8 +166,7 @@ class HospitalPackageView extends StatelessWidget {
         ),
       ),
       body: Obx(() {
-        final bool loading =
-            controller.isLoading.value ||
+        final bool loading = controller.isLoading.value ||
             controller.isInternationalLoading.value;
 
         if (loading && controller.hospitals.isEmpty) {
@@ -315,10 +311,8 @@ class HospitalPackageView extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.center,
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             controller.isBangla
@@ -399,14 +393,10 @@ class HospitalPackageView extends StatelessWidget {
           horizontal: 12,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xFF4FA8A9)
-              : Colors.white,
+          color: isSelected ? const Color(0xFF4FA8A9) : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected
-                ? const Color(0xFF4FA8A9)
-                : Colors.black12,
+            color: isSelected ? const Color(0xFF4FA8A9) : Colors.black12,
           ),
           boxShadow: const [
             BoxShadow(
@@ -422,9 +412,7 @@ class HospitalPackageView extends StatelessWidget {
             Icon(
               icon,
               size: 18,
-              color: isSelected
-                  ? Colors.white
-                  : Colors.black87,
+              color: isSelected ? Colors.white : Colors.black87,
             ),
             const SizedBox(width: 6),
             Flexible(
@@ -435,9 +423,7 @@ class HospitalPackageView extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: isSelected
-                      ? Colors.white
-                      : Colors.black87,
+                  color: isSelected ? Colors.white : Colors.black87,
                 ),
               ),
             ),
@@ -573,7 +559,7 @@ class HospitalPackageView extends StatelessWidget {
             ],
           ),
         );
-      },
+      }, //
     );
   }
 }
