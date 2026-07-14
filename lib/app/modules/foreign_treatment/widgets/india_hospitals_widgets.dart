@@ -1,3 +1,4 @@
+
 part of '../views/foreign_treatment_view.dart';
 
 class _IndiaHospitalsTabBody extends StatelessWidget {
@@ -877,21 +878,16 @@ class _HospitalItem {
   List<String> get resolvedContacts {
     final normalized = contacts
         .map((e) => e.trim())
-        .where((e) => e.isNotEmpty && e.toLowerCase() != 'n/a')
-        .take(3)
+        .where(
+          (e) => e.isNotEmpty && e.toLowerCase() != 'n/a',
+        )
         .toList();
 
-    const defaultNumbers = [
-      '01805-464400',
-      '01805-464391',
-      '01805-464392',
-    ];
-
-    while (normalized.length < 3) {
-      normalized.add(defaultNumbers[normalized.length]);
+    if (normalized.isNotEmpty) {
+      return [normalized.first];
     }
 
-    return normalized;
+    return const ['01805-464400'];
   }
 
   static List<String> extractContacts(Map<String, dynamic> raw) {
@@ -1330,33 +1326,85 @@ class _HospitalInfoCard extends StatelessWidget {
 class _HospitalContactCard extends StatelessWidget {
   final String number;
 
-  const _HospitalContactCard({required this.number});
+  const _HospitalContactCard({
+    required this.number,
+  });
+
+  Future<void> _openDialPad() async {
+    final cleanedNumber = number.replaceAll(
+      RegExp(r'[^0-9+]'),
+      '',
+    );
+
+    if (cleanedNumber.isEmpty) return;
+
+    final Uri phoneUri = Uri.parse('tel:$cleanedNumber');
+
+    try {
+      final bool opened = await launchUrl(
+        phoneUri,
+        mode: LaunchMode.externalApplication,
+      );
+
+      if (!opened) {
+        Get.snackbar(
+          'Call failed',
+          'Phone dial pad could not be opened.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (error) {
+      debugPrint('Dial pad error: $error');
+
+      Get.snackbar(
+        'Call failed',
+        'Phone dial pad could not be opened.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: _openDialPad,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFD8D8D8)),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.call, size: 18, color: Color(0xFF2D7F72)),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              number,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 12,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: const Color(0xFFD8D8D8),
             ),
           ),
-        ],
+          child: Row(
+            children: [
+              const Icon(
+                Icons.call,
+                size: 18,
+                color: Color(0xFF2D7F72),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  number,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
