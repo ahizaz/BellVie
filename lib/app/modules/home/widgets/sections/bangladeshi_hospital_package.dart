@@ -1,6 +1,7 @@
-
 import 'package:bellevie/app/modules/home/controllers/bangladehi_hospital_controller.dart';
 import 'package:bellevie/app/modules/home/data/hospital_details_page.dart';
+
+import 'package:bellevie/app/modules/home/widgets/sections/international_hospital_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,8 @@ class HospitalPackageView extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(185),
           child: Obx(() {
-            final bool isInternational = controller.isInternational.value;
+            final bool isInternational =
+                controller.isInternational.value;
 
             return Container(
               color: const Color(0xFFC0E2E3),
@@ -55,7 +57,8 @@ class HospitalPackageView extends StatelessWidget {
                     height: 48,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius:
+                          BorderRadius.circular(12),
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black12,
@@ -65,8 +68,10 @@ class HospitalPackageView extends StatelessWidget {
                       ],
                     ),
                     child: TextField(
-                      controller: controller.searchCtrl,
-                      onChanged: controller.onSearchChanged,
+                      controller:
+                          controller.searchCtrl,
+                      onChanged:
+                          controller.onSearchChanged,
                       decoration: InputDecoration(
                         hintText: isInternational
                             ? 'Search International Hospital'
@@ -76,7 +81,8 @@ class HospitalPackageView extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
+                        contentPadding:
+                            const EdgeInsets.symmetric(
                           vertical: 14,
                         ),
                       ),
@@ -89,8 +95,10 @@ class HospitalPackageView extends StatelessWidget {
                         child: _hospitalTypeButton(
                           title: 'National',
                           icon: Icons.flag_rounded,
-                          isSelected: !isInternational,
-                          onTap: controller.selectNational,
+                          isSelected:
+                              !isInternational,
+                          onTap:
+                              controller.selectNational,
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -98,8 +106,10 @@ class HospitalPackageView extends StatelessWidget {
                         child: _hospitalTypeButton(
                           title: 'International',
                           icon: Icons.public_rounded,
-                          isSelected: isInternational,
-                          onTap: controller.selectInternational,
+                          isSelected:
+                              isInternational,
+                          onTap: controller
+                              .selectInternational,
                         ),
                       ),
                     ],
@@ -110,15 +120,23 @@ class HospitalPackageView extends StatelessWidget {
                       children: [
                         Expanded(
                           child: _filterButton(
-                            title: controller.selectedDistrict.value.isEmpty
+                            title: controller
+                                    .selectedDistrict
+                                    .value
+                                    .isEmpty
                                 ? 'District'
-                                : controller.selectedDistrict.value,
+                                : controller
+                                    .selectedDistrict
+                                    .value,
                             onTap: () {
                               _showFilterSheet(
                                 context,
-                                title: 'Select District',
-                                items: controller.districts,
-                                onSelect: controller.selectDistrict,
+                                title:
+                                    'Select District',
+                                items:
+                                    controller.districts,
+                                onSelect: controller
+                                    .selectDistrict,
                               );
                             },
                           ),
@@ -126,15 +144,23 @@ class HospitalPackageView extends StatelessWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _filterButton(
-                            title: controller.selectedDivision.value.isEmpty
+                            title: controller
+                                    .selectedDivision
+                                    .value
+                                    .isEmpty
                                 ? 'Division'
-                                : controller.selectedDivision.value,
+                                : controller
+                                    .selectedDivision
+                                    .value,
                             onTap: () {
                               _showFilterSheet(
                                 context,
-                                title: 'Select Division',
-                                items: controller.divisions,
-                                onSelect: controller.selectDivision,
+                                title:
+                                    'Select Division',
+                                items:
+                                    controller.divisions,
+                                onSelect: controller
+                                    .selectDivision,
                               );
                             },
                           ),
@@ -144,8 +170,10 @@ class HospitalPackageView extends StatelessWidget {
                           width: 38,
                           child: IconButton(
                             padding: EdgeInsets.zero,
-                            constraints: const BoxConstraints(),
-                            onPressed: controller.clearFilter,
+                            constraints:
+                                const BoxConstraints(),
+                            onPressed:
+                                controller.clearFilter,
                             icon: const Icon(
                               Icons.close,
                               color: Colors.black87,
@@ -164,13 +192,16 @@ class HospitalPackageView extends StatelessWidget {
         ),
       ),
       body: Obx(() {
-        final bool isInternational = controller.isInternational.value;
+        final bool isInternational =
+            controller.isInternational.value;
 
         final bool loading = isInternational
-            ? controller.isInternationalLoading.value
+            ? controller
+                .isInternationalLoading.value
             : controller.isLoading.value;
 
-        if (loading && controller.hospitals.isEmpty) {
+        if (loading &&
+            controller.hospitals.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(),
           );
@@ -200,44 +231,59 @@ class HospitalPackageView extends StatelessWidget {
             16,
             16,
           ),
-          itemCount: controller.hospitals.length,
+          itemCount:
+              controller.hospitals.length,
           separatorBuilder: (_, __) {
             return const SizedBox(height: 12);
           },
           itemBuilder: (context, index) {
-            final hospital = controller.hospitals[index];
+            final hospital =
+                controller.hospitals[index];
 
             final String displayName =
-                controller.isBangla && hospital.nameBn.trim().isNotEmpty
+                controller.isBangla &&
+                        hospital.nameBn
+                            .trim()
+                            .isNotEmpty
                     ? hospital.nameBn
                     : hospital.nameEn;
 
             final String displayAddress =
-                controller.isBangla && hospital.addressBn.trim().isNotEmpty
+                controller.isBangla &&
+                        hospital.addressBn
+                            .trim()
+                            .isNotEmpty
                     ? hospital.addressBn
                     : hospital.addressEn;
 
             return InkWell(
-              borderRadius: BorderRadius.circular(16),
-
-              // International details API দেওয়া হয়নি।
-              // তাই National details page শুধু National card-এ open হবে।
-              onTap: isInternational
-                  ? null
-                  : () {
-                      Get.to(
-                        () => HospitalDetailsPage(
-                          hospitalId: hospital.id,
-                        ),
-                      );
-                    },
+              borderRadius:
+                  BorderRadius.circular(16),
+              onTap: () {
+                if (isInternational) {
+                  Get.to(
+                    () =>
+                        InternationalHospitalDetailsPage(
+                      hospital: hospital,
+                    ),
+                  );
+                } else {
+                  Get.to(
+                    () => HospitalDetailsPage(
+                      hospitalId: hospital.id,
+                    ),
+                  );
+                }
+              },
               child: Container(
                 height: 110,
-                padding: const EdgeInsets.symmetric(
+                padding:
+                    const EdgeInsets.symmetric(
                   horizontal: 12,
                 ),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient:
+                      const LinearGradient(
                     colors: [
                       Color(0xFFBEE9FF),
                       Color(0xFFDFF8EF),
@@ -245,7 +291,8 @@ class HospitalPackageView extends StatelessWidget {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius:
+                      BorderRadius.circular(16),
                   border: Border.all(
                     color: Colors.white24,
                     width: 1,
@@ -269,44 +316,56 @@ class HospitalPackageView extends StatelessWidget {
                       height: 60,
                       width: 60,
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
+                        gradient:
+                            const LinearGradient(
+                          begin:
+                              Alignment.topCenter,
+                          end:
+                              Alignment.bottomCenter,
                           colors: [
                             Color(0xFFE0F7FA),
                             Color(0xFFE8F8FB),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(32),
+                        borderRadius:
+                            BorderRadius.circular(32),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(
+                            color: Colors.black
+                                .withValues(
                               alpha: 0.08,
                             ),
                             blurRadius: 12,
-                            offset: const Offset(0, 4),
+                            offset:
+                                const Offset(0, 4),
                           ),
                         ],
                       ),
                       child: hospital.image.isEmpty
                           ? const Icon(
                               Icons.local_hospital,
-                              color: Colors.redAccent,
+                              color:
+                                  Colors.redAccent,
                               size: 34,
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(
+                              borderRadius:
+                                  BorderRadius.circular(
                                 32,
                               ),
-                              child: CachedNetworkImage(
-                                imageUrl: hospital.image,
+                              child:
+                                  CachedNetworkImage(
+                                imageUrl:
+                                    hospital.image,
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) {
+                                placeholder:
+                                    (context, url) {
                                   return const Center(
                                     child: SizedBox(
                                       width: 22,
                                       height: 22,
-                                      child: CircularProgressIndicator(
+                                      child:
+                                          CircularProgressIndicator(
                                         strokeWidth: 2,
                                       ),
                                     ),
@@ -319,7 +378,8 @@ class HospitalPackageView extends StatelessWidget {
                                 ) {
                                   return const Icon(
                                     Icons.local_hospital,
-                                    color: Colors.redAccent,
+                                    color: Colors
+                                        .redAccent,
                                     size: 34,
                                   );
                                 },
@@ -329,42 +389,64 @@ class HospitalPackageView extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment:
+                            MainAxisAlignment.center,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
                         children: [
                           Text(
                             displayName,
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            overflow:
+                                TextOverflow.ellipsis,
+                            style:
+                                const TextStyle(
                               fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              fontWeight:
+                                  FontWeight.w600,
+                              color:
+                                  Colors.black87,
                             ),
                           ),
                           if (isInternational) ...[
-                            if (hospital.country.trim().isNotEmpty) ...[
-                              const SizedBox(height: 4),
+                            if (hospital.country
+                                .trim()
+                                .isNotEmpty) ...[
+                              const SizedBox(
+                                height: 4,
+                              ),
                               Text(
                                 hospital.country,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
+                                style:
+                                    const TextStyle(
                                   fontSize: 13,
-                                  color: Colors.black54,
+                                  color:
+                                      Colors.black54,
                                 ),
                               ),
                             ],
-                            if (displayAddress.trim().isNotEmpty) ...[
-                              const SizedBox(height: 3),
+                            if (displayAddress
+                                .trim()
+                                .isNotEmpty) ...[
+                              const SizedBox(
+                                height: 3,
+                              ),
                               Text(
                                 displayAddress,
                                 maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                overflow:
+                                    TextOverflow
+                                        .ellipsis,
+                                style:
+                                    const TextStyle(
                                   fontSize: 13,
                                   height: 1.25,
-                                  color: Colors.black54,
+                                  color:
+                                      Colors.black54,
                                 ),
                               ),
                             ],
@@ -373,30 +455,39 @@ class HospitalPackageView extends StatelessWidget {
                             Text(
                               hospital.district,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              overflow:
+                                  TextOverflow.ellipsis,
+                              style:
+                                  const TextStyle(
                                 fontSize: 13,
-                                color: Colors.black54,
+                                color:
+                                    Colors.black54,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               hospital.division,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              overflow:
+                                  TextOverflow.ellipsis,
+                              style:
+                                  const TextStyle(
                                 fontSize: 13,
-                                color: Colors.black54,
+                                color:
+                                    Colors.black54,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               displayAddress,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              overflow:
+                                  TextOverflow.ellipsis,
+                              style:
+                                  const TextStyle(
                                 fontSize: 13,
-                                color: Colors.black54,
+                                color:
+                                    Colors.black54,
                               ),
                             ),
                           ],
@@ -404,12 +495,14 @@ class HospitalPackageView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    if (!isInternational)
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 17,
-                        color: Colors.black54,
-                      ),
+
+                    // National এবং International—
+                    // দুই card-এই arrow থাকবে।
+                    const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 17,
+                      color: Colors.black54,
+                    ),
                   ],
                 ),
               ),
@@ -428,20 +521,26 @@ class HospitalPackageView extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius:
+          BorderRadius.circular(12),
       child: AnimatedContainer(
-        duration: const Duration(
-          milliseconds: 200,
-        ),
+        duration:
+            const Duration(milliseconds: 200),
         height: 44,
-        padding: const EdgeInsets.symmetric(
+        padding:
+            const EdgeInsets.symmetric(
           horizontal: 12,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF4FA8A9) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          color: isSelected
+              ? const Color(0xFF4FA8A9)
+              : Colors.white,
+          borderRadius:
+              BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFF4FA8A9) : Colors.black12,
+            color: isSelected
+                ? const Color(0xFF4FA8A9)
+                : Colors.black12,
           ),
           boxShadow: const [
             BoxShadow(
@@ -452,23 +551,30 @@ class HospitalPackageView extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Icon(
               icon,
               size: 18,
-              color: isSelected ? Colors.white : Colors.black87,
+              color: isSelected
+                  ? Colors.white
+                  : Colors.black87,
             ),
             const SizedBox(width: 6),
             Flexible(
               child: Text(
                 title,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow:
+                    TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: isSelected ? Colors.white : Colors.black87,
+                  fontWeight:
+                      FontWeight.w600,
+                  color: isSelected
+                      ? Colors.white
+                      : Colors.black87,
                 ),
               ),
             ),
@@ -484,15 +590,18 @@ class HospitalPackageView extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius:
+          BorderRadius.circular(12),
       child: Container(
         height: 42,
-        padding: const EdgeInsets.symmetric(
+        padding:
+            const EdgeInsets.symmetric(
           horizontal: 12,
         ),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius:
+              BorderRadius.circular(12),
           boxShadow: const [
             BoxShadow(
               color: Colors.black12,
@@ -507,10 +616,12 @@ class HospitalPackageView extends StatelessWidget {
               child: Text(
                 title,
                 maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                overflow:
+                    TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontWeight:
+                      FontWeight.w500,
                   color: Colors.black87,
                 ),
               ),
@@ -530,7 +641,8 @@ class HospitalPackageView extends StatelessWidget {
       child: SingleChildScrollView(
         padding: EdgeInsets.all(24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center,
           children: [
             Icon(
               Icons.public_rounded,
@@ -572,7 +684,8 @@ class HospitalPackageView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
+      shape:
+          const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(18),
         ),
@@ -580,13 +693,15 @@ class HospitalPackageView extends StatelessWidget {
       builder: (_) {
         return SafeArea(
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding:
+                const EdgeInsets.all(16),
             children: [
               Text(
                 title,
                 style: const TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontWeight:
+                      FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 12),
