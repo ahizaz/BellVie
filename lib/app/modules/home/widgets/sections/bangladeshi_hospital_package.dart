@@ -1,3 +1,4 @@
+
 import 'package:bellevie/app/modules/home/controllers/bangladehi_hospital_controller.dart';
 import 'package:bellevie/app/modules/home/data/hospital_details_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -24,7 +25,8 @@ class HospitalPackageView extends StatelessWidget {
           color: Colors.black87,
         ),
         title: const Text(
-          "Hospital's Under BelleVie Guardian\nHealth Protection Packages",
+          "Hospital's Under BelleVie Guardian\n"
+          "Health Protection Packages",
           textAlign: TextAlign.center,
           maxLines: 2,
           style: TextStyle(
@@ -81,8 +83,6 @@ class HospitalPackageView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-
-                  // National and International buttons
                   Row(
                     children: [
                       Expanded(
@@ -105,8 +105,6 @@ class HospitalPackageView extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-
-                  // National mode filters
                   if (!isInternational)
                     Row(
                       children: [
@@ -166,8 +164,11 @@ class HospitalPackageView extends StatelessWidget {
         ),
       ),
       body: Obx(() {
-        final bool loading = controller.isLoading.value ||
-            controller.isInternationalLoading.value;
+        final bool isInternational = controller.isInternational.value;
+
+        final bool loading = isInternational
+            ? controller.isInternationalLoading.value
+            : controller.isLoading.value;
 
         if (loading && controller.hospitals.isEmpty) {
           return const Center(
@@ -176,7 +177,7 @@ class HospitalPackageView extends StatelessWidget {
         }
 
         if (controller.hospitals.isEmpty) {
-          if (controller.isInternational.value) {
+          if (isInternational) {
             return _internationalEmptyView();
           }
 
@@ -206,15 +207,30 @@ class HospitalPackageView extends StatelessWidget {
           itemBuilder: (context, index) {
             final hospital = controller.hospitals[index];
 
+            final String displayName =
+                controller.isBangla && hospital.nameBn.trim().isNotEmpty
+                    ? hospital.nameBn
+                    : hospital.nameEn;
+
+            final String displayAddress =
+                controller.isBangla && hospital.addressBn.trim().isNotEmpty
+                    ? hospital.addressBn
+                    : hospital.addressEn;
+
             return InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                Get.to(
-                  () => HospitalDetailsPage(
-                    hospitalId: hospital.id,
-                  ),
-                );
-              },
+
+              // International details API দেওয়া হয়নি।
+              // তাই National details page শুধু National card-এ open হবে।
+              onTap: isInternational
+                  ? null
+                  : () {
+                      Get.to(
+                        () => HospitalDetailsPage(
+                          hospitalId: hospital.id,
+                        ),
+                      );
+                    },
               child: Container(
                 height: 110,
                 padding: const EdgeInsets.symmetric(
@@ -279,7 +295,9 @@ class HospitalPackageView extends StatelessWidget {
                               size: 34,
                             )
                           : ClipRRect(
-                              borderRadius: BorderRadius.circular(32),
+                              borderRadius: BorderRadius.circular(
+                                32,
+                              ),
                               child: CachedNetworkImage(
                                 imageUrl: hospital.image,
                                 fit: BoxFit.cover,
@@ -315,9 +333,7 @@ class HospitalPackageView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            controller.isBangla
-                                ? hospital.nameBn
-                                : hospital.nameEn,
+                            displayName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -326,47 +342,74 @@ class HospitalPackageView extends StatelessWidget {
                               color: Colors.black87,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            hospital.district,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
+                          if (isInternational) ...[
+                            if (hospital.country.trim().isNotEmpty) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                hospital.country,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                            if (displayAddress.trim().isNotEmpty) ...[
+                              const SizedBox(height: 3),
+                              Text(
+                                displayAddress,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  height: 1.25,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ] else ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              hospital.district,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black54,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            hospital.division,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
+                            const SizedBox(height: 2),
+                            Text(
+                              hospital.division,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black54,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            controller.isBangla
-                                ? hospital.addressBn
-                                : hospital.addressEn,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: Colors.black54,
+                            const SizedBox(height: 2),
+                            Text(
+                              displayAddress,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Colors.black54,
+                              ),
                             ),
-                          ),
+                          ],
                         ],
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 17,
-                      color: Colors.black54,
-                    ),
+                    if (!isInternational)
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 17,
+                        color: Colors.black54,
+                      ),
                   ],
                 ),
               ),
@@ -387,7 +430,9 @@ class HospitalPackageView extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(
+          milliseconds: 200,
+        ),
         height: 44,
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
@@ -504,7 +549,7 @@ class HospitalPackageView extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              'International hospital list will be available soon.',
+              'No international hospital found.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
@@ -559,7 +604,7 @@ class HospitalPackageView extends StatelessWidget {
             ],
           ),
         );
-      }, //
+      },
     );
   }
 }

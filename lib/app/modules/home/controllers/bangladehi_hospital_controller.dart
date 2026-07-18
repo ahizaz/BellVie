@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class HospitalItem {
   final String image;
   final String district;
   final String division;
+  final String country;
 
   HospitalItem({
     required this.id,
@@ -29,6 +31,7 @@ class HospitalItem {
     required this.image,
     required this.district,
     required this.division,
+    this.country = '',
   });
 
   factory HospitalItem.fromJson(
@@ -36,39 +39,43 @@ class HospitalItem {
   ) {
     return HospitalItem(
       id: _parseInt(json['id']),
-      nameEn: (
-        json['name_en'] ??
-        json['name'] ??
-        ''
-      ).toString(),
-      nameBn: (
-        json['name_bn'] ??
-        json['name'] ??
-        ''
-      ).toString(),
-      area: (
-        json['area'] ??
-        ''
-      ).toString(),
-      addressEn: (
-        json['address_en'] ??
-        json['address'] ??
-        ''
-      ).toString(),
-      addressBn: (
-        json['address_bn'] ??
-        json['address'] ??
-        ''
-      ).toString(),
-      image: (
-        json['image'] ??
-        ''
-      ).toString(),
+      nameEn: _firstText([
+        json['hospital_name_en'],
+        json['hospital_name'],
+        json['name_en'],
+        json['name'],
+      ]),
+      nameBn: _firstText([
+        json['hospital_name_bn'],
+        json['name_bn'],
+        json['hospital_name_en'],
+        json['hospital_name'],
+        json['name_en'],
+        json['name'],
+      ]),
+      area: _firstText([
+        json['area'],
+      ]),
+      addressEn: _firstText([
+        json['address_en'],
+        json['address'],
+      ]),
+      addressBn: _firstText([
+        json['address_bn'],
+        json['address_en'],
+        json['address'],
+      ]),
+      image: _firstText([
+        json['image'],
+      ]),
       district: _nestedName(
         json['district'],
       ),
       division: _nestedName(
         json['division'],
+      ),
+      country: _nestedName(
+        json['country'],
       ),
     );
   }
@@ -84,24 +91,30 @@ class HospitalItem {
         0;
   }
 
+  static String _firstText(
+    List<dynamic> values,
+  ) {
+    for (final value in values) {
+      final String text = value?.toString().trim() ?? '';
+
+      if (text.isNotEmpty) {
+        return text;
+      }
+    }
+
+    return '';
+  }
+
   static String _nestedName(dynamic value) {
-    if (value is Map<String, dynamic>) {
-      return (
-        value['name'] ??
-        value['name_en'] ??
-        ''
-      ).toString();
-    }
-
     if (value is Map) {
-      return (
-        value['name'] ??
-        value['name_en'] ??
-        ''
-      ).toString();
+      return _firstText([
+        value['name'],
+        value['name_en'],
+        value['name_bn'],
+      ]);
     }
 
-    return (value ?? '').toString();
+    return value?.toString().trim() ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -118,6 +131,9 @@ class HospitalItem {
       },
       'division': {
         'name': division,
+      },
+      'country': {
+        'name': country,
       },
     };
   }
@@ -164,88 +180,46 @@ class HospitalDetails {
                 json['id']?.toString() ?? '',
               ) ??
               0,
-      nameEn: (
-        json['name_en'] ??
-        json['name'] ??
-        ''
-      ).toString(),
-      nameBn: (
-        json['name_bn'] ??
-        json['name'] ??
-        ''
-      ).toString(),
-      image: (
-        json['image'] ??
-        ''
-      ).toString(),
-      area: (
-        json['area'] ??
-        ''
-      ).toString(),
-      addressEn: (
-        json['address_en'] ??
-        json['address'] ??
-        ''
-      ).toString(),
-      addressBn: (
-        json['address_bn'] ??
-        json['address'] ??
-        ''
-      ).toString(),
-      facilitiesEn: (
-        json['facilities_en'] ??
-        json['facilities'] ??
-        ''
-      ).toString(),
-      facilitiesBn: (
-        json['facilities_bn'] ??
-        json['facilities'] ??
-        ''
-      ).toString(),
-      contactDetailsEn: (
-        json['contact_details_en'] ??
-        json['contact_details'] ??
-        ''
-      ).toString(),
-      contactDetailsBn: (
-        json['contact_details_bn'] ??
-        json['contact_details'] ??
-        ''
-      ).toString(),
-      remarkEn: (
-        json['remark_en'] ??
-        json['remark'] ??
-        ''
-      ).toString(),
-      remarkBn: (
-        json['remark_bn'] ??
-        json['remark'] ??
-        ''
-      ).toString(),
+      nameEn: (json['name_en'] ?? json['name'] ?? '').toString(),
+      nameBn: (json['name_bn'] ?? json['name'] ?? '').toString(),
+      image: (json['image'] ?? '').toString(),
+      area: (json['area'] ?? '').toString(),
+      addressEn: (json['address_en'] ?? json['address'] ?? '').toString(),
+      addressBn: (json['address_bn'] ?? json['address'] ?? '').toString(),
+      facilitiesEn:
+          (json['facilities_en'] ?? json['facilities'] ?? '').toString(),
+      facilitiesBn:
+          (json['facilities_bn'] ?? json['facilities'] ?? '').toString(),
+      contactDetailsEn:
+          (json['contact_details_en'] ?? json['contact_details'] ?? '')
+              .toString(),
+      contactDetailsBn:
+          (json['contact_details_bn'] ?? json['contact_details'] ?? '')
+              .toString(),
+      remarkEn: (json['remark_en'] ?? json['remark'] ?? '').toString(),
+      remarkBn: (json['remark_bn'] ?? json['remark'] ?? '').toString(),
     );
   }
 }
 
 class HospitalPackageController extends GetxController {
-  static const String _cacheKey =
-      'bangladesh_hospitals_cache_v7';
+  static const String _cacheKey = 'bangladesh_hospitals_cache_v7';
 
-  /*
-   * International hospital API পাওয়া গেলে এখানে path বসাবে।
-   *
-   * Example:
-   *
-   * static const String _internationalHospitalApiPath =
-   *     '/api/v1/foreign-treatments/international-hospitals/'
-   *     '?page_size=30';
-   */
-  static const String _internationalHospitalApiPath = '';
+  static const String _internationalCacheKey =
+      'international_guardian_hospitals_cache_v1';
+
+  static const String _internationalHospitalApiPath =
+      '/api/v1/foreign-treatments/'
+      'international-guardian-hospitals/';
 
   static final List<HospitalItem> _memoryCache = [];
   static final List<HospitalItem> _allMemoryCache = [];
 
-  final TextEditingController searchCtrl =
-      TextEditingController();
+  static final List<HospitalItem> _internationalMemoryCache = [];
+
+  Future<void>? _internationalCacheFuture;
+
+  final TextEditingController searchCtrl = TextEditingController();
 
   final hospitals = <HospitalItem>[].obs;
   final allHospitals = <HospitalItem>[].obs;
@@ -273,11 +247,7 @@ class HospitalPackageController extends GetxController {
   }
 
   bool get isBangla {
-    return Get.find<HomeController>()
-            .currentLocale
-            .value
-            .languageCode ==
-        'bn';
+    return Get.find<HomeController>().currentLocale.value.languageCode == 'bn';
   }
 
   List<String> get districts {
@@ -323,7 +293,12 @@ class HospitalPackageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     loadInitialHospitals();
+
+    // International cache screen open হওয়ার
+    // সঙ্গে সঙ্গে background-এ preload করবে।
+    _internationalCacheFuture = _loadInternationalCache();
   }
 
   @override
@@ -393,12 +368,36 @@ class HospitalPackageController extends GetxController {
     searchCtrl.clear();
     searchText.value = '';
 
+    // Controller list-এ থাকলে সঙ্গে সঙ্গে দেখাবে।
     if (internationalHospitals.isNotEmpty) {
       _applyInternationalSearch();
-    } else {
-      hospitals.clear();
-      await fetchInternationalHospitals();
+      return;
     }
+
+    // App memory cache check করবে।
+    if (_internationalMemoryCache.isNotEmpty) {
+      internationalHospitals.assignAll(
+        _internationalMemoryCache,
+      );
+
+      _applyInternationalSearch();
+      return;
+    }
+
+    hospitals.clear();
+
+    // SharedPreferences cache load শেষ হওয়ার
+    // জন্য wait করবে।
+    await (_internationalCacheFuture ??= _loadInternationalCache());
+
+    // Persistent cache পাওয়া গেলে API hit করবে না।
+    if (internationalHospitals.isNotEmpty) {
+      _applyInternationalSearch();
+      return;
+    }
+
+    // Cache না থাকলেই শুধু API hit হবে।
+    await fetchInternationalHospitals();
   }
 
   void clearFilter() {
@@ -416,23 +415,17 @@ class HospitalPackageController extends GetxController {
   }
 
   void _applyBangladeshSearch() {
-    final String query =
-        searchText.value.trim().toLowerCase();
+    final String query = searchText.value.trim().toLowerCase();
 
     final filtered = allHospitals.where(
       (item) {
-        final bool districtMatch =
-            selectedDistrict.value.isEmpty ||
-            item.district ==
-                selectedDistrict.value;
+        final bool districtMatch = selectedDistrict.value.isEmpty ||
+            item.district == selectedDistrict.value;
 
-        final bool divisionMatch =
-            selectedDivision.value.isEmpty ||
-            item.division ==
-                selectedDivision.value;
+        final bool divisionMatch = selectedDivision.value.isEmpty ||
+            item.division == selectedDivision.value;
 
-        final bool searchMatch =
-            query.isEmpty ||
+        final bool searchMatch = query.isEmpty ||
             item.nameEn.toLowerCase().contains(query) ||
             item.nameBn.toLowerCase().contains(query) ||
             item.area.toLowerCase().contains(query) ||
@@ -441,9 +434,7 @@ class HospitalPackageController extends GetxController {
             item.district.toLowerCase().contains(query) ||
             item.division.toLowerCase().contains(query);
 
-        return districtMatch &&
-            divisionMatch &&
-            searchMatch;
+        return districtMatch && divisionMatch && searchMatch;
       },
     ).toList();
 
@@ -459,19 +450,17 @@ class HospitalPackageController extends GetxController {
   }
 
   void _applyInternationalSearch() {
-    final String query =
-        searchText.value.trim().toLowerCase();
+    final String query = searchText.value.trim().toLowerCase();
 
     final filtered = internationalHospitals.where(
       (item) {
         return query.isEmpty ||
             item.nameEn.toLowerCase().contains(query) ||
             item.nameBn.toLowerCase().contains(query) ||
+            item.country.toLowerCase().contains(query) ||
             item.area.toLowerCase().contains(query) ||
             item.addressEn.toLowerCase().contains(query) ||
-            item.addressBn.toLowerCase().contains(query) ||
-            item.district.toLowerCase().contains(query) ||
-            item.division.toLowerCase().contains(query);
+            item.addressBn.toLowerCase().contains(query);
       },
     ).toList();
 
@@ -491,11 +480,9 @@ class HospitalPackageController extends GetxController {
   ) {
     hospitalList.sort(
       (a, b) {
-        final String aName =
-            isBangla ? a.nameBn : a.nameEn;
+        final String aName = isBangla ? a.nameBn : a.nameEn;
 
-        final String bName =
-            isBangla ? b.nameBn : b.nameEn;
+        final String bName = isBangla ? b.nameBn : b.nameEn;
 
         return aName.toLowerCase().compareTo(
               bName.toLowerCase(),
@@ -513,9 +500,11 @@ class HospitalPackageController extends GetxController {
 
     if (_memoryCache.isNotEmpty) {
       allHospitals.assignAll(_allMemoryCache);
+
       hospitals.assignAll(
         _memoryCache.take(30).toList(),
       );
+
       return;
     }
 
@@ -553,11 +542,9 @@ class HospitalPackageController extends GetxController {
           response.body,
         );
 
-        final List<dynamic> list =
-            _extractResultList(body);
+        final List<dynamic> list = _extractResultList(body);
 
-        final List<HospitalItem> data =
-            _mapHospitalList(list);
+        final List<HospitalItem> data = _mapHospitalList(list);
 
         allHospitals.assignAll(data);
 
@@ -590,16 +577,6 @@ class HospitalPackageController extends GetxController {
   }
 
   Future<void> fetchInternationalHospitals() async {
-    if (_internationalHospitalApiPath.trim().isEmpty) {
-      internationalHospitals.clear();
-
-      if (isInternational.value) {
-        hospitals.clear();
-      }
-
-      return;
-    }
-
     try {
       isInternationalLoading.value = true;
 
@@ -608,20 +585,35 @@ class HospitalPackageController extends GetxController {
         '$_internationalHospitalApiPath',
       );
 
+      debugPrint(
+        'International hospital URL: $url',
+      );
+
       final response = await http.get(url);
+
+      debugPrint(
+        'International hospital status: '
+        '${response.statusCode}',
+      );
 
       if (response.statusCode == 200) {
         final dynamic body = jsonDecode(
           response.body,
         );
 
-        final List<dynamic> list =
-            _extractResultList(body);
+        final List<dynamic> list = _extractResultList(body);
 
-        final List<HospitalItem> data =
-            _mapHospitalList(list);
+        final List<HospitalItem> data = _mapHospitalList(list);
 
         internationalHospitals.assignAll(data);
+
+        // App চলাকালীন memory cache।
+        _internationalMemoryCache
+          ..clear()
+          ..addAll(data);
+
+        // App restart-এর পরেও data রাখবে।
+        await _saveInternationalCache();
 
         if (isInternational.value) {
           _applyInternationalSearch();
@@ -636,6 +628,11 @@ class HospitalPackageController extends GetxController {
         debugPrint(
           'International hospital API error: '
           '${response.statusCode}',
+        );
+
+        debugPrint(
+          'International hospital response: '
+          '${response.body}',
         );
       }
     } catch (error) {
@@ -660,18 +657,15 @@ class HospitalPackageController extends GetxController {
       return body;
     }
 
-    if (body is Map &&
-        body['results'] is List) {
+    if (body is Map && body['results'] is List) {
       return body['results'] as List;
     }
 
-    if (body is Map &&
-        body['data'] is List) {
+    if (body is Map && body['data'] is List) {
       return body['data'] as List;
     }
 
-    if (body is Map &&
-        body['items'] is List) {
+    if (body is Map && body['items'] is List) {
       return body['items'] as List;
     }
 
@@ -693,8 +687,7 @@ class HospitalPackageController extends GetxController {
 
   Future<void> _saveCache() async {
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       await prefs.setString(
         _cacheKey,
@@ -719,13 +712,81 @@ class HospitalPackageController extends GetxController {
     }
   }
 
+  Future<void> _saveInternationalCache() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString(
+        _internationalCacheKey,
+        jsonEncode({
+          'items': internationalHospitals
+              .map(
+                (hospital) => hospital.toJson(),
+              )
+              .toList(),
+        }),
+      );
+    } catch (error) {
+      debugPrint(
+        'International hospital cache saving error: '
+        '$error',
+      );
+    }
+  }
+
+  Future<void> _loadInternationalCache() async {
+    try {
+      // প্রথমে app memory cache check করবে।
+      if (_internationalMemoryCache.isNotEmpty) {
+        internationalHospitals.assignAll(
+          _internationalMemoryCache,
+        );
+
+        return;
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+
+      final String? cached = prefs.getString(_internationalCacheKey);
+
+      if (cached == null || cached.isEmpty) {
+        return;
+      }
+
+      final dynamic body = jsonDecode(cached);
+
+      if (body is! Map || body['items'] is! List) {
+        return;
+      }
+
+      final List<HospitalItem> cachedHospitals = _mapHospitalList(
+        body['items'] as List,
+      );
+
+      if (cachedHospitals.isEmpty) {
+        return;
+      }
+
+      internationalHospitals.assignAll(
+        cachedHospitals,
+      );
+
+      _internationalMemoryCache
+        ..clear()
+        ..addAll(cachedHospitals);
+    } catch (error) {
+      debugPrint(
+        'International hospital cache loading error: '
+        '$error',
+      );
+    }
+  }
+
   Future<void> _loadCache() async {
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
-      final String? cached =
-          prefs.getString(_cacheKey);
+      final String? cached = prefs.getString(_cacheKey);
 
       if (cached == null || cached.isEmpty) {
         return;
@@ -738,20 +799,14 @@ class HospitalPackageController extends GetxController {
       }
 
       final List<dynamic> items =
-          body['items'] is List
-              ? body['items'] as List
-              : [];
+          body['items'] is List ? body['items'] as List : [];
 
       final List<dynamic> allItems =
-          body['all_items'] is List
-              ? body['all_items'] as List
-              : [];
+          body['all_items'] is List ? body['all_items'] as List : [];
 
-      final List<HospitalItem> cachedHospitals =
-          _mapHospitalList(items);
+      final List<HospitalItem> cachedHospitals = _mapHospitalList(items);
 
-      final List<HospitalItem> cachedAllHospitals =
-          _mapHospitalList(allItems);
+      final List<HospitalItem> cachedAllHospitals = _mapHospitalList(allItems);
 
       if (cachedAllHospitals.isNotEmpty) {
         allHospitals.assignAll(
@@ -795,15 +850,10 @@ class HospitalDetailsController extends GetxController {
 
   final isLoading = false.obs;
 
-  final hospitalDetails =
-      Rxn<HospitalDetails>();
+  final hospitalDetails = Rxn<HospitalDetails>();
 
   bool get isBangla {
-    return Get.find<HomeController>()
-            .currentLocale
-            .value
-            .languageCode ==
-        'bn';
+    return Get.find<HomeController>().currentLocale.value.languageCode == 'bn';
   }
 
   @override
@@ -830,8 +880,7 @@ class HospitalDetailsController extends GetxController {
         );
 
         if (body is Map) {
-          hospitalDetails.value =
-              HospitalDetails.fromJson(
+          hospitalDetails.value = HospitalDetails.fromJson(
             Map<String, dynamic>.from(body),
           );
         }
@@ -849,5 +898,4 @@ class HospitalDetailsController extends GetxController {
       isLoading.value = false;
     }
   }
-  
 }
