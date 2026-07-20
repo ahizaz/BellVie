@@ -1,3 +1,4 @@
+
 import 'package:bellevie/app/modules/auth/controllers/auth_controller.dart';
 import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:bellevie/app/theme/responsive.dart';
@@ -14,11 +15,21 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> {
   final AuthController controller = Get.find<AuthController>();
+
   bool _obscureRegisterPassword = true;
   bool _obscureRegisterConfirmPassword = true;
 
-  String _countryLabel(String iso, String dialCode) {
+  String _countryLabel(
+    String iso,
+    String dialCode,
+  ) {
     return '$iso $dialCode';
+  }
+
+  Future<void> _submitRegistration() async {
+    FocusScope.of(context).unfocus();
+
+    await controller.register();
   }
 
   @override
@@ -30,17 +41,23 @@ class _RegisterViewState extends State<RegisterView> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(context.w(24)),
+            padding: EdgeInsets.all(
+              context.w(24),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  radius: context.w(compact ? 34 : 40),
+                  radius: context.w(
+                    compact ? 34 : 40,
+                  ),
                   backgroundImage: const AssetImage(
                     'assets/images/banners/appicon.png',
                   ),
                 ),
-                SizedBox(height: context.h(20)),
+                SizedBox(
+                  height: context.h(20),
+                ),
                 Text(
                   'registration'.tr,
                   style: const TextStyle(
@@ -49,7 +66,11 @@ class _RegisterViewState extends State<RegisterView> {
                     color: Colors.black87,
                   ),
                 ),
-                SizedBox(height: context.h(28)),
+                SizedBox(
+                  height: context.h(28),
+                ),
+
+                // Name
                 TextField(
                   controller: controller.registerNameController,
                   textInputAction: TextInputAction.next,
@@ -62,7 +83,11 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // Email
                 TextField(
                   controller: controller.registerEmailController,
                   keyboardType: TextInputType.emailAddress,
@@ -76,30 +101,40 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // Country and phone
                 Row(
                   children: [
                     SizedBox(
-                      width: context.w(compact ? 100 : 112),
+                      width: context.w(
+                        compact ? 100 : 112,
+                      ),
                       child: Obx(
                         () => InkWell(
                           onTap: () {
                             showCountryPicker(
                               context: context,
                               showPhoneCode: true,
-                              favorite: const ['BD', 'IN'],
-                              countryListTheme: const CountryListThemeData(
-                                borderRadius: BorderRadius.vertical(
+                              favorite: const [
+                                'BD',
+                                'IN',
+                              ],
+                              countryListTheme: CountryListThemeData(
+                                borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(16),
                                 ),
                                 inputDecoration: InputDecoration(
-                                  labelText: 'Search country',
-                                  border: OutlineInputBorder(),
+                                  labelText: 'search_country'.tr,
+                                  border: const OutlineInputBorder(),
                                 ),
                               ),
                               onSelect: (Country country) {
                                 controller.selectedRegisterCountryIso.value =
                                     country.countryCode;
+
                                 controller.selectedRegisterCountryCode.value =
                                     '+${country.phoneCode}';
                               },
@@ -111,7 +146,9 @@ class _RegisterViewState extends State<RegisterView> {
                               horizontal: context.w(8),
                             ),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade600),
+                              border: Border.all(
+                                color: Colors.grey.shade600,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
@@ -132,14 +169,18 @@ class _RegisterViewState extends State<RegisterView> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const Icon(Icons.arrow_drop_down),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(width: context.w(10)),
+                    SizedBox(
+                      width: context.w(10),
+                    ),
                     Expanded(
                       child: TextField(
                         controller: controller.registerPhoneController,
@@ -157,7 +198,11 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ],
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // District
                 Obx(
                   () => DropdownButtonFormField<String>(
                     initialValue: controller.selectedDistrict.value.isEmpty
@@ -186,14 +231,19 @@ class _RegisterViewState extends State<RegisterView> {
                     },
                   ),
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // Password
                 Obx(
                   () => TextField(
                     controller: controller.registerPasswordController,
                     obscureText: _obscureRegisterPassword,
                     textInputAction: TextInputAction.next,
-                    onChanged: (_) =>
-                        controller.validateRegisterPasswordMatch(),
+                    onChanged: (_) {
+                      controller.validateRegisterPasswordMatch();
+                    },
                     decoration: InputDecoration(
                       labelText: 'password'.tr,
                       border: const OutlineInputBorder(),
@@ -220,14 +270,22 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // Confirm password
                 Obx(
                   () => TextField(
                     controller: controller.registerConfirmPasswordController,
                     obscureText: _obscureRegisterConfirmPassword,
                     textInputAction: TextInputAction.done,
-                    onChanged: (_) =>
-                        controller.validateRegisterPasswordMatch(),
+                    onChanged: (_) {
+                      controller.validateRegisterPasswordMatch();
+                    },
+                    onSubmitted: (_) {
+                      _submitRegistration();
+                    },
                     decoration: InputDecoration(
                       labelText: 'confirm_password'.tr,
                       border: const OutlineInputBorder(),
@@ -254,26 +312,40 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                SizedBox(height: context.h(20)),
+                SizedBox(
+                  height: context.h(20),
+                ),
+
+                // Register button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: controller.register,
+                    onPressed: _submitRegistration,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2F6FED),
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: context.h(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: context.h(14),
+                      ),
                     ),
                     child: Text('register'.tr),
                   ),
                 ),
-                SizedBox(height: context.h(15)),
+                SizedBox(
+                  height: context.h(15),
+                ),
+
+                // Login navigation
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('${'already_have_account'.tr} '),
+                    Text(
+                      '${'already_have_account'.tr} ',
+                    ),
                     TextButton(
-                      onPressed: () => Get.offNamed(Routes.LOGIN),
+                      onPressed: () {
+                        Get.offNamed(Routes.LOGIN);
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,

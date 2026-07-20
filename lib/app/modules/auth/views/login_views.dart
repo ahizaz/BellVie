@@ -1,3 +1,4 @@
+
 import 'package:bellevie/app/routes/app_routes.dart';
 import 'package:bellevie/app/theme/responsive.dart';
 import 'package:country_picker/country_picker.dart';
@@ -14,9 +15,15 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final AuthController controller = Get.find<AuthController>();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final AuthController controller =
+      Get.find<AuthController>();
+
+  final TextEditingController phoneController =
+      TextEditingController();
+
+  final TextEditingController passwordController =
+      TextEditingController();
+
   bool _obscurePassword = true;
 
   @override
@@ -26,8 +33,22 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
-  String _countryLabel(String iso, String dialCode) {
+  String _countryLabel(
+    String iso,
+    String dialCode,
+  ) {
     return '$iso $dialCode';
+  }
+
+  Future<void> _submitLogin() async {
+    FocusScope.of(context).unfocus();
+
+    await controller.login(
+      phoneNumber: phoneController.text.trim(),
+      passwordText: passwordController.text.trim(),
+      countryCode:
+          controller.selectedLoginCountryCode.value,
+    );
   }
 
   @override
@@ -44,7 +65,9 @@ class _LoginViewState extends State<LoginView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  radius: context.w(compact ? 34 : 40),
+                  radius: context.w(
+                    compact ? 34 : 40,
+                  ),
                   backgroundImage: const AssetImage(
                     'assets/images/banners/appicon.png',
                   ),
@@ -62,57 +85,90 @@ class _LoginViewState extends State<LoginView> {
                 Row(
                   children: [
                     SizedBox(
-                      width: context.w(compact ? 100 : 112),
+                      width: context.w(
+                        compact ? 100 : 112,
+                      ),
                       child: Obx(
                         () => InkWell(
                           onTap: () {
                             showCountryPicker(
                               context: context,
                               showPhoneCode: true,
-                              favorite: const ['BD', 'IN'],
-                              countryListTheme: CountryListThemeData(
-                                borderRadius: const BorderRadius.vertical(
+                              favorite: const [
+                                'BD',
+                                'IN',
+                              ],
+                              countryListTheme:
+                                  CountryListThemeData(
+                                borderRadius:
+                                    const BorderRadius
+                                        .vertical(
                                   top: Radius.circular(16),
                                 ),
-                                inputDecoration: InputDecoration(
-                                  labelText: 'search_country'.tr,
-                                  border: const OutlineInputBorder(),
+                                inputDecoration:
+                                    InputDecoration(
+                                  labelText:
+                                      'search_country'.tr,
+                                  border:
+                                      const OutlineInputBorder(),
                                 ),
                               ),
-                              onSelect: (Country country) {
-                                controller.selectedLoginCountryIso.value =
+                              onSelect:
+                                  (Country country) {
+                                controller
+                                        .selectedLoginCountryIso
+                                        .value =
                                     country.countryCode;
-                                controller.selectedLoginCountryCode.value =
+
+                                controller
+                                        .selectedLoginCountryCode
+                                        .value =
                                     '+${country.phoneCode}';
                               },
                             );
                           },
                           child: Container(
                             height: context.h(56),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: context.w(8),
+                            padding:
+                                EdgeInsets.symmetric(
+                              horizontal:
+                                  context.w(8),
                             ),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade600),
-                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color:
+                                    Colors.grey.shade600,
+                              ),
+                              borderRadius:
+                                  BorderRadius.circular(4),
                             ),
                             child: Row(
                               children: [
                                 Expanded(
                                   child: Text(
                                     _countryLabel(
-                                      controller.selectedLoginCountryIso.value,
-                                      controller.selectedLoginCountryCode.value,
+                                      controller
+                                          .selectedLoginCountryIso
+                                          .value,
+                                      controller
+                                          .selectedLoginCountryCode
+                                          .value,
                                     ),
-                                    style: const TextStyle(
+                                    style:
+                                        const TextStyle(
                                       fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black87,
+                                      fontWeight:
+                                          FontWeight.w600,
+                                      color:
+                                          Colors.black87,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
+                                    overflow:
+                                        TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const Icon(Icons.arrow_drop_down),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
                               ],
                             ),
                           ),
@@ -123,13 +179,21 @@ class _LoginViewState extends State<LoginView> {
                     Expanded(
                       child: TextField(
                         controller: phoneController,
-                        keyboardType: TextInputType.phone,
+                        keyboardType:
+                            TextInputType.phone,
+                        textInputAction:
+                            TextInputAction.next,
                         decoration: InputDecoration(
-                          labelText: 'phone_number'.tr,
-                          border: const OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: context.w(16),
-                            vertical: context.h(16),
+                          labelText:
+                              'phone_number'.tr,
+                          border:
+                              const OutlineInputBorder(),
+                          contentPadding:
+                              EdgeInsets.symmetric(
+                            horizontal:
+                                context.w(16),
+                            vertical:
+                                context.h(16),
                           ),
                         ),
                       ),
@@ -140,17 +204,25 @@ class _LoginViewState extends State<LoginView> {
                 TextField(
                   controller: passwordController,
                   obscureText: _obscurePassword,
+                  textInputAction:
+                      TextInputAction.done,
+                  onSubmitted: (_) {
+                    _submitLogin();
+                  },
                   decoration: InputDecoration(
                     labelText: 'password'.tr,
-                    border: const OutlineInputBorder(),
-                    contentPadding: EdgeInsets.symmetric(
+                    border:
+                        const OutlineInputBorder(),
+                    contentPadding:
+                        EdgeInsets.symmetric(
                       horizontal: context.w(16),
                       vertical: context.h(16),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
-                          _obscurePassword = !_obscurePassword;
+                          _obscurePassword =
+                              !_obscurePassword;
                         });
                       },
                       icon: Icon(
@@ -164,45 +236,63 @@ class _LoginViewState extends State<LoginView> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () => Get.toNamed(Routes.FORGOT_PASSWORD),
-                    child: Text('forgot_password_question'.tr),
+                    onPressed: () {
+                      Get.toNamed(
+                        Routes.FORGOT_PASSWORD,
+                      );
+                    },
+                    child: Text(
+                      'forgot_password_question'.tr,
+                    ),
                   ),
                 ),
                 SizedBox(height: context.h(20)),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => controller.login(
-                      phoneNumber: phoneController.text.trim(),
-                      passwordText: passwordController.text.trim(),
-                      countryCode: controller.selectedLoginCountryCode.value,
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2F6FED),
+                    onPressed: _submitLogin,
+                    style:
+                        ElevatedButton.styleFrom(
+                      backgroundColor:
+                          const Color(0xFF2F6FED),
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: context.h(14)),
+                      padding:
+                          EdgeInsets.symmetric(
+                        vertical: context.h(14),
+                      ),
                     ),
                     child: Text('sign_in'.tr),
                   ),
                 ),
                 SizedBox(height: context.h(15)),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center,
                   children: [
-                    Text('${'dont_have_account'.tr} '),
+                    Text(
+                      '${'dont_have_account'.tr} ',
+                    ),
                     TextButton(
-                      onPressed: () => Get.toNamed(Routes.REGISTER),
-                      style: TextButton.styleFrom(
+                      onPressed: () {
+                        Get.toNamed(Routes.REGISTER);
+                      },
+                      style:
+                          TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        foregroundColor: const Color(0xFF2F6FED),
+                        tapTargetSize:
+                            MaterialTapTargetSize
+                                .shrinkWrap,
+                        foregroundColor:
+                            const Color(0xFF2F6FED),
                       ),
                       child: Text(
                         'registration'.tr,
                         style: const TextStyle(
-                          color: Color(0xFF2F6FED),
-                          fontWeight: FontWeight.w600,
+                          color:
+                              Color(0xFF2F6FED),
+                          fontWeight:
+                              FontWeight.w600,
                         ),
                       ),
                     ),
