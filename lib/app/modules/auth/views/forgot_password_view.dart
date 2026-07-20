@@ -1,3 +1,4 @@
+
 import 'package:bellevie/app/modules/auth/controllers/auth_controller.dart';
 import 'package:bellevie/app/theme/responsive.dart';
 import 'package:country_picker/country_picker.dart';
@@ -13,21 +14,42 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final AuthController controller = Get.find<AuthController>();
+
   final TextEditingController phoneController = TextEditingController();
+
   final TextEditingController newPasswordController = TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
+
+  bool _obscureNewPassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
     phoneController.dispose();
     newPasswordController.dispose();
     confirmPasswordController.dispose();
+
     super.dispose();
   }
 
-  String _countryLabel(String iso, String dialCode) {
+  String _countryLabel(
+    String iso,
+    String dialCode,
+  ) {
     return '$iso $dialCode';
+  }
+
+  Future<void> _submitResetPassword() async {
+    FocusScope.of(context).unfocus();
+
+    await controller.resetForgotPassword(
+      phoneNumber: phoneController.text.trim(),
+      countryCode: controller.selectedForgotCountryCode.value,
+      newPassword: newPasswordController.text.trim(),
+      confirmPassword: confirmPasswordController.text.trim(),
+    );
   }
 
   @override
@@ -44,7 +66,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(context.w(24)),
+            padding: EdgeInsets.all(
+              context.w(24),
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -56,18 +80,27 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     color: Colors.black87,
                   ),
                 ),
-                SizedBox(height: context.h(24)),
+                SizedBox(
+                  height: context.h(24),
+                ),
+
+                // Country code and phone number
                 Row(
                   children: [
                     SizedBox(
-                      width: context.w(compact ? 100 : 112),
+                      width: context.w(
+                        compact ? 100 : 112,
+                      ),
                       child: Obx(
                         () => InkWell(
                           onTap: () {
                             showCountryPicker(
                               context: context,
                               showPhoneCode: true,
-                              favorite: const ['BD', 'IN'],
+                              favorite: const [
+                                'BD',
+                                'IN',
+                              ],
                               countryListTheme: CountryListThemeData(
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(16),
@@ -80,6 +113,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               onSelect: (Country country) {
                                 controller.selectedForgotCountryIso.value =
                                     country.countryCode;
+
                                 controller.selectedForgotCountryCode.value =
                                     '+${country.phoneCode}';
                               },
@@ -91,7 +125,9 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                               horizontal: context.w(8),
                             ),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey.shade600),
+                              border: Border.all(
+                                color: Colors.grey.shade600,
+                              ),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Row(
@@ -111,18 +147,23 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                const Icon(Icons.arrow_drop_down),
+                                const Icon(
+                                  Icons.arrow_drop_down,
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(width: context.w(10)),
+                    SizedBox(
+                      width: context.w(10),
+                    ),
                     Expanded(
                       child: TextField(
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           labelText: 'phone_number'.tr,
                           border: const OutlineInputBorder(),
@@ -135,10 +176,15 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     ),
                   ],
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // New password
                 TextField(
                   controller: newPasswordController,
-                  obscureText: true,
+                  obscureText: _obscureNewPassword,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     labelText: 'new_password'.tr,
                     border: const OutlineInputBorder(),
@@ -146,12 +192,32 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       horizontal: context.w(16),
                       vertical: context.h(16),
                     ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscureNewPassword = !_obscureNewPassword;
+                        });
+                      },
+                      icon: Icon(
+                        _obscureNewPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: context.h(14)),
+                SizedBox(
+                  height: context.h(14),
+                ),
+
+                // Confirm password
                 TextField(
                   controller: confirmPasswordController,
-                  obscureText: true,
+                  obscureText: _obscureConfirmPassword,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) {
+                    _submitResetPassword();
+                  },
                   decoration: InputDecoration(
                     labelText: 'confirm_password'.tr,
                     border: const OutlineInputBorder(),
@@ -159,24 +225,39 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       horizontal: context.w(16),
                       vertical: context.h(16),
                     ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _obscureConfirmPassword = !_obscureConfirmPassword;
+                        });
+                      },
+                      icon: Icon(
+                        _obscureConfirmPassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: context.h(20)),
+                SizedBox(
+                  height: context.h(20),
+                ),
+
+                // Reset password button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => controller.resetForgotPassword(
-                      phoneNumber: phoneController.text.trim(),
-                      countryCode: controller.selectedForgotCountryCode.value,
-                      newPassword: newPasswordController.text.trim(),
-                      confirmPassword: confirmPasswordController.text.trim(),
-                    ),
+                    onPressed: _submitResetPassword,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF2F6FED),
                       foregroundColor: Colors.white,
-                      padding: EdgeInsets.symmetric(vertical: context.h(14)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: context.h(14),
+                      ),
                     ),
-                    child: Text('reset_password'.tr),
+                    child: Text(
+                      'reset_password'.tr,
+                    ),
                   ),
                 ),
               ],
