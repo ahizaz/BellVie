@@ -1,3 +1,4 @@
+import 'package:bellevie/app/modules/home/widgets/sections/doctor_follow_view.dart';
 import 'package:bellevie/app/modules/profile/controllers/profile_controller.dart';
 import 'package:bellevie/app/modules/profile/service/video_room_service.dart';
 import 'package:bellevie/app/modules/profile/views/video_call_screen.dart';
@@ -206,6 +207,45 @@ class ProfileView extends GetView<ProfileController> {
                     );
                   },
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const SizedBox(height: 12),
+
+_accountOption(
+  leading: const Icon(
+    Icons.medical_services_outlined,
+    color: Colors.deepPurple,
+    size: 28,
+  ),
+
+  title: 'Doctor Follow-up',
+
+  onTap: () {
+    final isLoggedIn =
+        AuthService.to.authenticated;
+
+    if (!isLoggedIn) {
+      Get.snackbar(
+        'Login Required',
+        'Please login first.',
+        snackPosition:
+            SnackPosition.BOTTOM,
+        backgroundColor:
+            Colors.redAccent,
+        colorText: Colors.white,
+      );
+
+      return;
+    }
+
+    Get.to(
+      () => const DoctorFollowupView(),
+    );
+  },
+),
+
+const SizedBox(height: 12),
                 //terms and condition
                 const SizedBox(height: 16),
                 _accountOption(
