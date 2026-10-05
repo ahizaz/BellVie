@@ -304,7 +304,7 @@ class DoctorFollowupView
               // VIEW DETAILS
               // ==========================
 
-              Row(
+              const Row(
                 mainAxisAlignment:
                     MainAxisAlignment.end,
 
@@ -319,9 +319,9 @@ class DoctorFollowupView
                     ),
                   ),
 
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
 
-                  const Icon(
+                  Icon(
                     Icons.arrow_forward_ios,
                     size: 13,
                     color: Colors.deepPurple,

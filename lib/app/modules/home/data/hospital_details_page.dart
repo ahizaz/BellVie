@@ -100,7 +100,7 @@ class HospitalDetailsPage extends StatelessWidget {
                       width: 86,
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.75),
+                        color: Colors.white.withValues(alpha: .75),
                         shape: BoxShape.circle,
                         boxShadow: const [
                           BoxShadow(
@@ -153,7 +153,7 @@ class HospitalDetailsPage extends StatelessWidget {
                           vertical: 7,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(.75),
+                          color: Colors.white.withValues(alpha: .75),
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Row(

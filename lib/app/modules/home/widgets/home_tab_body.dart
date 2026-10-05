@@ -32,7 +32,7 @@ class HomeTabBody extends StatelessWidget {
       case 2:
         return const _PlaceholderScreen(title: 'my_health');
       case 3:
-        return MedicalRecordsView();
+        return const MedicalRecordsView();
       case 4:
         // Show the ProfileView in the last tab
         Get.lazyPut<ProfileController>(() => ProfileController());
