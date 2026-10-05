@@ -1,16 +1,22 @@
-# flutter_project
+# BelleVie
 
-A new Flutter project.
+BelleVie is a Flutter-based health services application for doctor discovery,
+appointments, medical records, foreign treatment support, partner packages and
+video consultations.
 
-## Getting Started
+## Documentation
 
-This project is a starting point for a Flutter application.
+See the complete project, architecture, API endpoint and deployment guide:
 
-A few resources to get you started if this is your first Flutter project:
+- [PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Quick start
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutter pub get
+flutter analyze
+flutter run
+```
+
+The current API base URL and all feature-to-endpoint mappings are documented in
+[PROJECT_DOCUMENTATION.md](PROJECT_DOCUMENTATION.md).
