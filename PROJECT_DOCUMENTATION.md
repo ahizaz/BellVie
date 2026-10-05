@@ -1,34 +1,81 @@
-# BelleVie Mobile App Documentation
+# BelleVie Mobile App
 
-BelleVie is a Flutter mobile application for health services, doctor discovery,
-appointments, medical records, foreign treatment support, partner packages and
-community-focused services.
+> Technical documentation for the BelleVie Flutter application.
 
-This document describes the current implementation in this repository. It is
-intended for developers, QA engineers, release managers and backend
-integrators.
+BelleVie is a health-services mobile application for doctor discovery,
+appointments, medical records, foreign treatment support, partner packages,
+video consultations and community-focused services.
 
-## 1. Project snapshot
+This document is the single technical reference for developers, QA engineers,
+release managers and backend integrators. It describes the implementation that
+exists in this repository; it is not a replacement for the backend API
+specification.
+
+## Quick reference
+
+| Need | Go to |
+| --- | --- |
+| Run the app locally | [Local development](#8-local-development) |
+| Understand the codebase | [Architecture](#3-architecture) |
+| Find a feature's source code | [Feature map](#4-feature-map) |
+| Find an API endpoint | [API reference](#5-api-reference) |
+| Understand auth and caching | [Client behavior](#6-client-behavior) |
+| Prepare a release | [Build and release](#9-build-and-release) |
+| Investigate a problem | [Troubleshooting](#11-troubleshooting) |
+
+## Table of contents
+
+1. [Project overview](#1-project-overview)
+2. [Technology stack](#2-technology-stack)
+3. [Architecture](#3-architecture)
+4. [Feature map](#4-feature-map)
+5. [API reference](#5-api-reference)
+6. [Client behavior](#6-client-behavior)
+7. [Dependencies](#7-dependencies)
+8. [Local development](#8-local-development)
+9. [Build and release](#9-build-and-release)
+10. [Platform configuration](#10-platform-configuration)
+11. [Troubleshooting](#11-troubleshooting)
+12. [QA and release checklist](#12-qa-and-release-checklist)
+13. [Known implementation notes](#13-known-implementation-notes)
+
+## 1. Project overview
 
 | Item | Current implementation |
 | --- | --- |
 | Application | BelleVie Global Health Services |
 | Framework | Flutter |
 | Language | Dart |
-| State management and routing | GetX |
+| State management, DI and routing | GetX |
 | HTTP client | `package:http` |
-| Local persistence | `shared_preferences` |
+| Local persistence and cache | `shared_preferences` |
 | App version | `1.0.6+21` |
 | Dart constraint | `>=3.0.0 <4.0.0` |
 | API base URL | `http://66.29.151.40:6060` |
 
 The API base URL is defined in
 [`lib/app/services/api_service.dart`](lib/app/services/api_service.dart).
-There is also a commented local-development URL in that file. The production
-endpoint currently uses plain HTTP; HTTPS should be enabled before a public
-release.
+The production endpoint currently uses plain HTTP. HTTPS should be enabled
+before a public release. The base URL is currently a compile-time constant; use
+an environment/flavor configuration before adding separate staging and
+production deployments.
 
-## 2. Directory structure
+## 2. Technology stack
+
+| Layer | Implementation |
+| --- | --- |
+| UI | Flutter widgets and feature-specific views |
+| State | GetX controllers and reactive variables |
+| Navigation | GetX routes and authentication middleware |
+| Data access | Repositories/controllers calling `AppApiService` |
+| REST | JSON `GET`, `POST`, `PATCH` and multipart `PUT` |
+| Local state | `SharedPreferences` for tokens, profile data and cache |
+| Video | Agora RTC Engine |
+| Localization | English (`en-US`) and Bengali (`bn-BD`) |
+
+## 3. Architecture
+
+### Source layout
 
 ```text
 lib/
@@ -61,11 +108,19 @@ assets/
 └── images/special doctors/
 ```
 
-Feature modules generally contain `views`, `controllers`, `bindings`, `data`,
-`models` and `widgets` as needed. Static-only sections, such as social
-services, keep their data in the feature module rather than calling the API.
+Feature modules are self-contained where practical:
 
-## 3. Application startup and navigation
+```text
+view -> controller -> repository/service -> AppApiService -> backend
+  |         |
+  |         └── models / reactive state
+  └── widgets / bindings
+```
+
+Not every module has every directory. Static-only features, such as social
+services, keep their data in the feature module and do not call the API.
+
+### Application startup
 
 1. [`lib/main.dart`](lib/main.dart) initializes Flutter bindings and bounds
    Flutter's image cache.
@@ -82,7 +137,25 @@ The initial route is the splash screen. The main route names are declared in
 home, profile, pathology, foreign treatment, doctors, appointment and
 notification routes.
 
-## 4. Feature documentation
+### Navigation and authentication
+
+Routes that use `AuthMiddleware` redirect unauthenticated users to login and
+store the requested route as a pending redirect. After successful login, the
+user is returned to that route when possible; otherwise the home screen opens.
+
+## 4. Feature map
+
+| Feature | Main entry point | API-backed |
+| --- | --- | :---: |
+| Authentication | [`auth_controller.dart`](lib/app/modules/auth/controllers/auth_controller.dart) | Yes |
+| Home content | [`home_view.dart`](lib/app/modules/home/views/home_view.dart) | Yes |
+| Doctors | [`specialist_doctors_repository.dart`](lib/app/modules/specialist_doctors/data/specialist_doctors_repository.dart) | Yes |
+| Appointments and payments | [`appointments/`](lib/app/modules/appointments) | Yes |
+| Medical records | [`medical_controller.dart`](lib/app/modules/medical/controller/medical_controller.dart) | Yes |
+| Foreign treatment | [`foreign_treatment/`](lib/app/modules/foreign_treatment) | Yes |
+| Video consultation | [`video_room_service.dart`](lib/app/modules/profile/service/video_room_service.dart) | Yes |
+| Social/community content | [`social_services/`](lib/app/modules/social_services) | Mostly static |
+| Localization | [`app_translation.dart`](lib/app/localization/app_translation.dart) | No |
 
 ### Authentication and profile
 
@@ -122,7 +195,7 @@ The chatbot UI and community/growth content are also part of the home module.
 The chatbot repository is in
 [`lib/app/modules/home/data/chatbot_repository.dart`](lib/app/modules/home/data/chatbot_repository.dart).
 
-### Specialist and popular-service doctors
+### Doctors and popular services
 
 The specialist-doctor module provides categories, subcategories, doctor lists,
 doctor details and follow-up actions. Repository code is in:
@@ -173,11 +246,20 @@ community-information sections are currently UI/static-data features. They do
 not have a dedicated API call in this repository unless listed in the API
 inventory below.
 
-## 5. API integration inventory
+## 5. API reference
 
-All paths below are relative to `http://66.29.151.40:6060`. The exact response
-schema is defined by the backend; the table records how this Flutter client
+All paths below are relative to the configured base URL. The exact response
+schema is defined by the backend; this table records how the Flutter client
 uses each endpoint.
+
+### Conventions
+
+- `{id}` and `{recordId}` are path parameters.
+- Query parameters such as `page`, `category` and `subcategory` are shown in
+  the endpoint column.
+- Protected endpoints require the access token in the `Authorization` header.
+- Some auth and doctor calls try fallback paths for backend compatibility. The
+  first path listed is the preferred path.
 
 | Feature | Method | Endpoint | Source |
 | --- | --- | --- | --- |
@@ -210,7 +292,27 @@ uses each endpoint.
 | My video rooms | GET | `/api/v1/video-rooms/rooms/my-rooms/` | [`video_room_service.dart`](lib/app/modules/profile/service/video_room_service.dart) |
 | Agora room token | GET | `/api/v1/video-rooms/rooms/{roomId}/token/` | [`video_room_service.dart`](lib/app/modules/profile/service/video_room_service.dart) |
 
-### API client behavior
+### Example request shape
+
+The client sends JSON for standard writes. For example, creating an
+appointment uses:
+
+```json
+{
+  "appointment_date": "YYYY-MM-DD",
+  "appointment_time": "HH:MM",
+  "doctor_id": 123,
+  "patient_name": "Patient name",
+  "patient_phone": "+8801XXXXXXXXX"
+}
+```
+
+Payment submission uses `amount`, `appointment`, `method` and `transaction_id`.
+The backend remains the source of truth for validation and response schemas.
+
+## 6. Client behavior
+
+### API service
 
 [`AppApiService`](lib/app/services/api_service.dart) provides JSON `GET`,
 `POST`, `PATCH`, multipart `PUT`, URL construction and image URL resolution.
@@ -221,10 +323,27 @@ GET responses use:
 - request de-duplication for simultaneous identical GETs;
 - cached response fallback on socket, timeout or client errors.
 
-Most authenticated requests add an `Authorization` header. The source masks
-token values in debug logs; do not add raw tokens to logs or documentation.
+Most authenticated requests add an `Authorization` header. Token values are
+masked in the source's debug logs; do not add raw tokens to logs or
+documentation.
 
-## 6. Dependencies and why they are used
+### Authentication lifecycle
+
+1. `AuthService.init()` loads persisted login state and tokens.
+2. Login stores access/refresh tokens and basic profile fields.
+3. Auth middleware protects private routes.
+4. A `401` response can trigger one serialized refresh attempt.
+5. A successful refresh updates the stored tokens and retries the GET.
+6. A failed/invalid refresh logs the user out and clears user caches.
+
+### Local storage and cache
+
+`SharedPreferences` stores tokens, profile fields and feature caches. On logout,
+the auth service clears tokens, profile-specific values and known cache keys.
+Do not store passwords, payment credentials or raw medical data outside the
+existing cache behavior.
+
+## 7. Dependencies
 
 Declared in [`pubspec.yaml`](pubspec.yaml):
 
@@ -245,7 +364,7 @@ Declared in [`pubspec.yaml`](pubspec.yaml):
 | `flutter_markdown_plus` | Markdown content rendering |
 | `flutter_localizations` | Flutter localization delegates |
 
-## 7. Local development
+## 8. Local development
 
 ### Requirements
 
@@ -263,7 +382,18 @@ flutter analyze
 flutter run
 ```
 
-### Build
+### Verify locally
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+```
+
+`flutter test` is included when tests exist in the checkout. A clean
+`flutter analyze` is the minimum static validation for a change.
+
+## 9. Build and release
 
 ```bash
 flutter build apk --debug
@@ -276,7 +406,7 @@ release keystore. Do not commit passwords, signing properties or keystore
 material to GitHub. The Gradle configuration intentionally fails the release
 build when `android/key.properties` is missing.
 
-## 8. Platform permissions and configuration
+## 10. Platform configuration
 
 Android declares internet, camera and microphone permissions in
 [`android/app/src/main/AndroidManifest.xml`](android/app/src/main/AndroidManifest.xml).
@@ -291,7 +421,18 @@ The following features require runtime permission handling:
 - voice features: microphone;
 - external phone/email/browser actions: platform intent availability.
 
-## 9. Testing and release checklist
+## 11. Troubleshooting
+
+| Symptom | Checks |
+| --- | --- |
+| API calls fail | Confirm the base URL, backend availability, device network and HTTP/HTTPS policy. |
+| User is repeatedly sent to login | Check token presence, expiry, refresh endpoint and backend `401` response. |
+| Old data appears | Clear the relevant `SharedPreferences` cache or sign out and retry. |
+| Release build fails | Confirm `android/key.properties` and the release keystore exist locally and are not committed. |
+| Video call does not start | Check room/token responses plus camera and microphone permissions. |
+| Images do not load | Check whether the backend returns an absolute URL or a path resolved by `resolveImageUrl`. |
+
+## 12. QA and release checklist
 
 - Run `flutter analyze`.
 - Test login, logout, token expiry and redirect-to-original-route.
@@ -305,7 +446,7 @@ The following features require runtime permission handling:
 - Check that no access token, password or private backend data is present in
   logs, screenshots or release artifacts.
 
-## 10. Known implementation notes
+## 13. Known implementation notes
 
 - Some authentication and doctor endpoints have compatibility fallbacks. These
   should be removed or consolidated once the backend contract is stable.
@@ -318,7 +459,7 @@ The following features require runtime permission handling:
 - The repository contains generated/build output locally in some environments;
   only source, assets and required project configuration should be committed.
 
-## 11. Useful source links
+## Useful source links
 
 - [API service](lib/app/services/api_service.dart)
 - [Authentication service](lib/app/services/auth_service.dart)
