@@ -15,13 +15,13 @@ class _HospitalListTabBody extends StatelessWidget {
       case 0:
         return _HospitalListHome(hospitals: hospitals);
       case 1:
-        return const _PlaceholderScreen(titleKey: 'my_appointments');
+        return const AppointmentListView();
       case 2:
         return const _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(titleKey: 'cart');
+        return const MedicalRecordsView();
       case 4:
-        return const _PlaceholderScreen(titleKey: 'menu');
+        return const ProfileView();
       default:
         return const SizedBox.shrink();
     }
@@ -90,13 +90,13 @@ class _BlankCountryTabBody extends StatelessWidget {
       case 0:
         return const SizedBox.shrink();
       case 1:
-        return const _PlaceholderScreen(titleKey: 'my_appointments');
+        return const AppointmentListView();
       case 2:
         return const _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(titleKey: 'cart');
+        return const MedicalRecordsView();
       case 4:
-        return const _PlaceholderScreen(titleKey: 'menu');
+        return const ProfileView();
       default:
         return const SizedBox.shrink();
     }

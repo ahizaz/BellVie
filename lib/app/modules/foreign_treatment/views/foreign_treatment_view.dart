@@ -6,9 +6,12 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../appointments/views/appointment_list_view.dart';
 import '../../home/controllers/home_controller.dart';
 import '../../home/widgets/call_drawer.dart';
 import '../../home/widgets/home_top_bar.dart';
+import '../../medical/view/medical_records_view.dart';
+import '../../profile/views/profile_view.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/api_service.dart';
 import '../../../services/auth_service.dart';
@@ -56,13 +59,13 @@ class _ForeignTreatmentTabBody extends StatelessWidget {
       case 0:
         return const _ForeignTreatmentHome();
       case 1:
-        return const _PlaceholderScreen(titleKey: 'my_appointments');
+        return const AppointmentListView();
       case 2:
         return const _PlaceholderScreen(titleKey: 'my_health');
       case 3:
-        return const _PlaceholderScreen(titleKey: 'cart');
+        return const MedicalRecordsView();
       case 4:
-        return const _PlaceholderScreen(titleKey: 'menu');
+        return const ProfileView();
       default:
         return const SizedBox.shrink();
     }
