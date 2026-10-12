@@ -79,4 +79,14 @@ class Result {
         "icon": icon,
         "created_at": createdAt?.toIso8601String(),
       };
+
+  String displayName({required bool isBangla}) {
+    final value =
+        isBangla ? (nameBn ?? nameEn ?? name ?? '') : (nameEn ?? name ?? '');
+
+    return value.replaceFirst(
+      RegExp(r'\s+(hospital|হাসপাতাল)\s*$', caseSensitive: false),
+      '',
+    );
+  }
 }

@@ -17,7 +17,7 @@ class DiscountPartnersView extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F9FB),
       appBar: AppBar(
-        title: const Text('Discount Partner'),
+        title: Obx(() => Text('discount_partner'.tr)),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
@@ -65,7 +65,11 @@ class DiscountPartnersView extends StatelessWidget {
                 Get.to(
                   () => DiscountPartnerDetails(
                     partnerId: item.id!,
-                    name: item.name ?? '',
+                    name: item.displayName(
+                      isBangla:
+                          homeController.currentLocale.value.languageCode ==
+                              'bn',
+                    ),
                     iconUrl: item.icon ?? '',
                   ),
                 );
@@ -125,7 +129,11 @@ class DiscountPartnersView extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        item.nameEn ?? item.name ?? '',
+                        item.displayName(
+                          isBangla:
+                              homeController.currentLocale.value.languageCode ==
+                                  'bn',
+                        ),
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

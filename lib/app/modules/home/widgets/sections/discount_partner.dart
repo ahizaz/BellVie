@@ -25,14 +25,17 @@ class _DiscountPartnerState extends State<DiscountPartner> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
+    return Obx(() {
+      final isBangla = homeController.currentLocale.value.languageCode == 'bn';
+
+      return Column(
+        children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                'Discount Partner',
+                'discount_partner'.tr,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -45,21 +48,21 @@ class _DiscountPartnerState extends State<DiscountPartner> {
               onTap: () {
                 Get.to(() => const DiscountPartnersView());
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'See all',
-                      style: TextStyle(
+                      isBangla ? 'সব দেখুন' : 'See all',
+                      style: const TextStyle(
                         color: Color(0xFF2F6FED),
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(width: 4),
-                    Icon(
+                    const SizedBox(width: 4),
+                    const Icon(
                       Icons.arrow_forward_ios,
                       size: 12,
                       color: Color(0xFF2F6FED),
@@ -96,7 +99,7 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                           Get.to(
                             () => DiscountPartnerDetails(
                               partnerId: item!.id!,
-                              name: item.name ?? '',
+                              name: item.displayName(isBangla: isBangla),
                               iconUrl: item.icon ?? '',
                             ),
                           );
@@ -174,7 +177,8 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                               ),
                               const SizedBox(height: 8),
                               Builder(builder: (context) {
-                                final label = item?.nameEn ?? item?.name ?? '';
+                                final label =
+                                    item?.displayName(isBangla: isBangla) ?? '';
 
                                 return Expanded(
                                   child: Align(
@@ -201,7 +205,8 @@ class _DiscountPartnerState extends State<DiscountPartner> {
                   ),
                 );
         }),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
