@@ -184,8 +184,12 @@ class HomeView extends GetView<HomeController> {
               ? 0
               : controller.tabIndex.value;
 
-      return Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
+      return WillPopScope(
+        onWillPop: () async {
+          return !controller.goBackToPreviousTab();
+        },
+        child: Scaffold(
+          backgroundColor: const Color(0xFFF2F2F2),
 
         // Appointment tab-এর AppBar
         appBar: activeIndex == 1
@@ -233,6 +237,7 @@ class HomeView extends GetView<HomeController> {
           onTap: (index) {
             _onBottomNavTap(context, index);
           },
+        ),
         ),
       );
     });

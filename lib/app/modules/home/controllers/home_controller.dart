@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -14,6 +13,7 @@ import '../models/special_doctor.dart';
 
 class HomeController extends GetxController {
   final RxInt tabIndex = 0.obs;
+  final List<int> _tabHistory = <int>[];
   final Rx<Locale> currentLocale = const Locale('en', 'US').obs;
   final Rxn<DailyTip> dailyTip = Rxn<DailyTip>();
   final RxBool dailyTipShown = false.obs;
@@ -113,7 +113,19 @@ class HomeController extends GetxController {
   }
 
   bool changeTab(int index) {
+    if (tabIndex.value != index) {
+      _tabHistory.add(tabIndex.value);
+    }
     tabIndex.value = index;
+    return true;
+  }
+
+  bool goBackToPreviousTab() {
+    if (_tabHistory.isEmpty) {
+      return false;
+    }
+
+    tabIndex.value = _tabHistory.removeLast();
     return true;
   }
 

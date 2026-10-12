@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +16,7 @@ class PopularServicesSection extends StatelessWidget {
       'assets/images/Hospitals Booking.png',
       whiteIconBackground: true,
     ),
-  _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
+    _ServiceItem('telemedicine', 'assets/images/Telemedicine.png'),
     _ServiceItem('pharmacy', 'assets/images/Pharmacy.png'),
     _ServiceItem('video_consultancy', 'assets/images/Video Consultancy.png'),
     _ServiceItem('ambulance_services', 'assets/images/Ambulance.png'),
@@ -38,77 +37,72 @@ class PopularServicesSection extends StatelessWidget {
       homeController.currentLocale.value;
 
       return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                'popular_services'.tr,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'popular_services'.tr,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black87,
+                  ),
                 ),
               ),
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(18),
-              onTap: () => Get.toNamed(Routes.POPULAR_SERVICES),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'all'.tr,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF2F6FED),
-                    ),
+              InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: () => Get.toNamed(Routes.POPULAR_SERVICES),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'See all',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF2F6FED),
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 12,
+                        color: Color(0xFF2F6FED),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 6),
-                  Container(
-                    height: 24,
-                    width: 24,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF2F6FED),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
-        Obx(() {
-          final apiItems = controller.items;
-          final isLoading = controller.isLoading.value;
-          final useApi = apiItems.isNotEmpty;
-          final totalItems = useApi ? apiItems.length : _services.length;
+            ],
+          ),
+          const SizedBox(height: 4),
+          Obx(() {
+            final apiItems = controller.items;
+            final isLoading = controller.isLoading.value;
+            final useApi = apiItems.isNotEmpty;
+            final totalItems = useApi ? apiItems.length : _services.length;
 
-          if (isLoading && apiItems.isEmpty) {
-            return const SizedBox(
-              height: 112,
-              child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+            if (isLoading && apiItems.isEmpty) {
+              return const SizedBox(
+                height: 112,
+                child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+              );
+            }
+
+            return _PopularServicesGrid(
+              totalItems: totalItems,
+              useApi: useApi,
+              apiItems: apiItems,
+              services: _services,
             );
-          }
-
-          return _PopularServicesGrid(
-            totalItems: totalItems,
-            useApi: useApi,
-            apiItems: apiItems,
-            services: _services,
-          );
-        }),
-      ],
-    );
+          }),
+        ],
+      );
     });
   }
 }
