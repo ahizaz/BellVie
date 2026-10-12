@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import '../../../../services/api_service.dart';
 import '../../../foreign_treatment/views/foreign_treatment_view.dart';
 import '../../../../routes/app_routes.dart';
+
 ///ssss
 class ForeignTreatmentSection extends StatefulWidget {
   const ForeignTreatmentSection({super.key});
@@ -243,7 +244,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
     }
   }
 
-
   @override
   void dispose() {
     _pollTimer?.cancel();
@@ -274,9 +274,9 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'All',
-                    style: TextStyle(
+                  Text(
+                    'see_all'.tr,
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF2F6FED),
@@ -302,7 +302,6 @@ class _ForeignTreatmentSectionState extends State<ForeignTreatmentSection> {
           ],
         ),
         const SizedBox(height: 2),
-        
         SizedBox(
           height: 125,
           child: ListView.builder(

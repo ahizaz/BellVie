@@ -55,21 +55,21 @@ class PopularServicesSection extends StatelessWidget {
               InkWell(
                 borderRadius: BorderRadius.circular(18),
                 onTap: () => Get.toNamed(Routes.POPULAR_SERVICES),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'See all',
-                        style: TextStyle(
+                        'see_all'.tr,
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF2F6FED),
                         ),
                       ),
-                      SizedBox(width: 4),
-                      Icon(
+                      const SizedBox(width: 4),
+                      const Icon(
                         Icons.arrow_forward_ios,
                         size: 12,
                         color: Color(0xFF2F6FED),

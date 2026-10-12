@@ -1,4 +1,3 @@
-
 // import 'dart:async';
 // import 'dart:convert';
 
@@ -484,7 +483,6 @@
 //   String get name => localizedName(Get.locale);
 // }
 
-
 import 'dart:async';
 import 'dart:convert';
 
@@ -503,12 +501,9 @@ class MedicalAccessoriesSection extends StatefulWidget {
       _MedicalAccessoriesSectionState();
 }
 
-class _MedicalAccessoriesSectionState
-    extends State<MedicalAccessoriesSection> {
-
+class _MedicalAccessoriesSectionState extends State<MedicalAccessoriesSection> {
   // v2 because details are now included in cache
-  static const String _cacheKey =
-      'medical_accessories_categories_cache_v2';
+  static const String _cacheKey = 'medical_accessories_categories_cache_v2';
 
   final AppApiService _apiService = AppApiService();
 
@@ -537,8 +532,7 @@ class _MedicalAccessoriesSectionState
       return '';
     }
 
-    if (value.startsWith('http://') ||
-        value.startsWith('https://')) {
+    if (value.startsWith('http://') || value.startsWith('https://')) {
       return value;
     }
 
@@ -583,98 +577,85 @@ class _MedicalAccessoriesSectionState
         '${response.body}',
       );
 
-      if (response.statusCode >= 200 &&
-          response.statusCode < 300) {
-
-        final dynamic decoded =
-            jsonDecode(response.body);
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        final dynamic decoded = jsonDecode(response.body);
 
         final rawList = _extractList(decoded);
 
-        final List<_MedicalAccessoryItem> items =
-            rawList
-                .whereType<Map<String, dynamic>>()
-                .map((m) {
-          try {
-            // ----------------------------------------------------
-            // ID
-            // ----------------------------------------------------
+        final List<_MedicalAccessoryItem> items = rawList
+            .whereType<Map<String, dynamic>>()
+            .map((m) {
+              try {
+                // ----------------------------------------------------
+                // ID
+                // ----------------------------------------------------
 
-            final id = (m['id'] ?? 0) is int
-                ? m['id'] as int
-                : int.tryParse(
-                      (m['id'] ?? '0').toString(),
-                    ) ??
-                    0;
+                final id = (m['id'] ?? 0) is int
+                    ? m['id'] as int
+                    : int.tryParse(
+                          (m['id'] ?? '0').toString(),
+                        ) ??
+                        0;
 
-            // ----------------------------------------------------
-            // NAME
-            // ----------------------------------------------------
+                // ----------------------------------------------------
+                // NAME
+                // ----------------------------------------------------
 
-            final nameEn =
-                (m['name_en'] ??
-                        m['name'] ??
-                        '')
-                    .toString();
+                final nameEn = (m['name_en'] ?? m['name'] ?? '').toString();
 
-            final nameBn =
-                (m['name_bn'] ?? '').toString();
+                final nameBn = (m['name_bn'] ?? '').toString();
 
-            // ----------------------------------------------------
-            // IMAGE
-            // ----------------------------------------------------
+                // ----------------------------------------------------
+                // IMAGE
+                // ----------------------------------------------------
 
-            final image =
-                _resolveImageUrl(
-              (m['image'] ?? '').toString(),
-            );
+                final image = _resolveImageUrl(
+                  (m['image'] ?? '').toString(),
+                );
 
-            // ----------------------------------------------------
-            // DETAILS
-            // ----------------------------------------------------
+                // ----------------------------------------------------
+                // DETAILS
+                // ----------------------------------------------------
 
-            final details =
-                m['details']?.toString();
+                final details = m['details']?.toString();
 
-            final detailsEn =
-                m['details_en']?.toString();
+                final detailsEn = m['details_en']?.toString();
 
-            final detailsBn =
-                m['details_bn']?.toString();
+                final detailsBn = m['details_bn']?.toString();
 
-            debugPrint(
-              'Medical category => '
-              'id: $id, '
-              'name: $nameEn, '
-              'details: $details, '
-              'details_en: $detailsEn, '
-              'details_bn: $detailsBn',
-            );
+                debugPrint(
+                  'Medical category => '
+                  'id: $id, '
+                  'name: $nameEn, '
+                  'details: $details, '
+                  'details_en: $detailsEn, '
+                  'details_bn: $detailsBn',
+                );
 
-            return _MedicalAccessoryItem(
-              id: id,
-              nameEn: nameEn,
-              nameBn: nameBn,
-              imageUrl: image,
+                return _MedicalAccessoryItem(
+                  id: id,
+                  nameEn: nameEn,
+                  nameBn: nameBn,
+                  imageUrl: image,
 
-              // IMPORTANT
-              details: details,
-              detailsEn: detailsEn,
-              detailsBn: detailsBn,
-            );
-          } catch (e) {
-            debugPrint(
-              'Medical category parse error => $e',
-            );
+                  // IMPORTANT
+                  details: details,
+                  detailsEn: detailsEn,
+                  detailsBn: detailsBn,
+                );
+              } catch (e) {
+                debugPrint(
+                  'Medical category parse error => $e',
+                );
 
-            return null;
-          }
-        })
-                .whereType<_MedicalAccessoryItem>()
-                .where(
-                  (item) => item.name.isNotEmpty,
-                )
-                .toList();
+                return null;
+              }
+            })
+            .whereType<_MedicalAccessoryItem>()
+            .where(
+              (item) => item.name.isNotEmpty,
+            )
+            .toList();
 
         if (!mounted) return;
 
@@ -763,22 +744,17 @@ class _MedicalAccessoriesSectionState
   // LOAD CACHE
   // ============================================================
 
-  Future<List<_MedicalAccessoryItem>>
-      _loadCachedCategories() async {
+  Future<List<_MedicalAccessoryItem>> _loadCachedCategories() async {
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
-      final cachedJson =
-          prefs.getString(_cacheKey);
+      final cachedJson = prefs.getString(_cacheKey);
 
-      if (cachedJson == null ||
-          cachedJson.isEmpty) {
+      if (cachedJson == null || cachedJson.isEmpty) {
         return [];
       }
 
-      final decoded =
-          jsonDecode(cachedJson);
+      final decoded = jsonDecode(cachedJson);
 
       if (decoded is! List) {
         return [];
@@ -787,57 +763,47 @@ class _MedicalAccessoriesSectionState
       return decoded
           .whereType<Map<String, dynamic>>()
           .map((m) {
-        try {
-          final id = (m['id'] ?? 0) is int
-              ? m['id'] as int
-              : int.tryParse(
-                    (m['id'] ?? '0').toString(),
-                  ) ??
-                  0;
+            try {
+              final id = (m['id'] ?? 0) is int
+                  ? m['id'] as int
+                  : int.tryParse(
+                        (m['id'] ?? '0').toString(),
+                      ) ??
+                      0;
 
-          final nameEn =
-              (m['name_en'] ??
-                      m['name'] ??
-                      '')
-                  .toString();
+              final nameEn = (m['name_en'] ?? m['name'] ?? '').toString();
 
-          final nameBn =
-              (m['name_bn'] ?? '').toString();
+              final nameBn = (m['name_bn'] ?? '').toString();
 
-          final image =
-              (m['imageUrl'] ?? '').toString();
+              final image = (m['imageUrl'] ?? '').toString();
 
-          // ------------------------------------------------------
-          // DETAILS FROM CACHE
-          // ------------------------------------------------------
+              // ------------------------------------------------------
+              // DETAILS FROM CACHE
+              // ------------------------------------------------------
 
-          final details =
-              m['details']?.toString();
+              final details = m['details']?.toString();
 
-          final detailsEn =
-              m['detailsEn']?.toString();
+              final detailsEn = m['detailsEn']?.toString();
 
-          final detailsBn =
-              m['detailsBn']?.toString();
+              final detailsBn = m['detailsBn']?.toString();
 
-          return _MedicalAccessoryItem(
-            id: id,
-            nameEn: nameEn,
-            nameBn: nameBn,
-            imageUrl: image,
+              return _MedicalAccessoryItem(
+                id: id,
+                nameEn: nameEn,
+                nameBn: nameBn,
+                imageUrl: image,
+                details: details,
+                detailsEn: detailsEn,
+                detailsBn: detailsBn,
+              );
+            } catch (e) {
+              debugPrint(
+                'Medical accessories cache item parse error => $e',
+              );
 
-            details: details,
-            detailsEn: detailsEn,
-            detailsBn: detailsBn,
-          );
-        } catch (e) {
-          debugPrint(
-            'Medical accessories cache item parse error => $e',
-          );
-
-          return null;
-        }
-      })
+              return null;
+            }
+          })
           .whereType<_MedicalAccessoryItem>()
           .where(
             (item) => item.name.isNotEmpty,
@@ -860,8 +826,7 @@ class _MedicalAccessoriesSectionState
     List<_MedicalAccessoryItem> items,
   ) async {
     try {
-      final prefs =
-          await SharedPreferences.getInstance();
+      final prefs = await SharedPreferences.getInstance();
 
       final encoded = jsonEncode(
         items
@@ -941,8 +906,7 @@ class _MedicalAccessoriesSectionState
       borderRadius: BorderRadius.circular(12),
       onTap: () => _goToDetails(item),
       child: Column(
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: 44,
@@ -951,9 +915,7 @@ class _MedicalAccessoriesSectionState
                 ? CachedNetworkImage(
                     imageUrl: item.imageUrl,
                     fit: BoxFit.contain,
-                    errorWidget:
-                        (_, __, ___) =>
-                            const Icon(
+                    errorWidget: (_, __, ___) => const Icon(
                       Icons.image_not_supported,
                       size: 26,
                       color: Colors.black26,
@@ -965,9 +927,7 @@ class _MedicalAccessoriesSectionState
                     color: Colors.black26,
                   ),
           ),
-
           const SizedBox(height: 8),
-
           Text(
             item.name,
             textAlign: TextAlign.center,
@@ -991,12 +951,10 @@ class _MedicalAccessoriesSectionState
 
   @override
   Widget build(BuildContext context) {
-    final visibleItems =
-        _items.take(8).toList();
+    final visibleItems = _items.take(8).toList();
 
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // ========================================================
         // HEADER
@@ -1015,34 +973,25 @@ class _MedicalAccessoriesSectionState
                 ),
               ),
             ),
-
             InkWell(
-              borderRadius:
-                  BorderRadius.circular(18),
-              onTap:
-                  _goToAllMedicalAccessories,
-              child: const Row(
-                mainAxisSize:
-                    MainAxisSize.min,
+              borderRadius: BorderRadius.circular(18),
+              onTap: _goToAllMedicalAccessories,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'See all',
-                    style: TextStyle(
+                    'see_all'.tr,
+                    style: const TextStyle(
                       fontSize: 12,
-                      fontWeight:
-                          FontWeight.w700,
-                      color:
-                          Color(0xFF2F6FED),
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xFF2F6FED),
                     ),
                   ),
-
-                  SizedBox(width: 4),
-
-                  Icon(
+                  const SizedBox(width: 4),
+                  const Icon(
                     Icons.arrow_forward_ios,
                     size: 12,
-                    color:
-                        Color(0xFF2F6FED),
+                    color: Color(0xFF2F6FED),
                   ),
                 ],
               ),
@@ -1060,8 +1009,7 @@ class _MedicalAccessoriesSectionState
             ? const SizedBox(
                 height: 120,
                 child: Center(
-                  child:
-                      CircularProgressIndicator(
+                  child: CircularProgressIndicator(
                     strokeWidth: 2,
                   ),
                 ),
@@ -1074,18 +1022,15 @@ class _MedicalAccessoriesSectionState
                         'No categories found',
                         style: TextStyle(
                           fontSize: 12,
-                          color:
-                              Colors.black54,
+                          color: Colors.black54,
                         ),
                       ),
                     ),
                   )
                 : GridView.builder(
                     shrinkWrap: true,
-                    physics:
-                        const NeverScrollableScrollPhysics(),
-                    itemCount:
-                        visibleItems.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: visibleItems.length,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4,
@@ -1093,8 +1038,7 @@ class _MedicalAccessoriesSectionState
                       mainAxisSpacing: 10,
                       childAspectRatio: 0.9,
                     ),
-                    itemBuilder:
-                        (context, index) {
+                    itemBuilder: (context, index) {
                       return _buildAccessoryItem(
                         visibleItems[index],
                       );
@@ -1109,8 +1053,7 @@ class _MedicalAccessoriesSectionState
 // ALL MEDICAL ACCESSORIES VIEW
 // ============================================================
 
-class AllMedicalAccessoriesView
-    extends StatelessWidget {
+class AllMedicalAccessoriesView extends StatelessWidget {
   final List<_MedicalAccessoryItem> items;
 
   final void Function(
@@ -1132,7 +1075,6 @@ class AllMedicalAccessoriesView
         ),
         centerTitle: true,
       ),
-
       body: items.isEmpty
           ? const Center(
               child: Text(
@@ -1144,77 +1086,55 @@ class AllMedicalAccessoriesView
               ),
             )
           : GridView.builder(
-              padding:
-                  const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               itemCount: items.length,
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 14,
                 childAspectRatio: 0.82,
               ),
-              itemBuilder:
-                  (context, index) {
-                final item =
-                    items[index];
+              itemBuilder: (context, index) {
+                final item = items[index];
 
                 return InkWell(
-                  borderRadius:
-                      BorderRadius.circular(12),
-                  onTap: () =>
-                      onItemTap(item),
+                  borderRadius: BorderRadius.circular(12),
+                  onTap: () => onItemTap(item),
                   child: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: 46,
                         width: 46,
-                        child: item.imageUrl
-                                .isNotEmpty
+                        child: item.imageUrl.isNotEmpty
                             ? CachedNetworkImage(
-                                imageUrl:
-                                    item.imageUrl,
+                                imageUrl: item.imageUrl,
                                 fit: BoxFit.contain,
-                                errorWidget:
-                                    (_, __, ___) =>
-                                        const Icon(
-                                  Icons
-                                      .image_not_supported,
+                                errorWidget: (_, __, ___) => const Icon(
+                                  Icons.image_not_supported,
                                   size: 26,
-                                  color:
-                                      Colors.black26,
+                                  color: Colors.black26,
                                 ),
                               )
                             : const Icon(
-                                Icons
-                                    .image_not_supported,
+                                Icons.image_not_supported,
                                 size: 26,
-                                color:
-                                    Colors.black26,
+                                color: Colors.black26,
                               ),
                       ),
-
                       const SizedBox(
                         height: 8,
                       ),
-
                       Text(
                         item.name,
-                        textAlign:
-                            TextAlign.center,
+                        textAlign: TextAlign.center,
                         maxLines: 2,
-                        overflow:
-                            TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
                           fontSize: 10,
                           height: 1.2,
-                          fontWeight:
-                              FontWeight.w800,
-                          color:
-                              Colors.black87,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black87,
                         ),
                       ),
                     ],
@@ -1251,7 +1171,6 @@ class _MedicalAccessoryItem {
     required this.nameEn,
     required this.nameBn,
     required this.imageUrl,
-
     this.details,
     this.detailsEn,
     this.detailsBn,
@@ -1262,17 +1181,14 @@ class _MedicalAccessoryItem {
   // ============================================================
 
   String localizedName(Locale? locale) {
-    final lang =
-        locale?.languageCode ?? 'en';
+    final lang = locale?.languageCode ?? 'en';
 
-    if (lang == 'bn' &&
-        nameBn.trim().isNotEmpty) {
+    if (lang == 'bn' && nameBn.trim().isNotEmpty) {
       return nameBn.trim();
     }
 
     return nameEn.trim();
   }
 
-  String get name =>
-      localizedName(Get.locale);
+  String get name => localizedName(Get.locale);
 }
