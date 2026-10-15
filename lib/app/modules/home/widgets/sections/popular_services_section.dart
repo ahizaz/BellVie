@@ -56,7 +56,7 @@ class PopularServicesSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(18),
                 onTap: () => Get.toNamed(Routes.POPULAR_SERVICES),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

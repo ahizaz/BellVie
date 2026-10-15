@@ -59,7 +59,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       _restoreCachedCountries().then((hasCache) {
         if (!mounted) return;
         setState(() => _isLoading = !hasCache);
-        _fetchCountries(showLoader: !hasCache);
+        _fetchCountries();
       });
     }
   }
@@ -84,11 +84,7 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
     return 'assets/images/Flag_of_India.png';
   }
 
-  Future<void> _fetchCountries({bool showLoader = true}) async {
-    if (showLoader) {
-      AppLoader.show(status: 'Loading countries...');
-    }
-
+  Future<void> _fetchCountries() async {
     try {
       final response = await _apiService.getWithAuthRetry(
         path: '/api/v1/foreign-treatments/countries/',
@@ -147,9 +143,6 @@ class _ForeignTreatmentHomeState extends State<_ForeignTreatmentHome> {
       debugPrint('Foreign treatment view countries fetch error => $e');
       AppLoader.showError('Country load failed. Check internet and try again.');
     } finally {
-      if (AppLoader.isShow) {
-        AppLoader.dismiss();
-      }
       if (mounted) {
         setState(() => _isLoading = false);
       }

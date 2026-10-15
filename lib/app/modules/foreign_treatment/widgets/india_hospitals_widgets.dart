@@ -1,4 +1,3 @@
-
 part of '../views/foreign_treatment_view.dart';
 
 class _IndiaHospitalsTabBody extends StatelessWidget {
@@ -63,7 +62,7 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
     super.initState();
     if (_useApiHospitals) {
       _restoreCachedHospitals().then((hasCache) {
-        _fetchHospitals(page: 1, showLoader: !hasCache);
+        _fetchHospitals(page: 1);
       });
     } else {
       _hospitals
@@ -485,12 +484,7 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
   Future<void> _fetchHospitals({
     required int page,
     bool append = false,
-    bool showLoader = true,
   }) async {
-    if (!append && showLoader) {
-      AppLoader.show(status: 'Loading hospitals...');
-    }
-
     try {
       final response = await _apiService.get(
         path:
@@ -575,9 +569,6 @@ class _IndiaHospitalsHomeState extends State<_IndiaHospitalsHome> {
       AppLoader.showError(
           'Hospital load failed. Check internet and try again.');
     } finally {
-      if (!append && AppLoader.isShow) {
-        AppLoader.dismiss();
-      }
       if (mounted) {
         setState(() {
           _isLoading = false;
