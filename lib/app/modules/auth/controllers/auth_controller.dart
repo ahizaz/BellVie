@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:bellevie/app/routes/app_routes.dart';
@@ -95,14 +94,11 @@ class AuthController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final TextEditingController registerNameController =
-      TextEditingController();
+  final TextEditingController registerNameController = TextEditingController();
 
-  final TextEditingController registerEmailController =
-      TextEditingController();
+  final TextEditingController registerEmailController = TextEditingController();
 
-  final TextEditingController registerPhoneController =
-      TextEditingController();
+  final TextEditingController registerPhoneController = TextEditingController();
 
   final TextEditingController registerPasswordController =
       TextEditingController();
@@ -112,8 +108,7 @@ class AuthController extends GetxController {
 
   void validateRegisterPasswordMatch() {
     final password = registerPasswordController.text.trim();
-    final confirmPassword =
-        registerConfirmPasswordController.text.trim();
+    final confirmPassword = registerConfirmPasswordController.text.trim();
 
     showRegisterPasswordMismatch.value =
         confirmPassword.isNotEmpty && password != confirmPassword;
@@ -173,8 +168,7 @@ class AuthController extends GetxController {
         'Login response body => ${response.body}',
       );
 
-      if (response.statusCode < 200 ||
-          response.statusCode >= 300) {
+      if (response.statusCode < 200 || response.statusCode >= 300) {
         final backendMessage = _extractErrorMessage(
           response.body,
         );
@@ -250,9 +244,8 @@ class AuthController extends GetxController {
         ],
       );
 
-      final userPhone = responsePhone.isEmpty
-          ? '$selectedCountryCode$phone'
-          : responsePhone;
+      final userPhone =
+          responsePhone.isEmpty ? '$selectedCountryCode$phone' : responsePhone;
 
       await AuthService.to.login(
         access: access,
@@ -274,17 +267,18 @@ class AuthController extends GetxController {
       AppLoader.showSuccess('Login successful.');
 
       final args = Get.arguments;
-
+      // Always consume the pending route. Otherwise a redirect from an
+      // earlier login attempt can unexpectedly be reused later.
+      final pendingRedirect = AuthService.to.consumePendingRedirect();
       final redirect =
-          (args is Map
-                  ? args['redirect'] as String?
-                  : null) ??
-              AuthService.to.consumePendingRedirect();
+          (args is Map ? args['redirect'] as String? : null) ?? pendingRedirect;
 
-      if (redirect != null &&
-          redirect.isNotEmpty &&
-          redirect != Routes.LOGIN) {
-        Get.offAllNamed(redirect);
+      if (redirect != null && redirect.isNotEmpty && redirect != Routes.LOGIN) {
+        if (redirect == Routes.HOME || redirect.startsWith('${Routes.HOME}?')) {
+          Get.offAllNamed(redirect);
+        } else {
+          Get.offNamed(redirect);
+        }
       } else {
         Get.offAllNamed(Routes.HOME);
       }
@@ -311,9 +305,8 @@ class AuthController extends GetxController {
     final password = newPassword.trim();
     final confirm = confirmPassword.trim();
 
-    final formattedPhone = rawPhone.startsWith('+')
-        ? rawPhone
-        : '$selectedCountryCode$rawPhone';
+    final formattedPhone =
+        rawPhone.startsWith('+') ? rawPhone : '$selectedCountryCode$rawPhone';
 
     if (rawPhone.isEmpty) {
       await _showCenteredErrorDialog(
@@ -362,8 +355,7 @@ class AuthController extends GetxController {
         'Reset password response body => ${response.body}',
       );
 
-      if (response.statusCode < 200 ||
-          response.statusCode >= 300) {
+      if (response.statusCode < 200 || response.statusCode >= 300) {
         final backendMessage = _extractErrorMessage(
           response.body,
         );
@@ -391,8 +383,7 @@ class AuthController extends GetxController {
 
       final errorMessage = _extractExceptionMessage(
         e,
-        fallback:
-            'Reset password failed. Please try again.',
+        fallback: 'Reset password failed. Please try again.',
       );
 
       await _showCenteredErrorDialog(errorMessage);
@@ -403,27 +394,21 @@ class AuthController extends GetxController {
     final name = registerNameController.text.trim();
     final phone = registerPhoneController.text.trim();
 
-    final countryCode =
-        selectedRegisterCountryCode.value.trim();
+    final countryCode = selectedRegisterCountryCode.value.trim();
 
     final email = registerEmailController.text.trim();
-    final password =
-        registerPasswordController.text.trim();
+    final password = registerPasswordController.text.trim();
 
-    final confirmPassword =
-        registerConfirmPasswordController.text.trim();
+    final confirmPassword = registerConfirmPasswordController.text.trim();
 
-    if (name.isEmpty ||
-        phone.isEmpty ||
-        selectedDistrict.value.isEmpty) {
+    if (name.isEmpty || phone.isEmpty || selectedDistrict.value.isEmpty) {
       await _showCenteredErrorDialog(
         'please_fill_required_fields'.tr,
       );
       return;
     }
 
-    if (password.isEmpty ||
-        confirmPassword.isEmpty) {
+    if (password.isEmpty || confirmPassword.isEmpty) {
       await _showCenteredErrorDialog(
         'please_enter_password_confirm_password'.tr,
       );
@@ -467,8 +452,7 @@ class AuthController extends GetxController {
         'Register response body => ${response.body}',
       );
 
-      if (response.statusCode < 200 ||
-          response.statusCode >= 300) {
+      if (response.statusCode < 200 || response.statusCode >= 300) {
         final backendMessage = _extractErrorMessage(
           response.body,
         );
@@ -532,8 +516,7 @@ class AuthController extends GetxController {
 
       final errorMessage = _extractExceptionMessage(
         e,
-        fallback:
-            'Registration failed. Please try again.',
+        fallback: 'Registration failed. Please try again.',
       );
 
       await _showCenteredErrorDialog(errorMessage);
@@ -551,8 +534,7 @@ class AuthController extends GetxController {
       );
     }
 
-    if (Get.context == null &&
-        Get.overlayContext == null) {
+    if (Get.context == null && Get.overlayContext == null) {
       AppLoader.showError(message);
       return;
     }
@@ -629,15 +611,13 @@ class AuthController extends GetxController {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    const Color(0xFF2F6FED),
+                backgroundColor: const Color(0xFF2F6FED),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(
                   vertical: 12,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
               child: const Text('OK'),
@@ -662,8 +642,7 @@ class AuthController extends GetxController {
           body: body,
         );
 
-        if (response.statusCode == 404 ||
-            response.statusCode == 405) {
+        if (response.statusCode == 404 || response.statusCode == 405) {
           lastResponse = response;
           continue;
         }
@@ -706,8 +685,7 @@ class AuthController extends GetxController {
     }
 
     for (final key in keys) {
-      final direct =
-          (decoded[key] ?? '').toString().trim();
+      final direct = (decoded[key] ?? '').toString().trim();
 
       if (direct.isNotEmpty) {
         return direct;
@@ -718,8 +696,7 @@ class AuthController extends GetxController {
 
     if (nestedUser is Map<String, dynamic>) {
       for (final key in keys) {
-        final value =
-            (nestedUser[key] ?? '').toString().trim();
+        final value = (nestedUser[key] ?? '').toString().trim();
 
         if (value.isNotEmpty) {
           return value;
@@ -731,8 +708,7 @@ class AuthController extends GetxController {
 
     if (nestedData is Map<String, dynamic>) {
       for (final key in keys) {
-        final value =
-            (nestedData[key] ?? '').toString().trim();
+        final value = (nestedData[key] ?? '').toString().trim();
 
         if (value.isNotEmpty) {
           return value;
@@ -752,8 +728,7 @@ class AuthController extends GetxController {
     }
 
     for (final key in keys) {
-      final direct =
-          (decoded[key] ?? '').toString().trim();
+      final direct = (decoded[key] ?? '').toString().trim();
 
       if (direct.isNotEmpty) {
         return direct;
@@ -764,8 +739,7 @@ class AuthController extends GetxController {
 
     if (nestedUser is Map<String, dynamic>) {
       for (final key in keys) {
-        final value =
-            (nestedUser[key] ?? '').toString().trim();
+        final value = (nestedUser[key] ?? '').toString().trim();
 
         if (value.isNotEmpty) {
           return value;
@@ -777,8 +751,7 @@ class AuthController extends GetxController {
 
     if (nestedData is Map<String, dynamic>) {
       for (final key in keys) {
-        final value =
-            (nestedData[key] ?? '').toString().trim();
+        final value = (nestedData[key] ?? '').toString().trim();
 
         if (value.isNotEmpty) {
           return value;
@@ -824,8 +797,7 @@ class AuthController extends GetxController {
         return '';
       }
 
-      if (fieldName == null ||
-          fieldName.isEmpty) {
+      if (fieldName == null || fieldName.isEmpty) {
         return message;
       }
 
@@ -836,8 +808,7 @@ class AuthController extends GetxController {
     if (value is num || value is bool) {
       final message = value.toString();
 
-      if (fieldName == null ||
-          fieldName.isEmpty) {
+      if (fieldName == null || fieldName.isEmpty) {
         return message;
       }
 
@@ -862,8 +833,7 @@ class AuthController extends GetxController {
 
       final combinedMessage = messages.join('\n');
 
-      if (fieldName == null ||
-          fieldName.isEmpty) {
+      if (fieldName == null || fieldName.isEmpty) {
         return combinedMessage;
       }
 
@@ -888,8 +858,7 @@ class AuthController extends GetxController {
         }
       }
 
-      final nonFieldErrors =
-          normalizedMap['non_field_errors'];
+      final nonFieldErrors = normalizedMap['non_field_errors'];
 
       if (nonFieldErrors != null) {
         final message = _formatBackendError(
@@ -979,10 +948,8 @@ class AuthController extends GetxController {
   }
 
   String _formatFieldName(String fieldName) {
-    final formatted = fieldName
-        .replaceAll('_', ' ')
-        .replaceAll('-', ' ')
-        .trim();
+    final formatted =
+        fieldName.replaceAll('_', ' ').replaceAll('-', ' ').trim();
 
     if (formatted.isEmpty) {
       return '';
@@ -999,9 +966,7 @@ class AuthController extends GetxController {
     String message = error.toString().trim();
 
     while (message.startsWith('Exception:')) {
-      message = message
-          .substring('Exception:'.length)
-          .trim();
+      message = message.substring('Exception:'.length).trim();
     }
 
     final jsonStart = message.indexOf('{');
